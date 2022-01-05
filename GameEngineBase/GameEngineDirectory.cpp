@@ -1,8 +1,8 @@
 #include "PreCompile.h"
 #include "GameEngineDirectory.h"
-#include <Windows.h>
-#include <io.h>
 #include "GameEngineFile.h"
+#include <filesystem>
+
 // Static Var
 // Static Func
 
@@ -17,6 +17,11 @@ GameEngineDirectory::GameEngineDirectory()
 	{
 		path_[i] = '\0';
 	}
+
+	std::filesystem::path NewPath;
+	NewPath = std::filesystem::current_path();
+
+	std::filesystem::path Exp = NewPath.extension();
 
 	GetCurrentDirectoryA(static_cast<DWORD>(path_.size()), &path_[0]);
 	size_t ZeroCount = path_.find('\0');
@@ -40,7 +45,7 @@ GameEngineDirectory::GameEngineDirectory(GameEngineDirectory&& _other) noexcept
 
 //member Func
 
-std::string GameEngineDirectory::DirectoryName()
+std::string GameEngineDirectory::DirectroyName()
 {
 	// reverseFind
 	size_t Count = path_.rfind("\\");
@@ -101,7 +106,7 @@ bool GameEngineDirectory::MoveParent(const std::string& _DirName)
 
 	while (true)
 	{
-		if (_DirName == CheckDir.DirectoryName())
+		if (_DirName == CheckDir.DirectroyName())
 		{
 			break;
 		}
@@ -167,4 +172,15 @@ GameEngineFile GameEngineDirectory::PathToCreateFile(const std::string& _FileNam
 GameEngineFile GameEngineDirectory::PathToGetFile(const std::string& _FileName)
 {
 	return GameEngineFile(PathToPlusFileName(_FileName));
+}
+
+//std::filesystem::directory_iterator를 사용하여 디렉토리의 파일 목록 가져 오기
+//opendir / readdir 함수를 사용하여 디렉토리의 파일 목록 가져 오기
+//std::filesystem::recursive_directory_iterator를 사용하여 모든 하위 디렉토리의 파일 목록을 가져옵니다
+
+std::vector<GameEngineFile> GameEngineDirectory::GetAllFile()
+{
+	std::vector<GameEngineFile> Return;
+
+	return Return;
 }
