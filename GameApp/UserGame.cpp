@@ -34,13 +34,14 @@ void UserGame::ResourcesLoad()
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
 
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("mp3");
 
-		GameEngineSound::GetInst().LoadSound("Bgm.mp3", SoundDir.PathToPlusFileName("Bgm.mp3"));
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSound::GetInst().LoadSound(AllFile[i].GetFullPath());
+		}
 	}
 
-
-
-	GameEngineSound::GetInst().PlaySoundOneShot("Bgm.mp3");
 
 }
 
@@ -51,13 +52,6 @@ void UserGame::Release()
 
 void UserGame::GameLoop()
 {
-	switch (_getch())
-	{
-	case 'q':
-	case 'Q':
-		EngineDestroy();
-		return;
-	default:
-		break;
-	};
+
+
 }

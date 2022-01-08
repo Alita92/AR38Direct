@@ -13,6 +13,11 @@ private:	// member Var
 	GameEngineObjectBase* parent_;
 
 public:
+	bool IsNull()
+	{
+		return nullptr == this;
+	}
+
 	void SetParent(GameEngineObjectBase* _parent)
 	{
 		parent_ = _parent;

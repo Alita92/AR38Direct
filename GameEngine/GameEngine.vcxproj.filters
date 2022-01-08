@@ -10,11 +10,13 @@
       <Filter>Precom</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="GameEngineWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
       <Filter>Precom</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="GameEngineWindow.cpp" />
   </ItemGroup>
 </Project>
