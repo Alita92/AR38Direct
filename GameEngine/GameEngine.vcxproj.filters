@@ -4,6 +4,12 @@
     <Filter Include="Precom">
       <UniqueIdentifier>{d54600d2-0b6c-4fdc-b5f7-c212c555a797}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderingPipeLine">
+      <UniqueIdentifier>{e50146d6-9b0f-4630-8fa0-a4495fe7cfd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine\Shader">
+      <UniqueIdentifier>{a850ebe0-9be0-46c8-8b69-9afc4f0f2ccb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -11,6 +17,18 @@
     </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineWindow.h" />
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLine.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShader.h">
+      <Filter>RenderingPipeLine\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -18,5 +36,17 @@
     </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
+      <Filter>RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShader.cpp">
+      <Filter>RenderingPipeLine\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
