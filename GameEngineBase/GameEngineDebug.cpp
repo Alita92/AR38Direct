@@ -23,9 +23,9 @@ void GameEngineDebug::LeakCheckOn()
 }
 
 //member Func
-void GameEngineDebug::MsgBoxError(const char* _Ptr)
+void GameEngineDebug::MsgBoxError(const std::string& _Ptr)
 {
-	MessageBoxA(nullptr, _Ptr, "Error", MB_OK);
+	MessageBoxA(nullptr, _Ptr.c_str(), "Error", MB_OK);
 	assert(false);
 }
 
@@ -34,7 +34,7 @@ void GameEngineDebug::AssertFalse()
 	assert(false);
 }
 
-void GameEngineDebug::OutPutDebugString(const std::string _Text)
+void GameEngineDebug::OutPutDebugString(const std::string& _Text)
 {
 	OutputDebugStringA(_Text.c_str());
 }

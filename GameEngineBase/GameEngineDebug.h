@@ -24,9 +24,10 @@ private:		//delete operator
 	GameEngineDebug& operator=(const GameEngineDebug&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:		//member Func
+	static void MsgBoxError(const std::string& _Text);
 	static void MsgBoxError(const char* _Ptr);
 	static void AssertFalse();
-	static void OutPutDebugString(const std::string _Text);
+	static void OutPutDebugString(const std::string& _Text);
 
 
 };

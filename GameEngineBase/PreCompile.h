@@ -4,10 +4,14 @@
 
 #include <Windows.h>
 
+// data struct
 #include <vector>
 #include <list>
 #include <map>
+
+// std::
 #include <string>
+#include <functional>
 
 #include <io.h>
 #include <assert.h>

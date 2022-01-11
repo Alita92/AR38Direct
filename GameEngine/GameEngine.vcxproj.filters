@@ -1,14 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Precom">
-      <UniqueIdentifier>{d54600d2-0b6c-4fdc-b5f7-c212c555a797}</UniqueIdentifier>
-    </Filter>
     <Filter Include="RenderingPipeLine">
       <UniqueIdentifier>{e50146d6-9b0f-4630-8fa0-a4495fe7cfd1}</UniqueIdentifier>
     </Filter>
     <Filter Include="RenderingPipeLine\Shader">
       <UniqueIdentifier>{a850ebe0-9be0-46c8-8b69-9afc4f0f2ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Precom">
+      <UniqueIdentifier>{d54600d2-0b6c-4fdc-b5f7-c212c555a797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{a636d588-87d8-488c-a615-8f66ad788c79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\0Buffer">
+      <UniqueIdentifier>{4008e1f2-b779-4bcd-82e9-5749e901b85b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\1Shader">
+      <UniqueIdentifier>{68b6d16a-97e0-440d-9e0d-b4f7401afb3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager">
+      <UniqueIdentifier>{6e6ba953-baeb-403e-b9a1-7c0743ba764f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -17,17 +29,26 @@
     </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineWindow.h" />
-    <ClInclude Include="GameEngineVertexBuffer.h">
-      <Filter>RenderingPipeLine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineIndexBuffer.h">
-      <Filter>RenderingPipeLine</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLine.h">
       <Filter>RenderingPipeLine</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources\0Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>Resources\0Buffer</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineVertexShader.h">
-      <Filter>RenderingPipeLine\Shader</Filter>
+      <Filter>Resources\1Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTexture.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBufferManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShaderManager.h">
+      <Filter>Resources\99Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,17 +57,26 @@
     </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
-    <ClCompile Include="GameEngineVertexBuffer.cpp">
-      <Filter>RenderingPipeLine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineIndexBuffer.cpp">
-      <Filter>RenderingPipeLine</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLine.cpp">
       <Filter>RenderingPipeLine</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources\0Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>Resources\0Buffer</Filter>
+    </ClCompile>
     <ClCompile Include="GameEngineVertexShader.cpp">
-      <Filter>RenderingPipeLine\Shader</Filter>
+      <Filter>Resources\1Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShaderManager.cpp">
+      <Filter>Resources\99Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

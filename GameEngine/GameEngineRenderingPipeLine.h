@@ -8,14 +8,24 @@ class GameEngineVertexBuffer;
 class GameEngineVertexShader;
 class GameEngineRenderingPipeLine
 {
+	// 랜더링 파이프라인은 "모니터에 나오기 위한" 절차가 아닌
+	//	"백버퍼에 기설정된 값을 넣는 거임!!!" * **
+	// 액터마다 각자 하나씩 가지고 있어야 한다.
+
 private:	// member Var
-	std::vector<float4> CopyVertex;
+	// 
+
+	GameEngineVertexBuffer* VertexBuffer_;
+	GameEngineVertexShader* VertexShader_;
 
 public:
 	void SetInputAssembler1(GameEngineVertexBuffer* _Ptr);
-	// void SetVertexShader(GameEngineVertexShader* _Vertex);
 
-	void OutPutMerger();
+	void SetVertexShader(GameEngineVertexShader* _Ptr);
+
+public:
+	void Rendering();
+
 
 public:
 	GameEngineRenderingPipeLine(); // default constructer 디폴트 생성자

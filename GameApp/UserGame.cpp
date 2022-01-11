@@ -4,6 +4,7 @@
 
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineWindow.h>
+#include <GameEngine/GameEngineVertexBufferManager.h>
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -25,7 +26,7 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 void UserGame::Initialize()
 {
 
-	GameEngineSound::GetInst().Initialize();
+	GameEngineSoundManager::GetInst().Initialize();
 	return;
 }
 
@@ -33,7 +34,7 @@ void UserGame::ResourcesLoad()
 {
 	{
 		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("AR38Direct");
+		SoundDir.MoveParent("AR38");
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
 
@@ -41,16 +42,21 @@ void UserGame::ResourcesLoad()
 
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
-			GameEngineSound::GetInst().LoadSound(AllFile[i].GetFullPath());
+			GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
 		}
 	}
 
+
+	{
+	}
 
 }
 
 void UserGame::Release()
 {
-	GameEngineSound::Destroy();
+
+	GameEngineVertexBufferManager::Destroy();
+	// GameEngineSoundManager::Destroy();
 	GameEngineWindow::Destroy();
 }
 
@@ -78,9 +84,9 @@ void UserGame::GameLoop()
 
 
 	Polygon(GameEngineWindow::GetInst().GetWindowDC(), PolyGon, 4);
+
 	// 지역 static
-//static float X = 0.0f;
-//X += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
-//Rectangle(GameEngineWindow::GetInst().GetWindowDC(), 0 + X, 0, 100 + X, 100);
-	// 상기처럼 멤버변수같이 델타타임 누적 같은거에 쓰고 싶은데, 멤버변수로 하기 싫을 때 지역 static 활용.
+	//static float X = 0.0f;
+	//X += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
+	//Rectangle(GameEngineWindow::GetInst().GetWindowDC(), 0 + X, 0, 100 + X, 100);
 }

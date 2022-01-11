@@ -66,7 +66,7 @@
     <ClCompile Include="GameEngineSound.cpp">
       <Filter>Media</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineSoundFile.cpp">
+    <ClCompile Include="GameEngineSoundManager.cpp">
       <Filter>Media</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineSoundPlayer.cpp">
@@ -110,7 +110,7 @@
     <ClInclude Include="GameEngineSound.h">
       <Filter>Media</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineSoundFile.h">
+    <ClInclude Include="GameEngineSoundManager.h">
       <Filter>Media</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineSoundPlayer.h">
