@@ -4,24 +4,23 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
 class GameEngineRenderingPipeLine
 {
-	// 랜더링 파이프라인은 "모니터에 나오기 위한" 절차가 아닌
-	//	"백버퍼에 기설정된 값을 넣는 거임!!!" * **
-	// 액터마다 각자 하나씩 가지고 있어야 한다.
-
 private:	// member Var
-	// 
-
 	GameEngineVertexBuffer* VertexBuffer_;
 	GameEngineVertexShader* VertexShader_;
 
-public:
-	void SetInputAssembler1(GameEngineVertexBuffer* _Ptr);
+	GameEngineIndexBuffer* IndexBuffer_;
 
-	void SetVertexShader(GameEngineVertexShader* _Ptr);
+public:
+	void SetInputAssembler1(const std::string& _Name);
+
+	void SetVertexShader(const std::string& _Name);
+
+	void SetInputAssembler2(const std::string& _Name);
 
 public:
 	void Rendering();

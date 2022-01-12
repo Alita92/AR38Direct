@@ -21,6 +21,8 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::MainLoop()
 {
+	GameEngineTime::GetInst().TimeCheck();
+	GameEngineSoundManager::GetInst().SoundUpdate();
 	MainCore_->GameLoop();
 }
 
@@ -33,8 +35,6 @@ void GameEngineCore::Loop()
 {
 	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
 }
-
-
 
 void GameEngineCore::EngineDestroy()
 {
