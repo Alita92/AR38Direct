@@ -50,6 +50,7 @@ void UserGame::ResourcesLoad()
 
 
 	{
+		// 버텍스 버퍼 : 정점의 정보를 저장해준다.
 		std::vector<float4> RectVertex = std::vector<float4>(4);
 
 		RectVertex[0] = float4({ -0.5f, 0.5f, 0.5f });
@@ -66,15 +67,18 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
+		// 인덱스 버퍼 : 정점을 나열하는 순서를 저장해준다.
 		std::vector<int> RectIndex = { 0,1,2, 0,2,3 };
-
+		// 현 프레임워크에서 프리미티브는 삼각형, 따라서 버텍스는 3개씩 묶여야 한다.
+		// 프리미티브 : 렌더링을 할 수 있는 최소한의 도형
 		GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex);
 	}
 
 	{
-		// 이 스택에서 곧바로 넣어주고 싶은건
-		// []
+		// 버텍스 쉐이더 : 정점 정보에 수학적인 연산을 해 특정 행동을 실행한다.
 
+		// [](인자){코드}
+		// "람다 식". 즉석에서 함수를 하나 만들어 내 사용할 수 있다.
 
 		GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 			{
