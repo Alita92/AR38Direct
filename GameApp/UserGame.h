@@ -7,8 +7,6 @@
 class UserGame : public GameEngineCore
 {
 private:	// member Var
-
-
 public:
 	UserGame(); // default constructer 디폴트 생성자
 	~UserGame(); // default destructer 디폴트 소멸자

@@ -36,7 +36,7 @@ void UserGame::ResourcesLoad()
 {
 	{
 		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("AR38");
+		SoundDir.MoveParent("AR38Direct");
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
 
@@ -50,42 +50,74 @@ void UserGame::ResourcesLoad()
 
 
 	{
-		// 버텍스 버퍼 : 정점의 정보를 저장해준다.
-		std::vector<float4> RectVertex = std::vector<float4>(4);
+		std::vector<float4> RectVertex = std::vector<float4>(4 * 6);
 
-		RectVertex[0] = float4({ -0.5f, 0.5f, 0.5f });
-		RectVertex[1] = float4({ 0.5f, 0.5f, 0.5f });
-		RectVertex[2] = float4({ 0.5f, -0.5f, 0.5f });
-		RectVertex[3] = float4({ -0.5f, -0.5f, 0.5f });
+		{
+			RectVertex[0] = float4({ -0.5f, 0.5f, 0.5f });
+			RectVertex[1] = float4({ 0.5f, 0.5f, 0.5f });
+			RectVertex[2] = float4({ 0.5f, -0.5f, 0.5f });
+			RectVertex[3] = float4({ -0.5f, -0.5f, 0.5f });
 
-		//RectVertex[4] = RectVertex[0].Rotatefloat2Degree();
-		//RectVertex[5] = RectVertex[1]
-		//RectVertex[6] = RectVertex[2]
-		//RectVertex[7] = RectVertex[3]
+			RectVertex[4] = float4::RotateXDegree(RectVertex[0], 180.0f);
+			RectVertex[5] = float4::RotateXDegree(RectVertex[1], 180.0f);
+			RectVertex[6] = float4::RotateXDegree(RectVertex[2], 180.0f);
+			RectVertex[7] = float4::RotateXDegree(RectVertex[3], 180.0f);
+		}
+
+		{
+			RectVertex[8] = float4::RotateYDegree(RectVertex[0], 90.0f);
+			RectVertex[9] = float4::RotateYDegree(RectVertex[1], 90.0f);
+			RectVertex[10] = float4::RotateYDegree(RectVertex[2], 90.0f);
+			RectVertex[11] = float4::RotateYDegree(RectVertex[3], 90.0f);
+
+			RectVertex[12] = float4::RotateYDegree(RectVertex[0], -90.0f);
+			RectVertex[13] = float4::RotateYDegree(RectVertex[1], -90.0f);
+			RectVertex[14] = float4::RotateYDegree(RectVertex[2], -90.0f);
+			RectVertex[15] = float4::RotateYDegree(RectVertex[3], -90.0f);
+		}
+
+		{
+			RectVertex[16] = float4::RotateXDegree(RectVertex[0], 90.0f);
+			RectVertex[17] = float4::RotateXDegree(RectVertex[1], 90.0f);
+			RectVertex[18] = float4::RotateXDegree(RectVertex[2], 90.0f);
+			RectVertex[19] = float4::RotateXDegree(RectVertex[3], 90.0f);
+
+			RectVertex[20] = float4::RotateXDegree(RectVertex[0], -90.0f);
+			RectVertex[21] = float4::RotateXDegree(RectVertex[1], -90.0f);
+			RectVertex[22] = float4::RotateXDegree(RectVertex[2], -90.0f);
+			RectVertex[23] = float4::RotateXDegree(RectVertex[3], -90.0f);
+		}
 
 		GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex);
 	}
 
 	{
-		// 인덱스 버퍼 : 정점을 나열하는 순서를 저장해준다.
-		std::vector<int> RectIndex = { 0,1,2, 0,2,3 };
-		// 현 프레임워크에서 프리미티브는 삼각형, 따라서 버텍스는 3개씩 묶여야 한다.
-		// 프리미티브 : 렌더링을 할 수 있는 최소한의 도형
+		std::vector<int> RectIndex;
+
+		for (size_t i = 0; i < 6; i++)
+		{
+			RectIndex.push_back(i * 4 + 0);
+			RectIndex.push_back(i * 4 + 1);
+			RectIndex.push_back(i * 4 + 2);
+
+			RectIndex.push_back(i * 4 + 0);
+			RectIndex.push_back(i * 4 + 2);
+			RectIndex.push_back(i * 4 + 3);
+		}
+
+
+
 		GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex);
 	}
 
 	{
-		// 버텍스 쉐이더 : 정점 정보에 수학적인 연산을 해 특정 행동을 실행한다.
-
-		// [](인자){코드}
-		// "람다 식". 즉석에서 함수를 하나 만들어 내 사용할 수 있다.
 
 		GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 			{
 				float4 MovePos = { 200.0f, 200.0f };
 				float4 Pos = _Value;
 				Pos *= 100.0f;
-				Pos.Rotatefloat2Degree(RotAngle);
+				Pos.RotateXDegree(RotAngle);
 				Pos += MovePos;
 
 				return Pos;
@@ -119,14 +151,8 @@ void UserGame::GameLoop()
 	Pipe.SetVertexShader("TestShader");
 	Pipe.SetInputAssembler2("Rect");
 
-	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
+	RotAngle += 20.0f * GameEngineTime::GetInst().GetDeltaTime();
 
 	Pipe.Rendering();
 
-	// Polygon(GameEngineWindow::GetInst().GetWindowDC(), PolyGon, 4);
-
-	// 지역 static
-	//static float X = 0.0f;
-	//X += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
-	//Rectangle(GameEngineWindow::GetInst().GetWindowDC(), 0 + X, 0, 100 + X, 100);
 }

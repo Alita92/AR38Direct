@@ -96,6 +96,7 @@ void GameEngineRenderingPipeLine::Rendering()
 				ArrTri[i] = CopyVertex[CurIndex].GetWindowPoint();
 			}
 
+			// 이게 픽셀 쉐이더 단계라고 볼수 있다.
 			Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
 		}
 	}
