@@ -31,6 +31,7 @@ void UserGame::Initialize()
 }
 
 float RotAngle = 0.0f;
+float4 BoxPos = { 0.0f, 0.0f, 0.0f };
 
 void UserGame::ResourcesLoad()
 {
@@ -50,6 +51,13 @@ void UserGame::ResourcesLoad()
 
 
 	{
+		// 각자 물체가 각자의 크기와 회전값을 가진 세상
+		// 로컬스페이스
+
+		// 로컬세상에 있는 물체를 우리가 원하는 대로 변형하고
+		// 위치시키고 인식합니다.
+		// 월드스페이스
+
 		std::vector<float4> RectVertex = std::vector<float4>(4 * 6);
 
 		{
@@ -94,7 +102,7 @@ void UserGame::ResourcesLoad()
 	{
 		std::vector<int> RectIndex;
 
-		for (size_t i = 0; i < 6; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			RectIndex.push_back(i * 4 + 0);
 			RectIndex.push_back(i * 4 + 1);
@@ -114,11 +122,38 @@ void UserGame::ResourcesLoad()
 
 		GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 			{
-				float4 MovePos = { 200.0f, 200.0f };
+				float4x4 Mat;
+
 				float4 Pos = _Value;
-				Pos *= 100.0f;
-				Pos.RotateXDegree(RotAngle);
-				Pos += MovePos;
+				float4 WorldScale = { 100.0f, 100.0f, 100.0f };
+				float4 WorldMove = { 100.0f, 0.0f };
+				float4 WorldRot = { 0.0f, 0.0f, RotAngle };
+				Pos *= WorldScale;
+				Pos.RotateXDegree(WorldRot.x);
+				Pos.RotateYDegree(WorldRot.y);
+				Pos.RotateZDegree(WorldRot.z);
+				Pos += BoxPos;
+
+				// 거의 대부분을 버텍스 쉐이더에서 합니다.
+
+
+				// 한번더 뭘로 변환시키고
+
+				// 월드 세상에 위치시키기 위한 변형
+				//float4 SpaceScale = { 1.0f, -1.0f, 1.0f };
+				//float4 SpaceRot = { 0.0f, 0.0f, 0.0f };
+				//float4 SpaceMove = { 1280.0f * 0.5f, 720*0.5f, 0.0f};
+
+				//Pos *= SpaceScale;
+				//Pos.RotateXDegree(SpaceRot.x);
+				//Pos.RotateYDegree(SpaceRot.y);
+				//Pos.RotateZDegree(SpaceRot.z);
+				//Pos += SpaceMove;
+
+
+
+
+
 
 				return Pos;
 			}
@@ -151,7 +186,8 @@ void UserGame::GameLoop()
 	Pipe.SetVertexShader("TestShader");
 	Pipe.SetInputAssembler2("Rect");
 
-	RotAngle += 20.0f * GameEngineTime::GetInst().GetDeltaTime();
+	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
+	BoxPos.y += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 
 	Pipe.Rendering();
 
