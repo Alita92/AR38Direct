@@ -122,35 +122,49 @@ void UserGame::ResourcesLoad()
 
 		GameEngineVertexShaderManager::GetInst().Create("TestShader", [](const float4& _Value)
 			{
-				float4x4 Mat;
+				// 1 0 0 0
+				// 0 1 0 0
+				// 0 0 1 0
+				// 0 0 0 1
+
+				float4x4 ScaleMat;
+				ScaleMat.Scaling({ 100.0f, 100.0f, 100.0f });
+
+				float4x4 RotMat;
+				RotMat.RotationDeg({ 0.0f, 0.0f, RotAngle });
+
+				float4x4 PosMat;
+				PosMat.Translation({ 0.0f, 0.0f, 0.0f });
+
+				// 보는 사람이 없으면
+				float4x4 ViewMat;
+
+
+
+				// 벡터란?
+				// 원점에서부터 시작하는 x y
+				// 2 2
+				// 50 40
+				// 2, 2
+
+
+				// 51 41
+				// 52, 42
+
+
+				// 행렬은 교환법칙이 성립하지 않습니다.
+				// 크자이공부
+				// 크기
+				// 자전
+				// 이동
+				// 공전
+				// 부모
+
+				float4x4 WorldMat = ScaleMat * RotMat * PosMat;
+
 
 				float4 Pos = _Value;
-				float4 WorldScale = { 100.0f, 100.0f, 100.0f };
-				float4 WorldMove = { 100.0f, 0.0f };
-				float4 WorldRot = { 0.0f, 0.0f, RotAngle };
-				Pos *= WorldScale;
-				Pos.RotateXDegree(WorldRot.x);
-				Pos.RotateYDegree(WorldRot.y);
-				Pos.RotateZDegree(WorldRot.z);
-				Pos += BoxPos;
-
-				// 거의 대부분을 버텍스 쉐이더에서 합니다.
-
-
-				// 한번더 뭘로 변환시키고
-
-				// 월드 세상에 위치시키기 위한 변형
-				//float4 SpaceScale = { 1.0f, -1.0f, 1.0f };
-				//float4 SpaceRot = { 0.0f, 0.0f, 0.0f };
-				//float4 SpaceMove = { 1280.0f * 0.5f, 720*0.5f, 0.0f};
-
-				//Pos *= SpaceScale;
-				//Pos.RotateXDegree(SpaceRot.x);
-				//Pos.RotateYDegree(SpaceRot.y);
-				//Pos.RotateZDegree(SpaceRot.z);
-				//Pos += SpaceMove;
-
-
+				Pos *= WorldMat;
 
 
 
