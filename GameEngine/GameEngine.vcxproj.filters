@@ -25,6 +25,9 @@
     <Filter Include="Resources\01Shader">
       <UniqueIdentifier>{68b6d16a-97e0-440d-9e0d-b4f7401afb3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\03Setting">
+      <UniqueIdentifier>{33fe8146-bd90-408b-9133-23dad68b0c5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -59,6 +62,15 @@
     <ClInclude Include="GameEngineIndexBufferManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineReasterizer.h">
+      <Filter>Resources\03Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineReasterizerManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineResourcesManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -91,6 +103,12 @@
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineReasterizer.cpp">
+      <Filter>Resources\03Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineReasterizerManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
   </ItemGroup>
