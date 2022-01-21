@@ -65,6 +65,12 @@ void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
 	}
 }
 
+void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
+{
+	// 
+	// Reasterizer_ = 
+}
+
 
 void GameEngineRenderingPipeLine::Rendering()
 {
@@ -80,6 +86,8 @@ void GameEngineRenderingPipeLine::Rendering()
 			CopyVertex[i] = VertexShader_->VertexShaderFunction(CopyVertex[i]);
 		}
 	}
+
+	// Reasterizer_)
 
 	// ±×¸°´Ù.
 	{
