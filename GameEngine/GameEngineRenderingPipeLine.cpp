@@ -80,16 +80,16 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 	}
 }
 
-
+// 렌더링 파이프라인의 실제 과정입니다.
 void GameEngineRenderingPipeLine::Rendering()
 {
-	// input어셈블러 단계
+	// Input Assembler 1 : 정점 정보를 리소스에서 받아 버퍼에 저장한다.
 	std::vector<float4> CopyVertex;
 	{
 		CopyVertex = VertexBuffer_->GetVertexs();
 	}
 
-	{
+	{ // Vertex Shader : 의도대로 정점 정보를 변형한다.
 		for (size_t i = 0; i < CopyVertex.size(); i++)
 		{
 			CopyVertex[i] = VertexShader_->VertexShaderFunction(CopyVertex[i]);
@@ -97,7 +97,6 @@ void GameEngineRenderingPipeLine::Rendering()
 	}
 
 	// Reasterizer_)
-
 	std::vector<std::vector<float4>> TriVector;
 	// 그린다.
 	{
