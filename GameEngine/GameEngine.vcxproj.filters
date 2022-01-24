@@ -28,6 +28,9 @@
     <Filter Include="Resources\03Setting">
       <UniqueIdentifier>{33fe8146-bd90-408b-9133-23dad68b0c5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RenderingPipeLine\Device">
+      <UniqueIdentifier>{ea0d8a81-24f8-42b1-93d1-cd318fc55545}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -71,6 +74,9 @@
     <ClInclude Include="GameEngineResourcesManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineDirectXDevice.h">
+      <Filter>RenderingPipeLine\Device</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -110,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineReasterizerManager.cpp">
       <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDirectXDevice.cpp">
+      <Filter>RenderingPipeLine\Device</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

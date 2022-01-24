@@ -14,10 +14,10 @@
 #include "GameEngineTexture.h"
 
 
-class GameEngineManagerHeler
+class GameEngineManagerHelper
 {
 public:
-	static void ManagerRealse()
+	static void ManagerRelase()
 	{
 		GameEngineIndexBufferManager::Destroy();
 		GameEngineVertexShaderManager::Destroy();

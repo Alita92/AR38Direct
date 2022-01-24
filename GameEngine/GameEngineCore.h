@@ -8,6 +8,7 @@ class GameEngineCore : public GameEngineObjectBase
 {
 public:
 	void EngineDestroy();
+	void EngineInitialize();
 
 protected:
 	GameEngineCore(); // default constructer 디폴트 생성자
@@ -35,10 +36,16 @@ public:
 	{
 		GameEngineDebug::LeakCheckOn();
 
+		// 신뢰의 릭.
+#ifdef _DEBUG
+		// 디버그때만 릭을 남길것이다.
+		new int();
+#endif
+
 		WindowCreate();
 
 		UserGameType NewUserGame;
-
+		NewUserGame.EngineInitialize();
 		NewUserGame.Initialize();
 		NewUserGame.ResourcesLoad();
 
@@ -47,6 +54,7 @@ public:
 		Loop();
 
 		NewUserGame.Release();
+		NewUserGame.EngineDestroy();
 	}
 
 protected:
