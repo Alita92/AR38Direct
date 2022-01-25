@@ -243,17 +243,18 @@ void UserGame::Release()
 void UserGame::GameLoop()
 {
 
-	GameEngineRenderingPipeLine Pipe;
+	GameEngineDirectXDevice::RenderStart();
 
-	Pipe.SetInputAssembler1("Rect"); // 버텍스 버퍼
-	Pipe.SetVertexShader("TestShader"); // 어떻게 움직일래??????
-	Pipe.SetInputAssembler2("Rect"); // 인덱스 버퍼
-	Pipe.SetRasterizer("TestReasterizer");
+	//GameEngineRenderingPipeLine Pipe;
+	//Pipe.SetInputAssembler1("Rect"); // 버텍스 버퍼
+	//Pipe.SetVertexShader("TestShader"); // 어떻게 움직일래??????
+	//Pipe.SetInputAssembler2("Rect"); // 인덱스 버퍼
+	//Pipe.SetRasterizer("TestReasterizer");
+	//RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
+	//BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
+	//Pipe.Rendering();
 
-	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
-	BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 
-	Pipe.Rendering();
-
+	GameEngineDirectXDevice::RenderEnd();
 }
 

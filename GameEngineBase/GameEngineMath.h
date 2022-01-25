@@ -19,6 +19,13 @@ public:
 	static const float4 UP;
 	static const float4 DOWN;
 
+	static const float4 RED;
+	static const float4 BLUE;
+	static const float4 GREEN;
+	static const float4 WHITE;
+	static const float4 BLACK;
+	static const float4 NONE;
+
 public:
 	// 1 0 0 0 
 	// 0 1 0 0 
@@ -216,6 +223,7 @@ public:
 		return static_cast<int>(z);
 	}
 
+
 	int uix() const
 	{
 		return static_cast<unsigned int>(x);
@@ -230,6 +238,7 @@ public:
 	{
 		return static_cast<unsigned int>(z);
 	}
+
 
 
 	float hx() const
@@ -644,10 +653,9 @@ public:
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
-	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp) // 轰 青纺狼 积己
+	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
 		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
-		// XMMatrixLookToLH() : Directx 轰 青纺 积己 窃荐
 	}
 
 	void PerspectiveFovLH(
