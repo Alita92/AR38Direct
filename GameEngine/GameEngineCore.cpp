@@ -34,7 +34,7 @@ void GameEngineCore::EngineInitialize()
 
 void GameEngineCore::EngineDestroy()
 {
-	GameEngineManagerHelper::ManagerRelase();
+	GameEngineManagerHelper::ManagerRelease();
 	GameEngineTime::Destroy();
 	GameEngineDirectXDevice::Destroy();
 	GameEngineWindow::Destroy();

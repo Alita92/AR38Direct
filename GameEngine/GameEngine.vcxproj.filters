@@ -29,7 +29,7 @@
       <UniqueIdentifier>{33fe8146-bd90-408b-9133-23dad68b0c5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="RenderingPipeLine\Device">
-      <UniqueIdentifier>{ea0d8a81-24f8-42b1-93d1-cd318fc55545}</UniqueIdentifier>
+      <UniqueIdentifier>{4c19d13e-c463-4e3f-b697-6c3118e227d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,9 +38,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineWindow.h" />
-    <ClInclude Include="GameEngineRenderingPipeLine.h">
-      <Filter>RenderingPipeLine</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineIndexBuffer.h">
       <Filter>Resources\00Buffer</Filter>
     </ClInclude>
@@ -65,17 +62,32 @@
     <ClInclude Include="GameEngineIndexBufferManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineReasterizer.h">
+    <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\03Setting</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineReasterizerManager.h">
+    <ClInclude Include="GameEngineRasterizerManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineResourcesManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderTarget.h">
+      <Filter>Resources\02Image</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineDirectXDevice.h">
       <Filter>RenderingPipeLine\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLine.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLineManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineMesh.h">
+      <Filter>Resources\00Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTargetManager.h">
+      <Filter>Resources\99Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,11 +126,23 @@
     <ClCompile Include="GameEngineReasterizer.cpp">
       <Filter>Resources\03Setting</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineReasterizerManager.cpp">
+    <ClCompile Include="GameEngineRasterizerManager.cpp">
       <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTarget.cpp">
+      <Filter>Resources\02Image</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineDirectXDevice.cpp">
       <Filter>RenderingPipeLine\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLineManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineMesh.cpp">
+      <Filter>Resources\00Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTargetManager.cpp">
+      <Filter>Resources\99Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -32,11 +32,15 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineReasterizer.h">
+    <ClInclude Include="GameEngineMesh.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineReasterizerManager.h">
+    <ClInclude Include="GameEngineRasterizer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineRasterizerManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -44,6 +48,12 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLineManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTarget.h" />
+    <ClInclude Include="GameEngineRenderTargetManager.h" />
     <ClInclude Include="GameEngineResourcesManager.h" />
     <ClInclude Include="GameEngineTexture.h">
       <SubType>
@@ -92,11 +102,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineMesh.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineReasterizer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEngineReasterizerManager.cpp">
+    <ClCompile Include="GameEngineRasterizerManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -104,6 +118,12 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLineManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTarget.cpp" />
+    <ClCompile Include="GameEngineRenderTargetManager.cpp" />
     <ClCompile Include="GameEngineTexture.cpp">
       <SubType>
       </SubType>

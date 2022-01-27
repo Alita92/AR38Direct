@@ -20,7 +20,7 @@ public:		//delete operator
 	GameEngineDirectory& operator=(const GameEngineDirectory&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	std::string DirectoryName();
+	std::string DirectroyName();
 
 public:		//member Func
 	// C: D:인지 확인

@@ -11,7 +11,7 @@ ID3D11Device* GameEngineDirectXDevice::Device_ = nullptr;
 ID3D11DeviceContext* GameEngineDirectXDevice::Context_ = nullptr;
 IDXGISwapChain* GameEngineDirectXDevice::SwapChain_ = nullptr;
 
-ID3D11Device* GameEngineDirectXDevice::GetDevcie()
+ID3D11Device* GameEngineDirectXDevice::GetDevice()
 {
 	return Device_;
 }
@@ -205,6 +205,13 @@ void GameEngineDirectXDevice::RenderStart()
 
 void GameEngineDirectXDevice::RenderEnd()
 {
+	// 화면에 그려라 인데.
+	HRESULT Result = SwapChain_->Present(0, 0);
+	if (Result == DXGI_ERROR_DEVICE_REMOVED || Result == DXGI_ERROR_DEVICE_RESET)
+	{
+		int a = 0;
+	}
+
 	// 화면에 뿌려라
 	// BackBufferTarget_;
 }

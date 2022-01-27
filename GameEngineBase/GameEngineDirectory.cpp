@@ -30,7 +30,7 @@ GameEngineDirectory::GameEngineDirectory(GameEngineDirectory&& _other) noexcept
 
 //member Func
 
-std::string GameEngineDirectory::DirectoryName()
+std::string GameEngineDirectory::DirectroyName()
 {
 	return path_.filename().string();
 }
