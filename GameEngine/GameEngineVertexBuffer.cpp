@@ -9,14 +9,17 @@ GameEngineVertexBuffer::GameEngineVertexBuffer() // default constructer 디폴트 �
 	, BufferData_()
 	, ResData_()
 {
-	// 버퍼데이타 등은 초기화해줄 값이 없고, 하단 함수로 초기화 가능함.
-	memset(&BufferData_, 0, sizeof(BufferData_)); 
+	memset(&BufferData_, 0, sizeof(BufferData_));
 	memset(&ResData_, 0, sizeof(ResData_));
 }
 
 GameEngineVertexBuffer::~GameEngineVertexBuffer() // default destructer 디폴트 소멸자
 {
-
+	if (nullptr != Buffer_)
+	{
+		Buffer_->Release();
+		Buffer_ = nullptr;
+	}
 }
 
 GameEngineVertexBuffer::GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자

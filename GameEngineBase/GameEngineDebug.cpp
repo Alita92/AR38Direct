@@ -38,3 +38,8 @@ void GameEngineDebug::OutPutDebugString(const std::string& _Text)
 {
 	OutputDebugStringA(_Text.c_str());
 }
+
+void GameEngineDebug::MsgBox(const std::string& _Ptr)
+{
+	MessageBoxA(nullptr, _Ptr.c_str(), "Error", MB_OK);
+}

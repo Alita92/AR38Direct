@@ -31,6 +31,9 @@
     <Filter Include="RenderingPipeLine\Device">
       <UniqueIdentifier>{4c19d13e-c463-4e3f-b697-6c3118e227d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\ShaderCode">
+      <UniqueIdentifier>{1ef640ca-f82d-4394-bc09-4ac388dc25d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -144,5 +147,10 @@
     <ClCompile Include="GameEngineRenderTargetManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Resources\ShaderCode</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

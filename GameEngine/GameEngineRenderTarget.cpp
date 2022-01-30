@@ -49,7 +49,7 @@ void GameEngineRenderTarget::Setting(int _Index)
 
 	if (-1 == _Index)
 	{
-		GameEngineDirectXDevice::GetContext()->OMSetRenderTargets(RenderTargetViews_.size(), &RenderTargetViews_[0], nullptr);
+		GameEngineDirectXDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RenderTargetViews_.size()), &RenderTargetViews_[0], nullptr);
 	}
 	else
 	{
