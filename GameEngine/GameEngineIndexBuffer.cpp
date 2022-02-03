@@ -63,7 +63,7 @@ void GameEngineIndexBuffer::Create(const void* _Data, size_t _Size, size_t _Coun
 	}
 }
 
-void GameEngineIndexBuffer::Setting()
+void GameEngineIndexBuffer::Setting() // IA2 에 인덱스 버퍼를 세팅해준다!
 {
 	GameEngineDirectXDevice::GetContext()->IASetIndexBuffer(Buffer_, Format_, Offset_);
 }

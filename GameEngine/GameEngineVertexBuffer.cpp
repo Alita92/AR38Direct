@@ -9,6 +9,7 @@ GameEngineVertexBuffer::GameEngineVertexBuffer() // default constructer 디폴트 �
 	, BufferData_()
 	, ResData_()
 {
+	// 버텍스버퍼의 구조체와 초기값의 초기화는 하단 memset() 을 사용해서 합니다.
 	memset(&BufferData_, 0, sizeof(BufferData_));
 	memset(&ResData_, 0, sizeof(ResData_));
 }
@@ -34,6 +35,9 @@ GameEngineVertexBuffer::GameEngineVertexBuffer(GameEngineVertexBuffer&& _other) 
 
 void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Count, D3D11_USAGE _Usage)
 {
+	// 초기값등의 데이터를 설정해주고, BufferData_ 에 원하는 설정값을 집어넣습니다.
+
+	
 	// 그래픽카드는 그냥 N바이트 자기 메모리에 할당하려고 하니까 정보를 줘야합니다.
 	// 그 버퍼의 
 	ResData_.pSysMem = _Data;
@@ -63,7 +67,7 @@ void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Cou
 	}
 }
 
-void GameEngineVertexBuffer::Setting()
+void GameEngineVertexBuffer::Setting() // IA1 에 버텍스버퍼를 세팅한다!
 {
 	GameEngineDirectXDevice::GetContext()->IASetVertexBuffers(0, 1, &Buffer_, &Size_, &Offset_);
 }

@@ -13,5 +13,8 @@ int WinMain(
 	int       nShowCmd
 )
 {
+
+
+
 	GameEngineCore::Start<UserGame>();
 }
