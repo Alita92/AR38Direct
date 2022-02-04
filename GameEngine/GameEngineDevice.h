@@ -1,5 +1,4 @@
 #pragma once
-
 #include <GameEngineBase/GameEngineMath.h>
 
 #include <d3d11_4.h>
@@ -15,13 +14,13 @@ class GameEngineRenderTarget;
 // 분류 : 
 // 용도 : 
 // 설명 : 그래픽카드에 접근할수 있는 포인터
-class GameEngineDirectXDevice
+class GameEngineDevice
 {
 private:	// member Var
-	static GameEngineDirectXDevice* Inst;
+	static GameEngineDevice* Inst;
 
 public:
-	static GameEngineDirectXDevice& GetInst()
+	static GameEngineDevice& GetInst()
 	{
 		return *Inst;
 	}
@@ -43,7 +42,6 @@ private:
 	// 그래픽카드에게 뭔가를 그리라고 명령하거나 그 그리는데 필요한 옵션을 세팅하려면 컨텍스트를 거쳐야 합니다.
 
 	static IDXGISwapChain* SwapChain_;
-	// 다이렉트 버전 더블 버퍼링입니다.
 
 	static GameEngineRenderTarget* BackBufferTarget_;
 
@@ -63,17 +61,18 @@ public:
 private:
 	void CreateSwapChain();
 
+
 public:
-	GameEngineDirectXDevice(); // default constructer 디폴트 생성자
-	~GameEngineDirectXDevice(); // default destructer 디폴트 소멸자
+	GameEngineDevice(); // default constructer 디폴트 생성자
+	~GameEngineDevice(); // default destructer 디폴트 소멸자
 
 protected:		// delete constructer
-	GameEngineDirectXDevice(const GameEngineDirectXDevice& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineDirectXDevice(GameEngineDirectXDevice&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	GameEngineDevice(const GameEngineDevice& _other) = delete; // default Copy constructer 디폴트 복사생성자
+	GameEngineDevice(GameEngineDevice&& _other) = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
 
 private:		//delete operator
-	GameEngineDirectXDevice& operator=(const GameEngineDirectXDevice& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineDirectXDevice& operator=(const GameEngineDirectXDevice&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+	GameEngineDevice& operator=(const GameEngineDevice& _other) = delete; // default Copy operator 디폴트 대입 연산자
+	GameEngineDevice& operator=(const GameEngineDevice&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
 	static void RenderStart();

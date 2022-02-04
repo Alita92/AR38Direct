@@ -77,7 +77,7 @@
     <ClInclude Include="GameEngineRenderTarget.h">
       <Filter>Resources\02Image</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectXDevice.h">
+    <ClInclude Include="GameEngineDevice.h">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderingPipeLine.h">
@@ -135,7 +135,7 @@
     <ClCompile Include="GameEngineRenderTarget.cpp">
       <Filter>Resources\02Image</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDirectXDevice.cpp">
+    <ClCompile Include="GameEngineDevice.cpp">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderingPipeLineManager.cpp">

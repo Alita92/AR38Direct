@@ -92,7 +92,7 @@ void UserGame::ResourcesLoad()
 	{
 
 		// POSITION을 시맨틱이라고 합니다.
-		// 
+		// 이렇게 바로 스트링으로 넣어 줘도 무리 없이 작동합니다!
 		std::string ShaderCode =
 			"\
 			float4 StartVertexShader( float4 pos : POSITION ) : SV_POSITION\n \
@@ -103,10 +103,11 @@ void UserGame::ResourcesLoad()
 
 		GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Create("StartVertexShader", ShaderCode);
 
-		Ptr->AddInputLayOut("TEXCOORD", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-		Ptr->AddInputLayOut("POSTION", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-		Ptr->AddInputLayOut("COLOR", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
-
+		// 수동으로 인풋 레이아웃을 지정해준다면... 하단처럼 하나씩 다 해주어야 한다.
+		//Ptr->AddInputLayOut("TEXCOORD", 0, 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+		//Ptr->AddInputLayOut("POSTION", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+		//Ptr->AddInputLayOut("COLOR", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+		
 	}
 
 	{
@@ -117,8 +118,35 @@ void UserGame::ResourcesLoad()
 
 	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
-		//Pipe->SetInputAssembler1();
+
+		// 이런 기본적인 vertex들이 있다.
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("StartVertexShader");
+
+		// 그 vertex을 이렇게 위치시키겠다.
+		Pipe->SetVertexShader("StartVertexShader");
+
+		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// 헐 테셀레이션 도메인 지오메트리는 있으면 적용되고 없어도 필수는 아니다. 
+		// vertex을 더 쪼갤건데 준비를 하겠다. 
+		// 헐
+		// 
+		// 헐에서 정한대로 vertex를 더 쪼갠다.
+		// 테셀레이션 
+		// 
+		// 그 더 쪼갠 vertex들을 수정하겠다.
+		// 도메인 
+		// 
+		// 지오메트리 완전히 새로운 vertex들을 또 만들겠다.
+		// 애는 게임에서 좀 많이 쓸모있음.
+
+		// 그리리기한 면혹은 선 등등에 겹치는 모니터의 픽셀들을 추출하겠다. 
+		// 레스터라이터라이저
 	}
+
 
 
 

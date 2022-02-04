@@ -2,7 +2,7 @@
 #include <vector>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineObjectNameBase.h>
-#include "GameEngineDirectXDevice.h"
+#include "GameEngineDevice.h"
 
 // 분류 : 
 // 용도 : 
@@ -13,6 +13,9 @@ private:	// member Var
 	UINT VersionHigh_; // 버텍스의 버전(소수점 앞자리)
 	UINT VersionLow_; // 버텍스의 버전(소수점 뒷자리)
 	ID3DBlob* CodeBlob_;
+
+	ID3D11VertexShader* VertexShader_;
+
 	std::string Version_;
 
 	std::string EntryPoint_;
@@ -62,7 +65,7 @@ private:
 	std::vector<std::string> SemanticName_;
 	std::vector<D3D11_INPUT_ELEMENT_DESC> InputLayoutDesc_;
 
-public:
+
 	void AddInputLayOut(
 		const char* _SemanticName,
 		unsigned int _Index,
@@ -74,6 +77,14 @@ public:
 	);
 
 	void CreateLayOut();
+
+	void LayOutCheck();
+	
 	void LayOutClear();
+
+public:
+	void InputLayOutSetting();
+	void Setting();
+
 };
 

@@ -2,14 +2,24 @@
 #include <GameEngineBase/GameEngineMath.h>
 
 
+//struct GameEngineVertex
+//{
+//public:
+//	// 포지션
+//	// 텍스처 비율
+//	float4 Texcoord;
+//	float4 Postion;
+//	float4 Color;
+//}
+
 // 구조를 단 1개만 만들어.
 struct GameEngineVertex
 {
 public:
 	// 포지션
 	// 텍스처 비율
-	float4 Texcoord;
 	float4 Postion;
+	float4 Texcoord;
 	float4 Color;
 	//float4 Normal0;
 	//float4 Normal1;

@@ -41,7 +41,7 @@ void UserGame::Release()
 // 게임의 루프를 주관하는 곳
 void UserGame::GameLoop()
 {
-	GameEngineDirectXDevice::RenderStart();
+	GameEngineDevice::RenderStart();
 
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
 	Pipe->Rendering();
@@ -62,5 +62,5 @@ void UserGame::GameLoop()
 	//Pipe.Rendering();
 
 
-	GameEngineDirectXDevice::RenderEnd();
+	GameEngineDevice::RenderEnd();
 }
