@@ -106,7 +106,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEngineReasterizer.cpp">
+    <ClCompile Include="GameEngineRasterizer.cpp">
       <SubType>
       </SubType>
     </ClCompile>

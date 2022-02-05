@@ -71,6 +71,12 @@ void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std
 	}
 }
 
+void GameEngineRenderingPipeLine::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology)
+{
+	Topology_ = _Topology;
+}
+
+
 
 void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 {
@@ -85,11 +91,11 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 
 void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 {
-	Reasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
 
-	if (nullptr == Reasterizer_)
+	if (nullptr == Rasterizer_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 레스터라이저 세팅을 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 레이터라이저 세팅을 세팅하려고 했습니다.");
 		return;
 	}
 }
@@ -100,9 +106,21 @@ void GameEngineRenderingPipeLine::InputAssembler1()
 	InputLayOutVertexShader_->InputLayOutSetting();
 }
 
+void GameEngineRenderingPipeLine::InputAssembler2()
+{
+	IndexBuffer_->Setting();
+	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology_);
+}
+
+
 void GameEngineRenderingPipeLine::VertexShader()
 {
 	VertexShader_->Setting();
+}
+
+void GameEngineRenderingPipeLine::Rasterizer()
+{
+	Rasterizer_->Setting();
 }
 
 
@@ -111,7 +129,11 @@ void GameEngineRenderingPipeLine::Rendering()
 	// input어셈블러 단계
 	// 버텍스 버퍼 세팅
 	InputAssembler1();
-	// 
+	InputAssembler2();
+
+	VertexShader();
+
+	Rasterizer();
 
 }
 

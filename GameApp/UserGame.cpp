@@ -56,11 +56,10 @@ void UserGame::GameLoop()
 
 	//// 메테리얼
 	//Pipe.SetVertexShader("TestShader"); // 어떻게 움직일래??????
-	//Pipe.SetRasterizer("TestReasterizer");
+	//Pipe.SetRasterizer("TestRasterizer");
 	//RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
 	//BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 	//Pipe.Rendering();
-
 
 	GameEngineDevice::RenderEnd();
 }

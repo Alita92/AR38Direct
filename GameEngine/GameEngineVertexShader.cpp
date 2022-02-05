@@ -15,6 +15,11 @@ GameEngineVertexShader::~GameEngineVertexShader() // default destructer µðÆúÆ® ¼
 		LayOut_->Release();
 		LayOut_ = nullptr;
 	}
+	if (nullptr != VertexShader_)
+	{
+		VertexShader_->Release();
+		VertexShader_ = nullptr;
+	}
 
 	if (nullptr != CodeBlob_)
 	{

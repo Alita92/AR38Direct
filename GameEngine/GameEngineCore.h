@@ -26,7 +26,7 @@ private:
 	static GameEngineCore* MainCore_;
 
 private:
-	static void WindowCreate();
+	static void WindowCreate(GameEngineCore& _RuntimeCore);
 	static void Loop();
 	static void MainLoop();
 
@@ -41,8 +41,8 @@ public:
 		// 디버그때만 릭을 남길것이다.
 		new int();
 #endif
-
-		WindowCreate();
+		UserGameType NewUserGame;
+		WindowCreate(NewUserGame)
 
 		UserGameType NewUserGame;
 		NewUserGame.EngineInitialize();
@@ -64,5 +64,7 @@ protected:
 	virtual void Release() = 0;
 
 public:
+	virtual float4 StartWindowSize() = 0;
+	virtual float4 StartWindowPos() = 0;
 };
 

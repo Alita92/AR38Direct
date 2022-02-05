@@ -22,8 +22,7 @@ private:	// member Var
 	GameEngineIndexBuffer* IndexBuffer_;
 	D3D11_PRIMITIVE_TOPOLOGY Topology_;
 
-
-	GameEngineRasterizer* Reasterizer_;
+	GameEngineRasterizer* Rasterizer_;
 
 public:
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
@@ -57,7 +56,12 @@ private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	// 렌더링 파이프라인의 요소들을 실제로 실행 해 주는 함수?
+	// 세팅과는 별개라는 걸 확실히 인식할 것...
+	// 세팅은 세팅... 이건 실행
 	void InputAssembler1();
+	void InputAssembler2();
 	void VertexShader();
+	void Rasterizer();
 };
 

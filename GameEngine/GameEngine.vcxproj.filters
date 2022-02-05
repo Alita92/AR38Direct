@@ -126,7 +126,7 @@
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineReasterizer.cpp">
+    <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\03Setting</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRasterizerManager.cpp">
