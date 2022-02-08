@@ -4,12 +4,13 @@
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineIndexBufferManager.h"
 #include "GameEngineRasterizerManager.h"
-
+#include "GameEnginePixelShaderManager.h"
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineRasterizer.h"
+#include "GameEnginePixelShader.h"
 
 
 #include "GameEngineWindow.h"
@@ -100,6 +101,31 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 	}
 }
 
+void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
+{
+	PixelShader_ = GameEnginePixelShaderManager::GetInst().Find(_Name);
+
+	if (nullptr == PixelShader_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 픽셀 쉐이더를 세팅을 세팅하려고 했습니다.");
+		return;
+	}
+
+}
+
+void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name)
+{
+	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+
+	if (nullptr == Rasterizer_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 아웃풋 머져를 세팅하려고 했습니다.");
+		return;
+	}
+
+}
+
+
 void GameEngineRenderingPipeLine::InputAssembler1()
 {
 	VertexBuffer_->Setting();
@@ -121,29 +147,32 @@ void GameEngineRenderingPipeLine::VertexShader()
 void GameEngineRenderingPipeLine::Rasterizer()
 {
 	Rasterizer_->Setting();
+
+	Rasterizer_->SettingViewPort();
 }
 
+void GameEngineRenderingPipeLine::PixelShader()
+{
+	PixelShader_->Setting();
+}
 
-void GameEngineRenderingPipeLine::Rendering()
+void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 {
 	// input어셈블러 단계
-	// 버텍스 버퍼 세팅
+// 버텍스 버퍼 세팅
 	InputAssembler1();
-	InputAssembler2();
 
+	InputAssembler2();
 	VertexShader();
 
 	Rasterizer();
 
+	PixelShader();
 }
 
-void GameEngineRenderingPipeLine::SetMesh()
-{
-	//SetInputAssembler1();
-	//SetInputAssembler2();
-}
-
-void GameEngineRenderingPipeLine::SetMaterial()
+void GameEngineRenderingPipeLine::Rendering()
 {
 
+	RenderingPipeLineSetting();
+	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
 }

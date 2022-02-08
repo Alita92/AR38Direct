@@ -42,6 +42,9 @@ void GameEngineVertexBuffer::Create(const void* _Data, size_t _Size, size_t _Cou
 	// 그 버퍼의 
 	ResData_.pSysMem = _Data;
 
+	Size_ = static_cast<UINT>(_Size);
+	Count_ = static_cast<UINT>(_Count);
+
 	BufferData_.ByteWidth = static_cast<UINT>(_Size) * static_cast<UINT>(_Count);
 	BufferData_.Usage = _Usage;
 

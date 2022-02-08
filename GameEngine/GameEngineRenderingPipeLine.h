@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngine/GameEngineDevice.h>
 #include <GameEngineBase/GameEngineMath.h>
 
 // 분류 : 
@@ -7,39 +8,47 @@
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
+class GameEnginePixelShader;
 class GameEngineRasterizer;
 class GameEngineRenderingPipeLine : public GameEngineObjectNameBase
 {
 private:	// member Var
 	// IA1
 	GameEngineVertexBuffer* VertexBuffer_;
+	// IA1
 	GameEngineVertexShader* InputLayOutVertexShader_;
-
 	// VS
 	GameEngineVertexShader* VertexShader_;
-
 	// IA2
 	GameEngineIndexBuffer* IndexBuffer_;
+	// IA2
 	D3D11_PRIMITIVE_TOPOLOGY Topology_;
-
+	// RS
 	GameEngineRasterizer* Rasterizer_;
+	// PS
+	GameEnginePixelShader* PixelShader_;
+	// OM
+	GameEngineRenderTarget* RenderTarget_;
 
 public:
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
+
 	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
 
 	void SetVertexShader(const std::string& _Name);
 
 	void SetInputAssembler2IndexBufferSetting(const std::string& _Name);
+
 	void SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY Topology_);
 
 	void SetRasterizer(const std::string& _Name);
 
-public:
-	void SetMesh();
-	void SetMaterial();
+	void SetPixelShader(const std::string& _Name);
 
-public:
+	void SetOutputMerger(const std::string& _Name);
+
+	void RenderingPipeLineSetting();
+
 	void Rendering();
 
 
@@ -56,12 +65,10 @@ private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	// 렌더링 파이프라인의 요소들을 실제로 실행 해 주는 함수?
-	// 세팅과는 별개라는 걸 확실히 인식할 것...
-	// 세팅은 세팅... 이건 실행
 	void InputAssembler1();
 	void InputAssembler2();
 	void VertexShader();
 	void Rasterizer();
+	void PixelShader();
 };
 

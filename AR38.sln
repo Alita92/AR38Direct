@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00DOC", "00DOC", "{BB005DAB-808E-439F-80F3-34C58E10FB99}"
-	ProjectSection(SolutionItems) = preProject
-		메모_내포폴임.txt = 메모_내포폴임.txt
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01BaseFile", "01BaseFile", "{3ACDAE35-CFC8-45D0-873F-568774550079}"
 	ProjectSection(SolutionItems) = preProject

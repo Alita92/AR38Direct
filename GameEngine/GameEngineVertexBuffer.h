@@ -17,6 +17,10 @@ private:	// member Var
 	UINT Offset_;
 	// 버퍼의 개수(만약 캐릭터 렌더링 등을 여러 도형의 조합으로 만든다 하면...)
 
+	UINT Count_;
+	// 버퍼 내 버텍스의 수?
+
+
 	// 버텍스버퍼의 구조체; 디폴트 사용, 사이즈, 파이프라인 바인드 여부, CPU 엑세스 여부 등을 설정해놔야 한다.
 	D3D11_BUFFER_DESC BufferData_;
 
