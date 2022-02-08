@@ -42,9 +42,8 @@ public:
 		new int();
 #endif
 		UserGameType NewUserGame;
-		WindowCreate(NewUserGame)
+		WindowCreate(NewUserGame);
 
-		UserGameType NewUserGame;
 		NewUserGame.EngineInitialize();
 		NewUserGame.Initialize();
 		NewUserGame.ResourcesLoad();
