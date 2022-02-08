@@ -26,7 +26,7 @@ public:
 	virtual void Release() override;
 
 	virtual float4 StartWindowPos() {
-		return { -2000, 0 };
+		return { 0, 0 };
 	}
 	virtual float4 StartWindowSize() {
 		return { 1280, 720 };

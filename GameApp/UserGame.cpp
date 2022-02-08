@@ -32,18 +32,22 @@ void UserGame::Initialize()
 float RotAngle = 0.0f;
 float4 BoxPos = { 0.0f, 0.0f, 0.0f };
 
-
 void UserGame::Release()
 {
 
 }
 
-// 게임의 루프를 주관하는 곳
 void UserGame::GameLoop()
 {
+	float4x4 MyWorld;
+
 	GameEngineDevice::RenderStart();
 
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
+
+	// Pipe->SetMatrix("World", MyWorld);
+	// Pipe->SetMatrix("World", Test);
+
 	Pipe->Rendering();
 
 	// 메테리얼
@@ -61,5 +65,7 @@ void UserGame::GameLoop()
 	//BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
 	//Pipe.Rendering();
 
+
 	GameEngineDevice::RenderEnd();
 }
+
