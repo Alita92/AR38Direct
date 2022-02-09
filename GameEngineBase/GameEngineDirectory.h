@@ -36,7 +36,7 @@ public:		//member Func
 
 public:
 	// 내 폴더에 + 파일이름 경로를 리턴해주는 함수
-	std::string PathToPlusFileName(const std::string& _DirName);
+	std::string PathToPlusFileName(const std::string& _FileName);
 
 	// * 의 의미
 	// A* 모든 이름

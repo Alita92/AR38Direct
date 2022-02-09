@@ -126,7 +126,6 @@ public:
 
 		float Arr1D[4];
 
-
 		DirectX::XMFLOAT3 DxXmfloat3;
 		DirectX::XMFLOAT4 DxXmfloat4;
 
@@ -748,7 +747,11 @@ public:
 		return DirectX::XMMatrixMultiply(DirectMatrix, _value.DirectMatrix);
 	}
 
-
+	float4x4& operator=(const float4x4& _value)
+	{
+		DirectMatrix = _value.DirectMatrix;
+		return *this;
+	}
 
 };
 

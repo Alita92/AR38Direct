@@ -29,43 +29,39 @@ void UserGame::Initialize()
 	return;
 }
 
-float RotAngle = 0.0f;
-float4 BoxPos = { 0.0f, 0.0f, 0.0f };
-
 void UserGame::Release()
 {
 
 }
 
+float4 vPos = { 0.0f, 0.0f , 0.0f };
+float4 vRot = { 0.0f, 0.0f , 0.0f };
+float4 vScale = { 1.0f, 1.0f , 1.0f };
+
 void UserGame::GameLoop()
 {
-	float4x4 MyWorld;
-
-	GameEngineDevice::RenderStart();
-
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
+	float4x4 mScale;
+	float4x4 mRot;
+	float4x4 mPos;
+	float4x4 mWorld;
 
-	// Pipe->SetMatrix("World", MyWorld);
-	// Pipe->SetMatrix("World", Test);
+	// 업데이트
+	{
+		mScale.Scaling(vScale);
+		mRot.RotationDeg(vRot);
+		mPos.Translation(vPos);
 
-	Pipe->Rendering();
+		mWorld = mScale * mRot * mPos;
 
-	// 메테리얼
+		// Pipe.Setting("World", mWorld);
+	}
 
-	//GameEngineRenderingPipeLine Pipe;
-
-	//// 매쉬
-	//Pipe.SetInputAssembler1("Rect"); // 버텍스 버퍼
-	//Pipe.SetInputAssembler2("Rect"); // 인덱스 버퍼
-
-	//// 메테리얼
-	//Pipe.SetVertexShader("TestShader"); // 어떻게 움직일래??????
-	//Pipe.SetRasterizer("TestRasterizer");
-	//RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
-	//BoxPos.x += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
-	//Pipe.Rendering();
-
-
-	GameEngineDevice::RenderEnd();
+	//  랜더링
+	{
+		GameEngineDevice::RenderStart();
+		Pipe->Rendering();
+		GameEngineDevice::RenderEnd();
+	}
 }
 

@@ -1,7 +1,8 @@
+#include "CbufferHeader.fx"
+// b32 까지 가능했던걸로 아는데
+// 그냥 생각하지 맙시다.
 
-//float4x4 World;
-//float4x4 View;
-//float4x4 Proj;
+// 512바이트 가 최대일겁니다.
 
 float4 Color_VS(float4 pos : POSITION) : SV_POSITION
 {

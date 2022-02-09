@@ -196,14 +196,14 @@ void UserGame::ResourcesLoad()
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
 
 		// 이런 기본적인 vertex들이 있다.
-		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
-		Pipe->SetInputAssembler1InputLayOutSetting("StartVertexShader");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS"); // 대상이 되는 버텍스 셰이더를 넣어줘야 한다.
 
 		// 그 vertex을 이렇게 위치시키겠다.
-		Pipe->SetVertexShader("StartVertexShader");
+		Pipe->SetVertexShader("Color_VS");
 
 		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
-		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// 헐 테셀레이션 도메인 지오메트리는 있으면 적용되고 없어도 필수는 아니다. 
@@ -223,7 +223,7 @@ void UserGame::ResourcesLoad()
 		// 레스터라이터라이저
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 
-		Pipe->SetPixelShader("StartPixelShader");
+		Pipe->SetPixelShader("Color_PS");
 	}
 
 
