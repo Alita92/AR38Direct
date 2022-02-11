@@ -33,7 +33,8 @@ void UserGame::ResourcesLoad()
 		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4 * 6);
 
 		{
-			// 앞면
+			// 정육면체의 버텍스 모음
+
 			RectVertex[0] = { float4({ -0.5f, 0.5f, 0.5f }) };
 			RectVertex[1] = { float4({ 0.5f, 0.5f, 0.5f }) };
 			RectVertex[2] = { float4({ 0.5f, -0.5f, 0.5f }) };
@@ -70,6 +71,7 @@ void UserGame::ResourcesLoad()
 		}
 
 		GameEngineVertexBufferManager::GetInst().Create("Box", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		// 버텍스 버퍼 생성해 지름 0.5 크기의 박스의 버텍스 정보를 저장. 이름은 "Box"
 	}
 
 	{
@@ -87,18 +89,19 @@ void UserGame::ResourcesLoad()
 		}
 
 		GameEngineIndexBufferManager::GetInst().Create("Box", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		// 인덱스 버퍼 생성해 "Box" 의 버텍스의 연결 순서의 정보를 저장. 
 	}
 
+	// 각자 물체가 각자의 크기와 회전값을 가진 세상
+// 로컬스페이스
+
+// 로컬세상에 있는 물체를 우리가 원하는 대로 변형하고
+// 위치시키고 인식합니다.
+// 월드스페이스
 
 
 	{
-		// 각자 물체가 각자의 크기와 회전값을 가진 세상
-		// 로컬스페이스
-
-		// 로컬세상에 있는 물체를 우리가 원하는 대로 변형하고
-		// 위치시키고 인식합니다.
-		// 월드스페이스
-
+		// 사각형 면의 버텍스 모음 
 		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
 
 		{
@@ -109,6 +112,7 @@ void UserGame::ResourcesLoad()
 			RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }) };
 		}
 
+		// 버텍스 버퍼 이름 "Rect" 로 버퍼를 생성한다.
 		GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
 
@@ -123,17 +127,11 @@ void UserGame::ResourcesLoad()
 		RectIndex.push_back(2);
 		RectIndex.push_back(3);
 
+		// "Rect" 역시 인덱스 버퍼를 생성한다.
 		GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
 
 	{
-		// 각자 물체가 각자의 크기와 회전값을 가진 세상
-		// 로컬스페이스
-
-		// 로컬세상에 있는 물체를 우리가 원하는 대로 변형하고
-		// 위치시키고 인식합니다.
-		// 월드스페이스
-
 		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
 
 		{
@@ -143,9 +141,10 @@ void UserGame::ResourcesLoad()
 			RectVertex[2] = { float4({ 1.0f, -1.0f, 0.0f }) };
 			RectVertex[3] = { float4({ -1.0f, -1.0f, 0.0f }) };
 		}
-
+		// 화면을 덮는 크기의 큰 사각형의 버텍스 버퍼 생성. 이름 : "FullRect"
 		GameEngineVertexBufferManager::GetInst().Create("FullRect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
+
 
 	{
 		std::vector<UINT> RectIndex;
@@ -157,15 +156,16 @@ void UserGame::ResourcesLoad()
 		RectIndex.push_back(0);
 		RectIndex.push_back(2);
 		RectIndex.push_back(3);
-
+		
 		GameEngineIndexBufferManager::GetInst().Create("FullRect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
 
 
 
 	{
+		// 레스터라이저의 설정값에 대한 정보 리소스입니다.
 		D3D11_RASTERIZER_DESC Info = { D3D11_FILL_MODE::D3D11_FILL_SOLID, };
-
+		// FillMode : 솔리드/와이어 프레임 중 하나를 선택합니다.
 		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
 
 		// 무조건그려라
@@ -188,16 +188,21 @@ void UserGame::ResourcesLoad()
 		//Info.MultisampleEnable = TRUE;
 
 		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
+		// 기설정된 설정값을 적용하는 레스터라이저 객체의 생성
+
 		Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+		// 레스터라이저 객체의 뷰 포트 설정 : 관찰자의 위치와 보는 범위 설정
+		
 	}
 
 
 	{
+		// 상기의 리소스(셰이더코드 포함) 을 사용하는 일련의 렌더링 파이프라인 구성
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
 
 		// 이런 기본적인 vertex들이 있다.
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
-		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS"); // 대상이 되는 버텍스 셰이더를 넣어줘야 한다.
+		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS"); 
 
 		// 그 vertex을 이렇게 위치시키겠다.
 		Pipe->SetVertexShader("Color_VS");
