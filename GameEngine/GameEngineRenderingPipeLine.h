@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineDevice.h>
 #include <GameEngineBase/GameEngineMath.h>
-#include "GameEngineRenderingSettingData.h"
+#include "GameEngineShaderResHelper.h"
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -74,15 +74,9 @@ public:
 	void PixelShader();
 
 
-
-	/////////////////////////////////// 쉐이더 세팅 데이터들
 public:
-	void ResourcesCheck();
-
-	void ShaderResourcesCheck(GameEngineShader* _Shader);
-
-	std::map<std::string, GameEngineConstantBufferSetting*> ConstantBufferSetting_;
-
-	// void ConstantBufferSetting();
+	GameEngineShaderResHelper ShaderHelper;
+	// 이제 이게 셰이더 리소스 체크를 도울 겁니다.
+	// ResourceCheck(), 상수 버퍼와의 링크와 셋 등
 };
 

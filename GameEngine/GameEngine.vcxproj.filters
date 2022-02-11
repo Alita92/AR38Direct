@@ -113,6 +113,9 @@
     <ClInclude Include="GameEngineRenderingSettingData.h">
       <Filter>RenderingPipeLine</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineShaderResHelper.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -184,6 +187,9 @@
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderingSettingData.cpp">
+      <Filter>RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineShaderResHelper.cpp">
       <Filter>RenderingPipeLine</Filter>
     </ClCompile>
   </ItemGroup>

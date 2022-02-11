@@ -89,6 +89,8 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
 		return;
 	}
+
+	ShaderHelper.ShaderResourcesCheck(VertexShader_);
 }
 
 void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
@@ -105,13 +107,16 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 {
 	PixelShader_ = GameEnginePixelShaderManager::GetInst().Find(_Name);
+	// 픽셀셰이더를 하나 설정해주고...
 
 	if (nullptr == PixelShader_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 픽셀 쉐이더를 세팅을 세팅하려고 했습니다.");
 		return;
 	}
-
+	
+	ShaderHelper.ShaderResourcesCheck(PixelShader_);
+	// 셰이더 리소스 체크 실행하여 세팅된 순서대로 상수 버퍼값을 집어넣는다
 }
 
 void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name)
@@ -159,36 +164,30 @@ void GameEngineRenderingPipeLine::PixelShader()
 
 void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 {
-	// input어셈블러 단계
-// 버텍스 버퍼 세팅
 	InputAssembler1();
+	// 버텍스 버퍼 세팅
+	// 인풋 레이아웃 세팅
+
 
 	InputAssembler2();
+	// 인덱스 버퍼 세팅
+	// 프리미티브 설정 세팅
+
 	VertexShader();
+	// 버텍스셰이더 세팅
 
 	Rasterizer();
+	// 뷰포트 세팅
 
 	PixelShader();
+	// 픽셀셰이더 세팅
 }
 
 void GameEngineRenderingPipeLine::Rendering()
 {
-
 	RenderingPipeLineSetting();
+
+	ShaderHelper.Setting();
+
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
-}
-
-void GameEngineRenderingPipeLine::ResourcesCheck()
-{
-	ShaderResourcesCheck(VertexShader_);
-	ShaderResourcesCheck(PixelShader_);
-}
-
-void GameEngineRenderingPipeLine::ShaderResourcesCheck(GameEngineShader* _Shader)
-{
-	// 엔진 수정하겠어...
-	for (auto& Constbuffer : _Shader->GetConstanceBuffer())
-	{
-		GameEngineConstantBufferSetting* NewSettingData = new GameEngineConstantBufferSetting();
-	}
 }

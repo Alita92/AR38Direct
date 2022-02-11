@@ -5,17 +5,19 @@
 #include "GameEngineDevice.h"
 #include "GameEngine/GameEngineConstantBuffer.h"
 
-//enum ShaderType;
-//{
-//	VS,
-//	PS
-//};
-// 설명 :
+enum class ShaderType
+{
+	VS,
+	PS,
+	MAX
+};
+
+class GameEngineConstantBufferSetting;
 class GameEngineShader : public GameEngineObjectNameBase
 {
 public:
 	// constrcuter destructer
-	GameEngineShader();
+	GameEngineShader(ShaderType _Type);
 	virtual ~GameEngineShader() = 0;
 
 	// delete Function
@@ -31,7 +33,7 @@ protected:
 	std::string Version_;
 	std::string EntryPoint_;
 	std::string Code_;
-
+	ShaderType Type_;
 
 	void SetVersion(UINT _VersionHigh, UINT _VersionLow);
 	void CreateVersion(const std::string& _ShaderType);
@@ -39,15 +41,22 @@ protected:
 	void SetEntryPoint(const std::string& _EntryPoint);
 
 public:
+	unsigned int GetTypeIndex() // ENUM을 순번(UINT) 로 리턴해줍니다
+	{
+		return static_cast<unsigned int>(Type_);
+	}
 	void ResCheck();
 
 private:
 	std::map<unsigned int, GameEngineConstantBuffer*> ConstanceBuffer_;
 
 public:
-	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstanceBuffer()
+	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers()
 	{
 		return ConstanceBuffer_;
 	}
+
+	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
+	// 완전가상함수화 해서... 자식 클래스(VS, PS) 가 무조건! 함수를 가져가야 합니다.
 };
 

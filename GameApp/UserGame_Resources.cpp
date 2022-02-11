@@ -198,7 +198,7 @@ void UserGame::ResourcesLoad()
 
 	{
 		// 상기의 리소스(셰이더코드 포함) 을 사용하는 일련의 렌더링 파이프라인 구성
-		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("ColorRendering");
 
 		// 이런 기본적인 vertex들이 있다.
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");

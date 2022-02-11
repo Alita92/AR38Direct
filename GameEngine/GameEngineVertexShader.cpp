@@ -1,8 +1,12 @@
 #include "PreCompile.h"
 #include "GameEngineVertexShader.h"
 #include <GameEngineBase/GameEngineString.h>
+#include "GameEngineShaderResHelper.h"
+
+
 
 GameEngineVertexShader::GameEngineVertexShader() // default constructer 디폴트 생성자
+	: GameEngineShader(ShaderType::VS)
 
 {
 
@@ -461,4 +465,9 @@ void GameEngineVertexShader::InputLayOutSetting()
 void GameEngineVertexShader::Setting()
 {
 	GameEngineDevice::GetInst().GetContext()->VSSetShader(Shader_, nullptr, 0);
+}
+
+void GameEngineVertexShader::SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	GameEngineDevice::GetContext()->VSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
 }

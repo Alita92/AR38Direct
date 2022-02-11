@@ -45,8 +45,8 @@ public:
 		WindowCreate(NewUserGame);
 
 		NewUserGame.EngineInitialize();
-		NewUserGame.Initialize();
 		NewUserGame.ResourcesLoad();
+		NewUserGame.Initialize();
 
 		MainCore_ = &NewUserGame;
 

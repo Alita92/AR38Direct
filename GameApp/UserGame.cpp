@@ -21,10 +21,28 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 
 }
 
+struct TransformData
+{
+	float4x4 World;
+	float4x4 View;
+	float4x4 Proj;
+};
+
+float4 Pos;
+TransformData TransData;
 
 
 void UserGame::Initialize()
 {
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
+	// cpu의 데이터와 상수버퍼를 연결한다.
+
+	Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
+
+
+	// Pipe->ShaderHelper.SettingConstantBufferLink("TransformData222", TransData);
+	// cpu의 데이터와 상수버퍼를 한번 복사한다.
+	// Pipe->ShaderHelper.SettingConstantBufferSet("TransformData", TransData);
 
 	return;
 }
@@ -40,26 +58,18 @@ float4 vScale = { 1.0f, 1.0f , 1.0f };
 
 void UserGame::GameLoop()
 {
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
-	float4x4 mScale;
-	float4x4 mRot;
-	float4x4 mPos;
-	float4x4 mWorld;
-
-	// 업데이트
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
 	{
-		mScale.Scaling(vScale);
-		mRot.RotationDeg(vRot);
-		mPos.Translation(vPos);
+		Pos.x += 0.001f;
+		TransData.World.Translation(Pos);
 
-		mWorld = mScale * mRot * mPos;
 
-		// Pipe.Setting("World", mWorld);
-	}
-
-	//  랜더링
-	{
+		// 랜더링 파이프라인이 하나가 돌고
+		// 이안에 세팅정보가 존재하겠죠?
 		GameEngineDevice::RenderStart();
+
+		// 매프레임마다 세팅해줘야 하는게 되죠?
+		// 
 		Pipe->Rendering();
 		GameEngineDevice::RenderEnd();
 	}
