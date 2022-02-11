@@ -34,6 +34,9 @@
     <Filter Include="Resources\ShaderCode">
       <UniqueIdentifier>{1ef640ca-f82d-4394-bc09-4ac388dc25d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\01Shader\ShaderResources">
+      <UniqueIdentifier>{29332327-5488-4f13-ba5d-80b91f0f667c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -101,6 +104,15 @@
     <ClInclude Include="GameEngineShader.h">
       <Filter>Resources\01Shader</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <Filter>Resources\01Shader\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBufferManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingSettingData.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -164,6 +176,15 @@
     </ClCompile>
     <ClCompile Include="GameEngineShader.cpp">
       <Filter>Resources\01Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <Filter>Resources\01Shader\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineConstantBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingSettingData.cpp">
+      <Filter>RenderingPipeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,11 +3,13 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 #include "GameEngineDevice.h"
+#include "GameEngine/GameEngineConstantBuffer.h"
 
-class ConstanceBuffer
-{
-
-};
+//enum ShaderType;
+//{
+//	VS,
+//	PS
+//};
 // Ό³Έν :
 class GameEngineShader : public GameEngineObjectNameBase
 {
@@ -40,7 +42,12 @@ public:
 	void ResCheck();
 
 private:
-	std::map<std::string, ConstanceBuffer> ConstanceBuffer;
+	std::map<unsigned int, GameEngineConstantBuffer*> ConstanceBuffer_;
 
+public:
+	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstanceBuffer()
+	{
+		return ConstanceBuffer_;
+	}
 };
 
