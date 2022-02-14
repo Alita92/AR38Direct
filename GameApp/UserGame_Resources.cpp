@@ -202,13 +202,17 @@ void UserGame::ResourcesLoad()
 
 		// 이런 기본적인 vertex들이 있다.
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		// 그 Vertex 정보들을 GPU에게 그 레이아웃을 설명해준다.
 		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS"); 
 
-		// 그 vertex을 이렇게 위치시키겠다.
+		// 버텍스 쉐이더 상수값을 가질 상수 버퍼를 세팅해준다.
+		// 다만 현재 Color_VS 가 해주는 건 따로 없음... 걍 항등행렬임...
 		Pipe->SetVertexShader("Color_VS");
 
-		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
+		// 리소스에서 "Rect" 이름의 인덱스 버퍼를 가져와 세팅한다.
 		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
+
+		// 프리미티브를 세팅해준다
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// 헐 테셀레이션 도메인 지오메트리는 있으면 적용되고 없어도 필수는 아니다. 
@@ -225,9 +229,10 @@ void UserGame::ResourcesLoad()
 		// 애는 게임에서 좀 많이 쓸모있음.
 
 		// 그리리기한 면혹은 선 등등에 겹치는 모니터의 픽셀들을 추출하겠다. 
-		// 레스터라이터라이저
+		// 레스터라이저를 세팅해 기설정된 뷰 포트를 적용해준다
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 
+		// 픽셀셰이더의 상수값을 가질 상수 버퍼를 세팅해준다
 		Pipe->SetPixelShader("Color_PS");
 	}
 

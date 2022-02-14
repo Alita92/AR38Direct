@@ -1,9 +1,10 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectBase.h>
-
+#include "GameEngineLevel.h"
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class GameEngineLevel;
 class GameEngineCore : public GameEngineObjectBase
 {
 public:
@@ -59,11 +60,26 @@ public:
 protected:
 	virtual void Initialize() = 0;
 	virtual void ResourcesLoad() = 0;
-	virtual void GameLoop() = 0;
+
 	virtual void Release() = 0;
 
 public:
 	virtual float4 StartWindowSize() = 0;
 	virtual float4 StartWindowPos() = 0;
+
+
+
+	////////////////////////////////////// Level
+
+public:
+	static void LevelCreate(const std::string& _Level);
+	static void LevelChange(const std::string& _Level);
+	static GameEngineLevel* LevelFind(const std::string& _Level);
+
+private:
+	static GameEngineLevel* NextLevel_;
+	static GameEngineLevel* CurrentLevel_;
+	static std::map<std::string, GameEngineLevel*> AllLevel_;
+
 };
 
