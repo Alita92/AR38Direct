@@ -29,7 +29,7 @@ struct TransformData
 };
 
 float4 Pos;
-TransformData TransData;
+TransformData TransData; // 상수 버퍼(예시)
 
 
 void UserGame::Initialize()
@@ -62,6 +62,13 @@ void UserGame::GameLoop()
 	{
 		Pos.x += 0.001f;
 		TransData.World.Translation(Pos);
+
+
+		//		만약 Initialize() 에서 파이프라인의 상수 버퍼 세팅을 "Set" 으로 했다면?
+		//		Pipe->ShaderHelper.SettingConstantBufferSet("TransformData", TransData);
+		//		루프마다 이걸 계속 프레임마다 실행해서 초기화를 해 주어야 한다
+		//		왜냐? 상수 버퍼값이 Set은 처음 설정한 값으로 고정이 되어버렸기 때문에... 변형된 TransData 로 계속 초기화를 해 주어야 한다.
+		//		Link 는 그냥 포인터로 연동이 되어 있어서 실시간으로 업데이트가 가능하다...
 
 
 		// 랜더링 파이프라인이 하나가 돌고
