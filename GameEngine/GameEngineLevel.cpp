@@ -7,9 +7,23 @@ GameEngineLevel::GameEngineLevel()
 
 GameEngineLevel::~GameEngineLevel()
 {
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			if (nullptr != Actor)
+			{
+				delete Actor;
+				Actor = nullptr;
+			}
+
+		}
+	}
 }
 
-void GameEngineLevel::Update(float _DeltaTime)
+void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{

@@ -6,6 +6,9 @@
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderingPipeLine.h>
 
+#include "TitleLevel.h"
+#include "PlayLevel.h"
+
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
 
@@ -20,6 +23,8 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 {
 
 }
+
+
 
 struct TransformData
 {
@@ -37,33 +42,27 @@ public:
 	}
 };
 
-
-float4 Pos;
-TransformData TransData; // 상수 버퍼(예시)
-
+//float4 Pos;
+//TransformData TransData;
 
 void UserGame::Initialize()
 {
-	TransData.View.ViewToLH({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f , 1.0f }, { 0.0f, 1.0f , 0.0f });
+	//TransData.View.ViewToLH( { 0.0f, 0.0f, -10.0f }, {0.0f, 0.0f , 1.0f}, {0.0f, 1.0f , 0.0f});
 
-	TransData.Proj.OrthographicLH(1280.f, 720.f, 0.1f, 1000.0f);
-
-
-	TransData.Scale.Scaling2D(200.0f);
-	TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
-	TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
-	TransData.CalWorld();
+	//TransData.Proj.OrthographicLH( 1280.f, 720.f, 0.1f, 1000.0f );
 
 
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
-	// cpu의 데이터와 상수버퍼를 연결한다.
+	//TransData.Scale.Scaling2D(200.0f);
+	//TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
+	//TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
+	//TransData.CalWorld();
 
-	Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
+	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
+	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
-
-	// Pipe->ShaderHelper.SettingConstantBufferLink("TransformData222", TransData);
-	// cpu의 데이터와 상수버퍼를 한번 복사한다.
-	// Pipe->ShaderHelper.SettingConstantBufferSet("TransformData", TransData);
+	LevelCreate<TitleLevel>("Title");
+	LevelCreate<PlayLevel>("Play");
+	LevelChange("Play");
 
 	return;
 }
@@ -73,23 +72,15 @@ void UserGame::Release()
 
 }
 
-float4 vPos = { 0.0f, 0.0f , 0.0f };
-float4 vRot = { 0.0f, 0.0f , 0.0f };
-float4 vScale = { 1.0f, 1.0f , 1.0f };
 
+//
 //void UserGame::GameLoop()
 //{
 //	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
 //	{
 //		Pos.x += 0.001f;
-//		TransData.World.Translation(Pos);
-//
-//
-//		//		만약 Initialize() 에서 파이프라인의 상수 버퍼 세팅을 "Set" 으로 했다면?
-//		//		Pipe->ShaderHelper.SettingConstantBufferSet("TransformData", TransData);
-//		//		루프마다 이걸 계속 프레임마다 실행해서 초기화를 해 주어야 한다
-//		//		왜냐? 상수 버퍼값이 Set은 처음 설정한 값으로 고정이 되어버렸기 때문에... 변형된 TransData 로 계속 초기화를 해 주어야 한다.
-//		//		Link 는 그냥 포인터로 연동이 되어 있어서 실시간으로 업데이트가 가능하다...
+//		TransData.Position.Translation(Pos);
+//		TransData.CalWorld();
 //
 //
 //		// 랜더링 파이프라인이 하나가 돌고
@@ -102,4 +93,5 @@ float4 vScale = { 1.0f, 1.0f , 1.0f };
 //		GameEngineDevice::RenderEnd();
 //	}
 //}
-
+//
+//

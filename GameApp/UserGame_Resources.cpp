@@ -1,241 +1,70 @@
-#include "PreCompile.h"
-#include "UserGame.h"
-#include "CustomVertex.h"
+#include "Precompile.h"
 #include "UserGame_Resources_Shader.h"
 
-
-void UserGame::ResourcesLoad()
+void AppShaderLoad()
 {
+
+	GameEngineDirectory Dir;
+	Dir.MoveParent("AR38");
+	Dir.MoveChild("Resources");
+	Dir.MoveChild("Shader");
+
+	std::vector<GameEngineFile> AllShader = Dir.GetAllFile("fx");
+
+	for (auto& ShaderFile : AllShader)
 	{
-		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("AR38Direct");
-		SoundDir.MoveChild("Resources");
-		SoundDir.MoveChild("Sound");
+		ShaderFile.Open("rt");
 
-		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("mp3");
+		std::string FileName = ShaderFile.GetFileNameWithOutExtension();
+		std::string AllCode = ShaderFile.GetString();
 
-		for (size_t i = 0; i < AllFile.size(); i++)
+		if (std::string::npos != AllCode.find(FileName + "_VS"))
 		{
-			GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
-		}
-	}
-
-	AppShaderLoad();
-
-	{
-		// 각자 물체가 각자의 크기와 회전값을 가진 세상
-		// 로컬스페이스
-
-		// 로컬세상에 있는 물체를 우리가 원하는 대로 변형하고
-		// 위치시키고 인식합니다.
-		// 월드스페이스
-
-		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4 * 6);
-
-		{
-			// 정육면체의 버텍스 모음
-
-			RectVertex[0] = { float4({ -0.5f, 0.5f, 0.5f }) };
-			RectVertex[1] = { float4({ 0.5f, 0.5f, 0.5f }) };
-			RectVertex[2] = { float4({ 0.5f, -0.5f, 0.5f }) };
-			RectVertex[3] = { float4({ -0.5f, -0.5f, 0.5f }) };
-
-			RectVertex[4] = { float4::RotateXDegree(RectVertex[0].Postion, 180.0f) };
-			RectVertex[5] = { float4::RotateXDegree(RectVertex[1].Postion, 180.0f) };
-			RectVertex[6] = { float4::RotateXDegree(RectVertex[2].Postion, 180.0f) };
-			RectVertex[7] = { float4::RotateXDegree(RectVertex[3].Postion, 180.0f) };
+			GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Load(FileName + "_VS", ShaderFile.GetFullPath(), FileName + "_VS");
 		}
 
+		if (std::string::npos != AllCode.find(FileName + "_PS"))
 		{
-			RectVertex[8] = { float4::RotateYDegree(RectVertex[0].Postion, 90.0f) };
-			RectVertex[9] = { float4::RotateYDegree(RectVertex[1].Postion, 90.0f) };
-			RectVertex[10] = { float4::RotateYDegree(RectVertex[2].Postion, 90.0f) };
-			RectVertex[11] = { float4::RotateYDegree(RectVertex[3].Postion, 90.0f) };
-
-			RectVertex[12] = { float4::RotateYDegree(RectVertex[0].Postion, -90.0f) };
-			RectVertex[13] = { float4::RotateYDegree(RectVertex[1].Postion, -90.0f) };
-			RectVertex[14] = { float4::RotateYDegree(RectVertex[2].Postion, -90.0f) };
-			RectVertex[15] = { float4::RotateYDegree(RectVertex[3].Postion, -90.0f) };
+			GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
 		}
 
-		{
-			RectVertex[16] = { float4::RotateXDegree(RectVertex[0].Postion, 90.0f) };
-			RectVertex[17] = { float4::RotateXDegree(RectVertex[1].Postion, 90.0f) };
-			RectVertex[18] = { float4::RotateXDegree(RectVertex[2].Postion, 90.0f) };
-			RectVertex[19] = { float4::RotateXDegree(RectVertex[3].Postion, 90.0f) };
-
-			RectVertex[20] = { float4::RotateXDegree(RectVertex[0].Postion, -90.0f) };
-			RectVertex[21] = { float4::RotateXDegree(RectVertex[1].Postion, -90.0f) };
-			RectVertex[22] = { float4::RotateXDegree(RectVertex[2].Postion, -90.0f) };
-			RectVertex[23] = { float4::RotateXDegree(RectVertex[3].Postion, -90.0f) };
-		}
-
-		GameEngineVertexBufferManager::GetInst().Create("Box", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-		// 버텍스 버퍼 생성해 지름 0.5 크기의 박스의 버텍스 정보를 저장. 이름은 "Box"
-	}
-
-	{
-		std::vector<UINT> RectIndex;
-
-		for (int i = 0; i < 6; i++)
-		{
-			RectIndex.push_back(i * 4 + 0);
-			RectIndex.push_back(i * 4 + 1);
-			RectIndex.push_back(i * 4 + 2);
-
-			RectIndex.push_back(i * 4 + 0);
-			RectIndex.push_back(i * 4 + 2);
-			RectIndex.push_back(i * 4 + 3);
-		}
-
-		GameEngineIndexBufferManager::GetInst().Create("Box", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-		// 인덱스 버퍼 생성해 "Box" 의 버텍스의 연결 순서의 정보를 저장. 
-	}
-
-	// 각자 물체가 각자의 크기와 회전값을 가진 세상
-// 로컬스페이스
-
-// 로컬세상에 있는 물체를 우리가 원하는 대로 변형하고
-// 위치시키고 인식합니다.
-// 월드스페이스
-
-
-	{
-		// 사각형 면의 버텍스 모음 
-		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
-
-		{
-			// 앞면
-			RectVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }) };
-			RectVertex[1] = { float4({ 0.5f, 0.5f, 0.0f }) };
-			RectVertex[2] = { float4({ 0.5f, -0.5f, 0.0f }) };
-			RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }) };
-		}
-
-		// 버텍스 버퍼 이름 "Rect" 로 버퍼를 생성한다.
-		GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-	}
-
-	{
-		std::vector<UINT> RectIndex;
-
-		RectIndex.push_back(0);
-		RectIndex.push_back(1);
-		RectIndex.push_back(2);
-
-		RectIndex.push_back(0);
-		RectIndex.push_back(2);
-		RectIndex.push_back(3);
-
-		// "Rect" 역시 인덱스 버퍼를 생성한다.
-		GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-	}
-
-	{
-		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
-
-		{
-			// 앞면
-			RectVertex[0] = { float4({ -1.0f, 1.0f, 0.0f }) };
-			RectVertex[1] = { float4({ 1.0f, 1.0f, 0.0f }) };
-			RectVertex[2] = { float4({ 1.0f, -1.0f, 0.0f }) };
-			RectVertex[3] = { float4({ -1.0f, -1.0f, 0.0f }) };
-		}
-		// 화면을 덮는 크기의 큰 사각형의 버텍스 버퍼 생성. 이름 : "FullRect"
-		GameEngineVertexBufferManager::GetInst().Create("FullRect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
 
 
-	{
-		std::vector<UINT> RectIndex;
+	// GameEngineVertexShaderManager::GetInst().Load(Dir.PathToPlusFileName("Color.fx"), "Color_VS");
 
-		RectIndex.push_back(0);
-		RectIndex.push_back(1);
-		RectIndex.push_back(2);
+	//{
+	//	// Color.fx
 
-		RectIndex.push_back(0);
-		RectIndex.push_back(2);
-		RectIndex.push_back(3);
-		
-		GameEngineIndexBufferManager::GetInst().Create("FullRect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
-	}
+	//	std::string ShaderCode =
+	//		"\
+	//		float4 StartVertexShader( float4 pos : POSITION ) : SV_POSITION\n \
+	//		{\n \
+	//			return pos;\n\
+	//		}\n\
+	//		";
 
+	//	GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Create("StartVertexShader", ShaderCode);
 
+	//	//Ptr->AddInputLayOut("TEXCOORD", 0, 0,DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+	//	//Ptr->AddInputLayOut("POSTION", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
+	//	//Ptr->AddInputLayOut("COLOR", 0, 16, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA);
 
-	{
-		// 레스터라이저의 설정값에 대한 정보 리소스입니다.
-		D3D11_RASTERIZER_DESC Info = { D3D11_FILL_MODE::D3D11_FILL_SOLID, };
-		// FillMode : 솔리드/와이어 프레임 중 하나를 선택합니다.
-		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+	//}
 
-		// 무조건그려라
-		// Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
-		// 시계반대방향으로 그려진것들을 그려라
-		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
-		Info.AntialiasedLineEnable = true;
-		Info.MultisampleEnable = true;
+	//{
 
-		//// 화면 바깥에 나간 면들을 잘라낸다.
-		// Info.FrontCounterClockwise = true;
-		//Info.ScissorEnable = true;
-		//Info.SlopeScaledDepthBias = 0;
+	//	// 도화지가 한장 대져있죠?
+	//	std::string ShaderCode =
+	//		"\
+	//		float4 StartPixelShader( float4 pos : SV_POSITION ) : SV_Target0\n \
+	//		{\n \
+	//			return float4(1.0f, 0.0f, 0.0f, 1.0f);\n\
+	//		}\n\
+	//		";
 
-		//// 깊이관련은 추후 설명할겁니다.
-		//// 깊이버퍼를 설명하고 들어야 합니다.
-		//Info.DepthBias = 0;
-		//Info.DepthBiasClamp = 0;
-		//Info.DepthClipEnable = FALSE;
-		//Info.MultisampleEnable = TRUE;
-
-		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
-		// 기설정된 설정값을 적용하는 레스터라이저 객체의 생성
-
-		Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-		// 레스터라이저 객체의 뷰 포트 설정 : 관찰자의 위치와 보는 범위 설정
-		
-	}
-
-
-	{
-		// 상기의 리소스(셰이더코드 포함) 을 사용하는 일련의 렌더링 파이프라인 구성
-		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("ColorRendering");
-
-		// 이런 기본적인 vertex들이 있다.
-		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
-		// 그 Vertex 정보들을 GPU에게 그 레이아웃을 설명해준다.
-		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS"); 
-
-		// 버텍스 쉐이더 상수값을 가질 상수 버퍼를 세팅해준다.
-		// 다만 현재 Color_VS 가 해주는 건 따로 없음... 걍 항등행렬임...
-		Pipe->SetVertexShader("Color_VS");
-
-		// 리소스에서 "Rect" 이름의 인덱스 버퍼를 가져와 세팅한다.
-		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
-
-		// 프리미티브를 세팅해준다
-		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		// 헐 테셀레이션 도메인 지오메트리는 있으면 적용되고 없어도 필수는 아니다. 
-		// vertex을 더 쪼갤건데 준비를 하겠다. 
-		// 헐
-		// 
-		// 헐에서 정한대로 vertex를 더 쪼갠다.
-		// 테셀레이션 
-		// 
-		// 그 더 쪼갠 vertex들을 수정하겠다.
-		// 도메인 
-		// 
-		// 지오메트리 완전히 새로운 vertex들을 또 만들겠다.
-		// 애는 게임에서 좀 많이 쓸모있음.
-
-		// 그리리기한 면혹은 선 등등에 겹치는 모니터의 픽셀들을 추출하겠다. 
-		// 레스터라이저를 세팅해 기설정된 뷰 포트를 적용해준다
-		Pipe->SetRasterizer("EngineBaseRasterizer");
-
-		// 픽셀셰이더의 상수값을 가질 상수 버퍼를 세팅해준다
-		Pipe->SetPixelShader("Color_PS");
-	}
-
+	//	GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Create("StartPixelShader", ShaderCode);
+	//}
 
 
 }

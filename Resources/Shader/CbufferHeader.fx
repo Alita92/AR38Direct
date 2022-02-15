@@ -1,16 +1,21 @@
 
 cbuffer TransformData : register(b0)
 {
-    float4x4 Scale;
+    float4 vWorldTranslation;
+    float4 vWorldRotation;
+    float4 vWorldScaling;
+
+    float4 vLocalTranslation;
+    float4 vLocalRotation;
+    float4 vLocalScaling;
+
+    float4x4 Scaling;
     float4x4 Rotation;
-    float4x4 Position;
+    float4x4 Translation;
+    float4x4 Revolve;
+    float4x4 Parent;
     float4x4 World;
     float4x4 View;
     float4x4 Projection;
 };
 
-
-// SV : System Value, "의미 체계"
-// 
-// SV_POSITION : Vertex Output -> Pixel Shader 의 이동 간 사용하는 시멘틱
-// SV_Target : 픽셀 셰이더를 보낼 렌더 타겟 위치의 Sementic Name
