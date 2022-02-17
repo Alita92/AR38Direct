@@ -1,3 +1,4 @@
+#include "PreCompile.h"
 #include "GameEngineTransformComponent.h"
 #include "GameEngineTransform.h"
 
@@ -15,5 +16,4 @@ void GameEngineTransformComponent::InitComponent(GameEngineActor* Actor_)
 
 	Transform = new GameEngineTransform();
 
-	Transform->
 }

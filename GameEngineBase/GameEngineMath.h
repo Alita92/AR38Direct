@@ -72,28 +72,33 @@ public:
 	}
 
 
+	static float4 Rotate3DDegree(const float4& _Vector, const float4& _OriginAngle)
+	{
+		float4 ResultVector = _Vector;
+		ResultVector.Rotate3DDegree(_OriginAngle);
+		return ResultVector;
+	}
 
 
-
-	static float4 RotateYDegree(float4 _OriginVector, float _Degree)
+	static float4 RotateYDegree(const float4& _OriginVector, float _Degree)
 	{
 		return RotateYRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
-	static float4 RotateYRadian(float4 _OriginVector, float _Radian);
+	static float4 RotateYRadian(const float4& _OriginVector, float _Radian);
 
-	static float4 RotateXDegree(float4 _OriginVector, float _Degree)
+	static float4 RotateXDegree(const float4& _OriginVector, float _Degree)
 	{
 		return RotateXRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	static float4 RotateXRadian(float4 _OriginVector, float _Radian);
+	static float4 RotateXRadian(const float4& _OriginVector, float _Radian);
 
-	static float4 RotateZDegree(float4 _OriginVector, float _Degree)
+	static float4 RotateZDegree(const float4& _OriginVector, float _Degree)
 	{
 		return RotateZRadian(_OriginVector, _Degree * GameEngineMath::DegreeToRadian);
 	}
 
-	static float4 RotateZRadian(float4 _OriginVector, float _Radian);
+	static float4 RotateZRadian(const float4& _OriginVector, float _Radian);
 
 	static float4 DirZDegree(float _Degree)
 	{
@@ -317,6 +322,12 @@ public:
 		return;
 	}
 
+	float4& Rotate3DDegree(const float4& _Angle)
+	{
+		DirectVector = DirectX::XMVector3Rotate(DirectVector, DirectX::XMQuaternionRotationRollPitchYawFromVector(_Angle.DirectVector));
+		return *this;
+	}
+
 
 public:
 	float4()
@@ -506,7 +517,7 @@ public:
 		DirectMatrix = DirectX::XMMatrixScalingFromVector(float4(_Value, _Value, _Value).DirectVector);
 	}
 
-	void Scaling(const float4& _Value)
+	void Scaling(const float4& _Value) 
 	{
 		DirectMatrix = DirectX::XMMatrixScalingFromVector(_Value.DirectVector);
 	}
@@ -755,6 +766,13 @@ public:
 	float4x4 operator*(const float4x4& _value)
 	{
 		return DirectX::XMMatrixMultiply(DirectMatrix, _value.DirectMatrix);
+	}
+
+	float4x4& operator*=(const float4x4& _value)
+	{
+		DirectMatrix = DirectX::XMMatrixMultiply(DirectMatrix, _value.DirectMatrix);
+
+		return *this;
 	}
 
 	float4x4& operator=(const float4x4& _value)
