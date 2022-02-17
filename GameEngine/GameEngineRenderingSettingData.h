@@ -22,8 +22,6 @@ public:
 	char* SettingData_;
 	size_t SettingDataSize_;
 	int SettingIndex_;
-	// 이번프레임에 setting을 해줬느냐 말았느냐.
-	bool IsSet_;
 
 public:
 	void Clear()

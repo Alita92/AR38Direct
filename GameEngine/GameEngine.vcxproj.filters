@@ -46,6 +46,9 @@
     <Filter Include="Object\Component\Transform">
       <UniqueIdentifier>{57ea139c-7034-4302-85c0-b88cf3091872}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Renderer">
+      <UniqueIdentifier>{6fa4fa92-c3c9-4788-849e-7fa5211aff9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -140,6 +143,9 @@
     <ClInclude Include="GameEngineTransform.h">
       <Filter>Object\Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderer.h">
+      <Filter>Object\Component\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -230,6 +236,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineTransform.cpp">
       <Filter>Object\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderer.cpp">
+      <Filter>Object\Component\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

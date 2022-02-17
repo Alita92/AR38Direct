@@ -13,7 +13,7 @@ class GameEngineConstantBuffer;
 // 설명 :
 class GameEngineShaderResHelper
 {
-	/////////////////////////////////// 쉐이더 세팅 데이터들을 관리하고, CPU -> GPU로 넘겨주는 작업을 해 준다.
+	/////////////////////////////////// 쉐이더 세팅 데이터들
 
 public:
 	// constrcuter destructer
@@ -33,12 +33,14 @@ public:
 	// 그 주소값을 지속적으로 계속 세팅해주는 모드를 말한다.
 	// 한번 세팅해주면 넣어준 주소값의 위치가 파괴되기전까지는 여러분들은 신경쓸 필요가 없다.
 
+	bool IsConstantBuffer(const std::string& _SettingName);
+
 	template<typename T>
 	void SettingConstantBufferLink(const std::string& _SettingName, T& _Data)
 	{
-		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllSettingData_.find(_SettingName);
+		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
 
-		if (FindIter == AllSettingData_.end())
+		if (FindIter == AllConstantBufferData_.end())
 		{
 			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 			return;
@@ -56,9 +58,9 @@ public:
 	template<typename T>
 	void SettingConstantBufferSet(const std::string& _SettingName, const T& _Data)
 	{
-		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllSettingData_.find(_SettingName);
+		std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferData_.find(_SettingName);
 
-		if (FindIter == AllSettingData_.end())
+		if (FindIter == AllConstantBufferData_.end())
 		{
 			GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 			return;
@@ -86,7 +88,7 @@ public:
 protected:
 
 private:
-	std::map<std::string, GameEngineConstantBufferSetting*> AllSettingData_;
+	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferData_;
 
 
 };

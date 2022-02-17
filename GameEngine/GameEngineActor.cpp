@@ -2,6 +2,7 @@
 #include "GameEngineActor.h"
 #include "GameEngineLevel.h"
 #include "GameEngineTransform.h"
+#include "GameEngineTransformComponent.h"
 
 GameEngineActor::GameEngineActor()
 	: Level_(nullptr)
@@ -16,6 +17,24 @@ GameEngineActor::~GameEngineActor()
 	{
 		delete Transform_;
 		Transform_ = nullptr;
+	}
+
+	for (auto& Component : ComponentList_)
+	{
+		if (nullptr != Component)
+		{
+			delete Component;
+			Component = nullptr;
+		}
+	}
+
+	for (auto& TransformComponent : TransformComponentList_)
+	{
+		if (nullptr != TransformComponent)
+		{
+			delete TransformComponent;
+			TransformComponent = nullptr;
+		}
 	}
 }
 
