@@ -1,15 +1,16 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectBase.h>
 #include "GameEngineLevel.h"
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
 class GameEngineLevel;
 class GameEngineCore : public GameEngineObjectBase
 {
-public:
-	void EngineDestroy();
+private:
 	void EngineInitialize();
+	void EngineDestroy();
 
 protected:
 	GameEngineCore(); // default constructer 디폴트 생성자
@@ -60,7 +61,6 @@ public:
 protected:
 	virtual void Initialize() = 0;
 	virtual void ResourcesLoad() = 0;
-
 	virtual void Release() = 0;
 
 public:
@@ -82,6 +82,7 @@ public:
 		}
 
 		AllLevel_.insert(std::make_pair(_Level, new LevelType()));
+		AllLevel_[_Level]->Init();
 		AllLevel_[_Level]->LevelStart();
 	}
 	static void LevelChange(const std::string& _Level);

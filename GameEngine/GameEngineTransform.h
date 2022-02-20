@@ -25,6 +25,13 @@ public:
 	float4x4 Projection_;
 
 public:
+	TransformData()
+		: vWorldScaling_(float4::ONE)
+		, vLocalScaling_(float4::ONE)
+	{
+
+	}
+
 	void LocalCalculation()
 	{
 		LocalScaling_.Scaling(vLocalScaling_);
@@ -72,6 +79,28 @@ public:
 
 	void TransformUpdate();
 
+	float4 GetLocalScaling() { return TransformData_.vLocalScaling_; }
+	float4 GetWorldScaling() { return TransformData_.vWorldScaling_; }
+	float4 GetLocalRotation() { return TransformData_.vLocalRotation_; }
+	float4 GetWorldRotation() { return TransformData_.vWorldRotation_; }
+	float4 GetLocalPosition() { return TransformData_.vLocalPosition_; }
+	float4 GetWorldPosition() { return TransformData_.vWorldPosition_; }
+
+	// [1][0][0][0]
+	// [0][1][0][0]
+	// [0][0][1][0]
+	// [0][0][0][1]
+
+	// 방향 벡터값 (정규화 완료)
+	float4 GetWorldForwardVector() { return TransformData_.WorldWorld_.vz.NormalizeReturn3D(); }
+	float4 GetLocalForwardVector() { return TransformData_.LocalWorld_.vz.NormalizeReturn3D(); }
+	float4 GetWorldRightVector() { return TransformData_.WorldWorld_.vx.NormalizeReturn3D(); }
+	float4 GetLocalRightVector() { return TransformData_.LocalWorld_.vx.NormalizeReturn3D(); }
+	float4 GetWorldUpVector() { return TransformData_.WorldWorld_.vy.NormalizeReturn3D(); }
+	float4 GetLocalUpVector() { return TransformData_.LocalWorld_.vy.NormalizeReturn3D(); }
+
+
+
 	void SetLocalScaling(const float4& _Value);
 	void SetWorldScaling(const float4& _Value);
 
@@ -87,12 +116,12 @@ public:
 
 	TransformData& GetTransformData()
 	{
-		return TransData_;
+		return TransformData_;
 	}
 
 
 protected:
-	TransformData TransData_;
+	TransformData TransformData_;
 
 	GameEngineTransform* Parent_;
 	std::list<GameEngineTransform*> Childs_;

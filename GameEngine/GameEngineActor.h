@@ -52,12 +52,13 @@ public:
 		ComponentList_.push_back(NewComponent);
 
 		NewComponent->Start();
-		return dynamic_cast<ComponentType*>(NewComponent);;
+		return dynamic_cast<ComponentType*>(NewComponent);
 	}
 
 protected:
-	virtual void Start() = 0;
-	virtual void Update(float _DeltaTime) = 0;
+	virtual void Start() {}
+	virtual void TransformUpdate();
+	virtual void Update(float _DeltaTime) {}
 
 	// 트랜스폼을 변화시킨다는걸 기본적으로 생각할겁니다.
 
@@ -79,5 +80,7 @@ private:
 	std::list<GameEngineTransformComponent*> TransformComponentList_;
 
 	void SetLevel(GameEngineLevel* Level);
+
+	void UpdateComponent();
 };
 

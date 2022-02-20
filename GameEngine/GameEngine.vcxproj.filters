@@ -49,6 +49,12 @@
     <Filter Include="Object\Component\Renderer">
       <UniqueIdentifier>{6fa4fa92-c3c9-4788-849e-7fa5211aff9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Camera">
+      <UniqueIdentifier>{d97354b9-38f1-455c-9e89-ea39f48a1a5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\SubActor">
+      <UniqueIdentifier>{4fda44ea-f0a6-4eb0-8413-ea4c9c080231}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -146,6 +152,12 @@
     <ClInclude Include="GameEngineRenderer.h">
       <Filter>Object\Component\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Object\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraActor.h">
+      <Filter>Object\SubActor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -240,10 +252,11 @@
     <ClCompile Include="GameEngineRenderer.cpp">
       <Filter>Object\Component\Renderer</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>Resources\ShaderCode</Filter>
-    </FxCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Object\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraActor.cpp">
+      <Filter>Object\SubActor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

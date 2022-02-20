@@ -24,9 +24,10 @@ public:
 
 protected:
 	GameEngineRenderingPipeLine* PipeLine_;
-
+	// 세팅해 줄 파이프라인을 알아야 한다.
 private:
-	void Start();
+	void Start() override;
+	void Update() override;
 
 	virtual void Render();
 

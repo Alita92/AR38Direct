@@ -14,6 +14,7 @@ class float4
 {
 public:
 	static const float4 ZERO;
+	static const float4 ONE;
 	static const float4 LEFT;
 	static const float4 RIGHT;
 	static const float4 UP;
@@ -517,7 +518,7 @@ public:
 		DirectMatrix = DirectX::XMMatrixScalingFromVector(float4(_Value, _Value, _Value).DirectVector);
 	}
 
-	void Scaling(const float4& _Value) 
+	void Scaling(const float4& _Value)
 	{
 		DirectMatrix = DirectX::XMMatrixScalingFromVector(_Value.DirectVector);
 	}
@@ -676,9 +677,9 @@ public:
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
-	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewToLH(const float4& _EyePos, const float4& _EyeDir, const float4& _EyeUp)
 	{
-		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeDir.DirectVector, _EyeUp.DirectVector);
 	}
 
 	void PerspectiveFovLH(
