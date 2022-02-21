@@ -20,14 +20,14 @@ float4 Color_VS(float4 pos : POSITION) : SV_POSITION
 }
 
 
+cbuffer ResultColor : register(b0)
+{
+    float4 vColor;
+};
+
 float4 Color_PS(float4 pos : SV_POSITION) : SV_Target0
 {
-    return float4(1.0f, 0.0f, 0.0f, 1.0f);
+    return vColor;
 }
 
 
-
-// SV : System Value, "의미 체계"
-// 
-// SV_POSITION : Vertex Output -> Pixel Shader 의 이동 간 사용하는 시멘틱
-// SV_Target : 픽셀 셰이더를 보낼 렌더 타겟 위치의 Sementic Name

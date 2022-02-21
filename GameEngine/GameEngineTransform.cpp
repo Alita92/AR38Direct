@@ -227,3 +227,4 @@ void GameEngineTransform::AttachTransform(GameEngineTransform* _Transform)
 	Parent_ = _Transform;
 	Parent_->Childs_.push_back(this);
 }
+

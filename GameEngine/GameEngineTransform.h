@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineComponent.h"
+#include <GameEngineBase/GameEngineTime.h>
 
 class TransformData
 {
@@ -91,7 +92,6 @@ public:
 	// [0][0][1][0]
 	// [0][0][0][1]
 
-	// 방향 벡터값 (정규화 완료)
 	float4 GetWorldForwardVector() { return TransformData_.WorldWorld_.vz.NormalizeReturn3D(); }
 	float4 GetLocalForwardVector() { return TransformData_.LocalWorld_.vz.NormalizeReturn3D(); }
 	float4 GetWorldRightVector() { return TransformData_.WorldWorld_.vx.NormalizeReturn3D(); }
@@ -108,8 +108,41 @@ public:
 	void SetLocalRotation(const float4& _Value);
 	void SetWorldRotation(const float4& _Value);
 
+	void SetLocalDeltaTimeRotation(const float4& _Value)
+	{
+		SetLocalRotation(TransformData_.vLocalRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+	void SetWorldDeltaTimeRotation(const float4& _Value)
+	{
+		SetWorldRotation(TransformData_.vWorldRotation_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+
+
 	void SetLocalPosition(const float4& _Value);
 	void SetWorldPosition(const float4& _Value);
+
+	void SetLocalMove(const float4& _Value)
+	{
+		SetLocalPosition(TransformData_.vLocalPosition_ + _Value);
+	}
+
+	void SetWorldMove(const float4& _Value)
+	{
+		SetWorldPosition(TransformData_.vWorldPosition_ + _Value);
+	}
+
+	void SetLocalDeltaTimeMove(const float4& _Value)
+	{
+		SetLocalPosition(TransformData_.vLocalPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
+	void SetWorldDeltaTimeMove(const float4& _Value)
+	{
+		SetWorldPosition(TransformData_.vWorldPosition_ + _Value * GameEngineTime::GetInst().GetDeltaTime());
+	}
+
 
 	void DetachChildTransform(GameEngineTransform* _Child);
 	void AttachTransform(GameEngineTransform* _Transform);

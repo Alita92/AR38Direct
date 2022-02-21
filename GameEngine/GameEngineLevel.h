@@ -53,6 +53,7 @@ public:
 
 	void ActorUpdate(float _DeltaTime);
 	void Render();
+	void Release(float _DeltaTime);
 
 
 

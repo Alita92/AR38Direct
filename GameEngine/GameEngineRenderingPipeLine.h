@@ -2,6 +2,9 @@
 #include <GameEngine/GameEngineDevice.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineShaderResHelper.h"
+
+
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -33,9 +36,19 @@ private:	// member Var
 	GameEngineRenderTarget* RenderTarget_;
 
 public:
-	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
+	inline GameEnginePixelShader* GetPixelShader() const
+	{
+		return PixelShader_;
+	}
+
+	inline GameEngineVertexShader* GetVertexShader() const
+	{
+		return VertexShader_;
+	}
 
 	void SetInputAssembler1InputLayOutSetting(const std::string& _Name);
+
+	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
 
 	void SetVertexShader(const std::string& _Name);
 
@@ -66,7 +79,6 @@ private:		//delete operator
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameEngineRenderingPipeLine& operator=(const GameEngineRenderingPipeLine&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-public:
 	void InputAssembler1();
 	void InputAssembler2();
 	void VertexShader();
@@ -74,9 +86,5 @@ public:
 	void PixelShader();
 
 
-public:
-	GameEngineShaderResHelper ShaderHelper;
-	// 이제 이게 셰이더 리소스 체크를 도울 겁니다.
-	// ResourceCheck(), 상수 버퍼와의 링크와 셋 등
 };
 

@@ -55,6 +55,9 @@
     <Filter Include="Object\SubActor">
       <UniqueIdentifier>{4fda44ea-f0a6-4eb0-8413-ea4c9c080231}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Control">
+      <UniqueIdentifier>{5875078c-d768-4b5f-88ca-076d321e42f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -158,6 +161,9 @@
     <ClInclude Include="CameraActor.h">
       <Filter>Object\SubActor</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineInput.h">
+      <Filter>Control</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -257,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="CameraActor.cpp">
       <Filter>Object\SubActor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineInput.cpp">
+      <Filter>Control</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
