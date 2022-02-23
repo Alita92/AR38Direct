@@ -26,6 +26,12 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="TopUI.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -70,6 +76,12 @@
       <Filter>CustomVertex</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TopUI.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
       <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-	#pragma once
+#pragma once
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineTransformComponent.h"
 
@@ -9,9 +9,11 @@ enum class ProjectionMode
 };
 
 // 설명 :
+class GameEngineRenderer;
 class CameraComponent : public GameEngineTransformComponent
 {
 	friend class CameraActor;
+	friend class GameEngineLevel;
 
 public:
 	// constrcuter destructer
@@ -27,19 +29,29 @@ public:
 		ProjectionMode_ = _ProjectionMode;
 	}
 
+
+	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
+
+
 protected:
 	void Start() override;
 	void Update() override;
 
+
 private:
-	ProjectionMode ProjectionMode_; // 현재 적용되는 투영 스타일(직교/원근)
-	float FovAngleY_; // Y축 시야각
-	float4 CamSize_; // 카메라의 크기(스크린 해상도가 들어간다)
-	float NearZ_; // 최소 가시거리
-	float FarZ_; // 최대 가시거리
+	ProjectionMode ProjectionMode_;
+	float FovAngleY_;
+	float4 CamSize_;
+	float NearZ_;
+	float FarZ_;
 
 
+
+	void Render();
+	void ReleaseRenderer();
 
 	void CameraTransformUpdate();
+
+	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
 };
 
