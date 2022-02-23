@@ -21,7 +21,7 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
+# x64/
 x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -349,6 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-!.ThirdParty\x64\Release\DirectXTex\DirectXTex.lib
-!.ThirdParty\x64\Release\FMOD\fmod.dll
-/ThirdParty/Project
+!.ThirdParty/x64/Release/DirectXTex
+!.ThirdParty/x64/Release/FMOD

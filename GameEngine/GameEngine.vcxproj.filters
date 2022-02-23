@@ -61,6 +61,12 @@
     <Filter Include="Object\Component\Renderer\Sub">
       <UniqueIdentifier>{aba305f6-d858-444c-9bf6-72d7e166de3a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{a4eacf14-63c8-46f1-9954-f0d25f76065e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\DirectXTex">
+      <UniqueIdentifier>{f2ee1c10-b982-4bda-b898-3e6b33d70e0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -282,5 +288,10 @@
     <ClCompile Include="GameEngineImageRenderer.cpp">
       <Filter>Object\Component\Renderer\Sub</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
+      <Filter>Lib\DirectXTex</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
