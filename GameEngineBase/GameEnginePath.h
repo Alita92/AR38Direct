@@ -21,10 +21,12 @@ public:		//delete operator
 	GameEnginePath& operator=(const GameEnginePath&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	static std::string GetFileName(std::string _Path); // 특정 파일의 파일명을 가져온다
-	std::string GetFileName(); // 현재 Path 의 파일명을 가져온다
+	static std::string GetFileName(std::string _Path);
+	std::string GetFileName();
 
 	std::string GetFileNameWithOutExtension();
+
+	std::string GetExtension();
 
 public:		//member Func
 	// 유요한 경로인가 아닌가를 판단하는 함수.

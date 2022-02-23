@@ -9,6 +9,7 @@
 #include "GameEnginePixelShaderManager.h"
 #include "GameEngineRenderTargetManager.h"
 #include "GameEngineTextureManager.h"
+#include "GameEngineSamplerManager.h"
 
 #include "GameEngineRenderingPipeLineManager.h"
 
@@ -20,6 +21,7 @@
 #include "GameEnginePixelShader.h"
 #include "GameEngineRasterizer.h"
 #include "GameEngineTexture.h"
+#include "GameEngineSampler.h"
 
 #include "GameEngineRenderingPipeLine.h"
 
@@ -40,6 +42,7 @@ public:
 		GameEngineRasterizerManager::Destroy();
 		GameEngineRenderTargetManager::Destroy();
 		GameEnginePixelShaderManager::Destroy();
+		GameEngineSamplerManager::Destroy();
 		GameEngineTextureManager::Destroy();
 	}
 };

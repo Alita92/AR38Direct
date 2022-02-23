@@ -92,12 +92,12 @@ GameEngineSoundPlayer* GameEngineSoundManager::CreateSoundPlayer()
 	return  NewSoundplayer;
 }
 
-void GameEngineSoundManager::LoadSound(const std::string& _path)
+void GameEngineSoundManager::Load(const std::string& _path)
 {
-	LoadSound(GameEnginePath::GetFileName(_path), _path);
+	Load(GameEnginePath::GetFileName(_path), _path);
 }
 
-void GameEngineSoundManager::LoadSound(const std::string& _name, const std::string& _path)
+void GameEngineSoundManager::Load(const std::string& _name, const std::string& _path)
 {
 	if (nullptr != FindSound(_name))
 	{

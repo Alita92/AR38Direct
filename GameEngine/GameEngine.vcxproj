@@ -107,6 +107,14 @@
     <ClInclude Include="GameEngineRenderTarget.h" />
     <ClInclude Include="GameEngineRenderTargetManager.h" />
     <ClInclude Include="GameEngineResourcesManager.h" />
+    <ClInclude Include="GameEngineSampler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineSamplerManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineShader.h">
       <SubType>
       </SubType>
@@ -248,6 +256,14 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderTarget.cpp" />
     <ClCompile Include="GameEngineRenderTargetManager.cpp" />
+    <ClCompile Include="GameEngineSampler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineSamplerManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineShader.cpp">
       <SubType>
       </SubType>
@@ -306,6 +322,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\DirectXTex\DirectXTex.lib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
       <FileType>Document</FileType>
     </CopyFileToFolders>

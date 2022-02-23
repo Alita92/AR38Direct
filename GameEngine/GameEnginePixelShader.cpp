@@ -167,3 +167,9 @@ void GameEnginePixelShader::SetConstantBuffers(const GameEngineConstantBufferSet
 	// 한번에 여러개 세팅가능합니다.
 	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
 }
+
+
+void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _Setting)
+{
+	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
+}

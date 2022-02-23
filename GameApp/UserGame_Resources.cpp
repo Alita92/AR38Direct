@@ -16,7 +16,23 @@ void UserGame::ResourcesLoad()
 
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
-			GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
+			GameEngineSoundManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+	{
+		GameEngineDirectory SoundDir;
+		SoundDir.MoveParent("AR38Direct");
+		SoundDir.MoveChild("Resources");
+		SoundDir.MoveChild("Image");
+
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile();
+		
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			// 가져온 모든 리소스를 for 로 타고 다니며 모두 텍스처로 Load 해 준다.
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
 	}
 
@@ -69,6 +85,15 @@ void UserGame::ResourcesLoad()
 			RectVertex[23] = { float4::RotateXDegree(RectVertex[3].Postion, -90.0f) };
 		}
 
+		for (size_t i = 0; i < RectVertex.size(); i+= 4)
+		{
+			RectVertex[i + 0].Texcoord = { 0.0f, 0.0f };
+			RectVertex[i + 1].Texcoord = { 1.0f, 0.0f };
+			RectVertex[i + 2].Texcoord = { 1.0f, 1.0f };
+			RectVertex[i + 3].Texcoord = { 0.0f, 1.0f };
+		} // 모든 버텍스값을 다 구해준 후, 마지막에 반복문으로 UV 처리를 해 주는 방법이다.
+
+
 		GameEngineVertexBufferManager::GetInst().Create("Box", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	}
 
@@ -102,11 +127,11 @@ void UserGame::ResourcesLoad()
 		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
 
 		{
-			// 앞면
-			RectVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }) };
-			RectVertex[1] = { float4({ 0.5f, 0.5f, 0.0f }) };
-			RectVertex[2] = { float4({ 0.5f, -0.5f, 0.0f }) };
-			RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }) };
+			// 하나하나 버텍스값에 UV값을 넣어줌
+			RectVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }),  { 0.0f, 0.0f } };
+			RectVertex[1] = { float4({ 0.5f, 0.5f, 0.0f }),  { 1.0f, 0.0f } };
+			RectVertex[2] = { float4({ 0.5f, -0.5f, 0.0f }),  { 1.0f, 1.0f } };
+			RectVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }),  { 0.0f, 1.0f } };
 		}
 
 		GameEngineVertexBufferManager::GetInst().Create("Rect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);

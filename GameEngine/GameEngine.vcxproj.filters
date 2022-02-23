@@ -67,6 +67,12 @@
     <Filter Include="Lib\DirectXTex">
       <UniqueIdentifier>{f2ee1c10-b982-4bda-b898-3e6b33d70e0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib\DirectXTex\Debug">
+      <UniqueIdentifier>{4c444978-8523-4242-89e4-c7b3bcc0aad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\DirectXTex\Release">
+      <UniqueIdentifier>{affc947a-69ae-4a6a-a0a9-8dc78b991c99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -179,6 +185,12 @@
     <ClInclude Include="GameEngineImageRenderer.h">
       <Filter>Object\Component\Renderer\Sub</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineSampler.h">
+      <Filter>Resources\02Image</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSamplerManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -288,10 +300,19 @@
     <ClCompile Include="GameEngineImageRenderer.cpp">
       <Filter>Object\Component\Renderer\Sub</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineSampler.cpp">
+      <Filter>Resources\02Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSamplerManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\DirectXTex\DirectXTex.lib">
+      <Filter>Lib\DirectXTex\Debug</Filter>
+    </CopyFileToFolders>
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
-      <Filter>Lib\DirectXTex</Filter>
+      <Filter>Lib\DirectXTex\Release</Filter>
     </CopyFileToFolders>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineShader.h"
 #include "GameEngineConstantBufferManager.h"
+#include "GameEngineResourcesManager.h"
 
 GameEngineShader::GameEngineShader(ShaderType _Type)
 	: VersionHigh_(5)
@@ -39,7 +40,7 @@ void GameEngineShader::SetEntryPoint(const std::string& _EntryPoint)
 	EntryPoint_ = _EntryPoint;
 }
 
-void GameEngineShader::ResCheck() //
+void GameEngineShader::ResCheck()
 {
 
 	if (nullptr == CodeBlob_)
@@ -88,9 +89,9 @@ void GameEngineShader::ResCheck() //
 		unsigned int BindPoint = ResInfo.BindPoint;
 		D3D_SHADER_INPUT_TYPE Type = ResInfo.Type;
 
-		switch (Type) // 현재 인풋타임을 스위치문으로 비교해본다..
+		switch (Type)
 		{
-		case D3D_SIT_CBUFFER: // 상수 버퍼로 확인된 경우...
+		case D3D_SIT_CBUFFER:
 		{
 			ID3D11ShaderReflectionConstantBuffer* Buffer = CompilInfo->GetConstantBufferByName(Name.c_str());
 
@@ -108,6 +109,21 @@ void GameEngineShader::ResCheck() //
 			ConstanceBuffer_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
 			break;
 		}
+		case D3D_SIT_SAMPLER:
+		{
+			D3D11_SAMPLER_DESC Smp_Decs;
+			// 뭉개라.
+			Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+			// 딱딱 도트처럼 만들어라
+			Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;
+			// Smp_Decs.AddressU
+
+			// GameEngineSamplerManager::GetInst().Create();
+
+			// ConstanceBuffer_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
+			break;
+		}
+
 		default:
 			GameEngineDebug::MsgBoxError("처리하지 못하는 타입의 쉐이더 리소스가 발견되었습니다");
 			break;

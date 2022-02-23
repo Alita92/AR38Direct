@@ -50,6 +50,8 @@ public:
 
 	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
 
+	void SetTexture(const GameEngineTextureSetting* _Setting) override;
+
 private:
 
 	/// <summary>

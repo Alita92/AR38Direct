@@ -12,6 +12,7 @@ enum class ShaderType
 	MAX
 };
 
+class GameEngineTextureSetting;
 class GameEngineConstantBufferSetting;
 class GameEngineShader : public GameEngineObjectNameBase
 {
@@ -58,5 +59,6 @@ public:
 
 	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
 	// 완전가상함수화 해서... 자식 클래스(VS, PS) 가 무조건! 함수를 가져가야 합니다.
+	virtual void SetTexture(const GameEngineTextureSetting* _Setting) = 0;
 };
 

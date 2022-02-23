@@ -6,6 +6,7 @@
 #include "GameEngineShader.h"
 
 // Ό³Έν :
+class GameEngineTextureSetting;
 class GameEnginePixelShader : public GameEngineShader
 {
 public:
@@ -45,6 +46,8 @@ private:
 	ID3D11PixelShader* Shader_;
 
 	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+
+	void SetTexture(const GameEngineTextureSetting* _Setting) override;
 
 
 };

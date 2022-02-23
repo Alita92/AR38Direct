@@ -3,11 +3,8 @@
 #include <GameEngineBase/GameEngineString.h>
 #include "GameEngineShaderResHelper.h"
 
-
-
 GameEngineVertexShader::GameEngineVertexShader() // default constructer 디폴트 생성자
 	: GameEngineShader(ShaderType::VS)
-
 {
 
 }
@@ -49,8 +46,6 @@ bool GameEngineVertexShader::Create(
 	return StringCompile();
 }
 
-
-
 bool GameEngineVertexShader::Load(
 	const std::string& _Path,
 	const std::string& _EntryPoint,
@@ -67,7 +62,7 @@ bool GameEngineVertexShader::Load(
 }
 
 bool GameEngineVertexShader::FileCompile(const std::string& _Path) {
-	// 쉐이더코드가 위치한 FX파일을 컴파일해줘 읽어들이는 함수입니다... Load 가 알아서 실행해줍니다.
+
 	unsigned int Flag = 0;
 
 #ifdef _DEBUG
@@ -89,12 +84,7 @@ bool GameEngineVertexShader::FileCompile(const std::string& _Path) {
 
 	std::wstring Path;
 	GameEngineString::StringToWString(_Path, Path);
-	// 경로는 와이드바이트(유니코드) 만 D3DCompileFromFile() 에 인자로 들어갈 수 있어서..
-	// 그냥 노가다 해 준 거임.
-	// 쌩짜 멀티바이트는 들어갈 수 없다.
 
-
-	// 컴파일 실행 및 실패시 Assert 처리
 	if (S_OK != D3DCompileFromFile(
 		Path.c_str(),
 		nullptr,
@@ -126,7 +116,6 @@ bool GameEngineVertexShader::FileCompile(const std::string& _Path) {
 
 	return true;
 }
-
 
 
 bool GameEngineVertexShader::StringCompile()
@@ -470,4 +459,10 @@ void GameEngineVertexShader::Setting()
 void GameEngineVertexShader::SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
 {
 	GameEngineDevice::GetContext()->VSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
+}
+
+void GameEngineVertexShader::SetTexture(const GameEngineTextureSetting* _Setting)
+{
+
+	GameEngineDevice::GetContext()->VSSetShaderResources(_Setting->SettingIndex_, 1, _Setting->Res_->GetShaderResourcesView());
 }
