@@ -6,7 +6,7 @@
 
 
 
-float4 Color_VS(float4 pos : POSITION) : SV_POSITION
+float4 Color_VS(float4 pos : POSITION) : SV_POSITION 
 {
     // pos *= World;
 

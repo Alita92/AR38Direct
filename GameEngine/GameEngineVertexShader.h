@@ -48,9 +48,18 @@ public:
 
 	bool FileCompile(const std::string& _Path);
 
-	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override; // 상수 버퍼 세팅 함수
 
-	void SetTexture(const GameEngineTextureSetting* _Setting) override;
+	void SetTexture(const GameEngineTextureSetting* _Setting) override; // 텍스처 세팅 함수
+
+	void SetSampler(const GameEngineSamplerSetting* _Setting) override; // 샘플러 세팅 함수
+
+	// 하기는 리셋(값 nullptr 로 변경)
+	void ReSetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override; 
+
+	void ReSetTexture(const GameEngineTextureSetting* _Setting) override;
+
+	void ReSetSampler(const GameEngineSamplerSetting* _Setting) override;
 
 private:
 

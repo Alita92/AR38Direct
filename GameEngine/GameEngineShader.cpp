@@ -42,6 +42,7 @@ void GameEngineShader::SetEntryPoint(const std::string& _EntryPoint)
 
 void GameEngineShader::ResCheck()
 {
+	// 상수버퍼를 세팅해주는 함수?
 
 	if (nullptr == CodeBlob_)
 	{
@@ -91,7 +92,7 @@ void GameEngineShader::ResCheck()
 
 		switch (Type)
 		{
-		case D3D_SIT_CBUFFER:
+		case D3D_SIT_CBUFFER: // 상수 버퍼가 인식될 경우
 		{
 			ID3D11ShaderReflectionConstantBuffer* Buffer = CompilInfo->GetConstantBufferByName(Name.c_str());
 
@@ -106,24 +107,42 @@ void GameEngineShader::ResCheck()
 				return;
 			}
 
-			ConstanceBuffer_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
+			ConstanceBuffers_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
 			break;
 		}
-		case D3D_SIT_SAMPLER:
+		case D3D_SIT_SAMPLER: // 샘플러가 인식될 경우
 		{
-			D3D11_SAMPLER_DESC Smp_Decs;
+			D3D11_SAMPLER_DESC Smp_Decs = {};
+
+			memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
+
 			// 뭉개라.
-			Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			// 딱딱 도트처럼 만들어라
-			Smp_Decs.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_POINT;
-			// Smp_Decs.AddressU
+			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 
-			// GameEngineSamplerManager::GetInst().Create();
+			Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP; // 비율 값에 근거해서 텍스처가 들어감... 들어가는 메쉬가 2.0 이라고 두개씩 찍히지 않음
+			Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP; // WRAP 으로 하면 바둑판식 배열로 들어감
+			Smp_Decs.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 
-			// ConstanceBuffer_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
+			Smp_Decs.MipLODBias = 0.0f;
+			Smp_Decs.MaxAnisotropy = 1;
+			Smp_Decs.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+			Smp_Decs.MinLOD = -FLT_MAX;
+			Smp_Decs.MaxLOD = FLT_MAX;
+			// Smp_Decs.BorderColor;
+			// Smp_Decs.MaxAnisotropy;
+
+			GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Create(Name, Smp_Decs);
+			Samplers_.insert(std::make_pair(ResInfo.BindPoint, NewRes));
 			break;
 		}
 
+		case D3D_SIT_TEXTURE: // 텍스처가 인식될 경우
+		{
+			Textures_.insert(std::make_pair(ResInfo.BindPoint, Name));
+			break;
+		}
 		default:
 			GameEngineDebug::MsgBoxError("처리하지 못하는 타입의 쉐이더 리소스가 발견되었습니다");
 			break;

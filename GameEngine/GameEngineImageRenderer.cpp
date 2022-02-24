@@ -15,3 +15,8 @@ void GameEngineImageRenderer::Start()
 
 	SetRenderingPipeLine("Texture");
 }
+
+void GameEngineImageRenderer::SetImage(const std::string& _ImageName)
+{
+	ShaderHelper.SettingTexture("Tex", _ImageName);
+}

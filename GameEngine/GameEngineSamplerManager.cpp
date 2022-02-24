@@ -60,3 +60,23 @@ GameEngineSampler* GameEngineSamplerManager::Find(const std::string& _Name)
 
 	return nullptr;
 }
+
+
+GameEngineSampler* GameEngineSamplerManager::CreateAndFind(const std::string& _Name, const D3D11_SAMPLER_DESC& _Info)
+{
+	GameEngineSampler* FindRes = Find(_Name); // 찾아 주고...
+
+	if (nullptr != FindRes) // 찾는게 있으면
+	{
+		return FindRes; // 그냥 그걸 리턴
+	}
+
+	// 찾는게 없다면? 바로 만들어준다..
+	GameEngineSampler* NewRes = new GameEngineSampler();
+	NewRes->SetName(_Name);
+	NewRes->Create(_Info);
+
+	ResourcesMap.insert(std::map<std::string, GameEngineSampler*>::value_type(_Name, NewRes)); // 만들어준걸 멤버 맵구조에 Insert
+
+	return NewRes; // 리턴도 해 줄것
+}

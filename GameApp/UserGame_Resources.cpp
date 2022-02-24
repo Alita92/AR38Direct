@@ -22,12 +22,12 @@ void UserGame::ResourcesLoad()
 
 
 	{
-		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("AR38Direct");
-		SoundDir.MoveChild("Resources");
-		SoundDir.MoveChild("Image");
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("AR38Direct");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
 
-		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile();
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
 		
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{

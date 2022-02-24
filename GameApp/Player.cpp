@@ -19,12 +19,11 @@ void Player::Start()
 	// 랜더러로서 뭐든지 다 그릴수있는 가능성을 가지고 있는 녀석.
 	{
 		PlayerImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-
-		PlayerImageRenderer->SetImage();
+		PlayerImageRenderer->SetImage("Char.png");
 		PlayerImageRenderer->GetTransform()->SetLocalScaling({ 100.0f, 100.0f, 1.0f });
 	}
 
-	{
+	{	// 필요 없는 부분?
 		GameEngineRenderer* Renderer = CreateTransformComponent<GameEngineRenderer>(GetTransform());
 		Renderer->SetRenderingPipeLine("Color");
 		Renderer->GetTransform()->SetLocalScaling({ 100.0f, 20.0f, 1.0f });

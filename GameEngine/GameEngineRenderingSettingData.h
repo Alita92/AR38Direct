@@ -1,7 +1,10 @@
 #pragma once
 #include "GameEngineShader.h"
 #include "GameEngineConstantBuffer.h"
+#include "GameEngineSampler.h"
 #include "GameEngineTexture.h"
+
+
 enum class SettingMode
 {
 	Link,
@@ -13,7 +16,7 @@ enum class SettingMode
 
 class GameEngineShader;
 class GameEngineConstantBuffer;
-class GameEngineConstantBufferSetting
+class GameEngineConstantBufferSetting // 상수 버퍼의 옵션창 역할
 {
 public:
 	GameEngineShader* Shader;
@@ -46,6 +49,12 @@ public:
 		Shader->SetConstantBuffers(this);
 	}
 
+	void ShaderReSet()
+	{
+		Shader->ReSetConstantBuffers(this);
+	}
+
+
 public:
 	GameEngineConstantBufferSetting()
 		: SettingData_(nullptr)
@@ -57,6 +66,39 @@ public:
 	~GameEngineConstantBufferSetting()
 	{
 		Clear();
+	}
+};
+
+
+class GameEngineShader;
+class GameEngineSampler;
+class GameEngineSamplerSetting
+{
+public:
+	GameEngineShader* Shader;
+	GameEngineSampler* Res_;
+	int SettingIndex_;
+
+public:
+	void ShaderSetting()
+	{
+		Shader->SetSampler(this);
+	}
+
+	void ShaderReSet()
+	{
+		Shader->ReSetSampler(this);
+	}
+
+public:
+	GameEngineSamplerSetting()
+		: Res_(nullptr)
+	{
+
+	}
+
+	~GameEngineSamplerSetting()
+	{
 	}
 };
 
@@ -73,6 +115,11 @@ public:
 	void ShaderSetting()
 	{
 		Shader->SetTexture(this);
+	}
+
+	void ShaderReSet()
+	{
+		Shader->ReSetTexture(this);
 	}
 
 public:
