@@ -1,17 +1,6 @@
 #include "PreCompile.h"
-#include "GameEngineRenderingPipeLine.h"
-#include "GameEngineVertexBufferManager.h"
-#include "GameEngineVertexShaderManager.h"
-#include "GameEngineIndexBufferManager.h"
-#include "GameEngineRasterizerManager.h"
-#include "GameEnginePixelShaderManager.h"
+#include "GameEngineResourcesManager.h"
 
-#include "GameEngineVertexBuffer.h"
-#include "GameEngineVertexShader.h"
-#include "GameEngineIndexBuffer.h"
-#include "GameEngineRasterizer.h"
-#include "GameEnginePixelShader.h"
-#include "GameEngineConstantBuffer.h"
 
 
 #include "GameEngineWindow.h"
@@ -113,13 +102,13 @@ void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 
 }
 
-void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetOutputMergerBlend(const std::string& _Name)
 {
-	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+	Blend_ = GameEngineBlendManager::GetInst().Find(_Name);
 
-	if (nullptr == Rasterizer_)
+	if (nullptr == Blend_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 레이터라이저 세팅을 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 블랜드 세팅을 세팅하려고 했습니다.");
 		return;
 	}
 
@@ -154,6 +143,11 @@ void GameEngineRenderingPipeLine::PixelShader()
 	PixelShader_->Setting();
 }
 
+void GameEngineRenderingPipeLine::OutputMerger()
+{
+	Blend_->Setting();
+}
+
 void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 {
 	// input어셈블러 단계
@@ -166,6 +160,8 @@ void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 	Rasterizer();
 
 	PixelShader();
+
+	OutputMerger();
 }
 
 void GameEngineRenderingPipeLine::Rendering()

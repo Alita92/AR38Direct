@@ -218,6 +218,66 @@ void UserGame::ResourcesLoad()
 
 
 	{
+		D3D11_BLEND_DESC BlendInfo;
+
+		// 깊이랑 관련이 있지만 지금 사용하지 않겠습니다.
+		BlendInfo.AlphaToCoverageEnable = FALSE;
+		// 렌더타겟 하나에만 적용할 때
+		BlendInfo.IndependentBlendEnable = FALSE;
+
+		BlendInfo.RenderTarget[0].BlendEnable = true; // 블렌드 사용 여부.. 당연히 True
+		BlendInfo.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL; // 설정해준 값의 색상만 블랜드를 실시.. ALL 로 해서 모두 연산
+
+		// 옵션값을 더한다.
+		//D3D11_BLEND_OP_ADD = 1,
+		// 옵션값을 뺀다
+		//D3D11_BLEND_OP_SUBTRACT = 2,
+		// 옵션값을 반전시키고 뺀다
+		//D3D11_BLEND_OP_REV_SUBTRACT = 3,
+		// 최소값만 남긴다
+		//D3D11_BLEND_OP_MIN = 4,
+		// 최대값만 남긴다
+		//D3D11_BLEND_OP_MAX = 5
+
+		// 진짜 블랜드 공식을 말해주겠습니다.
+		// 원본색
+
+		// (SrcColor * SrcFactor) 옵션 (DestColor * DestFactor)
+		// (0 0 0 0 * SrcFactor) 옵션 (0 0 1 1 * DestFactor)
+
+		BlendInfo.RenderTarget[0].BlendOp = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		// 블랜드 연산 방식 : 합연산
+		// (0 0 0 0 * SrcFactor) + (0 0 1 1 * DestFactor)
+
+		// 
+		BlendInfo.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+		// (0 0 0 0 * SrcFactor) + (0 0 1 1 * DestFactor)
+		//        A * 0 0 0 0 + 
+		BlendInfo.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+		// RGB
+		// 0.2 0.8
+		// (0 0 0 0 * SrcFactor) + (0 0 1 1 * DestFactor)
+		//       SA * 0 0 0 0 +    (0 0 1 1 * 1 1 1 1)
+		//       SA *SASASASA +    (0 0 1 1 *1-SA 1-SA 1-SA 1-SA)
+		//        0 *0000 +    (0 0 1 1 *1-SA 1-SA 1-SA 1-SA)
+		// 0 0 0 0 + 0 0 1 1
+		// 
+		// 1 - 소스의 알파색깔                 
+		// OutPut값을 뭘로 나오게 할거냐 인데.
+
+		BlendInfo.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
+		BlendInfo.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+		BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		// 내가 직접 세팅이 가능해요.
+		// BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_BLEND_FACTOR;
+
+
+		GameEngineBlendManager::GetInst().Create("AlphaBlend", BlendInfo);
+	}
+
+
+	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Color");
 
 		// 이런 기본적인 vertex들이 있다.
@@ -254,6 +314,7 @@ void UserGame::ResourcesLoad()
 
 
 	{
+		// 현재 플레이어와 몬스터의 렌더링 파이프라인입니다.
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Texture");
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");

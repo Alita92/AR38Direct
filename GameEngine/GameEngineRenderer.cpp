@@ -50,6 +50,7 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 
 void GameEngineRenderer::Start()
 {
+	// 메인 카메라에 이걸 렌더링할 목록에 넣어 줘... 하는 것
 	GetLevel()->GetMainCamera()->PushRenderer(GetOrder(), this);
 }
 

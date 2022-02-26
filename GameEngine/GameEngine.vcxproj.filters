@@ -191,6 +191,12 @@
     <ClInclude Include="GameEngineSamplerManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineBlend.h">
+      <Filter>Resources\02Image</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineBlendManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -304,6 +310,12 @@
       <Filter>Resources\02Image</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineSamplerManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBlend.cpp">
+      <Filter>Resources\02Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBlendManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
   </ItemGroup>

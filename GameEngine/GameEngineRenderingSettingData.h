@@ -12,7 +12,7 @@ enum class SettingMode
 	MAX,
 };
 
-
+// 셰이더 리소스인 상수 버퍼, 샘플러, 텍스처의 세팅을 관리
 
 class GameEngineShader;
 class GameEngineConstantBuffer;
