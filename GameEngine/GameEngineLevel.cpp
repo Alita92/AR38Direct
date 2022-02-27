@@ -51,15 +51,20 @@ GameEngineLevel::~GameEngineLevel()
 
 void GameEngineLevel::Init()
 {
+	// 레벨은 메인 카메라와 UI 카메라를 기본적으로 가집니다.
 	MainCameraActor_ = CreateActor<CameraActor>();
 	UICameraActor_ = CreateActor<CameraActor>();
 
+	// UI 카메라는 미리 기본값을 설정해 주지만, 메인 카메라는 객체화된 레벨에 맞게 조정해줘야 합니다.
 	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
+	// 레벨에 소속된 액터들의 업데이트를 돌려 주는 함수입니다.
+	// 
+
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
 		std::list<GameEngineActor*>& Actors = Pair.second;
@@ -70,7 +75,7 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 			{
 				continue;
 			}
-
+			// Transform 의 변화량을 측정하는 곳... 외부에 공개된 업데이트는 아니다.
 			Actor->TransformUpdate();
 		}
 	}
@@ -85,7 +90,7 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 			{
 				continue;
 			}
-
+			// 실질적인 액터들 업데이트를 돌려주는 곳
 			Actor->Update(_DeltaTime);
 		}
 	}

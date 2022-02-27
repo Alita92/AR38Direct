@@ -36,7 +36,10 @@ private:		//delete operator
 	ID3D11RenderTargetView* RenderTargetView_; // ·»´õÅ¸°Ù ºä ÀúÀå º¯¼ö
 	ID3D11ShaderResourceView* ShaderResourceViewPtr_; // ¼ÎÀÌ´õ ¸®¼Ò½º ºä º¯¼ö
 
-
 	DirectX::ScratchImage Image_;
+	
+public:
+	size_t GetTextureResolutionX();
+	size_t GetTextureResolutionY();
 };
 

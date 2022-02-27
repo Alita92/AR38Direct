@@ -2,7 +2,9 @@
 #include "GameEngineActor.h"
 
 class CameraComponent;
-// 설명 :
+// 설명 : 카메라 컴포넌트가 추가된 프리팹 액터
+// 의도가 있다기보단
+// 편의를 위해 만들어논 겁니다.
 class CameraActor : public GameEngineActor // Actor 상속받는다.
 {
 public:

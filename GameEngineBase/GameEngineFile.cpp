@@ -31,7 +31,7 @@ GameEngineFile::GameEngineFile(const std::string& _Path)
 GameEngineFile::GameEngineFile(const std::string& _Path, const std::string& _Mode)
 {
 	path_ = _Path;
-
+	
 	// 오픈하고 익시트
 	Open(_Mode);
 

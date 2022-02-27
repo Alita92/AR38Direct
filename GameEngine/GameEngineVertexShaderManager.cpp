@@ -52,15 +52,15 @@ GameEngineVertexShader* GameEngineVertexShaderManager::Load(const std::string& _
 		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
 	}
 
-	GameEngineVertexShader* NewRes = new GameEngineVertexShader();
-	NewRes->SetName(_Name);
-	if (false == NewRes->Load(_Path, _EntryPoint, _VersionHigh, _VersionLow))
+	GameEngineVertexShader* NewRes = new GameEngineVertexShader(); // 셰이더 리소스 동적 할당 변수
+	NewRes->SetName(_Name); // 이름 설정
+	if (false == NewRes->Load(_Path, _EntryPoint, _VersionHigh, _VersionLow)) // 인자값으로 로드 시도
 	{
 		delete NewRes;
 		return nullptr;
 	}
 
-	ResourcesMap.insert(std::map<std::string, GameEngineVertexShader*>::value_type(_Name, NewRes));
+	ResourcesMap.insert(std::map<std::string, GameEngineVertexShader*>::value_type(_Name, NewRes)); // 로드 성공시 해당 셰이더 리소스맵에 등록
 
 	return NewRes;
 }

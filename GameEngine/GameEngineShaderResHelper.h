@@ -6,7 +6,7 @@
 #include "GameEngineRenderingSettingData.h"
 #include "GameEngine/GameEngineShader.h"
 
-// 쉐이더의 3대 리소스인 상수 버퍼, 샘플러, 텍스처를 세팅하기 쉽게 하기위한 클래스입니다.
+// 쉐이더의 리소스인 상수 버퍼, 샘플러, 텍스처를 세팅하기 쉽게 하기위한 클래스입니다.
 
 
 class GameEngineTexture;

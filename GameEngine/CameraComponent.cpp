@@ -49,21 +49,24 @@ void CameraComponent::Render()
 {
 	float4x4 View = GetTransform()->GetTransformData().View_;
 	float4x4 Porjection = GetTransform()->GetTransformData().Projection_;
+	// This 카메라의 뷰행렬과 투영행렬을 가져오기
 
 	for (std::pair<int, std::list<GameEngineRenderer*>> Pair : RendererList_)
 	{
 		std::list<GameEngineRenderer*>& Renderers = Pair.second;
 
-		for (GameEngineRenderer* Renderer : Renderers)
+		for (GameEngineRenderer* Renderer : Renderers) // 해당 렌더러의 자식까지 돌면서 렌더링 체크
 		{
 			if (false == Renderer->IsUpdate())
 			{
 				continue;
 			}
 
+			// 해당 액터 렌더러의 뷰와 투영을 똑같이 만들어 주고
 			Renderer->GetTransform()->GetTransformData().Projection_ = Porjection;
 			Renderer->GetTransform()->GetTransformData().View_ = View;
 
+			// 렌더시킨다.
 			Renderer->Render();
 		}
 	}

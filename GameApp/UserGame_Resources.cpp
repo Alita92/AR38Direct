@@ -265,6 +265,7 @@ void UserGame::ResourcesLoad()
 		// 1 - 소스의 알파색깔                 
 		// OutPut값을 뭘로 나오게 할거냐 인데.
 
+		// A값은 DX11 부터 따로 세팅을 해줘야 한다.
 		BlendInfo.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP::D3D11_BLEND_OP_ADD;
 		BlendInfo.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
 		BlendInfo.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
@@ -309,6 +310,7 @@ void UserGame::ResourcesLoad()
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 
 		Pipe->SetPixelShader("Color_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
 	}
 
 
@@ -323,5 +325,6 @@ void UserGame::ResourcesLoad()
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 		Pipe->SetPixelShader("Texture_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
 	}
 }

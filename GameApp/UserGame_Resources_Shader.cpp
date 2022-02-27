@@ -1,6 +1,9 @@
 #include "Precompile.h"
 #include "UserGame_Resources_Shader.h"
 
+
+// 셰이더 폴더 내의 모든 fx 셰이더코드를 가져오는 역할을 합니다.
+// 
 void AppShaderLoad()
 {
 	GameEngineDirectory Dir;
@@ -13,11 +16,13 @@ void AppShaderLoad()
 	for (auto& ShaderFile : AllShader)
 	{
 		ShaderFile.Open("rt");
+		// 오픈모드
+		// rt : 텍스트 파일로 읽어들인다
 
 		std::string FileName = ShaderFile.GetFileNameWithOutExtension();
-		std::string AllCode = ShaderFile.GetString();
+		std::string AllCode = ShaderFile.GetString(); // 파일 내의 모든 텍스트를 가져온다.
 
-		if (std::string::npos != AllCode.find(FileName + "_VS"))
+		if (std::string::npos != AllCode.find(FileName + "_VS")) // npos = -1 로 정의된 특수값, "find() 값을 못 찾을시 npos 리턴된다!"
 		{
 			GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Load(FileName + "_VS", ShaderFile.GetFullPath(), FileName + "_VS");
 		}
@@ -26,7 +31,6 @@ void AppShaderLoad()
 		{
 			GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
 		}
-
 	}
 
 

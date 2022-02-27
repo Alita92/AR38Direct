@@ -10,7 +10,7 @@ GameEngineTexture::GameEngineTexture() // default constructer 디폴트 생성자
 	, RenderTargetView_(nullptr)
 	, ShaderResourceViewPtr_(nullptr)
 {
-
+	
 }
 
 GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
@@ -26,6 +26,7 @@ GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
 	{
 		RenderTargetView_->Release();
 		RenderTargetView_ = nullptr;
+
 	}
 
 	if (nullptr != Texture2D_)
@@ -101,6 +102,15 @@ void GameEngineTexture::Load(const std::string& _Path)
 
 	TextureDesc_.Width = static_cast<unsigned int>(Image_.GetMetadata().width);
 	TextureDesc_.Height = static_cast<unsigned int>(Image_.GetMetadata().height);
+}
+
+size_t GameEngineTexture::GetTextureResolutionX()
+{
+	return static_cast<unsigned int>(Image_.GetMetadata().width);
+}
+size_t GameEngineTexture::GetTextureResolutionY()
+{
+	return static_cast<unsigned int>(Image_.GetMetadata().height);
 }
 
 ID3D11RenderTargetView* GameEngineTexture::GetRenderTargetView()
