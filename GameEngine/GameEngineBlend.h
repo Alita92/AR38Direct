@@ -22,6 +22,7 @@ public:
 	}
 
 	void Setting();
+	void Reset();
 
 protected:		// delete constructer
 	GameEngineBlend(const GameEngineBlend& _other) = delete; // default Copy constructer 디폴트 복사생성자

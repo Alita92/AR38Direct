@@ -172,3 +172,7 @@ void GameEngineRenderingPipeLine::Rendering()
 }
 
 
+void GameEngineRenderingPipeLine::Reset()
+{
+	Blend_->Reset();
+}

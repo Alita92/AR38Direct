@@ -25,16 +25,14 @@ VertexOut Texture_VS(VertexIn _in)
     Out.Position = _in.Position;
 
     Out.Position.w = 1.0f;
-    Out.Position = mul(Out.Position, World);
-    Out.Position = mul(Out.Position, View);
-    Out.Position = mul(Out.Position, Projection);
+    Out.Position = mul(Out.Position, WVP);
 
     Out.Texcoord = _in.Texcoord;
 
     return Out;
 }
 
-Texture2D Tex : register(t0); // ??
+Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
 
 float4 Texture_PS(VertexOut _in) : SV_Target0

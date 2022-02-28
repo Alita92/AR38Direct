@@ -24,7 +24,7 @@ public:
 	}
 
 	float4x4 GetViewMatrix();
-	float4x4 GetPorjectionMatrix();
+	float4x4 GetProjectionMatrix();
 
 protected:
 	virtual void Start();

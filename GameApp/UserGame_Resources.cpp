@@ -316,7 +316,7 @@ void UserGame::ResourcesLoad()
 
 
 	{
-		// 현재 플레이어와 몬스터의 렌더링 파이프라인입니다.
+		// 현재 이미지 파일의 렌더링을 돌리는 파이프라인입니다. (플레이어, 몬스터)
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("Texture");
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");

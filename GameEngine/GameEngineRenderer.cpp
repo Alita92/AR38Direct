@@ -22,6 +22,8 @@ void GameEngineRenderer::Render()
 {
 	ShaderHelper.Setting();
 	PipeLine_->Rendering();
+	ShaderHelper.ReSet();
+	PipeLine_->Reset();
 }
 
 
