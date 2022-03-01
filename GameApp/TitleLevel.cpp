@@ -29,16 +29,18 @@ void TitleLevel::ResourceInit()
 	}
 
 	{
-		GameEngineDirectory soundDir;
-		soundDir.MoveParent("AR38Direct");
-		soundDir.MoveChild("Resources");
-		soundDir.MoveChild("Sound");
-		soundDir.MoveChild("Title");
+		//GameEngineDirectory soundDir;
+		//soundDir.MoveParent("AR38Direct");
+		//soundDir.MoveChild("Resources");
+		//soundDir.MoveChild("Sound");
+		//soundDir.MoveChild("Title");
 	}
 }
 
 void TitleLevel::LevelStart()
 {
+	ResourceInit();
+
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
@@ -59,6 +61,5 @@ void TitleLevel::LevelChangeEndEvent()
 }
 void TitleLevel::LevelChangeStartEvent()
 {
-	ResourceInit();
 
 }
