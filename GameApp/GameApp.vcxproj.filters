@@ -32,6 +32,9 @@
     <ClCompile Include="Monster.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="TitleFreddy.cpp">
+      <Filter>Actor\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -51,6 +54,9 @@
     </Filter>
     <Filter Include="Actor">
       <UniqueIdentifier>{d3325697-5509-4332-93c3-38be93d3adf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Title">
+      <UniqueIdentifier>{40c1c7d2-88e7-41c3-8063-ab4af30e8bd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleFreddy.h">
+      <Filter>Actor\Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
