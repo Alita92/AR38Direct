@@ -18,7 +18,6 @@ void TitleFreddy::Start()
 {
 	titleFreddyImageRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleFreddyImageRenderer_->SetImage("TitleFreddy_0.png", true);
-	
 }
 
 void TitleFreddy::Update(float _Deltatime)

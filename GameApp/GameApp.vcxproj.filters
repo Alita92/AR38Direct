@@ -20,20 +20,29 @@
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Actor</Filter>
+    <ClCompile Include="TitleFreddy.cpp">
+      <Filter>Actor\01Title</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverBackground.cpp">
+      <Filter>Actor\03GameOver</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="TopUI.cpp">
-      <Filter>Actor</Filter>
+      <Filter>Actor\99ETC</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>Actor</Filter>
+      <Filter>Actor\99ETC</Filter>
     </ClCompile>
-    <ClCompile Include="TitleFreddy.cpp">
-      <Filter>Actor\Title</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actor\99ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="TopUI.cpp">
+      <Filter>Actor\99ETC</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomSettingBackground.cpp">
+      <Filter>Actor\04CustomSetting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,8 +64,32 @@
     <Filter Include="Actor">
       <UniqueIdentifier>{d3325697-5509-4332-93c3-38be93d3adf9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Title">
+    <Filter Include="Actor\03GameOver">
+      <UniqueIdentifier>{b20e0a4b-2af9-4012-b089-7bbc06e516ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\99ETC">
+      <UniqueIdentifier>{f384b8e1-55d9-4aa7-86af-ff25971718c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\01Title">
       <UniqueIdentifier>{40c1c7d2-88e7-41c3-8063-ab4af30e8bd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\02Play">
+      <UniqueIdentifier>{61a0fd05-fc84-4ef5-86e9-7b0aa6d9fe0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\02Play\Global">
+      <UniqueIdentifier>{ea547c83-0775-41dd-b6a0-bb092dbe3ea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\02Play\Office">
+      <UniqueIdentifier>{c052c6a5-beac-4d8e-8d08-44f8feb47c79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\02Play\CCTV">
+      <UniqueIdentifier>{34fc96a2-8ff4-4df5-8499-b9e557211075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\00Global">
+      <UniqueIdentifier>{7871e120-34d1-41ef-af33-12e1fd441cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\04CustomSetting">
+      <UniqueIdentifier>{2d24d8bd-7045-45d9-a332-e1051d634466}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,23 +108,32 @@
     <ClInclude Include="PlayLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="CustomVertex.h">
       <Filter>CustomVertex</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Actor</Filter>
+    <ClInclude Include="TitleFreddy.h">
+      <Filter>Actor\01Title</Filter>
     </ClInclude>
-    <ClInclude Include="TopUI.h">
-      <Filter>Actor</Filter>
+    <ClInclude Include="GameOverLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverBackground.h">
+      <Filter>Actor\03GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Actor\99ETC</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>Actor</Filter>
+      <Filter>Actor\99ETC</Filter>
     </ClInclude>
-    <ClInclude Include="TitleFreddy.h">
-      <Filter>Actor\Title</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>Actor\99ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="TopUI.h">
+      <Filter>Actor\99ETC</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomSettingBackground.h">
+      <Filter>Actor\04CustomSetting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

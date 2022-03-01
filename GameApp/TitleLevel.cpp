@@ -35,6 +35,11 @@ void TitleLevel::ResourceInit()
 		//soundDir.MoveChild("Sound");
 		//soundDir.MoveChild("Title");
 	}
+
+	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
+	{
+		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P'); // 레벨 건너뛰는 디버그 키입니다.
+	}
 }
 
 void TitleLevel::LevelStart()
@@ -53,7 +58,10 @@ void TitleLevel::LevelStart()
 
 void TitleLevel::LevelUpdate(float _DeltaTime)
 {
-
+	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
+	{
+		
+	}
 }
 void TitleLevel::LevelChangeEndEvent()
 {
