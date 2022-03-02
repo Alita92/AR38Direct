@@ -44,6 +44,9 @@
     <ClCompile Include="CustomSettingBackground.cpp">
       <Filter>Actor\04CustomSetting</Filter>
     </ClCompile>
+    <ClCompile Include="TitleText.cpp">
+      <Filter>Actor\01Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -134,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="CustomSettingBackground.h">
       <Filter>Actor\04CustomSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleText.h">
+      <Filter>Actor\01Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
