@@ -33,7 +33,7 @@ protected:
 	virtual void InitComponent(GameEngineActor* Actor_); // 컴포넌트를 Actor 에 부착한다.
 
 	virtual void Start() = 0;
-	virtual void Update() = 0;
+	virtual void Update(float _DeltaTime) = 0;
 
 private:
 	GameEngineLevel* Level_;

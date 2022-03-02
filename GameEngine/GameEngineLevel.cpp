@@ -92,6 +92,7 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 			}
 			// 실질적인 액터들 업데이트를 돌려주는 곳
 			Actor->Update(_DeltaTime);
+			Actor->UpdateComponent(_DeltaTime);
 		}
 	}
 }

@@ -68,7 +68,7 @@ public:
 			GameEngineDebug::MsgBoxError("트랜스폼을 세팅안 해줬습니다.");
 		}
 		NewComponent->AttachTransform(_ParentTrans);
-		ComponentList_.push_back(NewComponent);
+		TransformComponentList_.push_back(NewComponent);
 
 		NewComponent->Start();
 		return dynamic_cast<ComponentType*>(NewComponent);;
@@ -101,7 +101,7 @@ private:
 
 	void SetLevel(GameEngineLevel* Level);
 
-	void UpdateComponent();
+	void UpdateComponent(float _DeltaTime);
 
 	void ComponentRelease();
 
