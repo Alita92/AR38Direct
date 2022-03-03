@@ -2,6 +2,8 @@
 #include "GameEngineImageRenderer.h"
 #include "GameEngineTextureManager.h"
 #include "GameEngineTransform.h"
+#include "GameEngineFolderTextureManager.h"
+#include "GameEngineFolderTexture.h"
 
 void GameEngineImageRenderer::Animation2D::CallStart()
 {
@@ -21,18 +23,19 @@ void GameEngineImageRenderer::Animation2D::CallFrame()
 {
 	for (auto& CallBack : FrameCallBack_)
 	{
-		if (CallBack.first != CurFrame_)
-		{
+		if (CallBack.first != CurFrame_) // 콜백의 키값(프레임) 이 현 프레임이 아니면...
+		{// 패스
 			continue;
 		}
 
-		if (CallBack.second.size() == 0)
-		{
+		if (CallBack.second.size() == 0) // 콜백이 없어도..
+		{ // 패스
 			continue;
 		}
 
 		for (size_t i = 0; i < CallBack.second.size(); i++)
-		{
+		{ // 그 이외의 상황(키값이 현 프레임이고, 콜백이 있다면)
+			// 실행
 			CallBack.second[i]();
 		}
 	}
@@ -55,16 +58,17 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		CurTime_ = InterTime_;
 		if (true == Loop_
 			&& CurFrame_ > EndFrame_)
-		{
+		{	// 루프가 true 고 프레임이 다 지나갔다면
+			// End 콜백함수 실행시키고 다시 프레임 리셋
 			CallEnd();
 			CurFrame_ = StartFrame_;
 		}
 		else if (false == Loop_
 			&& CurFrame_ > EndFrame_)
-		{
-			if (false == IsEnd)
+		{	// 루프가 false 고 프레임이 다 지나갔다면...
+			if (false == IsEnd) 
 			{
-				CallEnd();
+				CallEnd(); // IsEnd 값 써서 1회만 End 콜백함수 실행
 			}
 
 			IsEnd = true;
@@ -73,8 +77,16 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		}
 	}
 
-	CallFrame();
-	Renderer->SetIndex(CurFrame_);
+	CallFrame(); // 프레임당 콜백함수는 어차피 안에서 프레임을 측정하니 그냥 매 순간 실행해주기.
+	if (nullptr == FolderTextures_)
+	{
+		Renderer->SetIndex(CurFrame_);
+	}
+	else
+	{
+		Renderer->CutData = float4(0, 0, 1, 1);
+		Renderer->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
+	}
 }
 
 /// ///////////////////////////////////////////////////////////////////
@@ -161,9 +173,43 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _Sta
 	NewAnimation->InterTime_ = _InterTime;
 	NewAnimation->CurTime_ = _InterTime;
 
+	NewAnimation->FolderTextures_ = nullptr;
 	NewAnimation->CurFrame_ = _StartFrame;
 	NewAnimation->EndFrame_ = _EndFrame;
 	NewAnimation->StartFrame_ = _StartFrame;
+	NewAnimation->Renderer = this;
+
+	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
+}
+
+void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop /*= true*/)
+{
+	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
+
+	if (AllAnimations_.end() != FindIter)
+	{
+		GameEngineDebug::MsgBoxError("이미 존재하는 애니메이션을 또 만들었습니다.");
+	}
+
+	GameEngineFolderTexture* FolderTexture = GameEngineFolderTextureManager::GetInst().Find(_FolderTexName);
+
+	if (nullptr == FolderTexture)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 폴더 텍스처를 세팅하려고 했습니다..");
+	}
+
+
+	Animation2D* NewAnimation = new Animation2D();
+
+	NewAnimation->IsEnd = false;
+	NewAnimation->Loop_ = _Loop;
+	NewAnimation->InterTime_ = _InterTime;
+	NewAnimation->CurTime_ = _InterTime;
+
+	NewAnimation->FolderTextures_ = FolderTexture;
+	NewAnimation->CurFrame_ = 0;
+	NewAnimation->EndFrame_ = FolderTexture->GetTextureCount() - 1;
+	NewAnimation->StartFrame_ = 0;
 	NewAnimation->Renderer = this;
 
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));

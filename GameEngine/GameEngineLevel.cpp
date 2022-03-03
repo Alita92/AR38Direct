@@ -62,9 +62,6 @@ void GameEngineLevel::Init()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
-	// 레벨에 소속된 액터들의 업데이트를 돌려 주는 함수입니다.
-	// 
-
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
 		std::list<GameEngineActor*>& Actors = Pair.second;
@@ -75,22 +72,8 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 			{
 				continue;
 			}
-			// Transform 의 변화량을 측정하는 곳... 외부에 공개된 업데이트는 아니다.
-			Actor->TransformUpdate();
-		}
-	}
 
-	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
-	{
-		std::list<GameEngineActor*>& Actors = Pair.second;
-
-		for (GameEngineActor* Actor : Actors)
-		{
-			if (false == Actor->IsUpdate())
-			{
-				continue;
-			}
-			// 실질적인 액터들 업데이트를 돌려주는 곳
+			// 위치바꾸고
 			Actor->Update(_DeltaTime);
 			Actor->UpdateComponent(_DeltaTime);
 		}

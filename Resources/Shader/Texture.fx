@@ -14,8 +14,8 @@ struct VertexOut
 
 cbuffer TextureCutData : register(b1)
 {
-    // 0.0f 0.0f 
-    float2 TextureCutDataPos;
+    // 0.0f 0.0f
+    float2 TextureCutDataPos; 
     // 1 / 8 1 / 8
     float2 TextureCutDataSize;
 };

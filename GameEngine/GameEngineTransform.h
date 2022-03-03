@@ -163,7 +163,7 @@ protected:
 	TransformData TransformData_;
 
 	GameEngineTransform* Parent_;
-	std::list<GameEngineTransform*> Childs_;
+	std::vector<GameEngineTransform*> Childs_;
 
 private:
 	void AllChildCalculationScaling();

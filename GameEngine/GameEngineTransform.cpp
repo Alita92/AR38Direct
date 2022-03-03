@@ -123,12 +123,14 @@ void GameEngineTransform::SetLocalScaling(const float4& _Value)
 		TransformData_.vLocalScaling_ = _Value;
 		TransformData_.vWorldScaling_ = _Value;
 		AllChildCalculationScaling();
+		TransformUpdate();
 		return;
 	}
 
 	TransformData_.vLocalScaling_ = _Value;
 	CalculationWorldScaling();
 	AllChildCalculationScaling();
+	TransformUpdate();
 }
 
 
@@ -140,12 +142,15 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 		TransformData_.vLocalScaling_ = _Value;
 		TransformData_.vWorldScaling_ = _Value;
 		AllChildCalculationScaling();
+		TransformUpdate();
 		return;
 	}
 
 	TransformData_.vWorldScaling_ = _Value;
 	CalculationLocalScaling();
 	AllChildCalculationScaling();
+
+	TransformUpdate();
 }
 
 // 무모건 디그리
@@ -156,12 +161,15 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 		TransformData_.vLocalRotation_ = _Value;
 		TransformData_.vWorldRotation_ = _Value;
 		AllChildCalculationRotation();
+		TransformUpdate();
 		return;
 	}
 
 	TransformData_.vLocalRotation_ = _Value;
 	CalculationWorldRotation();
 	AllChildCalculationRotation();
+
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetWorldRotation(const float4& _Value)
@@ -171,12 +179,15 @@ void GameEngineTransform::SetWorldRotation(const float4& _Value)
 		TransformData_.vLocalRotation_ = _Value;
 		TransformData_.vWorldRotation_ = _Value;
 		AllChildCalculationRotation();
+		TransformUpdate();
 		return;
 	}
 
 	TransformData_.vWorldRotation_ = _Value;
 	CalculationLocalRotation();
 	AllChildCalculationRotation();
+
+	TransformUpdate();
 }
 
 
@@ -187,12 +198,14 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 		TransformData_.vLocalPosition_ = _Value;
 		TransformData_.vWorldPosition_ = _Value;
 		AllChildCalculationPosition();
+		TransformUpdate();
 		return;
 	}
 
 	TransformData_.vLocalPosition_ = _Value;
 	CalculationWorldPosition();
 	AllChildCalculationPosition();
+	TransformUpdate();
 }
 
 void GameEngineTransform::SetWorldPosition(const float4& _Value)
@@ -202,17 +215,34 @@ void GameEngineTransform::SetWorldPosition(const float4& _Value)
 		TransformData_.vLocalPosition_ = _Value;
 		TransformData_.vWorldPosition_ = _Value;
 		AllChildCalculationPosition();
+		TransformUpdate();
 		return;
 	}
 
 	TransformData_.vWorldPosition_ = _Value;
 	CalculationLocalPosition();
 	AllChildCalculationRotation();
+
+	TransformUpdate();
 }
 
 void GameEngineTransform::DetachChildTransform(GameEngineTransform* _Transform)
 {
-	Childs_.remove(_Transform);
+	// 지역변수 할당을 줄이려고
+	static std::vector<GameEngineTransform*>::iterator StartIter = Childs_.begin();
+	static std::vector<GameEngineTransform*>::iterator EndIter = Childs_.end();
+
+	for (; StartIter != EndIter; )
+	{
+		if (*StartIter != _Transform)
+		{
+			++StartIter;
+			continue;
+		}
+
+		StartIter = Childs_.erase(StartIter);
+	}
+
 }
 
 void GameEngineTransform::AttachTransform(GameEngineTransform* _Transform)

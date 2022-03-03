@@ -56,6 +56,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineDevice.h" />
+    <ClInclude Include="GameEngineFolderTexture.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineFolderTextureManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineImageRenderer.h">
       <SubType>
       </SubType>
@@ -214,6 +222,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineDevice.cpp" />
+    <ClCompile Include="GameEngineFolderTexture.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineFolderTextureManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineImageRenderer.cpp">
       <SubType>
       </SubType>

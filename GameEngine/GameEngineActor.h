@@ -76,7 +76,7 @@ public:
 
 protected:
 	virtual void Start() {}
-	virtual void TransformUpdate();
+
 	virtual void Update(float _DeltaTime) {}
 	virtual void ReleaseEvent() {}
 
