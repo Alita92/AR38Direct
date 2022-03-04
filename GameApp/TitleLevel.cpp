@@ -4,6 +4,7 @@
 #include "TitleFreddy.h"
 #include "TitleText.h"
 
+#include <GameEngine/GameEngineCore.h>
 TitleLevel::TitleLevel()
 {
 }
@@ -62,7 +63,7 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
 	{
-	
+		GameEngineCore::LevelChange("Play");
 	}
 }
 void TitleLevel::LevelChangeEndEvent()

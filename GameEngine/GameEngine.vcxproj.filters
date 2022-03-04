@@ -76,6 +76,9 @@
     <Filter Include="FSM">
       <UniqueIdentifier>{ee21974a-60d5-4675-8921-8b803f01fc34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Collision">
+      <UniqueIdentifier>{e5978515-b641-40db-aba9-16103959e205}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -209,6 +212,9 @@
     <ClInclude Include="GameEngineFSM.h">
       <Filter>FSM</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineCollision.h">
+      <Filter>Object\Component\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -338,6 +344,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineFSM.cpp">
       <Filter>FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCollision.cpp">
+      <Filter>Object\Component\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
