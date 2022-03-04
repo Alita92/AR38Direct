@@ -93,5 +93,12 @@ private:
 	static GameEngineLevel* CurrentLevel_;
 	static std::map<std::string, GameEngineLevel*> AllLevel_;
 
+
+public:
+	GameEngineCore* GetInst()
+	{
+		return MainCore_;
+	}
+
 };
 

@@ -12,7 +12,17 @@ GameEngineTransform::~GameEngineTransform()
 
 void GameEngineTransform::TransformUpdate()
 {
+	// 행렬을 업데이트? 해 준다?
 	TransformData_.LocalCalculation();
+	//void LocalCalculation()
+	//{
+	//	LocalScaling_.Scaling(vLocalScaling_);
+	//	LocalRotation_.RotationDeg(vLocalRotation_);
+	//	LocalPosition_.Translation(vLocalPosition_);
+	//
+	//	LocalWorld_ = LocalScaling_ * LocalRotation_ * LocalPosition_;
+	//} <= 이런 식으로...
+
 
 	// TransData_.LocalWorld_;
 	// [][][][]
@@ -26,16 +36,20 @@ void GameEngineTransform::TransformUpdate()
 	// [][][][]
 	// [][][][]
 
-	if (nullptr != Parent_)
+	if (nullptr != Parent_) // 부모 액터가 있다면
 	{
 		TransformData_.ParentSetting(Parent_->TransformData_.WorldWorld_);
+		// 자신의 로컬에 부모의 월드값을 곱연산해준다
 	}
-	else {
-		TransformData_.RootCalculation();
+	else { // 부모 액터가 없으면...
+		TransformData_.RootCalculation(); 
+		// 내 로컬이 곧 월드다...
 	}
 
+	// 이후에는 내 자식들의(있다면) 트랜스폼들을 재귀함수로 타고 들어가서 업데이트해준다.
 	for (GameEngineTransform* ChildTransform_ : Childs_)
 	{
+		// 
 		ChildTransform_->TransformUpdate();
 	}
 }

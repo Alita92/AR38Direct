@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "PlayLevel.h"
-#include "Player.h"
-#include "Monster.h"
-#include "TopUI.h"
+
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
+
+#include "OfficeTest.h"
 
 PlayLevel::PlayLevel()
 {
@@ -15,24 +15,38 @@ PlayLevel::~PlayLevel()
 {
 }
 
+void PlayLevel::ResourceInit()
+{
+	{
+		GameEngineDirectory imageDir;
+		imageDir.MoveParent("AR38Direct");
+		imageDir.MoveChild("Resources");
+		imageDir.MoveChild("Image");
+		imageDir.MoveChild("Play"); 
+		
+		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+
+		for (size_t i = 0; i < allFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		}
+		
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareBonnie"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareChica"));
+	}
+}
+
 void PlayLevel::LevelStart()
 {
+	ResourceInit();
+
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	{
-		Player* Actor = CreateActor<Player>();
-		GetMainCameraActor()->GetTransform()->SetWorldPosition(Actor->GetTransform()->GetLocalPosition());
-	}
+		OfficeTest* officeTest = CreateActor<OfficeTest>();
 
-	{
-		Monster* Actor = CreateActor<Monster>();
-		Actor->GetTransform()->SetWorldPosition(float4(200.0f, 0.0f, 0.0f));
-	}
 
-	{
-		TopUI* Actor = CreateActor<TopUI>();
-		Actor->GetTransform()->SetWorldPosition(float4(0.0f, 0.0f, 0.0f));
 	}
 }
 

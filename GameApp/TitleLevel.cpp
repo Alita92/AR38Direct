@@ -62,7 +62,7 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 {
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
 	{
-		
+	
 	}
 }
 void TitleLevel::LevelChangeEndEvent()

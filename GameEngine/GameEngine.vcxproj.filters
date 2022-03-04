@@ -73,6 +73,9 @@
     <Filter Include="Lib\DirectXTex\Release">
       <UniqueIdentifier>{affc947a-69ae-4a6a-a0a9-8dc78b991c99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSM">
+      <UniqueIdentifier>{ee21974a-60d5-4675-8921-8b803f01fc34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -203,6 +206,9 @@
     <ClInclude Include="GameEngineFolderTexture.h">
       <Filter>Resources\02Image</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineFSM.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -329,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineFolderTexture.cpp">
       <Filter>Resources\02Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFSM.cpp">
+      <Filter>FSM</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

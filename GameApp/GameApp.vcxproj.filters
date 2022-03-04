@@ -47,6 +47,12 @@
     <ClCompile Include="TitleText.cpp">
       <Filter>Actor\01Title</Filter>
     </ClCompile>
+    <ClCompile Include="OfficeTest.cpp">
+      <Filter>Actor\02Play\Office</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>Actor\02Play\Global\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -94,6 +100,9 @@
     <Filter Include="Actor\04CustomSetting">
       <UniqueIdentifier>{2d24d8bd-7045-45d9-a332-e1051d634466}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\02Play\Global\Controller">
+      <UniqueIdentifier>{a8e07e0c-44e0-412e-88ec-9c5955006c18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -140,6 +149,12 @@
     </ClInclude>
     <ClInclude Include="TitleText.h">
       <Filter>Actor\01Title</Filter>
+    </ClInclude>
+    <ClInclude Include="OfficeTest.h">
+      <Filter>Actor\02Play\Office</Filter>
+    </ClInclude>
+    <ClInclude Include="GameController.h">
+      <Filter>Actor\02Play\Global\Controller</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
