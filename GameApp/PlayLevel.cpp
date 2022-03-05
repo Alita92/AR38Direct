@@ -33,6 +33,13 @@ void PlayLevel::ResourceInit()
 		
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareBonnie"));
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareChica"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareFreddy"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("OfficeFan"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("LdoorClose"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("LdoorOpen"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("RdoorClose"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("RdoorOpen"));
+
 	}
 }
 

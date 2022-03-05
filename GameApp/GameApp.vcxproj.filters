@@ -103,6 +103,9 @@
     <Filter Include="Actor\02Play\Global\Controller">
       <UniqueIdentifier>{a8e07e0c-44e0-412e-88ec-9c5955006c18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\02Play\Global\UI">
+      <UniqueIdentifier>{e4af505e-858b-4f6a-8645-2ae759700fc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

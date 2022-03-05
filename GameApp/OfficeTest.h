@@ -18,11 +18,19 @@ public:
 	OfficeTest& operator=(const OfficeTest&& _other) = delete;
 
 protected:
-	GameEngineImageRenderer* ImageRenderer_;
+	GameEngineImageRenderer* MainRenderer_;
+
+	GameEngineImageRenderer* LdoorRenderer_;
+	GameEngineImageRenderer* RdoorRenderer_;
+
+	GameEngineImageRenderer* FanRenderer_;
+
 
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
 
+private:
+	void InitAnimation();
 };
 
