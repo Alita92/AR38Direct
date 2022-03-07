@@ -2,6 +2,27 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineComponent.h"
 #include <GameEngineBase/GameEngineTime.h>
+#include <DirectXCollision.h>
+#include <DirectXCollision.inl>
+
+
+union CollisionData
+{
+public:
+	DirectX::BoundingSphere Sphere;
+	DirectX::BoundingBox AABB; // 회전이 고려하면 안되는 박스
+	DirectX::BoundingOrientedBox OBB; // 회전한 박스(로테이션이 관여하는 박스), 다만 로테이션 변화가 없어도 AABB는 아니다.
+
+	CollisionData()
+		: OBB()
+	{
+
+	}
+
+	// 트랜스폼을 읽어들이면서 동시에 콜리젼에 필요한 정보들을 계산해놀 것
+	
+};
+
 
 class TransformData
 {
@@ -158,9 +179,30 @@ public:
 		return TransformData_;
 	}
 
+	const CollisionData& GetCollisionData()
+	{
+		return ColData_;
+	}
+
+	const DirectX::BoundingSphere& GetSphere()
+	{
+		return ColData_.Sphere;
+	}
+
+	const DirectX::BoundingOrientedBox& GetOBB()
+	{
+		return ColData_.OBB;
+	}
+
+	const DirectX::BoundingBox& GetAABB()
+	{
+		return ColData_.AABB;
+	}
+
 
 protected:
 	TransformData TransformData_;
+	CollisionData ColData_; // 여기다 콜리젼에 필요한 데이타들을 모아놓자
 
 	GameEngineTransform* Parent_;
 	std::vector<GameEngineTransform*> Childs_;

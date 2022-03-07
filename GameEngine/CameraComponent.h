@@ -39,6 +39,9 @@ protected:
 
 
 private:
+	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
+	// 
+
 	ProjectionMode ProjectionMode_;
 	float FovAngleY_;
 	float4 CamSize_;

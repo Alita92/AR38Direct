@@ -5,6 +5,7 @@
 #include "GameEngineDevice.h"
 #include "GameEngineLevel.h"
 #include "GameEngineInput.h"
+#include "GameEngineCollision.h"
 #include "GameEngineBase/GameEngineDirectory.h"
 #include "GameEngineBase/GameEngineFile.h"
 
@@ -49,6 +50,7 @@ void GameEngineCore::EngineInitialize()
 			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
 	}
+	GameEngineCollision::Init(); // 엔진이 이니셜라이즈 될 때, 콜리젼 개념도 넣어주자.
 
 	GameEngineSoundManager::GetInst().Initialize();
 }

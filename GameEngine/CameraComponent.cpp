@@ -114,3 +114,15 @@ void CameraComponent::ReleaseRenderer()
 		}
 	}
 }
+
+void CameraComponent::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
+{
+	// 해당 렌더러를 원래의 키값 리스트에서 삭제한다.
+	RendererList_[_Renderer->GetOrder()].remove(_Renderer);
+
+	// 새로 렌더러의 오더를 지정한다.
+	_Renderer->SetOrder(_Group);
+
+	// 오더에 맡는 키값의 리스트에 푸시백한다.
+	RendererList_[_Renderer->GetOrder()].push_back(_Renderer);
+}

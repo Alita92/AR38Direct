@@ -29,9 +29,9 @@ void OfficeTest::Update(float _Deltatime)
 {
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
 	{
-		MainRenderer_->SetOrder(static_cast<int>(RenderOrder::OBJECT2));
-		// 오더에 변화를 줘도 적용이 안 되는 중
-		MainRenderer_->SetChangeAnimation("JumpScareFreddy");
+		// 점프스케어 디버깅 중
+		MainRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::MAX));
+		MainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
 }

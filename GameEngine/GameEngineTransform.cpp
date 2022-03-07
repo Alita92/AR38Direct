@@ -23,19 +23,6 @@ void GameEngineTransform::TransformUpdate()
 	//	LocalWorld_ = LocalScaling_ * LocalRotation_ * LocalPosition_;
 	//} <= 이런 식으로...
 
-
-	// TransData_.LocalWorld_;
-	// [][][][]
-	// [][][][]
-	// [][][][]
-	// [][][][]
-
-	// TransData_.WorldWorld_;
-	// [][][][]
-	// [][][][]
-	// [][][][]
-	// [][][][]
-
 	if (nullptr != Parent_) // 부모 액터가 있다면
 	{
 		TransformData_.ParentSetting(Parent_->TransformData_.WorldWorld_);
@@ -45,6 +32,11 @@ void GameEngineTransform::TransformUpdate()
 		TransformData_.RootCalculation(); 
 		// 내 로컬이 곧 월드다...
 	}
+
+	ColData_.OBB.Extents = TransformData_.vWorldScaling_.halffloat4().DxXmfloat3;
+	ColData_.OBB.Orientation = TransformData_.vWorldRotation_.ToDegreeQuaternion().DxXmfloat4;
+	ColData_.OBB.Center = TransformData_.vWorldPosition_.DxXmfloat3;
+	// 트랜스폼을 업데이트 하면서 콜리젼 데이터 역시 갱신 후 가지고 있는다.
 
 	// 이후에는 내 자식들의(있다면) 트랜스폼들을 재귀함수로 타고 들어가서 업데이트해준다.
 	for (GameEngineTransform* ChildTransform_ : Childs_)
