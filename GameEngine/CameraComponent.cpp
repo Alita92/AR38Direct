@@ -30,6 +30,7 @@ void CameraComponent::Update(float _DeltaTime)
 
 void CameraComponent::CameraTransformUpdate()
 {
+	// 카메라의 행렬을 업데이트합니다.
 	GetTransform()->GetTransformData().View_.ViewToLH(GetTransform()->GetWorldPosition(), GetTransform()->GetWorldForwardVector(), GetTransform()->GetWorldUpVector());
 
 	switch (ProjectionMode_)

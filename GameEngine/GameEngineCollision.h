@@ -9,6 +9,8 @@
 
 enum class CollisionType
 {
+	// 충돌체의 타입
+	// 현재 사용 가능한 건 구체인 Sphere 
 	Sphere,
 	AABBBox,
 	OBBBox,

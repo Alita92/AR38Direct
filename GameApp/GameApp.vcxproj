@@ -256,6 +256,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="ENUM.h" />
     <ClInclude Include="GameController.h">
       <SubType>
       </SubType>
