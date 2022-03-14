@@ -33,23 +33,12 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
-	{
-		// 기본 엔진 단위 리소스를 이 스코프 내에서 로딩할 것
-		// 엔진 단위 리소스 로딩은
-		// 제일 먼저 최선으로 되어야 하기 때문에 여기서 해 줍니다.
 
-		GameEngineDirectory EngineTextureDir;
-		EngineTextureDir.MoveParent("AR38Direct");
-		EngineTextureDir.MoveChild("EngineResources");
-		EngineTextureDir.MoveChild("Texture");
+	EngineResourcesLoad();
+	EngineResourcesCreate();
+	// 엔진용 파이프라인
 
-		std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
 
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		}
-	}
 	GameEngineCollision::Init(); // 엔진이 이니셜라이즈 될 때, 콜리젼 개념도 넣어주자.
 
 	GameEngineSoundManager::GetInst().Initialize();

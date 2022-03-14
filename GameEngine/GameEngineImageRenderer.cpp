@@ -80,6 +80,8 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	CallFrame(); // 프레임당 콜백함수는 어차피 안에서 프레임을 측정하니 그냥 매 순간 실행해주기.
 	if (nullptr == FolderTextures_)
 	{
+		Renderer->ShaderHelper.SettingTexture("Tex", AnimationTexture_);
+		Renderer->CurTexture = AnimationTexture_;
 		Renderer->SetIndex(CurFrame_);
 	}
 	else
@@ -157,7 +159,7 @@ void GameEngineImageRenderer::SetImage(const std::string& _ImageName, bool _orig
 	ShaderHelper.SettingTexture("Tex", _ImageName);
 }
 
-void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop /*= true*/)
+void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop /*= true*/)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 
@@ -167,6 +169,13 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _Sta
 	}
 
 	Animation2D* NewAnimation = new Animation2D();
+
+	NewAnimation->AnimationTexture_ = GameEngineTextureManager::GetInst().Find(_TextureName);
+
+	if (nullptr == NewAnimation->AnimationTexture_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처로 애니메이션을 만들려고 했습니다.");
+	}
 
 	NewAnimation->IsEnd = false;
 	NewAnimation->Loop_ = _Loop;

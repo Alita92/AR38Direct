@@ -14,6 +14,7 @@ private:
 	struct Animation2D // 2D 스프라이트 애니메이션을 만들기 위한 구조체 묶음입니다.
 	{
 		GameEngineFolderTexture* FolderTextures_;
+		GameEngineTexture* AnimationTexture_;
 		float InterTime_;
 		float CurTime_;
 
@@ -53,7 +54,7 @@ public:
 	void SetImage(const std::string& _ImageName, bool _originalScale = false);
 	void SetIndex(const int Index);
 
-	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
+	void CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
 
 	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
 

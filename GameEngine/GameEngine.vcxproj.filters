@@ -79,6 +79,12 @@
     <Filter Include="Object\Component\Collision">
       <UniqueIdentifier>{e5978515-b641-40db-aba9-16103959e205}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{5eb66bdc-c615-4489-b85f-c9bef76a0acd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{19f7e4a6-ec3c-48b6-9e8a-313da78c124b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -215,6 +221,15 @@
     <ClInclude Include="GameEngineCollision.h">
       <Filter>Object\Component\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineVertex.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDebugRenderData.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -348,6 +363,10 @@
     <ClCompile Include="GameEngineCollision.cpp">
       <Filter>Object\Component\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDebugRenderData.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCore_Resources.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ThirdParty\x64\Debug\DirectXTex\DirectXTex.lib">
