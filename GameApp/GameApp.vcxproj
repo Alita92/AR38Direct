@@ -173,6 +173,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AIBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="AIBonnie.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Appmain.cpp" />
     <ClCompile Include="Bullet.cpp">
       <SubType>
@@ -247,6 +255,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AIBonnie.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Bullet.h">
       <SubType>
       </SubType>

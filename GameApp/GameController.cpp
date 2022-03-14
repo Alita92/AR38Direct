@@ -2,7 +2,7 @@
 #include "GameController.h"
 
 GameController::GameController() // default constructer 디폴트 생성자
-	: CurViewState_(VIEWSTATE::OFF), deltaTime_(0.0f), state_(this), curUsage_(1), curElectricity_(MAX_ELECTRICITIY_RATE), isElecCheckOff_(false)
+	: CurViewState_(LOCATION::MAX), deltaTime_(0.0f), state_(this), curUsage_(1), curElectricity_(MAX_ELECTRICITIY_RATE), isElecCheckOff_(false)
 {
 
 }
@@ -17,6 +17,7 @@ void GameController::InitState()
 {
 	state_.CreateState("Idle", &GameController::startIdle, &GameController::updateIdle);
 	state_.CreateState("NoElec", &GameController::startNoelec, &GameController::updateNoelec);
+	state_.ChangeState("Idle");
 }
 
 void GameController::Start()
@@ -65,6 +66,18 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		return "Noelec";
 	}
 
+	return StateInfo();
+}
+
+StateInfo GameController::startCCTV(StateInfo _state)
+{
+	// CCTV를 작동시킨 상태입니다.
+	// 전력 소모량이 1레벨 상승하며,
+	return StateInfo();
+}
+
+StateInfo GameController::updateCCTV(StateInfo _state)
+{
 	return StateInfo();
 }
 

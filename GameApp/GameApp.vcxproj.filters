@@ -53,6 +53,12 @@
     <ClCompile Include="GameController.cpp">
       <Filter>Actor\02Play\Meta\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="AIBase.cpp">
+      <Filter>Actor\02Play\Meta\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="AIBonnie.cpp">
+      <Filter>Actor\02Play\Meta\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -164,6 +170,12 @@
     </ClInclude>
     <ClInclude Include="ENUM.h">
       <Filter>ENUM</Filter>
+    </ClInclude>
+    <ClInclude Include="AIBase.h">
+      <Filter>Actor\02Play\Meta\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="AIBonnie.h">
+      <Filter>Actor\02Play\Meta\Controller</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

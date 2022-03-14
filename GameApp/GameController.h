@@ -1,26 +1,12 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
+#include "ENUM.h"
 
 // 분류 : 
 // 용도 : 
 // 설명 : 게임의 진행과 플레이어의 상황을 비시각적으로 제어하는 역할의 클래스입니다.
 // 시각적인 용도를 결정하는 클래스(CCTV 스크린 등) 은 이 게임컨트롤러의 피드백을 받아 움직이게 합니다.
-
-enum class VIEWSTATE
-{
-	SHOWSTAGE,
-	KITCHEN,
-	BACKSTAGE,
-	DININGAREA,
-	PIRATECOVE,
-	EASTHALL,
-	WESTHALL,
-	RESTROOMS,
-	SUPPLYCLOSET,
-	OFF
-};
-
 
 class GameController : public GameEngineActor
 {
@@ -49,11 +35,12 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 	StateInfo startIdle(StateInfo _state);
 	StateInfo updateIdle(StateInfo _state);
 	
+	StateInfo startCCTV(StateInfo _state);
+	StateInfo updateCCTV(StateInfo _state);
+
+	// 배터리가 0.0 이하로 떨어 질 시 강제 전환되는 State 입니다.
 	StateInfo startNoelec(StateInfo _state);
 	StateInfo updateNoelec(StateInfo _state);
-
-	//StateInfo startCCTV(StateInfo _state);
-	//StateInfo updateCCTV(StateInfo _state);
 
 private:
 	const float MAX_ELECTRICITIY_RATE = 100.0f;
@@ -63,8 +50,10 @@ private:
 	bool isElecCheckOff_;
 	void CheckElectricityUsage();
 
+
+
 private:
-	VIEWSTATE CurViewState_;
+	LOCATION CurViewState_;
 
 	float deltaTime_;
 	
