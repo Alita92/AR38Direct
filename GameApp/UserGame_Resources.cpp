@@ -1,6 +1,5 @@
 #include "PreCompile.h"
 #include "UserGame.h"
-#include "CustomVertex.h"
 #include <GameEngine/EngineVertex.h>
 #include "UserGame_Resources_Shader.h"
 
