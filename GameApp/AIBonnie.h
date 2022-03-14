@@ -1,5 +1,6 @@
 #pragma once
 //#include "AIBase.h"
+#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 #include "ENUM.h"
@@ -22,18 +23,18 @@ private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-	// 각 애니메트로닉스에 FSM이 필요할까?
-	// 정해진 경로가 있으니 필요하다.
 
+	const float ACTION_FREQUENCY = 4.97f;
 	float AILevel_;
-	float actionFrequency_;
 	float deltatime_;
 	LOCATION curLocation_;
 	LOCATION nextLocation_;
-
+	
+	GameEngineRandom randomGenerator_;
 
 public:
 	void SetAILevel(int _level);
+	void AddAILevel(int _level);
 	void InitState();
 
 	LOCATION GetLocation()

@@ -44,7 +44,7 @@ void UserGame::Initialize()
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<PlayLevel>("Play");
 	LevelCreate<GameOverLevel>("GameOver");
-	LevelChange("Play");
+	LevelChange("GameOver");
 	return;
 }
 

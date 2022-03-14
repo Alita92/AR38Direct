@@ -27,11 +27,17 @@ public:
 		return Dis(mt_);
 	}
 
+	bool RandomBool(float _percentage)
+	{
+		std::bernoulli_distribution Dis(_percentage);
+		return Dis(mt_);
+	}
+
 	GameEngineRandom()
 		: mt_()
 	{
 		std::random_device rng_;
-		mt_.seed(rng_());
+		mt_.seed(rng_());	
 	}
 
 
