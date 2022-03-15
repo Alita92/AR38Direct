@@ -18,12 +18,12 @@ public:
 	OfficeTest& operator=(const OfficeTest&& _other) = delete;
 
 protected:
-	GameEngineImageRenderer* MainRenderer_;
+	GameEngineImageRenderer* mainRenderer_;
 
-	GameEngineImageRenderer* LdoorRenderer_;
-	GameEngineImageRenderer* RdoorRenderer_;
+	GameEngineImageRenderer* lDoorRenderer_;
+	GameEngineImageRenderer* rDoorRenderer_;
 
-	GameEngineImageRenderer* FanRenderer_;
+	GameEngineImageRenderer* fanRenderer_;
 
 
 private:

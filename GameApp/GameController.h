@@ -22,8 +22,6 @@ public:
 	GameController& operator=(const GameController& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	GameController& operator=(const GameController&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-protected:
-
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
@@ -31,36 +29,50 @@ private:
 private:
 	void InitState();
 
-private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
-
-	GameEngineFSM<GameController> state_;
-
-#pragma region States
-	StateInfo startIdle(StateInfo _state);
-	StateInfo updateIdle(StateInfo _state);
-	
-	StateInfo startCCTV(StateInfo _state);
-	StateInfo updateCCTV(StateInfo _state);
-
-	// 배터리가 0.0 이하로 떨어 질 시 강제 전환되는 State 입니다.
-	StateInfo startNoelec(StateInfo _state);
-	StateInfo updateNoelec(StateInfo _state);
+private:
+	void InitInput();
 
 private:
+	// 컨트롤러 척도
 	const float MAX_ELECTRICITIY_RATE = 100.0f;
 	const float ELECTRICITY_DEFAULT_USAGE = 9.6f;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
 	const float EACH_HOUR_REAL_DURATION = 89.0f;
+	const int FIRST_DAY = 1;
+	const int MAX_DAY = 5;
 
-	int curTime_;
+	// 스테이지 변수
+	int curDay_;
+
+	// 전기 변수
 	float curElectricity_;
-	int curUsage_;
+	int curElecUsage_;
+	float elecUsageTimer_;
 	bool isElecCheckOff_;
 	void CheckElectricityUsage();
+
+	// 게임 시간 변수
+	bool isTimeCheckOff_;
+	int curTime_;
+	float timeUsageTimer_;
+	void CheckTime();
+
+
+	// 문 변수
+	bool lDoorClosed_;
+	bool rDoorClosed_;
+	bool lDoorLighted_;
+	bool rdoorLighted_;
+
+
+	// 전기 고갈시 사용 변수
+
+
+	// 전기, 게임 시간 초기화
 	void InitPlayStatus();
 
-
+	
 private:
 	// 애니매트로닉스 인공지능 슬롯
 	AIBonnie* aiBonnie_;
@@ -68,10 +80,30 @@ private:
 	AIFoxy* aiFoxy_;
 	AIFreddy* aiFreddy_;
 
+	// 인공지능 초기화
 	void InitEnemy();
 
 private:
 	LOCATION CurViewState_;
-	float deltaTime_;
+	LOCATION CurCCTVState_;
+
+private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
+	GameEngineFSM<GameController> state_;
+
+#pragma region States
+	StateInfo startIdle(StateInfo _state);
+	StateInfo updateIdle(StateInfo _state);
+
+	StateInfo startCCTV(StateInfo _state);
+	StateInfo updateCCTV(StateInfo _state);
+
+	StateInfo startNoelec(StateInfo _state);
+	StateInfo updateNoelec(StateInfo _state);
+
+	StateInfo startWin(StateInfo _state);
+	StateInfo updateWin(StateInfo _state);
+
+
+
 };
 

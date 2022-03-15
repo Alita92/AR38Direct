@@ -59,6 +59,9 @@
     <ClCompile Include="AIBonnie.cpp">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
+    <ClCompile Include="CCTVScreen.cpp">
+      <Filter>Actor\02Play\CCTV</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -176,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="AIBonnie.h">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
+    </ClInclude>
+    <ClInclude Include="CCTVScreen.h">
+      <Filter>Actor\02Play\CCTV</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
