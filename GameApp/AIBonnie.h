@@ -64,8 +64,8 @@ private :
 	StateInfo startSupplyCloset(StateInfo _state);
 	StateInfo updateSupplyCloset(StateInfo _state);
 
-	StateInfo startOfficeDoor(StateInfo _state);
-	StateInfo updateOfficeDoor(StateInfo _state);
+	StateInfo startLOfficeDoor(StateInfo _state);
+	StateInfo updateLOfficeDoor(StateInfo _state);
 	
 	StateInfo startOffice(StateInfo _state);
 	StateInfo updateOffice(StateInfo _state);

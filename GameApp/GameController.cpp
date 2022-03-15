@@ -1,8 +1,13 @@
 #include "PreCompile.h"
 #include "GameController.h"
 
+// Enemy AI
+#include "AIBonnie.h"
+
 GameController::GameController() // default constructer 叼弃飘 积己磊
-	: CurViewState_(LOCATION::MAX), deltaTime_(0.0f), state_(this), curUsage_(1), curElectricity_(MAX_ELECTRICITIY_RATE), isElecCheckOff_(false)
+	: CurViewState_(LOCATION::MAX), deltaTime_(0.0f), state_(this), curUsage_(0), curElectricity_(0.0f), isElecCheckOff_(false)
+	, aiBonnie_(nullptr), aiChica_(nullptr), aiFoxy_(nullptr), aiFreddy_(nullptr)
+	, curTime_(0)
 {
 
 }
@@ -20,15 +25,25 @@ void GameController::InitState()
 	state_.ChangeState("Idle");
 }
 
+void GameController::InitPlayStatus()
+{
+	CurViewState_ = LOCATION::OFFICE;
+	curUsage_ = 1;
+	curElectricity_ = MAX_ELECTRICITIY_RATE;
+	curTime_ = 0;
+}
+
+void GameController::InitEnemy()
+{
+	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
+}
+
+
 void GameController::Start()
 {
 	InitState();
-}
-
-void GameController::Update(float _Deltatime)
-{
-	state_.Update();
-	CheckElectricityUsage();
+	InitPlayStatus();
+	InitEnemy();
 }
 
 void GameController::CheckElectricityUsage()
@@ -51,6 +66,12 @@ void GameController::CheckElectricityUsage()
 		// 4老广 13.5 %
 		// 5老广~18 %
 
+}
+
+void GameController::Update(float _Deltatime)
+{
+	state_.Update();
+	CheckElectricityUsage();
 }
 
 StateInfo GameController::startIdle(StateInfo _state)

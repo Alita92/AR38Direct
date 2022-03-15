@@ -25,6 +25,8 @@ void AIBonnie::InitState()
 	state_.CreateState("WestHallA", &AIBonnie::startWestHallA, &AIBonnie::updateWestHallA);
 	state_.CreateState("WestHallB", &AIBonnie::startWestHallB, &AIBonnie::updateWestHallB);
 	state_.CreateState("SupplyCloset", &AIBonnie::startSupplyCloset, &AIBonnie::updateSupplyCloset);
+	state_.CreateState("OfficeDoor", &AIBonnie::startLOfficeDoor, &AIBonnie::updateLOfficeDoor);
+	state_.CreateState("Office", &AIBonnie::startOffice, &AIBonnie::updateOffice);
 
 	state_.ChangeState("ShowStage");
 }
@@ -299,14 +301,14 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 	return StateInfo();
 }
 
-StateInfo AIBonnie::startOfficeDoor(StateInfo _state)
+StateInfo AIBonnie::startLOfficeDoor(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::LOFFICEDOOR;
 
 	return StateInfo();
 }
-StateInfo AIBonnie::updateOfficeDoor(StateInfo _state)
+StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 

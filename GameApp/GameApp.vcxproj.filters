@@ -51,13 +51,13 @@
       <Filter>Actor\02Play\Office</Filter>
     </ClCompile>
     <ClCompile Include="GameController.cpp">
-      <Filter>Actor\02Play\Meta\Controller</Filter>
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
     <ClCompile Include="AIBase.cpp">
-      <Filter>Actor\02Play\Meta\Controller</Filter>
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
     <ClCompile Include="AIBonnie.cpp">
-      <Filter>Actor\02Play\Meta\Controller</Filter>
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,11 +109,11 @@
     <Filter Include="Actor\02Play\Meta">
       <UniqueIdentifier>{ea547c83-0775-41dd-b6a0-bb092dbe3ea0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\02Play\Meta\Controller">
-      <UniqueIdentifier>{a8e07e0c-44e0-412e-88ec-9c5955006c18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\02Play\Meta\UI">
       <UniqueIdentifier>{e4af505e-858b-4f6a-8645-2ae759700fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\02Play\Meta\Controller&amp;AI">
+      <UniqueIdentifier>{a8e07e0c-44e0-412e-88ec-9c5955006c18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,16 +166,16 @@
       <Filter>Actor\02Play\Office</Filter>
     </ClInclude>
     <ClInclude Include="GameController.h">
-      <Filter>Actor\02Play\Meta\Controller</Filter>
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
     <ClInclude Include="ENUM.h">
       <Filter>ENUM</Filter>
     </ClInclude>
     <ClInclude Include="AIBase.h">
-      <Filter>Actor\02Play\Meta\Controller</Filter>
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
     <ClInclude Include="AIBonnie.h">
-      <Filter>Actor\02Play\Meta\Controller</Filter>
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,10 @@
 // 설명 : 게임의 진행과 플레이어의 상황을 비시각적으로 제어하는 역할의 클래스입니다.
 // 시각적인 용도를 결정하는 클래스(CCTV 스크린 등) 은 이 게임컨트롤러의 피드백을 받아 움직이게 합니다.
 
+class AIBonnie;
+class AIChica;
+class AIFoxy;
+class AIFreddy;
 class GameController : public GameEngineActor
 {
 public:
@@ -45,18 +49,29 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 private:
 	const float MAX_ELECTRICITIY_RATE = 100.0f;
 	const float ELECTRICITY_DEFAULT_USAGE = 9.6f;
+	const int START_TIME_MARKER = 0;
+	const int END_TIME_MARKER = 6;
+	const float EACH_HOUR_REAL_DURATION = 89.0f;
+
+	int curTime_;
 	float curElectricity_;
 	int curUsage_;
 	bool isElecCheckOff_;
 	void CheckElectricityUsage();
-
+	void InitPlayStatus();
 
 
 private:
+	// 애니매트로닉스 인공지능 슬롯
+	AIBonnie* aiBonnie_;
+	AIChica* aiChica_;
+	AIFoxy* aiFoxy_;
+	AIFreddy* aiFreddy_;
+
+	void InitEnemy();
+
+private:
 	LOCATION CurViewState_;
-
 	float deltaTime_;
-	
-
 };
 
