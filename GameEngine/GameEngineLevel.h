@@ -93,9 +93,9 @@ private:
 
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 
-	// 다른애가 이걸 가릴수 있는가? 를 고민해 보아야 할 것.
-	void DebugRender(GameEngineTransform* _Transform, CollisionType _Type);
 public:
+	void PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type);
+
 	template<typename UserEnumType>
 	void PushCollision(GameEngineCollision* _Collision, UserEnumType _Group)
 	{

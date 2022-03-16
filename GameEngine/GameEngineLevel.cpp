@@ -86,16 +86,15 @@ void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
 
+	MainCameraActor_->GetCamera()->ClearCameraTarget();
 	// 월드를 그리는 것이죠
 	MainCameraActor_->GetCamera()->Render();
-
+	MainCameraActor_->GetCamera()->DebugRender();
 	// ui를 여기에 그리죠?
 	UICameraActor_->GetCamera()->Render();
 
-	// MainCameraActor_->GetCamera()->DebugRender();
 
 	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
-
 	GameEngineDevice::RenderEnd();
 }
 
@@ -225,10 +224,7 @@ void GameEngineLevel::ChangeRendererGroup(int _Group, GameEngineRenderer* _Rende
 	MainCameraActor_->GetCamera()->ChangeRendererGroup(_Group, _Renderer);
 }
 
-void GameEngineLevel::DebugRender(GameEngineTransform* _Transform, CollisionType _Type)
+void GameEngineLevel::PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type)
 {
-	if (true)
-	{
-
-	}
+	MainCameraActor_->GetCamera()->PushDebugRender(_Transform, _Type);
 }

@@ -34,6 +34,7 @@ protected:
 
 private:
 	TransformData Data;
+	float4 Color;
 	GameEngineShaderResHelper ShaderHelper;
 	GameEngineRenderingPipeLine* PipeLine_;
 
