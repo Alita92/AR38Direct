@@ -30,10 +30,13 @@ CameraComponent::~CameraComponent()
 
 void CameraComponent::Start()
 {
+	// 디버그 렌더링은 전적으로 카메라가 담당합니다.
+	// 카메라 액터가 만들어지면 동시에 디버그 자료구조 벡터 구좌를 1000개 만들고 시작하며,
+	// 고유 렌더링 파이프라인 "DebugRect" 에 따라 카메라 버퍼에 렌더타겟을 모두 만들어줍니다.
 	DebugVector_.resize(1000);
 	DebugRenderCount_ = 0;
 
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("DebugColorRect");
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
 
 	for (size_t i = 0; i < DebugVector_.size(); i++)
 	{
