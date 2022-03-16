@@ -4,7 +4,9 @@
 #include "GameEngineSampler.h"
 #include "GameEngineTextureManager.h"
 #include "GameEngineTexture.h"
-
+#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineVertexShader.h"
+#include "GameEnginePixelShader.h"
 
 GameEngineShaderResHelper::GameEngineShaderResHelper()
 {
@@ -12,7 +14,11 @@ GameEngineShaderResHelper::GameEngineShaderResHelper()
 
 GameEngineShaderResHelper::~GameEngineShaderResHelper()
 {
+	Clear();
+}
 
+void GameEngineShaderResHelper::Clear()
+{
 	for (auto& Setting : AllTextureData_)
 	{
 		if (nullptr != Setting.second)
@@ -53,6 +59,14 @@ bool GameEngineShaderResHelper::IsConstantBuffer(const std::string& _SettingName
 	return true;
 }
 
+
+void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineRenderingPipeLine* _Pipe)
+{
+	// 두번한다는 생각은 안하겠습니다.
+	Clear();
+	ShaderResourcesCheck(_Pipe->GetVertexShader());
+	ShaderResourcesCheck(_Pipe->GetPixelShader());
+}
 
 void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 {

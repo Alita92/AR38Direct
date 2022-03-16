@@ -1,22 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="CbufferHeader.fx">
-      <Filter>Engine</Filter>
-    </FxCompile>
-    <FxCompile Include="Color.fx">
-      <Filter>Engine</Filter>
-    </FxCompile>
-    <FxCompile Include="Texture.fx">
-      <Filter>Engine</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Engine">
       <UniqueIdentifier>{70c558e3-596b-44bb-8770-7f2b6aa99109}</UniqueIdentifier>
     </Filter>
     <Filter Include="User">
       <UniqueIdentifier>{5af27350-33ee-493e-990c-5fbe72ce02f7}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="EngineResources\Shader\CbufferHeader.fx">
+      <Filter>Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\Shader\Color.fx">
+      <Filter>Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\Shader\TargetMerge.fx">
+      <Filter>Engine</Filter>
+    </FxCompile>
+    <FxCompile Include="EngineResources\Shader\Texture.fx">
+      <Filter>Engine</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

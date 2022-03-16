@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineDevice.h"
+#include "GameEngineShaderResHelper.h"
 
 class GameEngineTexture;
 class GameEngineRenderTarget : public GameEngineObjectNameBase
@@ -13,6 +14,10 @@ private:	// member Var
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews_;
 
 	std::vector<float4> ClearColor_;
+
+	GameEngineRenderingPipeLine* Pipe_;
+	GameEngineShaderResHelper Res_;
+
 
 public:
 	void Clear();
@@ -40,7 +45,7 @@ private:		//delete operator
 	GameEngineRenderTarget& operator=(const GameEngineRenderTarget&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 public:
 	// 기존에 그려진 그림 위에 이 랜더타겟의 그림을 합친다.
-	void Merge(GameEngineRenderTarget* _Other);
+	void Merge(GameEngineRenderTarget* _Other, int _Index = 0);
 
 	// 기존에 뭐가 그려졌든 그걸 지우고. 넣어준걸로 바꾼다.
 	void Copy(GameEngineRenderTarget* _Other);

@@ -47,6 +47,7 @@ private:
 
 
 public:
+	static GameEngineRenderTarget* GetBackBufferTarget();
 	static ID3D11Device* GetDevice();
 	static ID3D11DeviceContext* GetContext();
 	// 메모리로서의 텍스처의 역할
@@ -57,8 +58,6 @@ public:
 
 public:
 	void Initialize();
-
-private:
 	void CreateSwapChain();
 
 

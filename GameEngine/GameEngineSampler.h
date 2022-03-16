@@ -11,6 +11,8 @@ class GameEngineSampler : public GameEngineObjectNameBase
 public:
 	friend class GameEngineSamplerManager;
 
+	void ReCreate();
+
 	void ReCreate(const D3D11_SAMPLER_DESC& _Info); // 다른 샘플링 필터를 쓰고 싶을 떄
 
 	GameEngineSampler(); // default constructer 디폴트 생성자
@@ -21,6 +23,10 @@ public:
 		return &State_;
 	}
 
+	D3D11_SAMPLER_DESC Info_;
+	// 샘플러 설정값
+
+
 protected:		// delete constructer
 	GameEngineSampler(const GameEngineSampler& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	GameEngineSampler(GameEngineSampler&& _other) noexcept = delete; // default RValue Copy constructer 디폴트 RValue 복사생성자
@@ -29,7 +35,6 @@ protected:		// delete constructer
 
 private:		//delete operator
 	ID3D11SamplerState* State_; // 현재 샘플러 상태
-	D3D11_SAMPLER_DESC Info_; // 샘플러 설정값
 
 	void Create(const D3D11_SAMPLER_DESC& _Info); // 샘플러 생성
 };

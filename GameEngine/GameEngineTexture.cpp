@@ -68,6 +68,30 @@ void GameEngineTexture::Create(
 	Create(TextureInfo);
 }
 
+void GameEngineTexture::Create(D3D11_TEXTURE2D_DESC _Desc)
+{
+	TextureDesc_ = _Desc;
+
+	GameEngineDevice::GetDevice()->CreateTexture2D(&TextureDesc_, nullptr, &Texture2D_);
+
+	if (nullptr == Texture2D_)
+	{
+		GameEngineDebug::MsgBoxError("Texture Create Error");
+		return;
+	}
+
+	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+	{
+		CreateRenderTargetView();
+	}
+
+	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+	{
+		CreateShaderResourceView();
+	}
+
+}
+
 void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
 {
 	if (nullptr == _Texture2D)

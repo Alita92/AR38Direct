@@ -31,22 +31,23 @@ public:
 		ProjectionMode_ = _ProjectionMode;
 	}
 
-
 	void PushRenderer(int _Order, GameEngineRenderer* _Renderer);
 
 	void PushDebugRender(GameEngineTransform* _Trans, CollisionType _Type);
 
 	GameEngineRenderTarget* CameraBufferTarget_;
 
-
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
 
-
 private:
+	inline GameEngineRenderTarget* GetCameraRenderTarget()
+	{
+		return CameraBufferTarget_;
+	}
+
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
-	// 
 
 	ProjectionMode ProjectionMode_;
 	float FovAngleY_;
@@ -54,9 +55,7 @@ private:
 	float NearZ_;
 	float FarZ_;
 
-
 	void ClearCameraTarget();
-
 
 	void Render();
 	void DebugRender();

@@ -2,10 +2,13 @@
 #include "GameEngineRenderTarget.h"
 #include "GameEngineTextureManager.h"
 #include "GameEngineTexture.h"
+#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineRenderingPipeLineManager.h"
 
 GameEngineRenderTarget::GameEngineRenderTarget() // default constructer 디폴트 생성자
 {
-
+	Pipe_ = GameEngineRenderingPipeLineManager::GetInst().Find("TargetMerge");
+	Res_.ShaderResourcesCheck(Pipe_);
 }
 
 GameEngineRenderTarget::~GameEngineRenderTarget() // default destructer 디폴트 소멸자
@@ -80,10 +83,19 @@ void GameEngineRenderTarget::Setting(int _Index)
 }
 
 
-void GameEngineRenderTarget::Merge(GameEngineRenderTarget* _Other)
+void GameEngineRenderTarget::Merge(GameEngineRenderTarget* _Other, int _Index)
 {
+	// 나한테 그려라
+	Setting();
 
+	Res_.SettingTexture("Tex", _Other->Textures_[_Index]);
+	Res_.Setting();
+	Pipe_->Rendering();
+	Pipe_->Reset();
+	Res_.ReSet();
 }
+
+
 
 void GameEngineRenderTarget::Copy(GameEngineRenderTarget* _Other)
 {

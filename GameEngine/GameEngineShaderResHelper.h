@@ -8,7 +8,7 @@
 
 // 쉐이더의 리소스인 상수 버퍼, 샘플러, 텍스처를 세팅하기 쉽게 하기위한 클래스입니다.
 
-
+class GameEngineRenderingPipeLine;
 class GameEngineTexture;
 class GameEngineSampler;
 class GameEngineConstantBuffer;
@@ -28,6 +28,8 @@ public:
 	//GameEngineShaderResHelper(GameEngineShaderResHelper&& _Other) noexcept = delete;
 	//GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _Other) = delete;
 	//GameEngineShaderResHelper& operator=(GameEngineShaderResHelper&& _Other) noexcept = delete;
+
+	void ShaderResourcesCheck(GameEngineRenderingPipeLine* _Shader);
 
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
 
@@ -91,7 +93,8 @@ public:
 
 	// 
 	void SettingTexture(const std::string& _SettingName, GameEngineTexture* _Texture);
-
+	void ReSet();
+	void Setting();
 protected:
 
 private:
@@ -99,7 +102,7 @@ private:
 	std::map<std::string, GameEngineTextureSetting*> AllTextureData_;
 	std::map<std::string, GameEngineSamplerSetting*> AllSamplerData_;
 
-	void Setting();
-	void ReSet();
+	void Clear();
+
 };
 

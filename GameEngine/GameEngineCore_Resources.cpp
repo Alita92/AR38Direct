@@ -53,6 +53,14 @@ void GameEngineCore::EngineResourcesLoad()
 
 		}
 	}
+
+	// 라이너가 아닌 포인터 설정을 적용한 샘플러를 만들려면 이렇게 임의로 해 줘야 합니다.
+	// 샘플러 생성 시 기본 값은 어디까지나 라이너이기 때문에...
+	GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Find("PointSmp");
+	NewRes->Info_.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	NewRes->ReCreate();
+
+
 }
 void GameEngineCore::EngineResourcesCreate()
 {
@@ -188,10 +196,10 @@ void GameEngineCore::EngineResourcesCreate()
 
 		{
 			// 앞면
-			RectVertex[0] = { float4({ -1.0f, 1.0f, 0.0f }) };
-			RectVertex[1] = { float4({ 1.0f, 1.0f, 0.0f }) };
-			RectVertex[2] = { float4({ 1.0f, -1.0f, 0.0f }) };
-			RectVertex[3] = { float4({ -1.0f, -1.0f, 0.0f }) };
+			RectVertex[0] = { float4({ -1.0f, 1.0f, 0.0f }),float4({ 0.0f, 0.0f }) };
+			RectVertex[1] = { float4({ 1.0f, 1.0f, 0.0f }), float4({ 1.0f, 0.0f }) };
+			RectVertex[2] = { float4({ 1.0f, -1.0f, 0.0f }), float4({ 1.0f, 1.0f }) };
+			RectVertex[3] = { float4({ -1.0f, -1.0f, 0.0f }),  float4({ 0.0f, 1.0f }) };
 		}
 
 		GameEngineVertexBufferManager::GetInst().Create("FullRect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
@@ -252,4 +260,17 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetOutputMergerBlend("AlphaBlend");
 	}
 
+	{
+		// 카메라의 렌더타겟을 전부 백버퍼에 머지하기 위한 파이프라인입니다.
+		// 카메라에 찍힌 전체를 그려야 하기 때문에 버텍스는 Full Rect, 즉 전체 화면으로 잡습니다.
+		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TargetMerge");
+		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
+		Pipe->SetInputAssembler1InputLayOutSetting("TargetMerge_VS");
+		Pipe->SetVertexShader("TargetMerge_VS");
+		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetPixelShader("TargetMerge_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
+	}
 }

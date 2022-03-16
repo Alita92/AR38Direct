@@ -8,7 +8,7 @@
 #include "CameraComponent.h"
 #include "GameEngineCollision.h"
 #include "GameEngineDebugRenderData.h"
-
+#include "GameEngineRenderTarget.h"
 
 CameraActor* GameEngineLevel::GetMainCameraActor()
 {
@@ -93,6 +93,9 @@ void GameEngineLevel::Render()
 	// ui를 여기에 그리죠?
 	UICameraActor_->GetCamera()->Render();
 
+	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
+	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
+	// 백버퍼로 세팅된 렌더타겟에 메인 카메라와 UI 카메라의 렌더타겟을 머지한다.
 
 	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
 	GameEngineDevice::RenderEnd();

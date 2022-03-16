@@ -38,7 +38,6 @@ public:
 		GameEngineSoundManager::Destroy();
 
 		GameEngineRenderingPipeLineManager::Destroy();
-
 		GameEngineConstantBufferManager::Destroy();
 		GameEngineFolderTextureManager::Destroy();
 		GameEngineIndexBufferManager::Destroy();

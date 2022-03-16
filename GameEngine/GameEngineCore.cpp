@@ -33,11 +33,10 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
-
+	GameEngineDevice::GetInst().Initialize();
 	EngineResourcesLoad();
 	EngineResourcesCreate();
-	// 엔진용 파이프라인
-
+	GameEngineDevice::GetInst().CreateSwapChain();
 
 	GameEngineCollision::Init(); // 엔진이 이니셜라이즈 될 때, 콜리젼 개념도 넣어주자.
 
@@ -115,7 +114,6 @@ void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
 
 	// 디바이스가 만들어져야 합니다.
 	// HWND 윈도우에서 제공하는 3D 라이브러리니까 WINDOW API를 기반으로 처리되어 있습니다.
-	GameEngineDevice::GetInst().Initialize();
 }
 
 void GameEngineCore::Loop()

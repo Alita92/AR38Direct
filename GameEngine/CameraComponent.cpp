@@ -33,7 +33,7 @@ void CameraComponent::Start()
 	DebugVector_.resize(1000);
 	DebugRenderCount_ = 0;
 
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("DebugColorRect");
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("DebugColorRect");
 
 	for (size_t i = 0; i < DebugVector_.size(); i++)
 	{
