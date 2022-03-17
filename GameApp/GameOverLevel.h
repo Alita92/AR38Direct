@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
+#include "ENUM.h"
 
 // 분류 : 
 // 용도 : 
@@ -23,5 +24,7 @@ private:
 
 private:
 	void ResourceInit();
+
+
 };
 

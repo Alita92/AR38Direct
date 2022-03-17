@@ -72,7 +72,7 @@ void OfficeTest::InitAnimation()
 	}
 	
 
-	GetLevel()->PushDebugRender(GetTransform(), CollisionType::Rect);
+	//GetLevel()->PushDebugRender(GetTransform(), CollisionType::Rect);
 
 
 }

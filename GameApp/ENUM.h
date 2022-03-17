@@ -37,3 +37,14 @@ enum class LOCATION
 	NONE,
 	MAX,
 };
+
+enum class DAY
+{
+	DAY1,
+	DAY2,
+	DAY3,
+	DAY4,
+	DAY5,
+	CUSTOM,
+	MAX
+};

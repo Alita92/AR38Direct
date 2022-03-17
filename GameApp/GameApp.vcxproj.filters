@@ -62,6 +62,9 @@
     <ClCompile Include="CCTVScreen.cpp">
       <Filter>Actor\02Play\CCTV</Filter>
     </ClCompile>
+    <ClCompile Include="IntermissionLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -182,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="CCTVScreen.h">
       <Filter>Actor\02Play\CCTV</Filter>
+    </ClInclude>
+    <ClInclude Include="IntermissionLevel.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
