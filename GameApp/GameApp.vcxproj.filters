@@ -65,6 +65,9 @@
     <ClCompile Include="IntermissionLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="IntermissionScreen.cpp">
+      <Filter>Actor\05Intermission</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -120,6 +123,9 @@
     </Filter>
     <Filter Include="Actor\02Play\Meta\Controller&amp;AI">
       <UniqueIdentifier>{a8e07e0c-44e0-412e-88ec-9c5955006c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\05Intermission">
+      <UniqueIdentifier>{3657bf75-2740-4a2f-be5e-8491a7f12b20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="IntermissionLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="IntermissionScreen.h">
+      <Filter>Actor\05Intermission</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

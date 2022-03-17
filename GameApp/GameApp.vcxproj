@@ -210,6 +210,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="IntermissionScreen.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Monster.cpp">
       <SubType>
       </SubType>
@@ -298,6 +302,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="IntermissionLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="IntermissionScreen.h">
       <SubType>
       </SubType>
     </ClInclude>
