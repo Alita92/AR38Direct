@@ -6,6 +6,7 @@
 #include <GameEngine/CameraActor.h>
 
 #include "OfficeTest.h"
+#include "OfficeFan.h"
 
 PlayLevel::PlayLevel()
 {
@@ -52,8 +53,10 @@ void PlayLevel::LevelStart()
 
 	{
 		OfficeTest* officeTest = CreateActor<OfficeTest>();
+	}
 
-
+	{
+		OfficeFan* officeFan = CreateActor<OfficeFan>();
 	}
 }
 

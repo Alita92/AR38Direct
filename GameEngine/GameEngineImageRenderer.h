@@ -65,6 +65,10 @@ public:
 	void SetEndCallBack(const std::string& _Name, std::function<void()> _CallBack);
 	void SetFrameCallBack(const std::string& _Name, int _Index, std::function<void()> _CallBack);
 
+	inline GameEngineTexture* GetCurTexture()
+	{
+		return CurTexture;
+	}
 
 protected:
 	void Update(float _DeltaTime) override;

@@ -207,14 +207,6 @@ void GameEngineTexture::Load(const std::string& _Path)
 	TextureDesc_.Height = static_cast<unsigned int>(Image_.GetMetadata().height);
 }
 
-size_t GameEngineTexture::GetTextureResolutionX()
-{
-	return static_cast<unsigned int>(Image_.GetMetadata().width);
-}
-size_t GameEngineTexture::GetTextureResolutionY()
-{
-	return static_cast<unsigned int>(Image_.GetMetadata().height);
-}
 
 void GameEngineTexture::PushCutIndex(const float4& _Size, const float4& _Pos)
 {
@@ -273,4 +265,19 @@ float4 GameEngineTexture::GetCutData(int _Index)
 bool GameEngineTexture::IsCut()
 {
 	return CutList_.size() != 0;
+}
+
+float4 GameEngineTexture::GetPixel(int _X, int _y)
+{
+	// 1111
+	// RGBA
+	// 
+
+	DXGI_FORMAT Fmt = Image_.GetMetadata().format;
+
+	uint8_t* Color = Image_.GetImages()->pixels;
+	int* ColorPtr = reinterpret_cast<int*>(Color);
+
+	return float4::ZERO;
+
 }

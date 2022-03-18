@@ -93,6 +93,8 @@ private:
 
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
 
+	void LevelChangeEndActorEvent();
+	void LevelChangeStartActorEvent();
 public:
 	void PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type);
 

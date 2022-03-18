@@ -23,8 +23,6 @@ protected:
 	GameEngineImageRenderer* lDoorRenderer_;
 	GameEngineImageRenderer* rDoorRenderer_;
 
-	GameEngineImageRenderer* fanRenderer_;
-
 
 private:
 	void Start() override;

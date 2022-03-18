@@ -68,6 +68,9 @@
     <ClCompile Include="IntermissionScreen.cpp">
       <Filter>Actor\05Intermission</Filter>
     </ClCompile>
+    <ClCompile Include="OfficeFan.cpp">
+      <Filter>Actor\02Play\Office</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="IntermissionScreen.h">
       <Filter>Actor\05Intermission</Filter>
+    </ClInclude>
+    <ClInclude Include="OfficeFan.h">
+      <Filter>Actor\02Play\Office</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

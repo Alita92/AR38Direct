@@ -4,9 +4,8 @@
 #include "ENUM.h"
 
 OfficeTest::OfficeTest() // default constructer 디폴트 생성자
-	: mainRenderer_(nullptr), lDoorRenderer_(nullptr), rDoorRenderer_(nullptr), fanRenderer_(nullptr)
+	: mainRenderer_(nullptr), lDoorRenderer_(nullptr), rDoorRenderer_(nullptr)
 {
-
 }
 
 OfficeTest::~OfficeTest() // default destructer 디폴트 소멸자
@@ -18,6 +17,7 @@ OfficeTest::~OfficeTest() // default destructer 디폴트 소멸자
 void OfficeTest::Start()
 {
 	InitAnimation();
+	GetTransform()->SetWorldPosition({0.0f ,0.0f, -10.0f});
 
 	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
 	{
@@ -38,17 +38,19 @@ void OfficeTest::Update(float _Deltatime)
 
 void OfficeTest::InitAnimation()
 {
+
+
 	{
-		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform(), static_cast<int>(RenderOrder::BACKGROUND0));
+		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeBasic.png", true);
-		
+		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -10.0f });
 		mainRenderer_->CreateAnimationFolder("JumpScareBonnie", "JumpScareBonnie", 0.04f, false);
 		mainRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, false);
 		mainRenderer_->CreateAnimationFolder("JumpScareFreddy", "JumpScareFreddy", 0.04f, false);
 	}
 
 	{
-		lDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform(), static_cast<int>(RenderOrder::OBJECT0));
+		lDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		lDoorRenderer_->SetImage("LdoorStatic.png", true);
 		lDoorRenderer_->GetTransform()->SetLocalPosition({-550.0f, 0.0f, 1.0f});
 		lDoorRenderer_->CreateAnimationFolder("LdoorClose","LdoorClose", 0.04f, false);
@@ -56,23 +58,10 @@ void OfficeTest::InitAnimation()
 	}
 
 	{
-		rDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform(), static_cast<int>(RenderOrder::OBJECT0));
+		rDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rDoorRenderer_->SetImage("RdoorStatic.png", true);
 		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, 1.0f });
 		rDoorRenderer_->CreateAnimationFolder("RdoorClose", "RdoorClose", 0.04f, false);
 		rDoorRenderer_->CreateAnimationFolder("RdoorOpen", "RdoorOpen", 0.04f, false);
 	}
-
-	{
-		fanRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform(), static_cast<int>(RenderOrder::OBJECT0));
-		fanRenderer_->SetImage("OfficeFanDefault.png", true);
-		fanRenderer_->GetTransform()->SetLocalPosition({49.0f, -41.0f, 1.0f});
-		fanRenderer_->CreateAnimationFolder("OfficeFan", "OfficeFan", 0.02f);
-		fanRenderer_->SetChangeAnimation("OfficeFan");
-	}
-	
-
-	//GetLevel()->PushDebugRender(GetTransform(), CollisionType::Rect);
-
-
 }

@@ -82,6 +82,32 @@ void GameEngineLevel::ActorUpdate(float _DeltaTime)
 	}
 }
 
+void GameEngineLevel::LevelChangeEndActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			Actor->LevelChangeEndEvent();
+		}
+	}
+}
+void GameEngineLevel::LevelChangeStartActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
+	{
+		std::list<GameEngineActor*>& Actors = Pair.second;
+
+		for (GameEngineActor* Actor : Actors)
+		{
+			Actor->LevelChangeStartEvent();
+		}
+	}
+}
+
+
 void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
