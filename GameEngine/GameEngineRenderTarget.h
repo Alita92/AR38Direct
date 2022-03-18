@@ -15,6 +15,9 @@ private:	// member Var
 
 	std::vector<float4> ClearColor_;
 
+	GameEngineDepthBuffer* DepthBuffer_;
+
+
 	GameEngineRenderingPipeLine* Pipe_;
 	GameEngineShaderResHelper Res_;
 
@@ -31,6 +34,9 @@ public:
 
 	void Create(float4 _Scale, float4 _ClearColor);
 	void Create(GameEngineTexture* _Texture, float4 _ClearColor);
+
+	void CreateDepthBuffer(float4 _Scale);
+
 
 public:
 	GameEngineRenderTarget(); // default constructer 디폴트 생성자

@@ -29,7 +29,7 @@ private:
 	void Update(float _Deltatime) override;
 
 private:
-	static DAY curDay_;
+	DAY curDay_;
 
 public:
 	void PromoteIntermissionTo(DAY _day);

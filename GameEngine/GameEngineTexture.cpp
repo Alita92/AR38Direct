@@ -8,17 +8,24 @@
 GameEngineTexture::GameEngineTexture() // default constructer 디폴트 생성자
 	: Texture2D_(nullptr)
 	, RenderTargetView_(nullptr)
-	, ShaderResourceViewPtr_(nullptr)
+	, ShaderResourceView_(nullptr)
+	, DepthStencilView_(nullptr)
 {
 	
 }
 
 GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
 {
-	if (nullptr != ShaderResourceViewPtr_)
+	if (nullptr != DepthStencilView_)
 	{
-		ShaderResourceViewPtr_->Release();
-		ShaderResourceViewPtr_ = nullptr;
+		DepthStencilView_->Release();
+		DepthStencilView_ = nullptr;
+	}
+
+	if (nullptr != ShaderResourceView_)
+	{
+		ShaderResourceView_->Release();
+		ShaderResourceView_ = nullptr;
 	}
 
 
@@ -90,6 +97,12 @@ void GameEngineTexture::Create(D3D11_TEXTURE2D_DESC _Desc)
 		CreateShaderResourceView();
 	}
 
+	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+	{
+		CreateDepthStencilView();
+	}
+
+
 }
 
 void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
@@ -122,18 +135,34 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 
 ID3D11ShaderResourceView* GameEngineTexture::CreateShaderResourceView()
 {
-	if (nullptr != ShaderResourceViewPtr_)
+	if (nullptr != ShaderResourceView_)
 	{
 		// GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
-		return ShaderResourceViewPtr_;
+		return ShaderResourceView_;
 	}
 
-	if (S_OK != GameEngineDevice::GetDevice()->CreateShaderResourceView(Texture2D_, nullptr, &ShaderResourceViewPtr_))
+	if (S_OK != GameEngineDevice::GetDevice()->CreateShaderResourceView(Texture2D_, nullptr, &ShaderResourceView_))
 	{
 		GameEngineDebug::MsgBoxError("RenderTargetView Create Error");
 	}
 
-	return ShaderResourceViewPtr_;
+	return ShaderResourceView_;
+}
+
+ID3D11DepthStencilView* GameEngineTexture::CreateDepthStencilView()
+{
+	if (nullptr != DepthStencilView_)
+	{
+		// GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
+		return DepthStencilView_;
+	}
+
+	if (S_OK != GameEngineDevice::GetDevice()->CreateDepthStencilView(Texture2D_, nullptr, &DepthStencilView_))
+	{
+		GameEngineDebug::MsgBoxError("RenderTargetView Create Error");
+	}
+
+	return DepthStencilView_;
 }
 
 
@@ -169,7 +198,7 @@ void GameEngineTexture::Load(const std::string& _Path)
 	if (S_OK != DirectX::CreateShaderResourceView(GameEngineDevice::GetDevice(),
 		Image_.GetImages(),
 		Image_.GetImageCount(),
-		Image_.GetMetadata(), &ShaderResourceViewPtr_))
+		Image_.GetMetadata(), &ShaderResourceView_))
 	{
 		GameEngineDebug::MsgBoxError("쉐이더 리소스 뷰를 생성하는데 실패했습니다." + _Path);
 	}

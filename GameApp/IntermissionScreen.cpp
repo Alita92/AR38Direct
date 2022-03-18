@@ -1,8 +1,7 @@
 #include "PreCompile.h"
 #include "IntermissionScreen.h"
 #include <GameEngine/GameEngineImageRenderer.h>
-
-static IntermissionScreen::curDay_ = nullptr;
+#include "ENUM.h"
 
 IntermissionScreen::IntermissionScreen() // default constructer 디폴트 생성자
 	: mainRenderer_(nullptr), typoRenderer_(nullptr)

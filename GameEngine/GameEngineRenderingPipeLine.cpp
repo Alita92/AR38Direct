@@ -12,6 +12,14 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() // default constructe
 	, IndexBuffer_(nullptr)
 	, Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
+	// 기본 값 설정입니다.
+	// 이 외의 블렌드, 레스터라이저, 깊이 버퍼 스텐실과 토폴로지 설정시
+	// 리소스 코드에서 직접 바꿔줘야 합니다.
+
+	SetOutputMergerBlend("AlphaBlend");
+	SetRasterizer("EngineBaseRasterizer");
+	SetOutputMergerDepthStencil("BaseDepthOn");
+	SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructer 디폴트 소멸자
@@ -114,6 +122,16 @@ void GameEngineRenderingPipeLine::SetOutputMergerBlend(const std::string& _Name)
 
 }
 
+void GameEngineRenderingPipeLine::SetOutputMergerDepthStencil(const std::string& _Name)
+{
+	DepthStencil_ = GameEngineDepthStencilManager::GetInst().Find(_Name);
+	if (nullptr == DepthStencil_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 깊이 세팅을 세팅하려고 했습니다.");
+		return;
+	}
+}
+
 void GameEngineRenderingPipeLine::InputAssembler1()
 {
 	VertexBuffer_->Setting();
@@ -146,6 +164,7 @@ void GameEngineRenderingPipeLine::PixelShader()
 void GameEngineRenderingPipeLine::OutputMerger()
 {
 	Blend_->Setting();
+	DepthStencil_->Setting();
 }
 
 void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
@@ -175,4 +194,5 @@ void GameEngineRenderingPipeLine::Rendering()
 void GameEngineRenderingPipeLine::Reset()
 {
 	Blend_->Reset();
+	DepthStencil_->Reset();
 }
