@@ -177,6 +177,8 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, c
 		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처로 애니메이션을 만들려고 했습니다.");
 	}
 
+
+	NewAnimation->SetName(_Name);
 	NewAnimation->IsEnd = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->InterTime_ = _InterTime;
@@ -210,6 +212,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 
 	Animation2D* NewAnimation = new Animation2D();
 
+	NewAnimation->SetName(_Name);
 	NewAnimation->IsEnd = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->InterTime_ = _InterTime;

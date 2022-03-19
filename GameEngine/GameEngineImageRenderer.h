@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineRenderer.h"
+#include <GameEngineBase\GameEngineObjectNameBase.h>
 
 // 설명 : 렌더러 중 이미지 파일을 렌더링하기 용이하게 만든 서브렌더러
 //		  Start() 내부에서 렌더링 파이프라인을 돌리며, 
@@ -11,7 +12,7 @@ class GameEngineFolderTexture;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
 private:
-	struct Animation2D // 2D 스프라이트 애니메이션을 만들기 위한 구조체 묶음입니다.
+	struct Animation2D : public GameEngineObjectNameBase// 2D 스프라이트 애니메이션을 만들기 위한 구조체 묶음입니다.
 	{
 		GameEngineFolderTexture* FolderTextures_;
 		GameEngineTexture* AnimationTexture_;
@@ -68,6 +69,27 @@ public:
 	inline GameEngineTexture* GetCurTexture()
 	{
 		return CurTexture;
+	}
+
+
+	inline GameEngineTexture* GetCurrentTexture()
+	{
+		return CurTexture;
+	}
+
+	inline std::string GetCurrentAnimationName()
+	{
+		return CurAnimation_->GetName();
+	}
+
+	inline bool IsCurrentAnimationString(const std::string& _Name)
+	{
+		return CurAnimation_->GetName() == _Name;
+	}
+
+	inline bool IsCurrentAnimationPtr(const char* _Name)
+	{
+		return CurAnimation_->GetName() == _Name;
 	}
 
 protected:
