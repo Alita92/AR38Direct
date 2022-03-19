@@ -11,7 +11,7 @@ GameEngineTexture::GameEngineTexture() // default constructer 디폴트 생성자
 	, ShaderResourceView_(nullptr)
 	, DepthStencilView_(nullptr)
 {
-	
+
 }
 
 GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
@@ -28,12 +28,10 @@ GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
 		ShaderResourceView_ = nullptr;
 	}
 
-
 	if (nullptr != RenderTargetView_)
 	{
 		RenderTargetView_->Release();
 		RenderTargetView_ = nullptr;
-
 	}
 
 	if (nullptr != Texture2D_)
@@ -97,11 +95,11 @@ void GameEngineTexture::Create(D3D11_TEXTURE2D_DESC _Desc)
 		CreateShaderResourceView();
 	}
 
+
 	if (_Desc.BindFlags & D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
 	{
 		CreateDepthStencilView();
 	}
-
 
 }
 
@@ -189,10 +187,10 @@ void GameEngineTexture::Load(const std::string& _Path)
 	}
 	else
 	{
-		if (S_OK != DirectX::LoadFromWICFile(wPath.c_str(), DirectX::WIC_FLAGS_NONE, nullptr, Image_)) // 직업 로드하는 함수
+		if (S_OK != DirectX::LoadFromWICFile(wPath.c_str(), DirectX::WIC_FLAGS_NONE, nullptr, Image_))
 		{
 			GameEngineDebug::MsgBoxError("로드할수 없는 이미지 포맷입니다" + _Path);
-		}	
+		}
 	}
 
 	if (S_OK != DirectX::CreateShaderResourceView(GameEngineDevice::GetDevice(),
@@ -206,7 +204,6 @@ void GameEngineTexture::Load(const std::string& _Path)
 	TextureDesc_.Width = static_cast<unsigned int>(Image_.GetMetadata().width);
 	TextureDesc_.Height = static_cast<unsigned int>(Image_.GetMetadata().height);
 }
-
 
 void GameEngineTexture::PushCutIndex(const float4& _Size, const float4& _Pos)
 {
@@ -267,17 +264,44 @@ bool GameEngineTexture::IsCut()
 	return CutList_.size() != 0;
 }
 
-float4 GameEngineTexture::GetPixel(int _X, int _y)
+float4 GameEngineTexture::GetPixel(int _x, int _y)
 {
 	// 1111
 	// RGBA
 	// 
 
+	if (0 > _x)
+	{
+		return float4::ZERO;
+	}
+
+	if (0 > _y)
+	{
+		return float4::ZERO;
+	}
+
+	if (Image_.GetMetadata().width <= _x)
+	{
+		return float4::ZERO;
+	}
+
+	if (Image_.GetMetadata().height <= _x)
+	{
+		return float4::ZERO;
+	}
+
 	DXGI_FORMAT Fmt = Image_.GetMetadata().format;
 
 	uint8_t* Color = Image_.GetImages()->pixels;
-	int* ColorPtr = reinterpret_cast<int*>(Color);
+	// int* ColorPtr = reinterpret_cast<int*>(Color);
 
-	return float4::ZERO;
+	int Index = _y * Image_.GetMetadata().width + _x;
+	Color = Color + (Index * 4);
 
+	unsigned char R = Color[0];
+	unsigned char G = Color[1];
+	unsigned char B = Color[2];
+	unsigned char A = Color[3];
+
+	return float4(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
 }

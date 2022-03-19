@@ -202,6 +202,16 @@ public:
 	}
 
 
+	bool operator==(const float4& _Value) const
+	{
+		return x == _Value.x && y == _Value.y && z == _Value.z && w == _Value.w;
+	}
+
+	bool operator!=(const float4& _Value) const
+	{
+		return x != _Value.x || y != _Value.y || z != _Value.z || w != _Value.w;
+	}
+
 	float4& operator/=(const float4& _Value)
 	{
 		DirectVector = DirectX::XMVectorDivide(DirectVector, _Value.DirectVector);
