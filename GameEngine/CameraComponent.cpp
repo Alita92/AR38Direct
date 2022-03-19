@@ -9,6 +9,8 @@
 #include "GameEnginePixelShader.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineRenderTarget.h"
+#include <algorithm>
+
 
 CameraComponent::CameraComponent()
 	: ProjectionMode_(ProjectionMode::Perspective)
@@ -110,10 +112,18 @@ void CameraComponent::Render()
 
 }
 
+
+
 void CameraComponent::PushRenderer(int _Order, GameEngineRenderer* _Renderer)
 {
 	RendererList_[_Order].push_back(_Renderer);
 }
+
+bool ZSort(GameEngineRenderer* _Left, GameEngineRenderer* _Right)
+{
+	return _Left->GetTransform()->GetWorldPosition().z > _Right->GetTransform()->GetWorldPosition().z;
+}
+
 
 void CameraComponent::ReleaseRenderer()
 {
@@ -125,6 +135,10 @@ void CameraComponent::ReleaseRenderer()
 		for (; RenderMapBeginIter != RenderMapEndIter; ++RenderMapBeginIter)
 		{
 			std::list<GameEngineRenderer*>& Renderers = RenderMapBeginIter->second;
+
+			Renderers.sort(ZSort);
+			// std::sort(Renderers.begin(), Renderers.end(), ZSort);
+
 
 			std::list<GameEngineRenderer*>::iterator BeginIter = Renderers.begin();
 			std::list<GameEngineRenderer*>::iterator EndIter = Renderers.end();

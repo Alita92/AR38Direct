@@ -65,6 +65,7 @@ private:
 	void CameraTransformUpdate();
 
 	std::map<int, std::list<GameEngineRenderer*>> RendererList_;
+	// std::set<int> ZSort_;
 
 	int DebugRenderCount_;
 	std::vector<GameEngineDebugRenderData> DebugVector_;
