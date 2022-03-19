@@ -10,6 +10,7 @@
 #include "GameEngineDebugRenderData.h"
 #include "GameEngineRenderTarget.h"
 
+
 CameraActor* GameEngineLevel::GetMainCameraActor()
 {
 	return MainCameraActor_;
@@ -53,17 +54,17 @@ GameEngineLevel::~GameEngineLevel()
 
 void GameEngineLevel::Init()
 {
-	// 레벨은 메인 카메라와 UI 카메라를 기본적으로 가집니다.
 	MainCameraActor_ = CreateActor<CameraActor>();
 	UICameraActor_ = CreateActor<CameraActor>();
 
-	// UI 카메라는 미리 기본값을 설정해 주지만, 메인 카메라는 객체화된 레벨에 맞게 조정해줘야 합니다.
 	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
+
+
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
 		std::list<GameEngineActor*>& Actors = Pair.second;
@@ -107,12 +108,12 @@ void GameEngineLevel::LevelChangeStartActorEvent()
 	}
 }
 
-
 void GameEngineLevel::Render()
 {
 	GameEngineDevice::RenderStart();
 
 	MainCameraActor_->GetCamera()->ClearCameraTarget();
+	UICameraActor_->GetCamera()->ClearCameraTarget();
 	// 월드를 그리는 것이죠
 	MainCameraActor_->GetCamera()->Render();
 	MainCameraActor_->GetCamera()->DebugRender();
@@ -121,7 +122,6 @@ void GameEngineLevel::Render()
 
 	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
 	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
-	// 백버퍼로 세팅된 렌더타겟에 메인 카메라와 UI 카메라의 렌더타겟을 머지한다.
 
 	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
 	GameEngineDevice::RenderEnd();
@@ -141,6 +141,7 @@ void GameEngineLevel::Release(float _DeltaTime)
 
 	MainCameraActor_->GetCamera()->ReleaseRenderer();
 	UICameraActor_->GetCamera()->ReleaseRenderer();
+
 
 	// 콜리전 삭제
 	{
@@ -231,7 +232,6 @@ void GameEngineLevel::LevelChangeEndEvent()
 
 }
 
-
 void GameEngineLevel::PushCollision(GameEngineCollision* _Collision, int _Group)
 {
 	CollisionList_[_Group].push_back(_Collision);
@@ -244,13 +244,6 @@ void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Col
 	_Collision->SetOrder(_Group);
 
 	CollisionList_[_Collision->GetOrder()].push_back(_Collision);
-}
-
-
-
-void GameEngineLevel::ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer)
-{
-	MainCameraActor_->GetCamera()->ChangeRendererGroup(_Group, _Renderer);
 }
 
 void GameEngineLevel::PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type)

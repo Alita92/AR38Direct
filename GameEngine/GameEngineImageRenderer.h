@@ -92,7 +92,9 @@ public:
 		return CurAnimation_->GetName() == _Name;
 	}
 
+
 protected:
+	void ImageRendererStart();
 	void Update(float _DeltaTime) override;
 
 private:

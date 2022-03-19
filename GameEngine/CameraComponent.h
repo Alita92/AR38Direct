@@ -37,6 +37,10 @@ public:
 
 	GameEngineRenderTarget* CameraBufferTarget_;
 
+
+	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
+
+
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;

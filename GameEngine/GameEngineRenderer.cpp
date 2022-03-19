@@ -29,15 +29,18 @@ void GameEngineRenderer::Render()
 
 void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 {
+	ShaderHelper.Clear();
+
 	PipeLine_ = GameEngineRenderingPipeLineManager::GetInst().Find(_Value);
 
 	if (nullptr == PipeLine_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 랜더링 파이프라인입니다." + _Value);
+		return;
 	}
 
-	ShaderHelper.ShaderResourcesCheck(PipeLine_->GetVertexShader());
 	ShaderHelper.ShaderResourcesCheck(PipeLine_->GetPixelShader());
+	ShaderHelper.ShaderResourcesCheck(PipeLine_->GetVertexShader());
 
 	if (true == ShaderHelper.IsConstantBuffer("TransformData"))
 	{
@@ -52,7 +55,6 @@ void GameEngineRenderer::SetRenderingPipeLine(const std::string& _Value)
 
 void GameEngineRenderer::Start()
 {
-	// 메인 카메라에 이걸 렌더링할 목록에 넣어 줘... 하는 것
 	GetLevel()->GetMainCamera()->PushRenderer(GetOrder(), this);
 }
 
@@ -61,8 +63,7 @@ void GameEngineRenderer::Update(float _DeltaTime)
 
 }
 
-
 void GameEngineRenderer::SetRenderGroup(int _Order)
 {
-	GetLevel()->ChangeRendererGroup(_Order, this);
+	GetLevel()->GetMainCamera()->ChangeRendererGroup(_Order, this);
 }

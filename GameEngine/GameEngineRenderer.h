@@ -24,15 +24,15 @@ public:
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
 	void SetRenderingPipeLine(const std::string& _Value);
-	virtual void SetRenderGroup(int _Order); // protected 가 이미지 렌더러에 상속되지가 않아서 임시로 일단 여기 배치
+
 	GameEngineShaderResHelper ShaderHelper;
+	virtual void SetRenderGroup(int _Order);
 
 protected:
 	GameEngineRenderingPipeLine* PipeLine_;
 
 	void Start() override;
 
-	// virtual void SetRenderGroup(int _Order);
 
 private:
 	void Update(float _DeltaTime) override;

@@ -52,9 +52,6 @@
     <Filter Include="Object\Component\Camera">
       <UniqueIdentifier>{d97354b9-38f1-455c-9e89-ea39f48a1a5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\SubActor">
-      <UniqueIdentifier>{4fda44ea-f0a6-4eb0-8413-ea4c9c080231}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Control">
       <UniqueIdentifier>{5875078c-d768-4b5f-88ca-076d321e42f9}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,9 @@
     </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{19f7e4a6-ec3c-48b6-9e8a-313da78c124b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\EngineActor">
+      <UniqueIdentifier>{3fe6bae9-1ac3-420d-b8ac-4a37901a3fa2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +185,6 @@
     <ClInclude Include="CameraComponent.h">
       <Filter>Object\Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="CameraActor.h">
-      <Filter>Object\SubActor</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineInput.h">
       <Filter>Control</Filter>
     </ClInclude>
@@ -241,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="GameEngineDepthStencilManager.h">
       <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseActor.h">
+      <Filter>Object\EngineActor</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraActor.h">
+      <Filter>Object\EngineActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,9 +342,6 @@
     <ClCompile Include="CameraComponent.cpp">
       <Filter>Object\Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="CameraActor.cpp">
-      <Filter>Object\SubActor</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineInput.cpp">
       <Filter>Control</Filter>
     </ClCompile>
@@ -390,6 +390,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineDepthStencilManager.cpp">
       <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseActor.cpp">
+      <Filter>Object\EngineActor</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraActor.cpp">
+      <Filter>Object\EngineActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
