@@ -51,7 +51,7 @@ private:
 		return CameraBufferTarget_;
 	}
 
-	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
+
 
 	ProjectionMode ProjectionMode_;
 	float FovAngleY_;

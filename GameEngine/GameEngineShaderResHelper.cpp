@@ -52,6 +52,7 @@ void GameEngineShaderResHelper::Clear()
 	}
 
 	AllConstantBufferData_.clear();
+}
 
 bool GameEngineShaderResHelper::IsConstantBuffer(const std::string& _SettingName)
 {
