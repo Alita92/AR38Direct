@@ -1,10 +1,16 @@
 #include "PreCompile.h"
 #include "TitleLevel.h"
 
+
+#include "ENUM.h"
 #include "TitleFreddy.h"
 #include "TitleText.h"
 
+#include <GameEngine/MouseActor.h>
+#include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineCore.h>
+
+
 TitleLevel::TitleLevel()
 {
 }
@@ -50,6 +56,13 @@ void TitleLevel::LevelStart()
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+
+	{
+		// 타이틀씬의 마우스 액터입니다.
+		MouseActor* mouseActor = CreateActor<MouseActor>();
+		mouseActor->GetUIRenderer()->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	}
+
 
 	{
 		// 타이틀 배경화면의 프레디 애니메이션 액터입니다.

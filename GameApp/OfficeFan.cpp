@@ -14,7 +14,7 @@ OfficeFan::~OfficeFan() // default destructer 디폴트 소멸자
 
 void OfficeFan::Start()
 {
-	GetTransform()->SetWorldPosition({49.0f, -41.0f, 50.0f});
+	GetTransform()->SetWorldPosition({49.0f, -41.0f, 0.0f});
 	InitAnimation();
 }
 

@@ -16,7 +16,7 @@ OfficeTest::~OfficeTest() // default destructer 디폴트 소멸자
 
 void OfficeTest::Start()
 {
-	GetTransform()->SetWorldPosition({0.0f ,0.0f, -10.0f});
+	GetTransform()->SetWorldPosition({0.0f ,0.0f, 10.0f});
 
 	InitAnimation();
 
