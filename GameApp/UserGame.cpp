@@ -42,11 +42,13 @@ void UserGame::Initialize()
 	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
 	GameEngineInput::GetInst().HideCursor();
+	
 
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<PlayLevel>("Play");
 	LevelCreate<GameOverLevel>("GameOver");
 	LevelChange("Title");
+	KeyInit();
 	return;
 }
 
@@ -55,6 +57,16 @@ void UserGame::Release()
 
 }
 
+
+void UserGame::KeyInit()
+{
+	if (false == GameEngineInput::GetInst().IsKey("MOUSE_1"))
+	{
+		GameEngineInput::GetInst().CreateKey("MOUSE_1", VK_LBUTTON);
+		GameEngineInput::GetInst().CreateKey("DEBUG_SKIP", 'P');
+
+	}
+}
 
 //
 //void UserGame::GameLoop()

@@ -5,6 +5,7 @@
 // 분류 : 
 // 용도 : 
 // 설명 :
+class GameEngineCollision;
 class GameEngineImageRenderer;
 class TitleText : public GameEngineActor
 {
@@ -23,10 +24,19 @@ protected:
 
 	// 충돌체 있어야 함
 	GameEngineImageRenderer* titleNewGame_;
+	GameEngineCollision* titleNewGameCollision_;
 	GameEngineImageRenderer* titleContinue_;
+	GameEngineCollision* titleContinueCollision_;
+
+	void ImageInit();
+	void CollisionInit();
 
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
+	void DebugRenderUpdate();
+
+private:
+	void CollisionTestFunc(GameEngineCollision* _Other);
 };
 

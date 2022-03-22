@@ -1,5 +1,24 @@
 #pragma once
 
+enum class InGameCollisonType
+{
+	MOUSEPOINTER,
+	UI,
+	GAMEACTOR,
+	MAX
+};
+
+enum class Level
+{
+	TITLE,
+	PLAY,
+	GAMEOVER,
+	CUSTOMSETTING,
+	INTERMISSION,
+	MAX
+};
+
+
 enum class RenderOrder
 {
 	UI0,

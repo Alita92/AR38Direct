@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
+#include "ENUM.h"
 
 // Ό³Έν :
 class TitleLevel : public GameEngineLevel
@@ -13,9 +14,13 @@ public:
 	TitleLevel(const TitleLevel& _Other) = delete;
 	TitleLevel(TitleLevel&& _Other) noexcept = delete;
 	TitleLevel& operator=(const TitleLevel& _Other) = delete;
-	TitleLevel& operator=(TitleLevel&& _Other) noexcept = delete;
+	TitleLevel& operator=(TitleLevel&& _Other) noexcept = delete; 
+
+public:
+	void SetNextLevel(Level _nextLevel);
 
 protected:
+	Level nextLevel_;
 
 private:
 	void LevelStart() override;
@@ -25,5 +30,9 @@ private:
 
 private:
 	void ResourceInit();
+
+private:
+	void CheckLevelChangeRequest();
+	bool isUIButtonDown_;
 };
 

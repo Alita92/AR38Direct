@@ -1,8 +1,6 @@
 #include "PreCompile.h"
 #include "TitleLevel.h"
 
-
-#include "ENUM.h"
 #include "GameMouse.h"
 #include "TitleFreddy.h"
 
@@ -15,6 +13,7 @@
 
 
 TitleLevel::TitleLevel()
+	: isUIButtonDown_(false), nextLevel_(Level::MAX)
 {
 }
 
@@ -46,11 +45,6 @@ void TitleLevel::ResourceInit()
 		//soundDir.MoveChild("Sound");
 		//soundDir.MoveChild("Title");
 	}
-
-	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
-	{
-		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P'); // 레벨 건너뛰는 디버그 키입니다.
-	}
 }
 
 void TitleLevel::LevelStart()
@@ -76,10 +70,10 @@ void TitleLevel::LevelStart()
 
 void TitleLevel::LevelUpdate(float _DeltaTime)
 {
-	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
-	{
-		GameEngineCore::LevelChange("Play");
-	}
+
+
+	CheckLevelChangeRequest();
+
 }
 void TitleLevel::LevelChangeEndEvent()
 {
@@ -88,4 +82,22 @@ void TitleLevel::LevelChangeEndEvent()
 void TitleLevel::LevelChangeStartEvent()
 {
 
+}
+
+void TitleLevel::CheckLevelChangeRequest()
+{
+	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
+	{
+		GameEngineCore::LevelChange("Play");
+	}
+
+	if (true == isUIButtonDown_)
+	{
+
+	}
+}
+
+void TitleLevel::SetNextLevel(Level _nextLevel)
+{
+	nextLevel_ = _nextLevel;
 }
