@@ -5,6 +5,17 @@
 
 // class GameEngineInput::GameEngineKey : public PtrParent<GameEngineKey> --------------------------
 
+GameEngineInput::GameEngineKey::GameEngineKey()
+    : Up_(true), Press_(false), Free_(true), Down_(false)
+{
+
+}
+
+GameEngineInput::GameEngineKey::~GameEngineKey()
+{
+
+}
+
 bool GameEngineInput::GameEngineKey::KeyCheck()
 {
 

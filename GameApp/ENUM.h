@@ -8,17 +8,6 @@ enum class InGameCollisonType
 	MAX
 };
 
-enum class Level
-{
-	TITLE,
-	PLAY,
-	GAMEOVER,
-	CUSTOMSETTING,
-	INTERMISSION,
-	MAX
-};
-
-
 enum class RenderOrder
 {
 	UI0,

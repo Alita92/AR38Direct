@@ -13,7 +13,6 @@
 
 
 TitleLevel::TitleLevel()
-	: isUIButtonDown_(false), nextLevel_(Level::MAX)
 {
 }
 
@@ -71,9 +70,10 @@ void TitleLevel::LevelStart()
 void TitleLevel::LevelUpdate(float _DeltaTime)
 {
 
-
-	CheckLevelChangeRequest();
-
+	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
+	{
+		GameEngineCore::LevelChange("Play");
+	}
 }
 void TitleLevel::LevelChangeEndEvent()
 {
@@ -82,22 +82,4 @@ void TitleLevel::LevelChangeEndEvent()
 void TitleLevel::LevelChangeStartEvent()
 {
 
-}
-
-void TitleLevel::CheckLevelChangeRequest()
-{
-	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
-	{
-		GameEngineCore::LevelChange("Play");
-	}
-
-	if (true == isUIButtonDown_)
-	{
-
-	}
-}
-
-void TitleLevel::SetNextLevel(Level _nextLevel)
-{
-	nextLevel_ = _nextLevel;
 }

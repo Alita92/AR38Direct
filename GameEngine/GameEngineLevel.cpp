@@ -1,4 +1,5 @@
 #include "PreCompile.h"
+#include "GameEngineCore.h"
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
 #include "GameEngineRenderer.h"
@@ -249,4 +250,10 @@ void GameEngineLevel::ChangeCollisionGroup(int _Group, GameEngineCollision* _Col
 void GameEngineLevel::PushDebugRender(GameEngineTransform* _Transform, CollisionType _Type)
 {
 	MainCameraActor_->GetCamera()->PushDebugRender(_Transform, _Type);
+}
+
+
+void GameEngineLevel::RequestLevelChange(std::string _level)
+{
+	GameEngineCore::LevelChange(_level);
 }

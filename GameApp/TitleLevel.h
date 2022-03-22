@@ -16,11 +16,9 @@ public:
 	TitleLevel& operator=(const TitleLevel& _Other) = delete;
 	TitleLevel& operator=(TitleLevel&& _Other) noexcept = delete; 
 
-public:
-	void SetNextLevel(Level _nextLevel);
+
 
 protected:
-	Level nextLevel_;
 
 private:
 	void LevelStart() override;
@@ -30,9 +28,5 @@ private:
 
 private:
 	void ResourceInit();
-
-private:
-	void CheckLevelChangeRequest();
-	bool isUIButtonDown_;
 };
 

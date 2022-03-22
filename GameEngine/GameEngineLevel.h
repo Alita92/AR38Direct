@@ -78,6 +78,7 @@ public:
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
 
+	void RequestLevelChange(std::string _level);
 
 
 	//////////////////////////////////////////////////////// collision:

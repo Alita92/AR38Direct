@@ -10,7 +10,7 @@ class GameEngineImageRenderer;
 class TitleText : public GameEngineActor
 {
 public:
-	TitleText(); 
+	TitleText();
 	~TitleText();
 	TitleText(const TitleText& _other) = delete;
 	TitleText(TitleText&& _other) noexcept;
@@ -35,8 +35,10 @@ private:
 	void Start() override;
 	void Update(float _Deltatime) override;
 	void DebugRenderUpdate();
+	void CollisionCheckUpdate();
 
 private:
-	void CollisionTestFunc(GameEngineCollision* _Other);
+	void CollisionNewGame(GameEngineCollision* _other);
+	void CollisionContinue(GameEngineCollision* _other);
 };
 

@@ -25,7 +25,7 @@ private:
 
 
 	const float ACTION_FREQUENCY = 4.97f;
-	float AILevel_;
+	int AILevel_;
 	float deltatime_;
 	LOCATION curLocation_;
 	LOCATION nextLocation_;

@@ -3,7 +3,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 AIBonnie::AIBonnie() // default constructer 디폴트 생성자
-	:AILevel_(0.0f), deltatime_(0.0f), curLocation_(LOCATION::MAX), nextLocation_(LOCATION::MAX), state_(this)
+	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::MAX), nextLocation_(LOCATION::MAX), state_(this)
 {
 
 }

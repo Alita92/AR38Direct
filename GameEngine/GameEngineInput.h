@@ -39,6 +39,10 @@ private:
         bool KeyCheck();
         void Update();
         void Reset();
+
+    public:
+        GameEngineKey();
+        ~GameEngineKey();
     };
 
 private: // static member 

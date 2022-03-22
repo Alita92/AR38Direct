@@ -1,5 +1,7 @@
 #include "PreCompile.h"
+#include "ENUM.h"
 #include "TitleText.h"
+#include "TitleLevel.h"
 
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineImageRenderer.h>
@@ -44,14 +46,14 @@ void TitleText::CollisionInit()
 		titleNewGameCollision_ = CreateTransformComponent<GameEngineCollision>();
 		titleNewGameCollision_->GetTransform()->SetLocalPosition(titleNewGame_->GetTransform()->GetLocalPosition());
 		titleNewGameCollision_->GetTransform()->SetLocalScaling(titleNewGame_->GetTransform()->GetLocalScaling());
-		titleNewGameCollision_->SetCollisionGroup(2);
+		titleNewGameCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 
 	{
 		titleContinueCollision_ = CreateTransformComponent<GameEngineCollision>();
 		titleContinueCollision_->GetTransform()->SetLocalPosition(titleContinue_->GetTransform()->GetLocalPosition());
 		titleContinueCollision_->GetTransform()->SetLocalScaling(titleContinue_->GetTransform()->GetLocalScaling());
-		titleContinueCollision_->SetCollisionGroup(3);
+		titleContinueCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 
 }
@@ -67,10 +69,17 @@ void TitleText::Start()
 
 void TitleText::Update(float _Deltatime)
 {
-	titleNewGameCollision_->Collision(
-		CollisionType::Rect, CollisionType::Rect, 1, std::bind(&TitleText::CollisionTestFunc, this, std::placeholders::_1));
-
+	CollisionCheckUpdate();
 	DebugRenderUpdate();
+}
+
+void TitleText::CollisionCheckUpdate()
+{
+	titleNewGameCollision_->Collision(
+		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionNewGame, this, std::placeholders::_1));
+
+	titleContinueCollision_->Collision(
+		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionContinue, this, std::placeholders::_1));
 }
 
 
@@ -82,10 +91,18 @@ void TitleText::DebugRenderUpdate()
 #endif
 }
 
-void TitleText::CollisionTestFunc(GameEngineCollision* _Other)
+void TitleText::CollisionNewGame(GameEngineCollision* _other)
 {
-	if (GameEngineInput::GetInst().Up("MOUSE_1"))
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
-		GetLevel()->
+		GetLevel()->RequestLevelChange("Play");
+	}
+}
+
+void TitleText::CollisionContinue(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
+	{
+		GetLevel()->RequestLevelChange("Play");
 	}
 }
