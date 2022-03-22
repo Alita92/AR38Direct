@@ -71,6 +71,9 @@
     <ClCompile Include="OfficeFan.cpp">
       <Filter>Actor\02Play\Office</Filter>
     </ClCompile>
+    <ClCompile Include="GameMouse.cpp">
+      <Filter>Actor\00Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -203,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="OfficeFan.h">
       <Filter>Actor\02Play\Office</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMouse.h">
+      <Filter>Actor\00Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

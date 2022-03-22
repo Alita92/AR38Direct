@@ -2,7 +2,7 @@
 #include "GameEngineActor.h"
 #include "GameEngineUIRenderer.h"
 
-// Ό³Έν :
+
 class MouseActor : public GameEngineActor
 {
 public:
@@ -21,15 +21,13 @@ public:
 
 	GameEngineUIRenderer* GetUIRenderer()
 	{
-		return UIRenderer;
+		return UIRenderer_;
 	}
 
 protected:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-
-private:
-	GameEngineUIRenderer* UIRenderer;
+	GameEngineUIRenderer* UIRenderer_;
 
 };
 

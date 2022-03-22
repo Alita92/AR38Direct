@@ -1,9 +1,11 @@
 #include "PreCompile.h"
 #include "MouseActor.h"
+
+#include <GameEngine/GameEngineCollision.h>
 #include <GameEngine\GameEngineInput.h>
 
 MouseActor::MouseActor()
-	: UIRenderer(nullptr)
+	: UIRenderer_(nullptr)
 {
 }
 
@@ -14,19 +16,19 @@ MouseActor::~MouseActor()
 
 void MouseActor::SetCurSor(std::string _Name)
 {
-	UIRenderer->SetImage(_Name, true);
+	UIRenderer_->SetImage(_Name, true);
 }
 
 void MouseActor::SetCurSor(std::string _Name, int _Index)
 {
-	UIRenderer->SetImage(_Name);
-	UIRenderer->SetIndex(_Index);
+	UIRenderer_->SetImage(_Name);
+	UIRenderer_->SetIndex(_Index);
 }
 
 void MouseActor::Start()
 {
-	UIRenderer = CreateTransformComponent<GameEngineUIRenderer>();
-	UIRenderer->GetTransform()->SetLocalScaling({ 50.0f, 50.0f });
+	UIRenderer_ = CreateTransformComponent<GameEngineUIRenderer>();
+	UIRenderer_->GetTransform()->SetLocalScaling({ 50.0f, 50.0f });
 	SetCurSor("MousePointer1.png");
 
 }
@@ -34,4 +36,6 @@ void MouseActor::Start()
 void MouseActor::Update(float _DeltaTime)
 {
 	GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
+
+
 }

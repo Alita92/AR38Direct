@@ -3,10 +3,13 @@
 
 
 #include "ENUM.h"
+#include "GameMouse.h"
 #include "TitleFreddy.h"
+
 #include "TitleText.h"
 
-#include <GameEngine/MouseActor.h>
+
+
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineCore.h>
 
@@ -59,10 +62,9 @@ void TitleLevel::LevelStart()
 
 	{
 		// 타이틀씬의 마우스 액터입니다.
-		MouseActor* mouseActor = CreateActor<MouseActor>();
+		GameMouse* mouseActor = CreateActor<GameMouse>();
 		mouseActor->GetUIRenderer()->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
 	}
-
 
 	{
 		// 타이틀 배경화면의 프레디 애니메이션 액터입니다.
