@@ -35,9 +35,13 @@ void TitleText::ImageInit()
 	titleContinue_->SetImage("TitleContinue.png", true);
 	titleContinue_->GetTransform()->SetLocalPosition({ -500.0f, -130.0f, 0.0f });
 
+	title6thNight_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	title6thNight_->SetImage("Title6thNight.png", true);
+	title6thNight_->GetTransform()->SetLocalPosition({ -490.0f, -200.0f, 0.0f });
+
 	titleCustomNight_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleCustomNight_->SetImage("TitleCustomNight.png", true);
-	titleCustomNight_->GetTransform()->SetLocalPosition({-500.0f, -200.0f, 0.0f});
+	titleCustomNight_->GetTransform()->SetLocalPosition({-450.0f, -270.0f, 0.0f});
 }
 
 void TitleText::CollisionInit()
@@ -54,6 +58,13 @@ void TitleText::CollisionInit()
 		titleContinueCollision_->GetTransform()->SetLocalPosition(titleContinue_->GetTransform()->GetLocalPosition());
 		titleContinueCollision_->GetTransform()->SetLocalScaling(titleContinue_->GetTransform()->GetLocalScaling());
 		titleContinueCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		title6thNightCollision_ = CreateTransformComponent<GameEngineCollision>();
+		title6thNightCollision_->GetTransform()->SetLocalPosition(title6thNight_->GetTransform()->GetLocalPosition());
+		title6thNightCollision_->GetTransform()->SetLocalScaling(title6thNight_->GetTransform()->GetLocalScaling());
+		title6thNightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 
 	{
@@ -90,6 +101,9 @@ void TitleText::CollisionCheckUpdate()
 
 	titleCustomNightCollision_->Collision(
 		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionCustomNight, this, std::placeholders::_1));
+
+	title6thNightCollision_->Collision(
+			CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionCustomNight, this, std::placeholders::_1));
 }
 
 
@@ -99,6 +113,7 @@ void TitleText::DebugRenderUpdate()
 	GetLevel()->PushDebugRender(titleNewGameCollision_->GetTransform(), CollisionType::Rect);
 	GetLevel()->PushDebugRender(titleContinueCollision_->GetTransform(), CollisionType::Rect);
 	GetLevel()->PushDebugRender(titleCustomNightCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(title6thNightCollision_->GetTransform(), CollisionType::Rect);
 #endif
 }
 

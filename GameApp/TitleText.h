@@ -27,6 +27,8 @@ protected:
 	GameEngineCollision* titleNewGameCollision_;
 	GameEngineImageRenderer* titleContinue_;
 	GameEngineCollision* titleContinueCollision_;
+	GameEngineImageRenderer* title6thNight_;
+	GameEngineCollision* title6thNightCollision_;
 	GameEngineImageRenderer* titleCustomNight_;
 	GameEngineCollision* titleCustomNightCollision_;
 
