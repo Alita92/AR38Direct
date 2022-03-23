@@ -27,6 +27,9 @@ protected:
 	GameEngineCollision* titleNewGameCollision_;
 	GameEngineImageRenderer* titleContinue_;
 	GameEngineCollision* titleContinueCollision_;
+	GameEngineImageRenderer* titleCustomNight_;
+	GameEngineCollision* titleCustomNightCollision_;
+
 
 	void ImageInit();
 	void CollisionInit();
@@ -40,5 +43,6 @@ private:
 private:
 	void CollisionNewGame(GameEngineCollision* _other);
 	void CollisionContinue(GameEngineCollision* _other);
+	void CollisionCustomNight(GameEngineCollision* _other);
 };
 

@@ -1,4 +1,6 @@
 #pragma once
+// 나에게 메모 : 헤더 걸지마라!!!
+
 
 enum class InGameCollisonType
 {

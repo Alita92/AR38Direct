@@ -25,7 +25,7 @@ void GameMouse::CollisionInit()
 {
 	mouseCollision_ = CreateTransformComponent<GameEngineCollision>();
 	mouseCollision_->GetTransform()->SetLocalPosition(float4{ -6.0f, 9.5f, 1.0f });
-	mouseCollision_->GetTransform()->SetLocalScaling(float4{ 12.0f, 19.0f, 1.0f });
+	mouseCollision_->GetTransform()->SetLocalScaling(float4{ 3.0f, 3.0f, 1.0f });
 	mouseCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::MOUSEPOINTER));
 }
 

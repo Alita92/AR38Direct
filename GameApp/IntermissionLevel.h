@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
+#include "ENUM.h"
 
 // 분류 : 
 // 용도 : 
@@ -17,7 +18,7 @@ public:
 	IntermissionLevel& operator=(const IntermissionLevel&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 protected:
-	
+	DAY curDay_;
 
 private:
 	void LevelStart() override;

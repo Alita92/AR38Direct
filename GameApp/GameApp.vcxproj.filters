@@ -41,9 +41,6 @@
     <ClCompile Include="TopUI.cpp">
       <Filter>Actor\99ETC</Filter>
     </ClCompile>
-    <ClCompile Include="CustomSettingBackground.cpp">
-      <Filter>Actor\04CustomSetting</Filter>
-    </ClCompile>
     <ClCompile Include="TitleText.cpp">
       <Filter>Actor\01Title</Filter>
     </ClCompile>
@@ -73,6 +70,12 @@
     </ClCompile>
     <ClCompile Include="GameMouse.cpp">
       <Filter>Actor\00Global</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomSettingLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomSettingUI.cpp">
+      <Filter>Actor\04CustomSetting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,9 +177,6 @@
     <ClInclude Include="TopUI.h">
       <Filter>Actor\99ETC</Filter>
     </ClInclude>
-    <ClInclude Include="CustomSettingBackground.h">
-      <Filter>Actor\04CustomSetting</Filter>
-    </ClInclude>
     <ClInclude Include="TitleText.h">
       <Filter>Actor\01Title</Filter>
     </ClInclude>
@@ -209,6 +209,12 @@
     </ClInclude>
     <ClInclude Include="GameMouse.h">
       <Filter>Actor\00Global</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomSettingLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomSettingUI.h">
+      <Filter>Actor\04CustomSetting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

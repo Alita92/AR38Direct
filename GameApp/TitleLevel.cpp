@@ -27,6 +27,21 @@ void TitleLevel::ResourceInit()
 		imageDir.MoveParent("AR38Direct");
 		imageDir.MoveChild("Resources");
 		imageDir.MoveChild("Image");
+		imageDir.MoveChild("Common");
+
+		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+
+		for (size_t i = 0; i < allFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory imageDir;
+		imageDir.MoveParent("AR38Direct");
+		imageDir.MoveChild("Resources");
+		imageDir.MoveChild("Image");
 		imageDir.MoveChild("Title");
 
 		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");

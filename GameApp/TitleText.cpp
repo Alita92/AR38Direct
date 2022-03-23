@@ -22,22 +22,22 @@ void TitleText::ImageInit()
 	titleName_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleName_->SetImage("TitleName.png", true);
 	titleName_->GetTransform()->SetLocalPosition({ -500.0f, 200.0f, 0.0f });
-	//titleName_->SetOrder(10);
 
 	titleScott_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleScott_->SetImage("TitleScott.png", true);
 	titleScott_->GetTransform()->SetLocalPosition({ 500.0f, -330.0f, 0.0f });
-	//	titleScott_->SetOrder(10);
-
-	titleContinue_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	titleContinue_->SetImage("TitleContinue.png", true);
-	titleContinue_->GetTransform()->SetLocalPosition({ -500.0f, -130.0f, 0.0f });
-	//titleContinue_->SetOrder(10);
 
 	titleNewGame_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleNewGame_->SetImage("TitleNewGame.png", true);
 	titleNewGame_->GetTransform()->SetLocalPosition({ -500.0f, -60.0f, 0.0f });
-	//titleNewGame_->SetOrder(10);
+
+	titleContinue_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	titleContinue_->SetImage("TitleContinue.png", true);
+	titleContinue_->GetTransform()->SetLocalPosition({ -500.0f, -130.0f, 0.0f });
+
+	titleCustomNight_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	titleCustomNight_->SetImage("TitleCustomNight.png", true);
+	titleCustomNight_->GetTransform()->SetLocalPosition({-500.0f, -200.0f, 0.0f});
 }
 
 void TitleText::CollisionInit()
@@ -54,6 +54,13 @@ void TitleText::CollisionInit()
 		titleContinueCollision_->GetTransform()->SetLocalPosition(titleContinue_->GetTransform()->GetLocalPosition());
 		titleContinueCollision_->GetTransform()->SetLocalScaling(titleContinue_->GetTransform()->GetLocalScaling());
 		titleContinueCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		titleCustomNightCollision_ = CreateTransformComponent<GameEngineCollision>();
+		titleCustomNightCollision_->GetTransform()->SetLocalPosition(titleCustomNight_->GetTransform()->GetLocalPosition());
+		titleCustomNightCollision_->GetTransform()->SetLocalScaling(titleCustomNight_->GetTransform()->GetLocalScaling());
+		titleCustomNightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 
 }
@@ -80,6 +87,9 @@ void TitleText::CollisionCheckUpdate()
 
 	titleContinueCollision_->Collision(
 		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionContinue, this, std::placeholders::_1));
+
+	titleCustomNightCollision_->Collision(
+		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionCustomNight, this, std::placeholders::_1));
 }
 
 
@@ -88,6 +98,7 @@ void TitleText::DebugRenderUpdate()
 #ifdef _DEBUG
 	GetLevel()->PushDebugRender(titleNewGameCollision_->GetTransform(), CollisionType::Rect);
 	GetLevel()->PushDebugRender(titleContinueCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(titleCustomNightCollision_->GetTransform(), CollisionType::Rect);
 #endif
 }
 
@@ -104,5 +115,13 @@ void TitleText::CollisionContinue(GameEngineCollision* _other)
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
 		GetLevel()->RequestLevelChange("Play");
+	}
+}
+
+void TitleText::CollisionCustomNight(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
+	{
+		GetLevel()->RequestLevelChange("CustomSetting");
 	}
 }
