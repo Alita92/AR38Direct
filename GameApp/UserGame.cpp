@@ -68,7 +68,7 @@ void UserGame::KeyInit()
 	{
 		GameEngineInput::GetInst().CreateKey("MOUSE_1", VK_LBUTTON);
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIP", 'P');
-
+		GameEngineInput::GetInst().CreateKey("ESC", VK_ESCAPE);
 	}
 }
 

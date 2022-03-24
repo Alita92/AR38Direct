@@ -32,8 +32,8 @@ void OfficeTest::Update(float _Deltatime)
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
 	{
 		// 점프스케어 디버깅 중
-		mainRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::MAX));
-		mainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
+		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f, -50.0f });
+		mainRenderer_->SetChangeAnimation("JumpScareBonnie");
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
 }
@@ -46,24 +46,27 @@ void OfficeTest::InitAnimation()
 		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeBasic.png", true);
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, -10.0f });
-		mainRenderer_->CreateAnimationFolder("JumpScareBonnie", "JumpScareBonnie", 0.04f, false);
-		mainRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, false);
-		mainRenderer_->CreateAnimationFolder("JumpScareFreddy", "JumpScareFreddy", 0.04f, false);
+	//	mainRenderer_->CreateAnimationFolder("JumpScareBonnie", "JumpScareBonnie", 0.04f, false);
+	//	mainRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, false);
+	//	mainRenderer_->CreateAnimationFolder("JumpScareFreddy", "JumpScareFreddy", 0.04f, false);
+
+		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f);
+
 	}
 
 	{
 		lDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		lDoorRenderer_->SetImage("LdoorStatic.png", true);
 		lDoorRenderer_->GetTransform()->SetLocalPosition({-550.0f, 0.0f, 1.0f});
-		lDoorRenderer_->CreateAnimationFolder("LdoorClose","LdoorClose", 0.04f, false);
-		lDoorRenderer_->CreateAnimationFolder("LdoorOpen", "LdoorOpen", 0.04f, false);
+		//lDoorRenderer_->CreateAnimationFolder("LdoorClose","LdoorClose", 0.04f, false);
+		//lDoorRenderer_->CreateAnimationFolder("LdoorOpen", "LdoorOpen", 0.04f, false);
 	}
 
 	{
 		rDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rDoorRenderer_->SetImage("RdoorStatic.png", true);
 		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, 1.0f });
-		rDoorRenderer_->CreateAnimationFolder("RdoorClose", "RdoorClose", 0.04f, false);
-		rDoorRenderer_->CreateAnimationFolder("RdoorOpen", "RdoorOpen", 0.04f, false);
+		//rDoorRenderer_->CreateAnimationFolder("RdoorClose", "RdoorClose", 0.04f, false);
+		//rDoorRenderer_->CreateAnimationFolder("RdoorOpen", "RdoorOpen", 0.04f, false);
 	}
 }

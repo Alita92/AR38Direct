@@ -48,27 +48,24 @@ void GameEngineImageRenderer::Animation2D::Reset()
 	CurFrame_ = StartFrame_;
 }
 
-void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
+void GameEngineImageRenderer::Animation2D::FrameUpdate()
 {
-	CurTime_ -= _DeltaTime;
-
 	if (CurTime_ <= 0.0f)
 	{
 		++CurFrame_;
 		CurTime_ = InterTime_;
 		if (true == Loop_
 			&& CurFrame_ > EndFrame_)
-		{	// 루프가 true 고 프레임이 다 지나갔다면
-			// End 콜백함수 실행시키고 다시 프레임 리셋
+		{
 			CallEnd();
 			CurFrame_ = StartFrame_;
 		}
 		else if (false == Loop_
 			&& CurFrame_ > EndFrame_)
-		{	// 루프가 false 고 프레임이 다 지나갔다면...
-			if (false == IsEnd) 
+		{
+			if (false == IsEnd)
 			{
-				CallEnd(); // IsEnd 값 써서 1회만 End 콜백함수 실행
+				CallEnd();
 			}
 
 			IsEnd = true;
@@ -77,7 +74,50 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		}
 	}
 
-	CallFrame(); // 프레임당 콜백함수는 어차피 안에서 프레임을 측정하니 그냥 매 순간 실행해주기.
+}
+
+void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
+{
+	if (CurTime_ <= 0.0f)
+	{
+		--CurFrame_;
+		CurTime_ = InterTime_;
+		if (true == Loop_
+			&& CurFrame_ < EndFrame_)
+		{
+			CallEnd();
+			CurFrame_ = StartFrame_;
+		}
+		else if (false == Loop_
+			&& CurFrame_ < EndFrame_)
+		{
+			if (false == IsEnd)
+			{
+				CallEnd();
+			}
+
+			IsEnd = true;
+
+			CurFrame_ = StartFrame_;
+		}
+	}
+
+}
+
+void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
+{
+	CurTime_ -= _DeltaTime;
+
+	if (StartFrame_ < EndFrame_)
+	{
+		FrameUpdate();
+	}
+	else
+	{
+		ReverseFrameUpdate();
+	}
+
+	CallFrame();
 	if (nullptr == FolderTextures_)
 	{
 		Renderer->ShaderHelper.SettingTexture("Tex", AnimationTexture_);
@@ -89,6 +129,7 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		Renderer->CutData = float4(0, 0, 1, 1);
 		Renderer->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
 	}
+
 }
 
 /// ///////////////////////////////////////////////////////////////////

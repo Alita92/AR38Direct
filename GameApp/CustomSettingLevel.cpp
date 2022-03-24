@@ -18,25 +18,8 @@ CustomSettingLevel::~CustomSettingLevel() // default destructer 디폴트 소멸자
 
 }
 
-void CustomSettingLevel::ResourceInit()
-{
-	GameEngineDirectory imageDir;
-	imageDir.MoveParent("AR38Direct");
-	imageDir.MoveChild("Resources");
-	imageDir.MoveChild("Image");
-	imageDir.MoveChild("CustomSetting");
-
-	std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-	for (size_t i = 0; i < allFile.size(); i++)
-	{
-		GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-	}
-}
-
 void CustomSettingLevel::LevelStart()
 {
-	ResourceInit();
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));

@@ -39,6 +39,9 @@ private:
 		void CallEnd(); // 애니메이션 끝에
 		void CallFrame(); // 애니메이션 특정 프레임에
 		void Update(float _DeltaTime);
+
+		void FrameUpdate();
+		void ReverseFrameUpdate();
 	};
 
 public:

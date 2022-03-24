@@ -19,34 +19,9 @@ GameOverLevel::GameOverLevel(GameOverLevel&& _other) noexcept  // default RValue
 
 }
 
-void GameOverLevel::ResourceInit()
-{
-	{
-		GameEngineDirectory imageDir;
-		imageDir.MoveParent("AR38Direct");
-		imageDir.MoveChild("Resources");
-		imageDir.MoveChild("Image");
-		imageDir.MoveChild("GameOver");
 
-		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < allFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-		}
-	}
-
-	{
-		//GameEngineDirectory soundDir;
-		//soundDir.MoveParent("AR38Direct");
-		//soundDir.MoveChild("Resources");
-		//soundDir.MoveChild("Sound");
-		//soundDir.MoveChild("GameOver");
-	}
-}
 void GameOverLevel::LevelStart()
 {
-	ResourceInit();
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));

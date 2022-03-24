@@ -28,8 +28,8 @@ void OfficeFan::InitAnimation()
 	{
 		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeFanDefault.png", true);
-		// mainRenderer_->GetTransform()->SetLocalPosition({ 49.0f, -41.0f, 0.0f });
-		mainRenderer_->CreateAnimationFolder("OfficeFan", "OfficeFan", 0.02f);
+		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+		mainRenderer_->CreateAnimation("OfficeFan.png", "OfficeFan", 0, 2, 0.02f);
 		mainRenderer_->SetChangeAnimation("OfficeFan");
 	}
 }
