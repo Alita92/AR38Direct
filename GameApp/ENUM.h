@@ -48,6 +48,13 @@ enum class LOCATION
 	MAX,
 };
 
+enum class PLAYERSTATUS
+{
+	OFFICE,
+	CCTV,
+	MAX
+};
+
 enum class DAY
 {
 	DAY1,

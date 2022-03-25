@@ -77,6 +77,9 @@
     <ClCompile Include="CustomSettingUI.cpp">
       <Filter>Actor\04CustomSetting</Filter>
     </ClCompile>
+    <ClCompile Include="UIController.cpp">
+      <Filter>Actor\02Play\Meta\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -215,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="CustomSettingUI.h">
       <Filter>Actor\04CustomSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="UIController.h">
+      <Filter>Actor\02Play\Meta\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

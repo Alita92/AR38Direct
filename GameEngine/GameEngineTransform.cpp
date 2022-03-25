@@ -214,6 +214,23 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 	TransformUpdate();
 }
 
+void GameEngineTransform::SetLocalZPosition(const float& _Value)
+{
+	if (nullptr == Parent_)
+	{
+		TransformData_.vLocalPosition_.z = _Value;
+		TransformData_.vWorldPosition_.z = _Value;
+		AllChildCalculationPosition();
+		TransformUpdate();
+		return;
+	}
+
+	TransformData_.vLocalPosition_.z = _Value;
+	CalculationWorldPosition();
+	AllChildCalculationPosition();
+	TransformUpdate();
+}
+
 void GameEngineTransform::SetWorldPosition(const float4& _Value)
 {
 	if (nullptr == Parent_)

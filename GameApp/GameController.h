@@ -8,6 +8,7 @@
 // 설명 : 게임의 진행과 플레이어의 상황을 비시각적으로 제어하는 역할의 클래스입니다.
 // 시각적인 용도를 결정하는 클래스(CCTV 스크린 등) 은 이 게임컨트롤러의 피드백을 받아 움직이게 합니다.
 
+class GameEngineImageRenderer;
 class AIBonnie;
 class AIChica;
 class AIFoxy;
@@ -29,8 +30,7 @@ private:
 private:
 	void InitState();
 
-private:
-	void InitInput();
+
 
 private:
 	// 컨트롤러 척도
@@ -60,8 +60,8 @@ private:
 
 
 	// 문 변수
-	bool lDoorClosed_;
-	bool rDoorClosed_;
+	bool isLdoorClosed_;
+	bool isRdoorClosed_;
 	bool lDoorLighted_;
 	bool rdoorLighted_;
 
@@ -71,6 +71,22 @@ private:
 
 	// 전기, 게임 시간 초기화
 	void InitPlayStatus();
+
+	// 렌더러들 디폴트 Position
+
+	float4 DEFAULT_FAN_POS_OFFICE = { 49.0f, -41.0f, -1.0f };
+	float4 DEFAULT_FAN_POS_CCTV = { 49.0f, -41.0f, 1.0f };
+	float4 DEFAULT_CCTV_POS_CCTV = { 0.0f,0.0f,-2.0f };
+
+protected:
+	void InitAnimation();
+
+
+	GameEngineImageRenderer* mainRenderer_;
+	GameEngineImageRenderer* CCTVRenderer_;
+	GameEngineImageRenderer* fanRenderer_;
+	GameEngineImageRenderer* lDoorRenderer_;
+	GameEngineImageRenderer* rDoorRenderer_;
 
 	
 private:
@@ -94,15 +110,20 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 	StateInfo startIdle(StateInfo _state);
 	StateInfo updateIdle(StateInfo _state);
 
+	StateInfo startCCTVOpen(StateInfo _state);
+	StateInfo updateCCTVOpen(StateInfo _state);
+
 	StateInfo startCCTV(StateInfo _state);
 	StateInfo updateCCTV(StateInfo _state);
+
+	StateInfo startCCTVClose(StateInfo _state);
+	StateInfo updateCCTVClose(StateInfo _state);
 
 	StateInfo startNoelec(StateInfo _state);
 	StateInfo updateNoelec(StateInfo _state);
 
 	StateInfo startWin(StateInfo _state);
 	StateInfo updateWin(StateInfo _state);
-
 
 
 };

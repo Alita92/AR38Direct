@@ -57,9 +57,9 @@ void GameEngineCore::EngineResourcesLoad()
 
 	// 라이너가 아닌 포인터 설정을 적용한 샘플러를 만들려면 이렇게 임의로 해 줘야 합니다.
 	// 샘플러 생성 시 기본 값은 어디까지나 라이너이기 때문에...
-	GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Find("PointSmp");
-	NewRes->Info_.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-	NewRes->ReCreate();
+	//GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Find("PointSmp");
+	//NewRes->Info_.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	//NewRes->ReCreate();
 
 
 }
@@ -324,9 +324,4 @@ void GameEngineCore::EngineResourcesCreate()
 		Pipe->SetOutputMergerBlend("AlphaBlend");
 		Pipe->SetOutputMergerDepthStencil("BaseDepthOff");
 	}
-
-
-
-
-
 }

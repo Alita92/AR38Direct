@@ -69,6 +69,16 @@ void UserGame::KeyInit()
 		GameEngineInput::GetInst().CreateKey("MOUSE_1", VK_LBUTTON);
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIP", 'P');
 		GameEngineInput::GetInst().CreateKey("ESC", VK_ESCAPE);
+
+		GameEngineInput::GetInst().CreateKey("LDoor_Toggle", 'Q');
+		GameEngineInput::GetInst().CreateKey("RDoor_Toggle", 'E');
+		GameEngineInput::GetInst().CreateKey("LLight_Toggle", 'A');
+		GameEngineInput::GetInst().CreateKey("RLight_Toggle", 'D');
+
+		GameEngineInput::GetInst().CreateKey("CCTV_Toggle", 'X');
+		GameEngineInput::GetInst().CreateKey("CCTV_NEXT", 'Z');
+		GameEngineInput::GetInst().CreateKey("CCTV_PREV", 'C');
+
 	}
 }
 

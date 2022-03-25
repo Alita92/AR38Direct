@@ -1,5 +1,7 @@
 #include "PreCompile.h"
 #include "GameController.h"
+#include <GameEngine/GameEngineImageRenderer.h>
+
 
 // Enemy AI
 #include "AIBonnie.h"
@@ -9,7 +11,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, aiBonnie_(nullptr), aiChica_(nullptr), aiFoxy_(nullptr), aiFreddy_(nullptr)
 	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
 	, curDay_(0)
-	, lDoorClosed_(false), lDoorLighted_(false), rDoorClosed_(false), rdoorLighted_(false)
+	, isLdoorClosed_(false), lDoorLighted_(false), isRdoorClosed_(false), rdoorLighted_(false)
 {
 
 }
@@ -23,6 +25,12 @@ GameController::~GameController() // default destructer 디폴트 소멸자
 void GameController::InitState()
 {
 	state_.CreateState("Idle", &GameController::startIdle, &GameController::updateIdle);
+
+	state_.CreateState("CCTVOpen", &GameController::startCCTVOpen, &GameController::updateCCTVOpen);
+	state_.CreateState("CCTVClose", &GameController::startCCTVClose, &GameController::updateCCTVClose);
+
+	state_.CreateState("CCTV", &GameController::startCCTV, &GameController::updateCCTV);
+	
 	state_.CreateState("NoElec", &GameController::startNoelec, &GameController::updateNoelec);
 	state_.CreateState("Win", &GameController::startWin, &GameController::updateWin);
 
@@ -47,27 +55,63 @@ void GameController::InitEnemy()
 //	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
 }
 
-void GameController::InitInput()
+void GameController::InitAnimation()
 {
-#ifdef _DEBUG
-	// 디버그 전용 인풋
-	GameEngineInput::GetInst().CreateKey("Debug_Q", 'Q');
-	GameEngineInput::GetInst().CreateKey("Debug_W", 'W');
-	GameEngineInput::GetInst().CreateKey("Debug_E", 'E');
-	GameEngineInput::GetInst().CreateKey("Debug_A", 'A');
-	GameEngineInput::GetInst().CreateKey("Debug_S", 'S');
-	GameEngineInput::GetInst().CreateKey("Debug_D", 'D');
-#endif
+	{
+		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		mainRenderer_->SetImage("OfficeBasic.png", true);
+		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND0)});
+		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
+	}
 
+	{
+		fanRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		fanRenderer_->SetImage("OfficeFanDefault.png", true);
+		fanRenderer_->GetTransform()->SetLocalPosition({ 49.0f, -41.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		fanRenderer_->CreateAnimation("OfficeFan.png", "OfficeFan", 0, 2, 0.02f);
+		fanRenderer_->SetChangeAnimation("OfficeFan");
+	}
 
+	{
+		lDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		lDoorRenderer_->SetImage("LdoorStatic.png", true);
+		lDoorRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1)});
+		lDoorRenderer_->CreateAnimation("LdoorAnimation.png", "LdoorClose", 14, 0, 0.04f, false);
+		lDoorRenderer_->CreateAnimation("LdoorAnimation.png", "LdoorOpen", 0, 14, 0.04f, false);
+	}
+
+	{
+		rDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		rDoorRenderer_->SetImage("RdoorStatic.png", true);
+		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 14, 0, 0.04f, false);
+		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorOpen", 0, 14, 0.04f, false);
+	}
+
+	{		
+		CCTVRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		CCTVRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
+		CCTVRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.04f, false);
+		CCTVRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.04f, false);
+		CCTVRenderer_->Off();
+	}
 }
-
 
 void GameController::Start()
 {
+	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
 	InitState();
+	InitAnimation();
 	InitPlayStatus();
 	InitEnemy();
+
+	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
+	{
+		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P');
+	}
+
+	
 }
 
 void GameController::CheckElectricityUsage()
@@ -127,12 +171,22 @@ void GameController::Update(float _Deltatime)
 	state_.Update();
 	CheckTime();
 	CheckElectricityUsage();
+
+	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
+	{
+		// 점프스케어 디버깅 중
+		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f, -50.0f });
+		mainRenderer_->SetChangeAnimation("JumpScareBonnie");
+		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
+	}
+
+
 }
 
 StateInfo GameController::startIdle(StateInfo _state)
 {
-	CurViewState_ = LOCATION::NONE;
 
+	CurViewState_ = LOCATION::NONE;
 	return StateInfo();
 }
 
@@ -148,6 +202,62 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		return "Noelec";
 	}
 
+	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle"))
+	{
+		if (false == isLdoorClosed_)
+		{
+			lDoorRenderer_->SetChangeAnimation("LdoorClose");
+			isLdoorClosed_ = true;
+		}
+		else
+		{
+
+			lDoorRenderer_->SetChangeAnimation("LdoorOpen");
+			isLdoorClosed_ = false;
+		}
+	}
+
+	if (true == GameEngineInput::GetInst().Down("RDoor_Toggle"))
+	{
+		if (false == isRdoorClosed_)
+		{
+			rDoorRenderer_->SetChangeAnimation("RdoorClose");
+			isRdoorClosed_ = true;
+		}
+		else
+		{
+			rDoorRenderer_->SetChangeAnimation("RdoorOpen");
+			isRdoorClosed_ = false;
+		}
+	}
+
+	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
+	{
+		return "CCTVOpen";
+	}
+
+	return StateInfo();
+}
+
+StateInfo GameController::startCCTVOpen(StateInfo _state)
+{
+	// CCTV 작동 애니메이션에 앞서 렌더 오더를 새로 정리합니다.
+	CCTVRenderer_->On();
+	CCTVRenderer_->SetChangeAnimation("CCTVOpen");
+	return StateInfo();
+}
+
+StateInfo GameController::updateCCTVOpen(StateInfo _state)
+{
+	// CCTV 작동 애니메이션을 여기서 작동 시킵니다.
+	// 작동의 짧은 시간동안은 어떤 인풋도 먹히지 않도록 조정합니다.
+
+
+	if (true == CCTVRenderer_->IsCurAnimationEnd())
+	{
+		return "CCTV";
+	}
+
 	return StateInfo();
 }
 
@@ -155,6 +265,9 @@ StateInfo GameController::startCCTV(StateInfo _state)
 {
 	// CCTV를 작동시킨 상태입니다.
 	// 전력 소모량이 1레벨 상승하며,
+
+	
+
 	return StateInfo();
 }
 
@@ -178,6 +291,9 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::ROFFICEDOOR:
 		break;
 	case LOCATION::SHOWSTAGE:
+	{
+		CCTVRenderer_->SetImage("ShowStage_Default.png", true);
+	}
 		break;
 	case LOCATION::KITCHEN:
 		break;
@@ -207,6 +323,25 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	}
 
+	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
+	{
+		return "CCTVClose";
+	}
+
+	return StateInfo();
+}
+
+
+StateInfo GameController::startCCTVClose(StateInfo _state)
+{
+	CCTVRenderer_->Off();
+	return StateInfo();
+}
+
+StateInfo GameController::updateCCTVClose(StateInfo _state)
+{
+	mainRenderer_->SetImage("OfficeBasic.png", true);
+	return "Idle";
 	return StateInfo();
 }
 
@@ -246,3 +381,4 @@ StateInfo GameController::updateWin(StateInfo _state)
 {
 	return StateInfo();
 }
+

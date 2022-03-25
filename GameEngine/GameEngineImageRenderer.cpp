@@ -98,7 +98,8 @@ void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
 
 			IsEnd = true;
 
-			CurFrame_ = StartFrame_;
+			//CurFrame_ = StartFrame_;
+			CurFrame_ = EndFrame_;
 		}
 	}
 
@@ -182,6 +183,11 @@ void GameEngineImageRenderer::SetIndex(const int Index)
 
 	CutData = CurTexture->GetCutData(Index);
 
+}
+
+void  GameEngineImageRenderer::SetImageNull()
+{
+	CurTexture = nullptr;
 }
 
 void GameEngineImageRenderer::SetImage(const std::string& _ImageName, bool _originalScale)

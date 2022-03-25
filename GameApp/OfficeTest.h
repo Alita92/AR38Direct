@@ -7,8 +7,6 @@
 class GameEngineImageRenderer;
 class OfficeTest : public GameEngineActor
 {
-private:	// member Var
-
 public:
 	OfficeTest(); 
 	~OfficeTest(); 
@@ -30,5 +28,10 @@ private:
 
 private:
 	void InitAnimation();
+
+
+private:
+	bool isLdoorClosed_;
+	bool isRdoorClosed_;
 };
 

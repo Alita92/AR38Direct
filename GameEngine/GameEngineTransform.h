@@ -127,7 +127,6 @@ public:
 	float4 GetLocalUpVector() { return TransformData_.LocalWorld_.vy.NormalizeReturn3D(); }
 
 
-
 	void SetLocalScaling(const float4& _Value);
 	void SetWorldScaling(const float4& _Value);
 
@@ -148,6 +147,7 @@ public:
 
 
 	void SetLocalPosition(const float4& _Value);
+	void SetLocalZPosition(const float& _Value);
 	void SetWorldPosition(const float4& _Value);
 
 	void SetLocalMove(const float4& _Value)

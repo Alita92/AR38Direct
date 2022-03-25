@@ -122,5 +122,7 @@ private:
 	void ComponentRelease();
 
 	void ReleaseUpdate(float _DeltaTime);
+
+
 };
 

@@ -118,7 +118,7 @@ void GameEngineShader::ResCheck()
 
 
 			// 라이너 : 뭉개라 <= 기본 값이다.
-			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 			// 포인트 : 딱딱 도트처럼 만들어라
 			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 

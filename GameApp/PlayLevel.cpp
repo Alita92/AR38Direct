@@ -5,8 +5,8 @@
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
 
-#include "OfficeTest.h"
-#include "OfficeFan.h"
+#include "GameController.h"
+#include "UIController.h"
 
 PlayLevel::PlayLevel()
 {
@@ -23,11 +23,12 @@ void PlayLevel::LevelStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	{
-		OfficeTest* officeTest = CreateActor<OfficeTest>();
+		GameController* gameController = CreateActor<GameController>();
 	}
 
+
 	{
-		OfficeFan* officeFan = CreateActor<OfficeFan>();
+		UIController* uiController = CreateActor<UIController>();
 	}
 }
 
