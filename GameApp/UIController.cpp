@@ -55,15 +55,15 @@ void UIController::ImageInit()
 	powerLeftTypoRenderer_->GetTransform()->SetLocalPosition({ -530.0f, -280.0f, 0.0f });
 
 	powerLeftHundredRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftHundredRenderer_->SetImage("S1.png", true);
+	powerLeftHundredRenderer_->SetImage("SM1.png", true);
 	powerLeftHundredRenderer_->GetTransform()->SetLocalPosition({ -445.0f, -280.0f, 0.0f });
 
 	powerLeftTenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftTenRenderer_->SetImage("S0.png", true);
+	powerLeftTenRenderer_->SetImage("SM0.png", true);
 	powerLeftTenRenderer_->GetTransform()->SetLocalPosition({ -425.0F, -280.0f, 0.0f });
 
 	powerLeftOneRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftOneRenderer_->SetImage("S0.png", true);
+	powerLeftOneRenderer_->SetImage("SM0.png", true);
 	powerLeftOneRenderer_->GetTransform()->SetLocalPosition({ -405.0f, -280.0f, 0.0f });
 
 	powerLeftPercentageRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
