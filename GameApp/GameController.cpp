@@ -38,9 +38,10 @@ void GameController::InitState()
 
 	state_.CreateState("CCTV", &GameController::startCCTV, &GameController::updateCCTV);
 	
-	state_.CreateState("NoElec", &GameController::startNoelec, &GameController::updateNoelec);
+	state_.CreateState("NoElec", &GameController::startNoElec, &GameController::updateNoElec);
 	state_.CreateState("HeisComing", &GameController::startHeisComing, &GameController::updateHeisComing);
 	state_.CreateState("HeKillsYou", &GameController::startHeKillsYou, &GameController::updateHeKillsYou);
+	state_.CreateState("NoElecDeath", &GameController::startNoElecDeath, &GameController::updateNoElecDeath);
 
 	state_.CreateState("Win", &GameController::startWin, &GameController::updateWin);
 
@@ -73,6 +74,8 @@ void GameController::InitAnimation()
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND0)});
 		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
+		mainRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
+		mainRenderer_->CreateAnimationFolder("NoElecFreddy", "NoElecFreddy", 0.04f, false);
 	}
 
 	{
@@ -359,7 +362,7 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 	return StateInfo();
 }
 
-StateInfo GameController::startNoelec(StateInfo _state)
+StateInfo GameController::startNoElec(StateInfo _state)
 {
 	UIController_->Off();
 	isElecCheckOff_ = true;
@@ -384,7 +387,7 @@ StateInfo GameController::startNoelec(StateInfo _state)
 	return StateInfo();
 }
 
-StateInfo GameController::updateNoelec(StateInfo _state)
+StateInfo GameController::updateNoElec(StateInfo _state)
 {
 
 // 5초마다 1 / 5 확률로(최대 20초) 노래가 멈추고 화면이 암전된다
@@ -416,6 +419,7 @@ StateInfo GameController::updateNoelec(StateInfo _state)
 		case 4:
 		{
 			noElecDeltaTime_ = 0.0f;
+			noElecTimerCounter_ = 0;
 			return "HeisComing";
 		}
 		break;
@@ -430,27 +434,112 @@ StateInfo GameController::updateNoelec(StateInfo _state)
 
 StateInfo GameController::startHeisComing(StateInfo _state)
 {
+	noElecDeltaTime_ = 0.0f;
+	noElecTimerCounter_ = 0;
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
+	mainRenderer_->SetChangeAnimation("NoElec");
 	return StateInfo();
 }
 
 StateInfo GameController::updateHeisComing(StateInfo _state)
 {
-	mainRenderer_->SetChangeAnimation("NoElec");
+	noElecDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
+	if (4 == noElecTimerCounter_)
+	{
+		return "HeKillsYou";
+	}
+
+	if (5.0f <= noElecDeltaTime_)
+	{	// 전력이 나간 이후 5초마다 1 / 5 확률로(최대 20초) 노래가 재생되기 시작하고
+		int dice = randomGenerator_.RandomInt(0, 4);
+
+		switch (dice)
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		{
+			noElecDeltaTime_ = 0.0f;
+			noElecTimerCounter_++;
+			return StateInfo();
+		}
+		break;
+		case 4:
+		{
+			noElecDeltaTime_ = 0.0f;
+			noElecTimerCounter_ = 0;
+			return "HeKillsYou";
+		}
+		break;
+		default:
+			break;
+		}
+	}
 	return StateInfo();
 }
 
 StateInfo GameController::startHeKillsYou(StateInfo _state)
 {
+	noElecDeltaTime_ = 0.0f;
+	noElecTimerCounter_ = 0;
+	mainRenderer_->SetChangeAnimation("NoElecBlink");
 	return StateInfo();
 }
 
 StateInfo GameController::updateHeKillsYou(StateInfo _state)
 {
+	noElecDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (2.0f <= noElecDeltaTime_)
+	{
+		int dice = randomGenerator_.RandomInt(0, 4);
+
+		switch (dice)
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		{
+			noElecDeltaTime_ = 0.0f;
+			noElecTimerCounter_++;
+			return StateInfo();
+		}
+		break;
+		case 4:
+		{
+			noElecDeltaTime_ = 0.0f;
+			noElecTimerCounter_ = 0;
+			return "NoElecDeath";
+		}
+		break;
+		default:
+			break;
+		}
+	}
+	return StateInfo();
 	return StateInfo();
 }
+
+StateInfo GameController::startNoElecDeath(StateInfo _state)
+{
+	mainRenderer_->SetChangeAnimation("NoElecFreddy");
+	return StateInfo();
+}
+
+StateInfo GameController::updateNoElecDeath(StateInfo _state)
+{
+	if (true == mainRenderer_->IsCurAnimationEnd())
+	{
+		GetLevel()->RequestLevelChange("GameOver");
+	}
+
+	return StateInfo();
+}
+
 
 StateInfo GameController::startWin(StateInfo _state)
 {

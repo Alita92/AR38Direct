@@ -129,14 +129,17 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 	StateInfo startCCTVClose(StateInfo _state);
 	StateInfo updateCCTVClose(StateInfo _state);
 
-	StateInfo startNoelec(StateInfo _state);
-	StateInfo updateNoelec(StateInfo _state);
+	StateInfo startNoElec(StateInfo _state);
+	StateInfo updateNoElec(StateInfo _state);
 
 	StateInfo startHeisComing(StateInfo _state);
 	StateInfo updateHeisComing(StateInfo _state);
 
 	StateInfo startHeKillsYou(StateInfo _state);
 	StateInfo updateHeKillsYou(StateInfo _state);
+
+	StateInfo startNoElecDeath(StateInfo _state);
+	StateInfo updateNoElecDeath(StateInfo _state);
 
 	StateInfo startWin(StateInfo _state);
 	StateInfo updateWin(StateInfo _state);
