@@ -4,6 +4,7 @@
 // 용도 : 
 // 설명 : 
 class GameEngineUIRenderer;
+class GameEngineCollision;
 class UIController : public GameEngineActor
 {
 public:
@@ -20,8 +21,10 @@ protected:
 	GameEngineUIRenderer* amRenderer_;
 
 	GameEngineUIRenderer* CCTVButtonRenderer_;
+	GameEngineCollision* CCTVButtonCollision_;
 
 	GameEngineUIRenderer* muteCallRenderer_;
+	GameEngineCollision* muteCallCollision_;
 
 	GameEngineUIRenderer* nightTypoRenderer_;
 	GameEngineUIRenderer* nightNumRenderer_;
@@ -38,8 +41,17 @@ protected:
 
 private:
 	void Start() override;
+	void Update(float _DeltaTime) override;
 
 private:
 	void ImageInit();
+	void CollisionInit();
+	void DebugRenderUpdate();
+	void CollisionCheckUpdate();
+
+private:
+	void CollisionCCTVButton(GameEngineCollision* _other);
+	void CollisionMuteCall(GameEngineCollision* _other);
+
 };
 

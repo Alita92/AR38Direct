@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "UIController.h"
+#include "ENUM.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
 
 UIController::UIController() // default constructer 디폴트 생성자
 {
@@ -18,6 +20,7 @@ void UIController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f, 0.0f, 0.0f });
 	ImageInit();
+	CollisionInit();
 }
 
 void UIController::ImageInit()
@@ -77,4 +80,51 @@ void UIController::ImageInit()
 	powerUsageLevelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerUsageLevelRenderer_->SetImage("UIPower1.png", true);
 	powerUsageLevelRenderer_->GetTransform()->SetLocalPosition({ -465.0f, -315.0f, 0.0f });
+}
+
+void UIController::CollisionInit()
+{
+	{
+		CCTVButtonCollision_ = CreateTransformComponent<GameEngineCollision>();
+		CCTVButtonCollision_->GetTransform()->SetLocalPosition(CCTVButtonRenderer_->GetTransform()->GetLocalPosition());
+		CCTVButtonCollision_->GetTransform()->SetLocalScaling(CCTVButtonRenderer_->GetTransform()->GetLocalScaling());
+		CCTVButtonCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		muteCallCollision_ = CreateTransformComponent<GameEngineCollision>();
+		muteCallCollision_->GetTransform()->SetLocalPosition(muteCallRenderer_->GetTransform()->GetLocalPosition());
+		muteCallCollision_->GetTransform()->SetLocalPosition(muteCallRenderer_->GetTransform()->GetLocalScaling());
+		muteCallCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+}
+
+void UIController::Update(float _DeltaTime)
+{
+	DebugRenderUpdate();
+	CollisionCheckUpdate();
+}
+
+void UIController::DebugRenderUpdate()
+{
+#ifdef _DEBUG
+	GetLevel()->PushDebugRender(CCTVButtonCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(muteCallCollision_->GetTransform(), CollisionType::Rect);
+#endif
+}
+
+void UIController::CollisionCheckUpdate()
+{
+	CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionCCTVButton, this, std::placeholders::_1));
+	muteCallCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
+}
+
+void UIController::CollisionCCTVButton(GameEngineCollision* _other)
+{
+
+}
+
+void UIController::CollisionMuteCall(GameEngineCollision* _other)
+{
+
 }

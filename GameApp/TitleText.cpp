@@ -140,3 +140,4 @@ void TitleText::CollisionCustomNight(GameEngineCollision* _other)
 		GetLevel()->RequestLevelChange("CustomSetting");
 	}
 }
+
