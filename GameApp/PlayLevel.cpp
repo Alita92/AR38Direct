@@ -23,15 +23,8 @@ void PlayLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
-
-
 	{
 		GameController* gameController = CreateActor<GameController>();
-	}
-
-
-	{
-		UIController* uiController = CreateActor<UIController>();
 	}
 
 	{

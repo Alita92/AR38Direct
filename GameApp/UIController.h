@@ -1,12 +1,17 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+
 // 분류 : 
 // 용도 : 
 // 설명 : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameController;
 class UIController : public GameEngineActor
 {
+private:
+	friend GameController;
+
 public:
 	UIController(); // default constructer 디폴트 생성자
 	~UIController(); // default destructer 디폴트 소멸자
@@ -29,19 +34,33 @@ protected:
 	GameEngineUIRenderer* nightTypoRenderer_;
 	GameEngineUIRenderer* nightNumRenderer_;
 
-	GameEngineUIRenderer* powerLeftTypoRenderer_;
-	GameEngineUIRenderer* powerLeftHundredRenderer_;
-	GameEngineUIRenderer* powerLeftTenRenderer_;
-	GameEngineUIRenderer* powerLeftOneRenderer_;
-	GameEngineUIRenderer* powerLeftPercentageRenderer_;
+	GameEngineUIRenderer* powerRateTypoRenderer_;
+	GameEngineUIRenderer* powerRateHundredRenderer_;
+	GameEngineUIRenderer* powerRateTenRenderer_;
+	GameEngineUIRenderer* powerRateOneRenderer_;
+	GameEngineUIRenderer* powerRatePercentageRenderer_;
 
-	GameEngineUIRenderer* powerUsageTypoRenderer_;
-	GameEngineUIRenderer* powerUsageLevelRenderer_;
+	GameEngineUIRenderer* powerLevelTypoRenderer_;
+	GameEngineUIRenderer* powerLevelRenderer_;
+
 
 
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
+
+public:
+	void SetTimeRenderer(int _curTime);
+	void SetPowerRateRenderer(float _curPowerRate);
+	void SetPowerLevelRenderer(int _curPowerLevel);
+
+private:
+	// 어차피 "실제로" 시간이나 전력 사용량을 돌려주는 건 GameController 가 할 일이다.
+	// UIController 가 해 줄 것? "렌더링 변경!"
+
+
+	bool powerRateTenFlag_;
+	bool powerRateOneFlag_;
 
 private:
 	void ImageInit();

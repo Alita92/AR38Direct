@@ -13,8 +13,16 @@ class AIBonnie;
 class AIChica;
 class AIFoxy;
 class AIFreddy;
+class UIController;
 class GameController : public GameEngineActor
 {
+private:
+	friend UIController;
+	friend AIBonnie;
+	friend AIChica;
+	friend AIFoxy;
+	friend AIFreddy;
+
 public:
 	GameController(); // default constructer 디폴트 생성자
 	~GameController(); // default destructer 디폴트 소멸자
@@ -28,17 +36,22 @@ private:
 	void Update(float _Deltatime) override;
 
 private:
+	void InitUIController();
 	void InitState();
-
+	void InitAnimation();
+	void InitPlayStatus();
+	void InitEnemy();
 
 
 private:
+	UIController* UIController_;
+
 	// 컨트롤러 척도
 	const float MAX_ELECTRICITIY_RATE = 100.0f;
-	const float ELECTRICITY_DEFAULT_USAGE = 9.6f;
+	const float ELECTRICITY_DEFAULT_USAGE = 1.0f /*9.6f*/ ;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
-	const float EACH_HOUR_REAL_DURATION = 89.0f;
+	const float EACH_HOUR_REAL_DURATION = 1.0f /*89.0f*/;
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
 
@@ -46,8 +59,8 @@ private:
 	int curDay_;
 
 	// 전기 변수
-	float curElectricity_;
-	int curElecUsage_;
+	float curPowerRate_;
+	int curPowerLevel_;
 	float elecUsageTimer_;
 	bool isElecCheckOff_;
 	void CheckElectricityUsage();
@@ -57,7 +70,6 @@ private:
 	int curTime_;
 	float timeUsageTimer_;
 	void CheckTime();
-
 
 	// 문 변수
 	bool isLdoorClosed_;
@@ -70,8 +82,9 @@ private:
 
 
 	// 전기, 게임 시간 초기화
-	void InitPlayStatus();
 
+
+public:
 	// 렌더러들 디폴트 Position
 
 	float4 DEFAULT_FAN_POS_OFFICE = { 49.0f, -41.0f, -1.0f };
@@ -79,25 +92,18 @@ private:
 	float4 DEFAULT_CCTV_POS_CCTV = { 0.0f,0.0f,-2.0f };
 
 protected:
-	void InitAnimation();
-
-
 	GameEngineImageRenderer* mainRenderer_;
 	GameEngineImageRenderer* CCTVRenderer_;
 	GameEngineImageRenderer* fanRenderer_;
 	GameEngineImageRenderer* lDoorRenderer_;
 	GameEngineImageRenderer* rDoorRenderer_;
 
-	
 private:
 	// 애니매트로닉스 인공지능 슬롯
 	AIBonnie* aiBonnie_;
 	AIChica* aiChica_;
 	AIFoxy* aiFoxy_;
 	AIFreddy* aiFreddy_;
-
-	// 인공지능 초기화
-	void InitEnemy();
 
 private:
 	LOCATION CurViewState_;

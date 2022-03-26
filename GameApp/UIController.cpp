@@ -6,6 +6,24 @@
 #include <GameEngine/GameEngineCollision.h>
 
 UIController::UIController() // default constructer 디폴트 생성자
+	: timeTenRenderer_(nullptr)
+	, timeOneRenderer_(nullptr)
+	, amRenderer_(nullptr)
+	, CCTVButtonRenderer_(nullptr)
+	, CCTVButtonCollision_(nullptr)
+	, muteCallRenderer_(nullptr)
+	, muteCallCollision_(nullptr)
+	, nightTypoRenderer_(nullptr)
+	, nightNumRenderer_(nullptr)
+	, powerRateTypoRenderer_(nullptr)
+	, powerRateHundredRenderer_(nullptr)
+	, powerRateTenRenderer_(nullptr)
+	, powerRateOneRenderer_(nullptr)
+	, powerRatePercentageRenderer_(nullptr)
+	, powerLevelTypoRenderer_(nullptr)
+	, powerLevelRenderer_(nullptr)
+	, powerRateTenFlag_(false)
+	, powerRateOneFlag_(false)
 {
 
 }
@@ -19,6 +37,7 @@ UIController::~UIController() // default destructer 디폴트 소멸자
 void UIController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f, 0.0f, 0.0f });
+
 	ImageInit();
 	CollisionInit();
 }
@@ -53,33 +72,33 @@ void UIController::ImageInit()
 	nightNumRenderer_->SetImage("S1.png", true);
 	nightNumRenderer_->GetTransform()->SetLocalPosition({ 590.0f, 275.0f, 0.0f });
 
-	powerLeftTypoRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftTypoRenderer_->SetImage("UIPowerLeft.png", true);
-	powerLeftTypoRenderer_->GetTransform()->SetLocalPosition({ -530.0f, -280.0f, 0.0f });
+	powerRateTypoRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	powerRateTypoRenderer_->SetImage("UIPowerLeft.png", true);
+	powerRateTypoRenderer_->GetTransform()->SetLocalPosition({ -530.0f, -280.0f, 0.0f });
+		 
+	powerRateHundredRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	powerRateHundredRenderer_->SetImage("SM1.png", true);
+	powerRateHundredRenderer_->GetTransform()->SetLocalPosition({ -445.0f, -280.0f, 0.0f });
+		 
+	powerRateTenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	powerRateTenRenderer_->SetImage("SM0.png", true);
+	powerRateTenRenderer_->GetTransform()->SetLocalPosition({ -425.0F, -280.0f, 0.0f });
+		 
+	powerRateOneRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	powerRateOneRenderer_->SetImage("SM0.png", true);
+	powerRateOneRenderer_->GetTransform()->SetLocalPosition({ -405.0f, -280.0f, 0.0f });
+		 
+	powerRatePercentageRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	powerRatePercentageRenderer_->SetImage("UIPercentage.png", true);
+	powerRatePercentageRenderer_->GetTransform()->SetLocalPosition({ -385.0f, -280.0f, 0.0f });
 
-	powerLeftHundredRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftHundredRenderer_->SetImage("SM1.png", true);
-	powerLeftHundredRenderer_->GetTransform()->SetLocalPosition({ -445.0f, -280.0f, 0.0f });
+	powerLevelTypoRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	powerLevelTypoRenderer_->SetImage("UIUsage.png", true);
+	powerLevelTypoRenderer_->GetTransform()->SetLocalPosition({ -563.0f, -315.0f, 0.0f });
 
-	powerLeftTenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftTenRenderer_->SetImage("SM0.png", true);
-	powerLeftTenRenderer_->GetTransform()->SetLocalPosition({ -425.0F, -280.0f, 0.0f });
-
-	powerLeftOneRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftOneRenderer_->SetImage("SM0.png", true);
-	powerLeftOneRenderer_->GetTransform()->SetLocalPosition({ -405.0f, -280.0f, 0.0f });
-
-	powerLeftPercentageRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerLeftPercentageRenderer_->SetImage("UIPercentage.png", true);
-	powerLeftPercentageRenderer_->GetTransform()->SetLocalPosition({ -385.0f, -280.0f, 0.0f });
-
-	powerUsageTypoRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerUsageTypoRenderer_->SetImage("UIUsage.png", true);
-	powerUsageTypoRenderer_->GetTransform()->SetLocalPosition({ -563.0f, -315.0f, 0.0f });
-
-	powerUsageLevelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	powerUsageLevelRenderer_->SetImage("UIPower1.png", true);
-	powerUsageLevelRenderer_->GetTransform()->SetLocalPosition({ -465.0f, -315.0f, 0.0f });
+	powerLevelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	powerLevelRenderer_->SetImage("UIPower1.png", true);
+	powerLevelRenderer_->GetTransform()->SetLocalPosition({ -465.0f, -315.0f, 0.0f });
 }
 
 void UIController::CollisionInit()
@@ -127,4 +146,69 @@ void UIController::CollisionCCTVButton(GameEngineCollision* _other)
 void UIController::CollisionMuteCall(GameEngineCollision* _other)
 {
 
+}
+
+
+void UIController::SetTimeRenderer(int _curTime)
+{
+	if (0 > _curTime || 6 < _curTime)
+	{
+		GameEngineDebug::MsgBoxError("UIController 의 시간 렌더링 함수 SetTimeRenderer 파라미터에 0~6사이의 값이 아닌 다른 값이 들어갔습니다.");
+	}
+	if (0 == _curTime)
+	{
+		return;
+	}
+	else
+	{
+		timeTenRenderer_->Off();
+		timeOneRenderer_->SetImage('M' + std::to_string(_curTime) + ".png", true);
+		return;
+	}
+}
+
+void UIController::SetPowerRateRenderer(float _curPowerRate)
+{
+	if (0 > _curPowerRate || 100.0f < _curPowerRate)
+	{
+		GameEngineDebug::MsgBoxError("UIController 의 전기 렌더링 함수 SetPowerRateRenderer 파라미터에 0 미만 100 초과 값이 들어갔습니다.");
+	}
+	if (100.0f == _curPowerRate)
+	{
+		return;
+	}
+	else if (100.0f > _curPowerRate && 10.0f <= _curPowerRate)
+	{
+		if (false == powerRateTenFlag_)
+		{
+			powerRateHundredRenderer_->Off();
+			powerRateTenFlag_ = true;
+		}
+
+		powerRateTenRenderer_->SetImage("SM" + std::to_string(static_cast<int>(_curPowerRate) / 10) + ".png", true);
+		powerRateOneRenderer_->SetImage("SM" + std::to_string(static_cast<int>(_curPowerRate) % 10) + ".png", true);
+		return;
+	}
+	else if (10.0f > _curPowerRate)
+	{
+		if (false == powerRateOneFlag_)
+		{
+			powerRateTenRenderer_->Off();
+			powerRateOneFlag_ = true;
+		}
+
+		powerRateOneRenderer_->SetImage("SM" + std::to_string(static_cast<int>(_curPowerRate)) + ".png", true);
+		return;
+	}
+}
+
+void UIController::SetPowerLevelRenderer(int _curPowerLevel)
+{
+	if (1 > _curPowerLevel || 5 < _curPowerLevel)
+	{
+		GameEngineDebug::MsgBoxError("UIController 의 전기사용량 렌더링 함수 SetPowerLevelRenderer 파라미터에 1 미만 5 초과 값이 들어갔습니다.");
+	}
+	
+	powerLevelRenderer_->SetImage("UIPower" + std::to_string(_curPowerLevel) + ".png", true);
+	return;
 }

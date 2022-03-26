@@ -2,12 +2,14 @@
 #include "GameController.h"
 #include <GameEngine/GameEngineImageRenderer.h>
 
+// UIController
+#include "UIController.h"
 
 // Enemy AI
 #include "AIBonnie.h"
 
 GameController::GameController() // default constructer 디폴트 생성자
-	: CurViewState_(LOCATION::OFFICE), CurCCTVState_(LOCATION::SHOWSTAGE), elecUsageTimer_(0.0f), state_(this), curElecUsage_(0), curElectricity_(0.0f), isElecCheckOff_(false)
+	: CurViewState_(LOCATION::OFFICE), CurCCTVState_(LOCATION::SHOWSTAGE), elecUsageTimer_(0.0f), state_(this), curPowerLevel_(0), curPowerRate_(0.0f), isElecCheckOff_(false)
 	, aiBonnie_(nullptr), aiChica_(nullptr), aiFoxy_(nullptr), aiFreddy_(nullptr)
 	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
 	, curDay_(0)
@@ -21,6 +23,10 @@ GameController::~GameController() // default destructer 디폴트 소멸자
 
 }
 
+void GameController::InitUIController()
+{
+	UIController_ = GetLevel()->CreateActor<UIController>();
+}
 
 void GameController::InitState()
 {
@@ -41,8 +47,8 @@ void GameController::InitPlayStatus()
 {
 	CurViewState_ = LOCATION::OFFICE;
 	CurCCTVState_ = LOCATION::SHOWSTAGE;
-	curElecUsage_ = 1;
-	curElectricity_ = MAX_ELECTRICITIY_RATE;
+	curPowerLevel_ = 1;
+	curPowerRate_ = MAX_ELECTRICITIY_RATE;
 	curTime_ = 0;
 	curDay_ = 1;
 }
@@ -101,6 +107,7 @@ void GameController::InitAnimation()
 void GameController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
+	InitUIController();
 	InitState();
 	InitAnimation();
 	InitPlayStatus();
@@ -110,33 +117,9 @@ void GameController::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P');
 	}
-
-	
 }
 
-void GameController::CheckElectricityUsage()
-{
-	// 실시간 델타타임을 가산해 전력을 소모시킵니다.
-	// 전력이 0이 되면 컨트롤러의 스테이트를 강제로 전환시킵니다.
-	if (true == isElecCheckOff_ || curElectricity_ < 0.0f)
-	{
-		return;
-	}
-	// 전력은 (9.6 / 사용량)초마다 1%씩 소모된다 (아무것도 안 할 때 사용량 1)
-	// 그 외 2일밤 부터는 고정적으로 추가 전력 소모가 존재
-	elecUsageTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (ELECTRICITY_DEFAULT_USAGE / curElecUsage_ <= elecUsageTimer_)
-	{
-		elecUsageTimer_ = 0.0f;
-		curElectricity_ -= 1.0f;
-	}
-		// 2일밤 9 %
-		// 3일밤 10.8 %
-		// 4일밤 13.5 %
-		// 5일밤~18 %
-	return;
-}
 
 void GameController::CheckTime()
 {
@@ -154,6 +137,7 @@ void GameController::CheckTime()
 		// 89초가 지나면 시간 마커에 1시간을 더해줍니다.
 		timeUsageTimer_ = 0.0f;
 		curTime_ += 1;
+		UIController_->SetTimeRenderer(curTime_);
 
 		if (6 < curTime_)
 		{
@@ -163,6 +147,33 @@ void GameController::CheckTime()
 		return;
 	}
 
+	return;
+}
+
+void GameController::CheckElectricityUsage()
+{
+	// 실시간 델타타임을 가산해 전력을 소모시킵니다.
+	// 전력이 0이 되면 컨트롤러의 스테이트를 강제로 전환시킵니다.
+
+
+	if (true == isElecCheckOff_ || curPowerRate_ < 0.0f)
+	{
+		return;
+	}
+	// 전력은 (9.6 / 사용량)초마다 1%씩 소모된다 (아무것도 안 할 때 사용량 1)
+	// 그 외 2일밤 부터는 고정적으로 추가 전력 소모가 존재
+	elecUsageTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (ELECTRICITY_DEFAULT_USAGE / curPowerLevel_ <= elecUsageTimer_)
+	{
+		elecUsageTimer_ = 0.0f;
+		curPowerRate_ -= 1.0f;
+		UIController_->SetPowerRateRenderer(curPowerRate_);
+	}
+	// 2일밤 9 %
+	// 3일밤 10.8 %
+	// 4일밤 13.5 %
+	// 5일밤~18 %
 	return;
 }
 
@@ -197,7 +208,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		return "Win";
 	}
 
-	if (curElectricity_ < 0)
+	if (curPowerRate_ < 0)
 	{
 		return "Noelec";
 	}
@@ -273,7 +284,7 @@ StateInfo GameController::startCCTV(StateInfo _state)
 
 StateInfo GameController::updateCCTV(StateInfo _state)
 {
-	if (curTime_ == 6 || curElectricity_ < 0)
+	if (curTime_ == 6 || curPowerRate_ < 0)
 	{
 		// 시간, 전기 하나라도 조건 충족 시 강제로 CCTV 모드가 해제됩니다.
 		// 이후는 Idle 에서 처리해줍니다.
@@ -347,6 +358,7 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 
 StateInfo GameController::startNoelec(StateInfo _state)
 {
+	UIController_->Off();
 	isElecCheckOff_ = true;
 	isTimeCheckOff_ = true;
 	timeUsageTimer_ = 0.0f;
