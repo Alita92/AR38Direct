@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
+#include <GameEngineBase/GameEngineRandom.h>
 #include "ENUM.h"
 
 // 분류 : 
@@ -48,10 +49,10 @@ private:
 
 	// 컨트롤러 척도
 	const float MAX_ELECTRICITIY_RATE = 100.0f;
-	const float ELECTRICITY_DEFAULT_USAGE = 1.0f /*9.6f*/ ;
+	const float ELECTRICITY_DEFAULT_USAGE = 0.1f /*9.6f*/ ;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
-	const float EACH_HOUR_REAL_DURATION = 1.0f /*89.0f*/;
+	const float EACH_HOUR_REAL_DURATION = 89.0f /*89.0f*/;
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
 
@@ -79,6 +80,9 @@ private:
 
 
 	// 전기 고갈시 사용 변수
+	float noElecDeltaTime_;
+	GameEngineRandom randomGenerator_;
+	int noElecTimerCounter_;
 
 
 	// 전기, 게임 시간 초기화
@@ -127,6 +131,12 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 
 	StateInfo startNoelec(StateInfo _state);
 	StateInfo updateNoelec(StateInfo _state);
+
+	StateInfo startHeisComing(StateInfo _state);
+	StateInfo updateHeisComing(StateInfo _state);
+
+	StateInfo startHeKillsYou(StateInfo _state);
+	StateInfo updateHeKillsYou(StateInfo _state);
 
 	StateInfo startWin(StateInfo _state);
 	StateInfo updateWin(StateInfo _state);

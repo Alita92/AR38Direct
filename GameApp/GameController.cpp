@@ -14,6 +14,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
 	, curDay_(0)
 	, isLdoorClosed_(false), lDoorLighted_(false), isRdoorClosed_(false), rdoorLighted_(false)
+	, noElecDeltaTime_(0.0f), noElecTimerCounter_(0)
 {
 
 }
@@ -38,6 +39,9 @@ void GameController::InitState()
 	state_.CreateState("CCTV", &GameController::startCCTV, &GameController::updateCCTV);
 	
 	state_.CreateState("NoElec", &GameController::startNoelec, &GameController::updateNoelec);
+	state_.CreateState("HeisComing", &GameController::startHeisComing, &GameController::updateHeisComing);
+	state_.CreateState("HeKillsYou", &GameController::startHeKillsYou, &GameController::updateHeKillsYou);
+
 	state_.CreateState("Win", &GameController::startWin, &GameController::updateWin);
 
 	state_.ChangeState("Idle");
@@ -68,6 +72,7 @@ void GameController::InitAnimation()
 		mainRenderer_->SetImage("OfficeBasic.png", true);
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND0)});
 		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
+		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
 	}
 
 	{
@@ -125,7 +130,7 @@ void GameController::CheckTime()
 {
 	// 실시간 델타타임을 가산해 게임 내 시간을 지나게 합니다.
 	// 6시로 마커가 도달 시 게임 승리 판정을 내립니다.
-	if (true == isTimeCheckOff_ || 6 == curTime_)
+	if (6 == curTime_)
 	{
 		return;
 	}
@@ -156,7 +161,7 @@ void GameController::CheckElectricityUsage()
 	// 전력이 0이 되면 컨트롤러의 스테이트를 강제로 전환시킵니다.
 
 
-	if (true == isElecCheckOff_ || curPowerRate_ < 0.0f)
+	if (true == isElecCheckOff_ || curPowerRate_ <= 0.0f)
 	{
 		return;
 	}
@@ -190,13 +195,10 @@ void GameController::Update(float _Deltatime)
 		mainRenderer_->SetChangeAnimation("JumpScareBonnie");
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
-
-
 }
 
 StateInfo GameController::startIdle(StateInfo _state)
 {
-
 	CurViewState_ = LOCATION::NONE;
 	return StateInfo();
 }
@@ -208,9 +210,9 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		return "Win";
 	}
 
-	if (curPowerRate_ < 0)
+	if (curPowerRate_ <= 0.0f)
 	{
-		return "Noelec";
+		return "NoElec";
 	}
 
 	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle"))
@@ -244,7 +246,8 @@ StateInfo GameController::updateIdle(StateInfo _state)
 
 	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
 	{
-		return "CCTVOpen";
+		return "NoElec";
+			//"CCTVOpen";
 	}
 
 	return StateInfo();
@@ -360,9 +363,24 @@ StateInfo GameController::startNoelec(StateInfo _state)
 {
 	UIController_->Off();
 	isElecCheckOff_ = true;
-	isTimeCheckOff_ = true;
-	timeUsageTimer_ = 0.0f;
 	elecUsageTimer_ = 0.0f;
+
+	mainRenderer_->SetImage("NoElecStatic.png", true);
+	fanRenderer_->Off();
+
+	if (true == isRdoorClosed_)
+	{
+		rDoorRenderer_->SetChangeAnimation("RdoorOpen");
+		isRdoorClosed_ = false;
+	}
+
+	if (true == isLdoorClosed_)
+	{
+		lDoorRenderer_->SetChangeAnimation("LdoorOpen");
+		isLdoorClosed_ = false;
+
+	}
+
 	return StateInfo();
 }
 
@@ -372,15 +390,65 @@ StateInfo GameController::updateNoelec(StateInfo _state)
 // 5초마다 1 / 5 확률로(최대 20초) 노래가 멈추고 화면이 암전된다
 // 이후 2초마다 1 / 5 확률로 프레디가 점프스케어
 
-	elecUsageTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+	noElecDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (5.0f <= elecUsageTimer_)
-	{	// 전력이 나간 이후 5초마다 1 / 5 확률로(최대 20초) 노래가 재생되기 시작하고
-		elecUsageTimer_ = 0.0f;
-
-		
+	if (4 == noElecTimerCounter_)
+	{
+		return "HeisComing";
 	}
 
+	if (5.0f <= noElecDeltaTime_)
+	{	// 전력이 나간 이후 5초마다 1 / 5 확률로(최대 20초) 노래가 재생되기 시작하고
+		int dice = randomGenerator_.RandomInt(0, 4);
+
+		switch (dice)
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		{
+			noElecDeltaTime_ = 0.0f;
+			noElecTimerCounter_++;
+			return StateInfo();
+		}
+		break;
+		case 4:
+		{
+			noElecDeltaTime_ = 0.0f;
+			return "HeisComing";
+		}
+		break;
+		default:
+			break;
+		}
+	}
+
+	return StateInfo();
+}
+
+
+StateInfo GameController::startHeisComing(StateInfo _state)
+{
+	lDoorRenderer_->Off();
+	rDoorRenderer_->Off();
+	return StateInfo();
+}
+
+StateInfo GameController::updateHeisComing(StateInfo _state)
+{
+	mainRenderer_->SetChangeAnimation("NoElec");
+
+	return StateInfo();
+}
+
+StateInfo GameController::startHeKillsYou(StateInfo _state)
+{
+	return StateInfo();
+}
+
+StateInfo GameController::updateHeKillsYou(StateInfo _state)
+{
 	return StateInfo();
 }
 

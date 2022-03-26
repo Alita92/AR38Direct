@@ -84,7 +84,7 @@ void UserGame::ResourcesLoad()
 		GameEngineTexture* CCTVTexture = GameEngineTextureManager::GetInst().Find("CCTVAnimation.png");
 		CCTVTexture->Cut(5, 2);
 
-		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareBonnie"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("NoElec"));
 		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareChica"));
 		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareFreddy"));
 		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("OfficeFan"));
