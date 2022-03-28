@@ -409,17 +409,22 @@ void UIController::DebugRenderUpdate()
 #ifdef _DEBUG
 	GetLevel()->PushDebugRender(CCTVButtonCollision_->GetTransform(), CollisionType::Rect);
 	GetLevel()->PushDebugRender(muteCallCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam1ACollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam1BCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam1CCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam5Collision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam3Collision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam2ACollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam2BCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam7Collision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam6Collision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam4ACollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(cam4BCollision_->GetTransform(), CollisionType::Rect);
+
+	if (true == cam1ACollision_->IsUpdate())
+	{
+		GetLevel()->PushDebugRender(cam1ACollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam1BCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam1CCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam5Collision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam3Collision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam2ACollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam2BCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam7Collision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam6Collision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam4ACollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(cam4BCollision_->GetTransform(), CollisionType::Rect);
+	}
+
 #endif
 }
 
@@ -427,7 +432,12 @@ void UIController::CollisionCheckUpdate()
 {
 	CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionCCTVButton, this, std::placeholders::_1));
 	muteCallCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
-	cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
+
+	if (true == cam1ACollision_->IsUpdate())
+	{
+		cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
+	}
+	
 }
 
 void UIController::CollisionCCTVButton(GameEngineCollision* _other)

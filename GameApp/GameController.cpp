@@ -411,8 +411,6 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 		CCTVRenderer_->Off();
 		return "Idle";
 	}
-
-
 	return StateInfo();
 }
 
