@@ -317,13 +317,71 @@ void UIController::CollisionInit()
 		CCTVButtonCollision_->GetTransform()->SetLocalPosition(CCTVButtonRenderer_->GetTransform()->GetLocalPosition());
 		CCTVButtonCollision_->GetTransform()->SetLocalScaling(CCTVButtonRenderer_->GetTransform()->GetLocalScaling());
 		CCTVButtonCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+		
 	}
 
 	{
 		muteCallCollision_ = CreateTransformComponent<GameEngineCollision>();
 		muteCallCollision_->GetTransform()->SetLocalPosition(muteCallRenderer_->GetTransform()->GetLocalPosition());
-		muteCallCollision_->GetTransform()->SetLocalPosition(muteCallRenderer_->GetTransform()->GetLocalScaling());
+		muteCallCollision_->GetTransform()->SetLocalScaling(muteCallRenderer_->GetTransform()->GetLocalScaling());
 		muteCallCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		cam1ACollision_ = CreateTransformComponent<GameEngineCollision>();
+		cam1ACollision_->GetTransform()->SetLocalPosition(cam1AScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam1ACollision_->GetTransform()->SetLocalScaling(cam1AScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam1ACollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam1BCollision_ = CreateTransformComponent<GameEngineCollision>();
+		cam1BCollision_->GetTransform()->SetLocalPosition(cam1BScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam1BCollision_->GetTransform()->SetLocalScaling(cam1BScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam1BCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam1CCollision_ = CreateTransformComponent<GameEngineCollision>();
+		cam1CCollision_->GetTransform()->SetLocalPosition(cam1CScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam1CCollision_->GetTransform()->SetLocalScaling(cam1CScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam1CCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam5Collision_ = CreateTransformComponent<GameEngineCollision>();
+		cam5Collision_->GetTransform()->SetLocalPosition(cam5ScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam5Collision_->GetTransform()->SetLocalScaling(cam5ScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam5Collision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam3Collision_ = CreateTransformComponent<GameEngineCollision>();
+		cam3Collision_->GetTransform()->SetLocalPosition(cam3ScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam3Collision_->GetTransform()->SetLocalScaling(cam3ScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam3Collision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam2ACollision_ = CreateTransformComponent<GameEngineCollision>();
+		cam2ACollision_->GetTransform()->SetLocalPosition(cam2AScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam2ACollision_->GetTransform()->SetLocalScaling(cam2AScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam2ACollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam2BCollision_ = CreateTransformComponent<GameEngineCollision>();
+		cam2BCollision_->GetTransform()->SetLocalPosition(cam2BScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam2BCollision_->GetTransform()->SetLocalScaling(cam2BScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam2BCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam7Collision_ = CreateTransformComponent<GameEngineCollision>();
+		cam7Collision_->GetTransform()->SetLocalPosition(cam7ScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam7Collision_->GetTransform()->SetLocalScaling(cam7ScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam7Collision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	
+		cam6Collision_ = CreateTransformComponent<GameEngineCollision>();
+		cam6Collision_->GetTransform()->SetLocalPosition(cam6ScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam6Collision_->GetTransform()->SetLocalScaling(cam6ScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam6Collision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		cam4ACollision_ = CreateTransformComponent<GameEngineCollision>();
+		cam4ACollision_->GetTransform()->SetLocalPosition(cam4AScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam4ACollision_->GetTransform()->SetLocalScaling(cam4AScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam4ACollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	
+		cam4BCollision_ = CreateTransformComponent<GameEngineCollision>();
+		cam4BCollision_->GetTransform()->SetLocalPosition(cam4BScreenRenderer_->GetTransform()->GetLocalPosition());
+		cam4BCollision_->GetTransform()->SetLocalScaling(cam4BScreenRenderer_->GetTransform()->GetLocalScaling());
+		cam4BCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 }
 
@@ -338,6 +396,17 @@ void UIController::DebugRenderUpdate()
 #ifdef _DEBUG
 	GetLevel()->PushDebugRender(CCTVButtonCollision_->GetTransform(), CollisionType::Rect);
 	GetLevel()->PushDebugRender(muteCallCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam1ACollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam1BCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam1CCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam5Collision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam3Collision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam2ACollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam2BCollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam7Collision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam6Collision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam4ACollision_->GetTransform(), CollisionType::Rect);
+	GetLevel()->PushDebugRender(cam4BCollision_->GetTransform(), CollisionType::Rect);
 #endif
 }
 
