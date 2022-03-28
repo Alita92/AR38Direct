@@ -249,8 +249,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 
 	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
 	{
-		return "NoElec";
-			//"CCTVOpen";
+		return "CCTVOpen";
 	}
 
 	return StateInfo();
@@ -302,37 +301,82 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		// 현 CCTV가 어디를 지향했는지에 따라
 		// 화면을 바꿔 보여줍니다.
 	case LOCATION::OFFICE:
+	{
+
+	}
 		break;
 	case LOCATION::LOFFICEDOOR:
+	{
+
+	}
 		break;
 	case LOCATION::ROFFICEDOOR:
+	{
+
+	}
 		break;
 	case LOCATION::SHOWSTAGE:
 	{
 		CCTVRenderer_->SetImage("ShowStage_Default.png", true);
+		// 설정된 스위치에 해당되는 CCTV 화면을 보여줘야 하지만
+		// 그냥 셋 이미지가 아닌, "애니메트로닉스의 위치를 측정해 산출한 함수에 의한" 이미지가 셋되어야 한다.
+		// 일단 화면에 나오게만 해 보자.
 	}
 		break;
 	case LOCATION::KITCHEN:
+	{
+
+	}
 		break;
-	case LOCATION::BACKSTAGE:
+	case LOCATION::BACKSTAGE: 
+	{
+
+	}
 		break;
 	case LOCATION::DININGAREA:
+	{
+
+	}
 		break;
 	case LOCATION::PIRATECOVE:
+	{
+
+	}
 		break;
 	case LOCATION::EASTHALLA:
+	{
+
+	}
 		break;
 	case LOCATION::EASTHALLB:
+	{
+
+	}
 		break;
 	case LOCATION::WESTHALLA:
+	{
+
+	}
 		break;
 	case LOCATION::WESTHALLB:
+	{
+
+	}
 		break;
 	case LOCATION::RESTROOMS:
+	{
+
+	}
 		break;
 	case LOCATION::SUPPLYCLOSET:
+	{
+
+	}
 		break;
 	case LOCATION::NONE:
+	{
+
+	}
 		break;
 	case LOCATION::MAX:
 		break;

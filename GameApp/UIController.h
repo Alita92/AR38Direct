@@ -43,6 +43,57 @@ protected:
 	GameEngineUIRenderer* powerLevelTypoRenderer_;
 	GameEngineUIRenderer* powerLevelRenderer_;
 
+protected:
+	// CCTV 모드 전용 렌더링?
+	GameEngineUIRenderer* cameraDisabledRenderer_;
+	GameEngineUIRenderer* recordingMarkRenderer_;
+	GameEngineUIRenderer* cameraNameRenderer_;
+	GameEngineUIRenderer* mapRenderer_;
+
+	GameEngineUIRenderer* cam1AScreenRenderer_;
+	GameEngineUIRenderer* cam1ARenderer_;
+	GameEngineCollision* cam1ACollision_;
+
+	GameEngineUIRenderer* cam1BScreenRenderer_;
+	GameEngineUIRenderer* cam1BRenderer_;
+	GameEngineCollision* cam1BCollision_;
+
+	GameEngineUIRenderer* cam1CScreenRenderer_;
+	GameEngineUIRenderer* cam1CRenderer_;
+	GameEngineCollision* cam1CCollision_;
+
+	GameEngineUIRenderer* cam5ScreenRenderer_;
+	GameEngineUIRenderer* cam5Renderer_;
+	GameEngineCollision* cam5Collision_;
+
+	GameEngineUIRenderer* cam3ScreenRenderer_;
+	GameEngineUIRenderer* cam3Renderer_;
+	GameEngineCollision* cam3Collision_;
+
+	GameEngineUIRenderer* cam2AScreenRenderer_;
+	GameEngineUIRenderer* cam2ARenderer_;
+	GameEngineCollision* cam2ACollision_;
+
+	GameEngineUIRenderer* cam2BScreenRenderer_;
+	GameEngineUIRenderer* cam2BRenderer_;
+	GameEngineCollision* cam2BCollision_;
+
+	GameEngineUIRenderer* cam7ScreenRenderer_;
+	GameEngineUIRenderer* cam7Renderer_;
+	GameEngineCollision* cam7Collision_;
+
+	GameEngineUIRenderer* cam6ScreenRenderer_;
+	GameEngineUIRenderer* cam6Renderer_;
+	GameEngineCollision* cam6Collision_;
+
+	GameEngineUIRenderer* cam4AScreenRenderer_;
+	GameEngineUIRenderer* cam4ARenderer_;
+	GameEngineCollision* cam4ACollision_;
+
+	GameEngineUIRenderer* cam4BScreenRenderer_;
+	GameEngineUIRenderer* cam4BRenderer_;
+	GameEngineCollision* cam4BCollision_;
+
 
 
 private:
@@ -57,7 +108,6 @@ public:
 private:
 	// 어차피 "실제로" 시간이나 전력 사용량을 돌려주는 건 GameController 가 할 일이다.
 	// UIController 가 해 줄 것? "렌더링 변경!"
-
 
 	bool powerRateTenFlag_;
 	bool powerRateOneFlag_;
