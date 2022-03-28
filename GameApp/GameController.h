@@ -43,7 +43,6 @@ private:
 	void InitPlayStatus();
 	void InitEnemy();
 
-
 private:
 	UIController* UIController_;
 

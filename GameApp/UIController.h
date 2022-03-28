@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
-
+#include <GameEngine/GameEngineFSM.h>
+#include "ENUM.h"
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -105,6 +106,8 @@ public:
 	void SetPowerRateRenderer(float _curPowerRate);
 	void SetPowerLevelRenderer(int _curPowerLevel);
 
+	void SwitchUIState(PLAYERSTATUS _playerStatus);
+
 private:
 	// 어차피 "실제로" 시간이나 전력 사용량을 돌려주는 건 GameController 가 할 일이다.
 	// UIController 가 해 줄 것? "렌더링 변경!"
@@ -115,6 +118,7 @@ private:
 private:
 	void ImageInit();
 	void CollisionInit();
+	void StateInit();
 	void DebugRenderUpdate();
 	void CollisionCheckUpdate();
 
@@ -122,5 +126,14 @@ private:
 	void CollisionCCTVButton(GameEngineCollision* _other);
 	void CollisionMuteCall(GameEngineCollision* _other);
 
+	private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
+		GameEngineFSM<UIController> state_;
+
+#pragma region States
+		StateInfo startOfficeUI(StateInfo _state);
+		StateInfo updateOfficeUI(StateInfo _state);
+
+		StateInfo startCCTVUI(StateInfo _state);
+		StateInfo updateCCTVUI(StateInfo _state);
 };
 

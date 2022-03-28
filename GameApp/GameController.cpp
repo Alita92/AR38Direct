@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameController.h"
 #include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineCollision.h>
 
 // UIController
 #include "UIController.h"
@@ -125,6 +126,7 @@ void GameController::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P');
 	}
+	
 }
 
 
@@ -249,6 +251,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 
 	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
 	{
+	
 		return "CCTVOpen";
 	}
 
@@ -283,7 +286,7 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	// 전력 소모량이 1레벨 상승하며,
 
 	
-
+	UIController_->SwitchUIState(PLAYERSTATUS::CCTV);
 	return StateInfo();
 }
 
@@ -386,6 +389,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
 	{
+		UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
 		return "CCTVClose";
 	}
 
@@ -395,14 +399,20 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 StateInfo GameController::startCCTVClose(StateInfo _state)
 {
-	CCTVRenderer_->Off();
+	CCTVRenderer_->SetChangeAnimation("CCTVClose");
 	return StateInfo();
 }
 
 StateInfo GameController::updateCCTVClose(StateInfo _state)
 {
-	mainRenderer_->SetImage("OfficeBasic.png", true);
-	return "Idle";
+	if (true == CCTVRenderer_->IsCurAnimationEnd())
+	{
+		mainRenderer_->SetImage("OfficeBasic.png", true);
+		CCTVRenderer_->Off();
+		return "Idle";
+	}
+
+
 	return StateInfo();
 }
 

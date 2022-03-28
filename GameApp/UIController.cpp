@@ -61,6 +61,7 @@ UIController::UIController() // default constructer 디폴트 생성자
 	, cam4BScreenRenderer_(nullptr)
 	, cam4BRenderer_(nullptr)
 	, cam4BCollision_(nullptr)
+	, state_(this)
 {
 
 }
@@ -77,6 +78,7 @@ void UIController::Start()
 
 	ImageInit();
 	CollisionInit();
+	StateInit();
 }
 
 void UIController::ImageInit()
@@ -385,6 +387,17 @@ void UIController::CollisionInit()
 	}
 }
 
+void UIController::StateInit()
+{
+	state_.CreateState("OfficeUI", &UIController::startOfficeUI, &UIController::updateOfficeUI);
+	state_.CreateState("CCTVUI", &UIController::startCCTVUI, &UIController::updateCCTVUI);
+	state_.ChangeState("OfficeUI");
+}
+
+
+
+
+
 void UIController::Update(float _DeltaTime)
 {
 	DebugRenderUpdate();
@@ -414,17 +427,19 @@ void UIController::CollisionCheckUpdate()
 {
 	CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionCCTVButton, this, std::placeholders::_1));
 	muteCallCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
+	cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
 }
 
 void UIController::CollisionCCTVButton(GameEngineCollision* _other)
 {
-
+	
 }
 
 void UIController::CollisionMuteCall(GameEngineCollision* _other)
 {
-
+	int a = 0;
 }
+
 
 
 void UIController::SetTimeRenderer(int _curTime)
@@ -489,4 +504,143 @@ void UIController::SetPowerLevelRenderer(int _curPowerLevel)
 	
 	powerLevelRenderer_->SetImage("UIPower" + std::to_string(_curPowerLevel) + ".png", true);
 	return;
+}
+
+
+StateInfo UIController::startOfficeUI(StateInfo _state)
+{
+	cameraDisabledRenderer_->Off();
+	recordingMarkRenderer_->Off();
+	cameraNameRenderer_->Off();
+	mapRenderer_->Off();
+	
+	cam1AScreenRenderer_->Off();
+	cam1ARenderer_->Off();
+	cam1ACollision_->Off();
+	
+	cam1BScreenRenderer_->Off();
+	cam1BRenderer_->Off();
+	cam1BCollision_->Off();
+
+	cam1CScreenRenderer_->Off();
+	 cam1CRenderer_->Off();
+	cam1CCollision_->Off();
+
+	 cam5ScreenRenderer_->Off();
+	 cam5Renderer_->Off();
+	cam5Collision_->Off();
+
+	 cam3ScreenRenderer_->Off();
+	 cam3Renderer_->Off();
+	cam3Collision_->Off();
+
+	 cam2AScreenRenderer_->Off();
+	 cam2ARenderer_->Off();
+	cam2ACollision_->Off();
+
+	 cam2BScreenRenderer_->Off();
+	 cam2BRenderer_->Off();
+	cam2BCollision_->Off();
+
+	 cam7ScreenRenderer_->Off();
+	 cam7Renderer_->Off();
+	cam7Collision_->Off();
+
+	 cam6ScreenRenderer_->Off();
+	 cam6Renderer_->Off();
+	cam6Collision_->Off();
+
+	 cam4AScreenRenderer_->Off();
+	 cam4ARenderer_->Off();
+	cam4ACollision_->Off();
+
+	 cam4BScreenRenderer_->Off();
+	 cam4BRenderer_->Off();
+	cam4BCollision_->Off();
+
+	return StateInfo();
+}
+
+StateInfo UIController::updateOfficeUI(StateInfo _state)
+{
+	return StateInfo();
+}
+
+StateInfo UIController::startCCTVUI(StateInfo _state)
+{
+	cameraDisabledRenderer_->On();
+	recordingMarkRenderer_->On();
+	cameraNameRenderer_->On();
+	mapRenderer_->On();
+
+	cam1AScreenRenderer_->On();
+	cam1ARenderer_->On();
+	cam1ACollision_->On();
+
+	cam1BScreenRenderer_->On();
+	cam1BRenderer_->On();
+	cam1BCollision_->On();
+
+	cam1CScreenRenderer_->On();
+	cam1CRenderer_->On();
+	cam1CCollision_->On();
+
+	cam5ScreenRenderer_->On();
+	cam5Renderer_->On();
+	cam5Collision_->On();
+
+	cam3ScreenRenderer_->On();
+	cam3Renderer_->On();
+	cam3Collision_->On();
+
+	cam2AScreenRenderer_->On();
+	cam2ARenderer_->On();
+	cam2ACollision_->On();
+
+	cam2BScreenRenderer_->On();
+	cam2BRenderer_->On();
+	cam2BCollision_->On();
+
+	cam7ScreenRenderer_->On();
+	cam7Renderer_->On();
+	cam7Collision_->On();
+
+	cam6ScreenRenderer_->On();
+	cam6Renderer_->On();
+	cam6Collision_->On();
+
+	cam4AScreenRenderer_->On();
+	cam4ARenderer_->On();
+	cam4ACollision_->On();
+
+	cam4BScreenRenderer_->On();
+	cam4BRenderer_->On();
+	cam4BCollision_->On();
+	return StateInfo();
+}
+
+StateInfo UIController::updateCCTVUI(StateInfo _state)
+{
+	return StateInfo();
+}
+
+void UIController::SwitchUIState(PLAYERSTATUS _playerStatus)
+{
+	switch (_playerStatus)
+	{
+	case PLAYERSTATUS::OFFICE:
+	{
+		state_.ChangeState("OfficeUI");
+	}
+		break;
+	case PLAYERSTATUS::CCTV:
+	{
+		state_.ChangeState("CCTVUI");
+	}
+		break;
+	case PLAYERSTATUS::MAX:
+		break;
+	default:
+		break;
+	}
 }
