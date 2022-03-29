@@ -118,6 +118,11 @@ protected:
 	GameEngineImageRenderer* lDoorRenderer_;
 	GameEngineImageRenderer* rDoorRenderer_;
 
+
+private:
+	PLAYERSTATUS CurPlayerState_;
+	LOCATION CurCCTVState_;
+
 private:
 	// 애니매트로닉스 인공지능 슬롯
 	AIBonnie* aiBonnie_;
@@ -125,9 +130,6 @@ private:
 	AIFoxy* aiFoxy_;
 	AIFreddy* aiFreddy_;
 
-private:
-	PLAYERSTATUS CurPlayerState_;
-	LOCATION CurCCTVState_;
 
 private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
 	GameEngineFSM<GameController> state_;
@@ -159,7 +161,7 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 
 	StateInfo startWin(StateInfo _state);
 	StateInfo updateWin(StateInfo _state);
-
+#pragma endregion States
 
 };
 

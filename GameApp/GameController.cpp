@@ -62,6 +62,7 @@ void GameController::InitPlayStatus()
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
+	aiBonnie_->SetAILevel(15);
 //	aiChica_ = GetLevel()->CreateActor<AIChica>();
 //	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
 //	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
@@ -259,12 +260,6 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		}
 	}
 
-	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
-	{
-	
-		return "CCTVOpen";
-	}
-
 	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
 
 
@@ -325,24 +320,47 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::SHOWSTAGE:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("ShowStage_BonnieGone.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
 	}
 		break;
 	case LOCATION::KITCHEN:
 	{
 		CCTVRealRenderer_->On();
+
 		CCTVRealRenderer_->SetImage("Kitchen.png", true);
 	}
 		break;
 	case LOCATION::BACKSTAGE: 
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
+			break;
+		}
+
+
 		CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
 	}
 		break;
 	case LOCATION::DININGAREA:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
 	}
 		break;
@@ -367,12 +385,26 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::WESTHALLA:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("WestHallA_Bonnie.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("WestHallA_Default.png", true);
 	}
 		break;
 	case LOCATION::WESTHALLB:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("WestHallB_Bonnie0.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("WestHallB_Default.png", true);
 	}
 		break;
@@ -385,6 +417,13 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::SUPPLYCLOSET:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::SUPPLYCLOSET == aiBonnie_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("SuppltCloset_Bonnie.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
 	}
 		break;
@@ -399,11 +438,6 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	}
 
-	//if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
-	//{
-	//	UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
-	//	return "CCTVClose";
-	//}
 
 	{
 		UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
