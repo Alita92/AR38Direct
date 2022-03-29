@@ -3,7 +3,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 AIBonnie::AIBonnie() // default constructer 디폴트 생성자
-	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::MAX), nextLocation_(LOCATION::MAX), state_(this)
+	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::MAX), nextLocation_(LOCATION::MAX), state_(this), isDoorLocked_(false)
 {
 
 }
@@ -228,24 +228,26 @@ StateInfo AIBonnie::updateWestHallB(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
-			switch (randomGenerator_.RandomInt(0, 3))
+			switch (randomGenerator_.RandomInt(0, 5))
 			{
 			case 0:
+			case 1:
+			case 2:
 			{
 				return "OfficeDoor";
 			}
 			break;
-			case 1:
+			case 3:
 			{
 				return "WestHallA";
 			}
 			break;
-			case 2:
+			case 4:
 			{
 				return "SupplyCloset";
 			}
 			break;
-			case 3:
+			case 5:
 			{
 				return "DiningArea";
 			}
@@ -321,24 +323,51 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
-			switch (randomGenerator_.RandomInt(0, 3))
+			switch (randomGenerator_.RandomInt(0, 5))
 			{
 			case 0:
+			case 1:
+			case 2:
 			{
-				return "Office";
+				if (false == isDoorLocked_)
+				{
+					return "Office";
+				}
+
+				switch (randomGenerator_.RandomInt(0, 2))
+				{
+				case 0:
+				{
+					return "WestHallB";
+				}
+					break;
+				case 1:
+				{
+					return "WestHallA";
+				}
+					break;
+				case 2:
+				{
+					return "DiningArea";
+				}
+					break;
+
+				default:
+					break;
+				}
 			}
 			break;
-			case 1:
+			case 3:
 			{
 				return "WestHallB";
 			}
 			break;
-			case 2:
+			case 4:
 			{
 				return "WestHallA";
 			}
 			break;
-			case 3:
+			case 5:
 			{
 				return "DiningArea";
 			}
@@ -359,7 +388,7 @@ StateInfo AIBonnie::startOffice(StateInfo _state)
 }
 StateInfo AIBonnie::updateOffice(StateInfo _state)
 {
+	
 
-	GameEngineDebug::MsgBoxError("게임 오버 디버그");
 	return StateInfo();
 }

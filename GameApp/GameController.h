@@ -54,6 +54,7 @@ private:
 	const float EACH_HOUR_REAL_DURATION = 89.0f /*89.0f*/;
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
+	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;
 
 	// 스테이지 변수
 	int curDay_;
@@ -70,6 +71,9 @@ private:
 	int curTime_;
 	float timeUsageTimer_;
 	void CheckTime();
+
+	float playDeadTimer_;
+	float deathSceneTimer_;
 
 	// 문 변수
 	bool isLdoorClosed_;
@@ -155,6 +159,9 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 
 	StateInfo startHeKillsYou(StateInfo _state);
 	StateInfo updateHeKillsYou(StateInfo _state);
+
+	StateInfo startBonnieDeath(StateInfo _state);
+	StateInfo updateBonnieDeath(StateInfo _state);
 
 	StateInfo startNoElecDeath(StateInfo _state);
 	StateInfo updateNoElecDeath(StateInfo _state);

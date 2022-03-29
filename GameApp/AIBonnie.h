@@ -8,8 +8,12 @@
 // AIBase 로 부모 클래스를 만들어서
 // 나머지 애니매트로닉스들의 AI를 자식으로 상속해주는 설계가 좋을까?
 
+class GameController;
 class AIBonnie : public GameEngineActor
 {
+private:
+	friend GameController;
+
 public:
 	AIBonnie(); // default constructer 디폴트 생성자
 
@@ -22,7 +26,6 @@ public:
 private:
 	void Start() override;
 	void Update(float _DeltaTime) override;
-
 
 	const float ACTION_FREQUENCY = 4.97f;
 	int AILevel_;
@@ -42,7 +45,9 @@ public:
 		return curLocation_;
 	}
 
-private :
+	bool isDoorLocked_;
+
+private:
 	GameEngineFSM<AIBonnie> state_;
 
 #pragma region States

@@ -15,7 +15,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
 	, curDay_(0)
 	, isLdoorClosed_(false), lDoorLighted_(false), isRdoorClosed_(false), rdoorLighted_(false)
-	, noElecDeltaTime_(0.0f), noElecTimerCounter_(0)
+	, noElecDeltaTime_(0.0f), noElecTimerCounter_(0), playDeadTimer_(0.0f), deathSceneTimer_(0.0f)
 {
 
 }
@@ -39,6 +39,8 @@ void GameController::InitState()
 
 	state_.CreateState("CCTV", &GameController::startCCTV, &GameController::updateCCTV);
 	
+	state_.CreateState("BonnieDeath", &GameController::startBonnieDeath, &GameController::updateBonnieDeath);
+
 	state_.CreateState("NoElec", &GameController::startNoElec, &GameController::updateNoElec);
 	state_.CreateState("HeisComing", &GameController::startHeisComing, &GameController::updateHeisComing);
 	state_.CreateState("HeKillsYou", &GameController::startHeKillsYou, &GameController::updateHeKillsYou);
@@ -74,7 +76,9 @@ void GameController::InitAnimation()
 		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeBasic.png", true);
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1)});
+
 		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
+
 		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
 		mainRenderer_->CreateAnimationFolder("NoElecFreddy", "NoElecFreddy", 0.04f, false);
@@ -173,7 +177,6 @@ void GameController::CheckElectricityUsage()
 	// 실시간 델타타임을 가산해 전력을 소모시킵니다.
 	// 전력이 0이 되면 컨트롤러의 스테이트를 강제로 전환시킵니다.
 
-
 	if (true == isElecCheckOff_ || curPowerRate_ <= 0.0f)
 	{
 		return;
@@ -192,6 +195,7 @@ void GameController::CheckElectricityUsage()
 	// 3일밤 10.8 %
 	// 4일밤 13.5 %
 	// 5일밤~18 %
+	UIController_->SetPowerLevelRenderer(curPowerLevel_);
 	return;
 }
 
@@ -201,11 +205,11 @@ void GameController::Update(float _Deltatime)
 	CheckTime();
 	CheckElectricityUsage();
 
+
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
 	{
 		// 점프스케어 디버깅 중
-		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f, -50.0f });
-		mainRenderer_->SetChangeAnimation("JumpScareBonnie");
+		state_.ChangeState("BonnieDeath");
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
 }
@@ -237,12 +241,16 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		{
 			lDoorRenderer_->SetChangeAnimation("LdoorClose");
 			isLdoorClosed_ = true;
+			aiBonnie_->isDoorLocked_ = true;
+			curPowerLevel_ += 1;
 		}
 		else
 		{
 
 			lDoorRenderer_->SetChangeAnimation("LdoorOpen");
 			isLdoorClosed_ = false;
+			aiBonnie_->isDoorLocked_ = false;
+			curPowerLevel_ -= 1;
 		}
 	}
 
@@ -252,11 +260,14 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		{
 			rDoorRenderer_->SetChangeAnimation("RdoorClose");
 			isRdoorClosed_ = true;
+			curPowerLevel_ += 1;
+
 		}
 		else
 		{
 			rDoorRenderer_->SetChangeAnimation("RdoorOpen");
 			isRdoorClosed_ = false;
+			curPowerLevel_ -= 1;
 		}
 	}
 
@@ -269,6 +280,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 StateInfo GameController::startCCTVOpen(StateInfo _state)
 {
 	// CCTV 작동 애니메이션에 앞서 렌더 오더를 새로 정리합니다.
+	curPowerLevel_ += 1;
 	CCTVAnimationRenderer_->On();
 	CCTVAnimationRenderer_->SetChangeAnimation("CCTVOpen");
 	return StateInfo();
@@ -292,6 +304,7 @@ StateInfo GameController::startCCTV(StateInfo _state)
 {
 	// CCTV를 작동시킨 상태입니다.
 	// 전력 소모량이 1레벨 상승하며,
+
 	fanRenderer_->Off();
 	CCTVAnimationRenderer_->Off();
 	CurPlayerState_ = PLAYERSTATUS::CCTV;
@@ -301,7 +314,15 @@ StateInfo GameController::startCCTV(StateInfo _state)
 
 StateInfo GameController::updateCCTV(StateInfo _state)
 {
+	if (LOCATION::OFFICE == aiBonnie_->GetLocation())
+	{
+		playDeadTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
+		if (MAXIMUM_PLAYDEAD_DURATION <= playDeadTimer_)
+		{
+			return "BonnieDeath";
+		}
+	}
 
 	if (curPowerRate_ <= 0)
 	{
@@ -346,8 +367,6 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
 			break;
 		}
-
-
 		CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
 	}
 		break;
@@ -398,8 +417,8 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::WESTHALLB:
 	{
 		CCTVRealRenderer_->On();
-
-		if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
+		
+		if (LOCATION::WESTHALLB == aiBonnie_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("WestHallB_Bonnie0.png", true);
 			break;
@@ -460,6 +479,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 StateInfo GameController::startCCTVClose(StateInfo _state)
 {
+	curPowerLevel_ -= 1;
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->On();
 
@@ -488,6 +508,30 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 	}
 	return StateInfo();
 }
+
+StateInfo GameController::startBonnieDeath(StateInfo _state)
+{
+	CCTVRealRenderer_->Off();
+	CCTVAnimationRenderer_->On();
+	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f, 100.0f });
+	mainRenderer_->SetChangeAnimation("JumpScareBonnie");
+	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+	return StateInfo();
+}
+
+StateInfo GameController::updateBonnieDeath(StateInfo _state)
+{
+	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (0.88f <= deathSceneTimer_)
+	{
+		GetLevel()->RequestLevelChange("GameOver");
+	}
+
+	return StateInfo();
+}
+
+
 
 StateInfo GameController::startNoElec(StateInfo _state)
 {
@@ -696,6 +740,12 @@ void GameController::CollisionCCTVButton(GameEngineCollision* _other)
 		// 닿았으면 바로 전환 가능하게
 		if (PLAYERSTATUS::OFFICE != CurPlayerState_)
 		{
+			if (LOCATION::OFFICE == aiBonnie_->GetLocation())
+			{
+				UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
+				state_.ChangeState("BonnieDeath");
+			}
+
 
 			UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
 			state_.ChangeState("CCTVClose");

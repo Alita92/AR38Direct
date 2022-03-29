@@ -427,13 +427,6 @@ void UIController::DebugRenderUpdate()
 #endif
 }
 
-void UIController::CollisionCheckUpdate()
-{
-	
-}
-
-
-
 
 void UIController::SetTimeRenderer(int _curTime)
 {
