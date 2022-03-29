@@ -62,6 +62,7 @@ UIController::UIController() // default constructer 디폴트 생성자
 	, cam4BRenderer_(nullptr)
 	, cam4BCollision_(nullptr)
 	, state_(this)
+	, deltaTime_(0.0f)
 {
 
 }
@@ -401,6 +402,13 @@ void UIController::StateInit()
 void UIController::Update(float _DeltaTime)
 {
 	DebugRenderUpdate();
+
+	if (true == recordingMarkRenderer_->IsUpdate())
+	{
+		deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+
+	}
 }
 
 void UIController::DebugRenderUpdate()
@@ -625,6 +633,156 @@ void UIController::SwitchUIState(PLAYERSTATUS _playerStatus)
 	}
 		break;
 	case PLAYERSTATUS::MAX:
+		break;
+	default:
+		break;
+	}
+}
+
+void UIController::SetCCTVNameRenderer(LOCATION _location)
+{
+	switch (_location)
+	{
+	case LOCATION::OFFICE:
+	case LOCATION::LOFFICEDOOR:
+	case LOCATION::ROFFICEDOOR:
+		break;
+	case LOCATION::SHOWSTAGE:
+		cameraNameRenderer_->SetImage("NameShowStage.png", true);
+		break;
+	case LOCATION::KITCHEN:
+		cameraNameRenderer_->SetImage("NameKitchen0.png", true);
+		break;
+	case LOCATION::BACKSTAGE:
+		cameraNameRenderer_->SetImage("NameBackStage.png", true);
+		break;
+	case LOCATION::DININGAREA:
+		cameraNameRenderer_->SetImage("NameDiningArea.png", true);
+		break;
+	case LOCATION::PIRATECOVE:
+		cameraNameRenderer_->SetImage("NamePirateCove.png", true);
+		break;
+	case LOCATION::EASTHALLA:
+		cameraNameRenderer_->SetImage("NameEastHallA.png", true);
+		break;
+	case LOCATION::EASTHALLB:
+		cameraNameRenderer_->SetImage("NameEastHallB.png", true);
+		break;
+	case LOCATION::WESTHALLA:
+		cameraNameRenderer_->SetImage("NameWestHallA.png", true);
+		break;
+	case LOCATION::WESTHALLB:
+		cameraNameRenderer_->SetImage("NameWestHallB.png", true);
+		break;
+	case LOCATION::RESTROOMS:
+		cameraNameRenderer_->SetImage("NameRestRooms.png", true);
+		break;
+	case LOCATION::SUPPLYCLOSET:
+		cameraNameRenderer_->SetImage("NameSupplyCloset.png", true);
+		break;
+	case LOCATION::NONE:
+		break;
+	case LOCATION::MAX:
+		break;
+	default:
+		break;
+	}
+}
+
+void UIController::SetCCTVScreenHighlight(LOCATION _location)
+{
+	switch (_location)
+	{
+	case LOCATION::OFFICE:
+	case LOCATION::LOFFICEDOOR:
+	case LOCATION::ROFFICEDOOR:
+		break;
+	case LOCATION::SHOWSTAGE:
+		cam1AScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::KITCHEN:
+		cam6ScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::BACKSTAGE:
+		cam5ScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::DININGAREA:
+		cam1BScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::PIRATECOVE:
+		cam1CScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::EASTHALLA:
+		cam4AScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::EASTHALLB:
+		cam4BScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::WESTHALLA:
+		cam2AScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::WESTHALLB:
+		cam2BScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::RESTROOMS:
+		cam7ScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::SUPPLYCLOSET:
+		cam3ScreenRenderer_->SetImage("CamScreenOn.png", true);
+		break;
+	case LOCATION::NONE:
+		break;
+	case LOCATION::MAX:
+		break;
+	default:
+		break;
+	}
+}
+
+void UIController::SetCCTVScreenLowlight(LOCATION _location)
+{
+	switch (_location)
+	{
+	case LOCATION::OFFICE:
+	case LOCATION::LOFFICEDOOR:
+	case LOCATION::ROFFICEDOOR:
+		break;
+	case LOCATION::SHOWSTAGE:
+		cam1AScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::KITCHEN:
+		cam6ScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::BACKSTAGE:
+		cam5ScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::DININGAREA:
+		cam1BScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::PIRATECOVE:
+		cam1CScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::EASTHALLA:
+		cam4AScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::EASTHALLB:
+		cam4BScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::WESTHALLA:
+		cam2AScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::WESTHALLB:
+		cam2BScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::RESTROOMS:
+		cam7ScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::SUPPLYCLOSET:
+		cam3ScreenRenderer_->SetImage("CamScreenOff.png", true);
+		break;
+	case LOCATION::NONE:
+		break;
+	case LOCATION::MAX:
 		break;
 	default:
 		break;

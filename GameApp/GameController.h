@@ -126,6 +126,7 @@ protected:
 private:
 	PLAYERSTATUS CurPlayerState_;
 	LOCATION CurCCTVState_;
+	LOCATION PrevCCTVState_;
 
 private:
 	// 애니매트로닉스 인공지능 슬롯

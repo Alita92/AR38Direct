@@ -105,8 +105,11 @@ public:
 	void SetTimeRenderer(int _curTime);
 	void SetPowerRateRenderer(float _curPowerRate);
 	void SetPowerLevelRenderer(int _curPowerLevel);
-
+	void SetCCTVNameRenderer(LOCATION _location);
+	void SetCCTVScreenHighlight(LOCATION _location);
+	void SetCCTVScreenLowlight(LOCATION _location);
 	void SwitchUIState(PLAYERSTATUS _playerStatus);
+
 
 private:
 	// 어차피 "실제로" 시간이나 전력 사용량을 돌려주는 건 GameController 가 할 일이다.
@@ -115,12 +118,13 @@ private:
 	bool powerRateTenFlag_;
 	bool powerRateOneFlag_;
 
+	float deltaTime_;
+
 private:
 	void ImageInit();
 	void CollisionInit();
 	void StateInit();
 	void DebugRenderUpdate();
-	void CollisionCheckUpdate();
 
 
 private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
