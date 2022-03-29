@@ -78,8 +78,8 @@ private:
 	// 문 변수
 	bool isLdoorClosed_;
 	bool isRdoorClosed_;
-	bool lDoorLighted_;
-	bool rdoorLighted_;
+	bool isLdoorLighted_;
+	bool isRdoorLighted_;
 
 
 	// 전기 고갈시 사용 변수

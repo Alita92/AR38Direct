@@ -14,7 +14,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, aiBonnie_(nullptr), aiChica_(nullptr), aiFoxy_(nullptr), aiFreddy_(nullptr)
 	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
 	, curDay_(0)
-	, isLdoorClosed_(false), lDoorLighted_(false), isRdoorClosed_(false), rdoorLighted_(false)
+	, isLdoorClosed_(false), isLdoorLighted_(false), isRdoorClosed_(false), isRdoorLighted_(false)
 	, noElecDeltaTime_(0.0f), noElecTimerCounter_(0), playDeadTimer_(0.0f), deathSceneTimer_(0.0f), PrevCCTVState_(LOCATION::MAX)
 {
 
@@ -104,8 +104,8 @@ void GameController::InitAnimation()
 		rDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rDoorRenderer_->SetImage("RdoorStatic.png", true);
 		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
-		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 14, 0, 0.04f, false);
-		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorOpen", 0, 14, 0.04f, false);
+		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 0, 14, 0.04f, false);
+		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorOpen", 14, 0, 0.04f, false);
 	}
 
 	{		
@@ -267,6 +267,59 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		{
 			rDoorRenderer_->SetChangeAnimation("RdoorOpen");
 			isRdoorClosed_ = false;
+			curPowerLevel_ -= 1;
+		}
+	}
+
+	if (true == GameEngineInput::GetInst().Down("LLight_Toggle"))
+	{
+		if (false == isLdoorLighted_)
+		{
+			if (LOCATION::LOFFICEDOOR == aiBonnie_->GetLocation())
+			{
+				mainRenderer_->SetImage("OfficeLightL1.png", true);
+			}
+			else
+			{
+				mainRenderer_->SetImage("OfficeLightL0.png", true);
+			}
+
+			isLdoorLighted_ = true;
+
+			if (true == isRdoorLighted_)
+			{
+				isRdoorLighted_ = false;
+				curPowerLevel_--;
+			}
+			curPowerLevel_++;
+
+		}
+		else
+		{
+			mainRenderer_->SetImage("OfficeBasic.png", true);
+			isLdoorLighted_ = false;
+			curPowerLevel_ -= 1;
+		}
+	}
+
+	if (true == GameEngineInput::GetInst().Down("RLight_Toggle"))
+	{
+		if (false == isRdoorLighted_)
+		{
+			mainRenderer_->SetImage("OfficeLightR0.png", true);
+			isRdoorLighted_ = true;
+			if (true == isLdoorLighted_)
+			{
+				isLdoorLighted_ = false;
+				curPowerLevel_--;
+			}
+			curPowerLevel_ += 1;
+
+		}
+		else
+		{
+			mainRenderer_->SetImage("OfficeBasic.png", true);
+			isRdoorLighted_ = false;
 			curPowerLevel_ -= 1;
 		}
 	}
