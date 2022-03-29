@@ -129,10 +129,11 @@ void GameController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
 	InitUIController();
+	InitEnemy();
 	InitState();
 	InitAnimation();
 	InitPlayStatus();
-	InitEnemy();
+
 
 	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
 	{
@@ -213,8 +214,6 @@ void GameController::Update(float _Deltatime)
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
 }
-
-
 
 
 StateInfo GameController::startIdle(StateInfo _state)
