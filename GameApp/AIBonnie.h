@@ -46,6 +46,7 @@ public:
 	}
 
 	bool isDoorLocked_;
+	bool isPlayerStares_;
 
 private:
 	GameEngineFSM<AIBonnie> state_;

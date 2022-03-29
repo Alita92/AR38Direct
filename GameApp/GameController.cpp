@@ -219,6 +219,7 @@ void GameController::Update(float _Deltatime)
 
 StateInfo GameController::startIdle(StateInfo _state)
 {
+	aiBonnie_->isPlayerStares_ = true;
 	CurPlayerState_ = PLAYERSTATUS::OFFICE;
 	return StateInfo();
 }
@@ -308,6 +309,9 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	fanRenderer_->Off();
 	CCTVAnimationRenderer_->Off();
 	CurPlayerState_ = PLAYERSTATUS::CCTV;
+
+	aiBonnie_->isPlayerStares_ = false;
+
 	UIController_->SwitchUIState(PLAYERSTATUS::CCTV);
 	return StateInfo();
 }
@@ -457,7 +461,6 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	}
 
-
 	{
 		UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
 		UIController_->cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam1A, this, std::placeholders::_1));
@@ -482,11 +485,13 @@ StateInfo GameController::startCCTVClose(StateInfo _state)
 	curPowerLevel_ -= 1;
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->On();
-
 	if (curPowerRate_ != 0.0f)
 	{
 		fanRenderer_->On();
 	}
+
+	aiBonnie_->isPlayerStares_ = false;
+
 
 	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	return StateInfo();
@@ -499,7 +504,6 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 		if (curPowerRate_ != 0)
 		{
 			mainRenderer_->SetImage("OfficeBasic.png", true);
-
 		}
 
 		CCTVAnimationRenderer_->Off();
@@ -513,7 +517,7 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 {
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->On();
-	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f, 100.0f });
+	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
 	mainRenderer_->SetChangeAnimation("JumpScareBonnie");
 	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	return StateInfo();
@@ -530,8 +534,6 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 
 	return StateInfo();
 }
-
-
 
 StateInfo GameController::startNoElec(StateInfo _state)
 {

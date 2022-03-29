@@ -3,7 +3,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 AIBonnie::AIBonnie() // default constructer 디폴트 생성자
-	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::MAX), nextLocation_(LOCATION::MAX), state_(this), isDoorLocked_(false)
+	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::MAX), nextLocation_(LOCATION::MAX), state_(this), isDoorLocked_(false), isPlayerStares_(true)
 {
 
 }
@@ -314,25 +314,21 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-
 	// 문이 열려있다면 CCTV를 보는 중에는 무조건 오피스로 들어오고
 	// 문이 닫혀있다면 오피스 제외 움직입니다.
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
 	{
 		deltatime_ = 0.0f;
 
+
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
-			switch (randomGenerator_.RandomInt(0, 5))
-			{
-			case 0:
-			case 1:
-			case 2:
-			{
-				if (false == isDoorLocked_)
+
+				if (false == isDoorLocked_ && false == isPlayerStares_)
 				{
 					return "Office";
 				}
+
 
 				switch (randomGenerator_.RandomInt(0, 2))
 				{
@@ -351,29 +347,9 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 					return "DiningArea";
 				}
 					break;
-
 				default:
 					break;
 				}
-			}
-			break;
-			case 3:
-			{
-				return "WestHallB";
-			}
-			break;
-			case 4:
-			{
-				return "WestHallA";
-			}
-			break;
-			case 5:
-			{
-				return "DiningArea";
-			}
-			default:
-				break;
-			}
 		}
 	}
 
