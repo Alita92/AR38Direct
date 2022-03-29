@@ -430,25 +430,9 @@ void UIController::DebugRenderUpdate()
 
 void UIController::CollisionCheckUpdate()
 {
-	CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionCCTVButton, this, std::placeholders::_1));
-	muteCallCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
-
-	if (true == cam1ACollision_->IsUpdate())
-	{
-		cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&UIController::CollisionMuteCall, this, std::placeholders::_1));
-	}
 	
 }
 
-void UIController::CollisionCCTVButton(GameEngineCollision* _other)
-{
-	
-}
-
-void UIController::CollisionMuteCall(GameEngineCollision* _other)
-{
-	int a = 0;
-}
 
 
 

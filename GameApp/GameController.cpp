@@ -10,7 +10,7 @@
 #include "AIBonnie.h"
 
 GameController::GameController() // default constructer 디폴트 생성자
-	: CurViewState_(LOCATION::OFFICE), CurCCTVState_(LOCATION::SHOWSTAGE), elecUsageTimer_(0.0f), state_(this), curPowerLevel_(0), curPowerRate_(0.0f), isElecCheckOff_(false)
+	: CurPlayerState_(PLAYERSTATUS::OFFICE), CurCCTVState_(LOCATION::SHOWSTAGE), elecUsageTimer_(0.0f), state_(this), curPowerLevel_(0), curPowerRate_(0.0f), isElecCheckOff_(false)
 	, aiBonnie_(nullptr), aiChica_(nullptr), aiFoxy_(nullptr), aiFreddy_(nullptr)
 	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
 	, curDay_(0)
@@ -51,7 +51,7 @@ void GameController::InitState()
 
 void GameController::InitPlayStatus()
 {
-	CurViewState_ = LOCATION::OFFICE;
+	CurPlayerState_ = PLAYERSTATUS::OFFICE;
 	CurCCTVState_ = LOCATION::SHOWSTAGE;
 	curPowerLevel_ = 1;
 	curPowerRate_ = MAX_ELECTRICITIY_RATE;
@@ -72,7 +72,7 @@ void GameController::InitAnimation()
 	{
 		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeBasic.png", true);
-		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND0)});
+		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1)});
 		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
@@ -104,12 +104,19 @@ void GameController::InitAnimation()
 	}
 
 	{		
-		CCTVRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		CCTVRenderer_->SetImage("ShowStage_Default.png", true);
-		CCTVRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
-		CCTVRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.04f, false);
-		CCTVRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.04f, false);
-		CCTVRenderer_->Off();
+		CCTVAnimationRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		CCTVAnimationRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
+		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.04f, false);
+		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.04f, false);
+		CCTVAnimationRenderer_->Off();
+	}
+
+	{
+		CCTVRealRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV) });
+		CCTVRealRenderer_->Off();
 	}
 }
 
@@ -200,11 +207,21 @@ void GameController::Update(float _Deltatime)
 		mainRenderer_->SetChangeAnimation("JumpScareBonnie");
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
+
+	if (true == UIController_->cam1ACollision_->IsUpdate())
+	{
+		UIController_->cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
+	}
+
+
 }
+
+
+
 
 StateInfo GameController::startIdle(StateInfo _state)
 {
-	CurViewState_ = LOCATION::NONE;
+	CurPlayerState_ = PLAYERSTATUS::OFFICE;
 	return StateInfo();
 }
 
@@ -255,14 +272,17 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		return "CCTVOpen";
 	}
 
+	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
+
+
 	return StateInfo();
 }
 
 StateInfo GameController::startCCTVOpen(StateInfo _state)
 {
 	// CCTV 작동 애니메이션에 앞서 렌더 오더를 새로 정리합니다.
-	CCTVRenderer_->On();
-	CCTVRenderer_->SetChangeAnimation("CCTVOpen");
+	CCTVAnimationRenderer_->On();
+	CCTVAnimationRenderer_->SetChangeAnimation("CCTVOpen");
 	return StateInfo();
 }
 
@@ -272,7 +292,7 @@ StateInfo GameController::updateCCTVOpen(StateInfo _state)
 	// 작동의 짧은 시간동안은 어떤 인풋도 먹히지 않도록 조정합니다.
 
 
-	if (true == CCTVRenderer_->IsCurAnimationEnd())
+	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
 	{
 		return "CCTV";
 	}
@@ -284,19 +304,25 @@ StateInfo GameController::startCCTV(StateInfo _state)
 {
 	// CCTV를 작동시킨 상태입니다.
 	// 전력 소모량이 1레벨 상승하며,
-
-	
+	fanRenderer_->Off();
+	CCTVAnimationRenderer_->Off();
+	CurPlayerState_ = PLAYERSTATUS::CCTV;
 	UIController_->SwitchUIState(PLAYERSTATUS::CCTV);
 	return StateInfo();
 }
 
 StateInfo GameController::updateCCTV(StateInfo _state)
 {
-	if (curTime_ == 6 || curPowerRate_ < 0)
+
+
+	if (curPowerRate_ <= 0)
 	{
 		// 시간, 전기 하나라도 조건 충족 시 강제로 CCTV 모드가 해제됩니다.
 		// 이후는 Idle 에서 처리해줍니다.
-		return "Idle";
+		//fanRenderer_->Off();
+		//mainRenderer_->SetImage("NoElecStatic.png", true);
+		//CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+		return "NoElec";
 	}
 
 	switch (CurCCTVState_)
@@ -320,7 +346,9 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::SHOWSTAGE:
 	{
-		CCTVRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
+		//CCTVRenderer_->GetTransform()->SetLocalZPosition(static_cast<int>(RenderOrder::CCTV));
 		// 설정된 스위치에 해당되는 CCTV 화면을 보여줘야 하지만
 		// 그냥 셋 이미지가 아닌, "애니메트로닉스의 위치를 측정해 산출한 함수에 의한" 이미지가 셋되어야 한다.
 		// 일단 화면에 나오게만 해 보자.
@@ -393,22 +421,40 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		return "CCTVClose";
 	}
 
+	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
+
+
+
 	return StateInfo();
 }
 
 
 StateInfo GameController::startCCTVClose(StateInfo _state)
 {
-	CCTVRenderer_->SetChangeAnimation("CCTVClose");
+	CCTVRealRenderer_->Off();
+	CCTVAnimationRenderer_->On();
+
+	if (curPowerRate_ != 0.0f)
+	{
+		fanRenderer_->On();
+	}
+
+	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	return StateInfo();
 }
 
 StateInfo GameController::updateCCTVClose(StateInfo _state)
 {
-	if (true == CCTVRenderer_->IsCurAnimationEnd())
+	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
 	{
-		mainRenderer_->SetImage("OfficeBasic.png", true);
-		CCTVRenderer_->Off();
+		if (curPowerRate_ != 0)
+		{
+			mainRenderer_->SetImage("OfficeBasic.png", true);
+
+		}
+
+		CCTVAnimationRenderer_->Off();
+
 		return "Idle";
 	}
 	return StateInfo();
@@ -417,6 +463,13 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 StateInfo GameController::startNoElec(StateInfo _state)
 {
 	UIController_->Off();
+
+	if (CurPlayerState_ != PLAYERSTATUS::OFFICE)
+	{
+		CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+		CCTVRealRenderer_->Off();
+	}
+	
 	isElecCheckOff_ = true;
 	elecUsageTimer_ = 0.0f;
 
@@ -433,7 +486,6 @@ StateInfo GameController::startNoElec(StateInfo _state)
 	{
 		lDoorRenderer_->SetChangeAnimation("LdoorOpen");
 		isLdoorClosed_ = false;
-
 	}
 
 	return StateInfo();
@@ -446,6 +498,8 @@ StateInfo GameController::updateNoElec(StateInfo _state)
 // 이후 2초마다 1 / 5 확률로 프레디가 점프스케어
 
 	noElecDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+
 
 	if (4 == noElecTimerCounter_)
 	{
@@ -603,3 +657,31 @@ StateInfo GameController::updateWin(StateInfo _state)
 	return StateInfo();
 }
 
+
+
+
+void GameController::CollisionCCTVButton(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		// 닿았으면 바로 전환 가능하게
+		if (PLAYERSTATUS::OFFICE != CurPlayerState_)
+		{
+
+			UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
+			state_.ChangeState("CCTVClose");
+			return;
+		}
+		state_.ChangeState("CCTVOpen");
+		return;
+	}
+
+
+	return;
+}
+
+
+void GameController::CollisionMuteCall(GameEngineCollision* _other)
+{
+
+}

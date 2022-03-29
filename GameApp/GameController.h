@@ -87,6 +87,12 @@ private:
 	// 전기, 게임 시간 초기화
 
 
+protected:
+	void CollisionCCTVButton(GameEngineCollision* _other);
+	void CollisionMuteCall(GameEngineCollision* _other);
+	
+	//void CollisionCam1A(GameEngineCollision* _other);
+
 public:
 	// 렌더러들 디폴트 Position
 
@@ -96,7 +102,8 @@ public:
 
 protected:
 	GameEngineImageRenderer* mainRenderer_;
-	GameEngineImageRenderer* CCTVRenderer_;
+	GameEngineImageRenderer* CCTVAnimationRenderer_;
+	GameEngineImageRenderer* CCTVRealRenderer_;
 	GameEngineImageRenderer* fanRenderer_;
 	GameEngineImageRenderer* lDoorRenderer_;
 	GameEngineImageRenderer* rDoorRenderer_;
@@ -109,7 +116,7 @@ private:
 	AIFreddy* aiFreddy_;
 
 private:
-	LOCATION CurViewState_;
+	PLAYERSTATUS CurPlayerState_;
 	LOCATION CurCCTVState_;
 
 private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.

@@ -12,6 +12,8 @@ enum class InGameCollisonType
 
 enum class RenderOrder
 {
+	CCTV,
+
 	UI0,
 	UI1,
 	UI2,
