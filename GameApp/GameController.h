@@ -91,7 +91,17 @@ protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);
 	void CollisionMuteCall(GameEngineCollision* _other);
 	
-	//void CollisionCam1A(GameEngineCollision* _other);
+	void CollisionCam1A(GameEngineCollision* _other);
+	void CollisionCam1B(GameEngineCollision* _other);
+	void CollisionCam1C(GameEngineCollision* _other);
+	void CollisionCam5(GameEngineCollision* _other);
+	void CollisionCam3(GameEngineCollision* _other);
+	void CollisionCam2A(GameEngineCollision* _other);
+	void CollisionCam2B(GameEngineCollision* _other);
+	void CollisionCam7(GameEngineCollision* _other);
+	void CollisionCam6(GameEngineCollision* _other);
+	void CollisionCam4A(GameEngineCollision* _other);
+	void CollisionCam4B(GameEngineCollision* _other);
 
 public:
 	// 렌더러들 디폴트 Position

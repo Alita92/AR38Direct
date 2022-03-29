@@ -401,7 +401,6 @@ void UIController::StateInit()
 void UIController::Update(float _DeltaTime)
 {
 	DebugRenderUpdate();
-	CollisionCheckUpdate();
 }
 
 void UIController::DebugRenderUpdate()

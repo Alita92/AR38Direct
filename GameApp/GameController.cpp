@@ -207,13 +207,6 @@ void GameController::Update(float _Deltatime)
 		mainRenderer_->SetChangeAnimation("JumpScareBonnie");
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
-
-	if (true == UIController_->cam1ACollision_->IsUpdate())
-	{
-		UIController_->cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
-	}
-
-
 }
 
 
@@ -329,79 +322,70 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		// 현 CCTV가 어디를 지향했는지에 따라
 		// 화면을 바꿔 보여줍니다.
-	case LOCATION::OFFICE:
-	{
-
-	}
-		break;
-	case LOCATION::LOFFICEDOOR:
-	{
-
-	}
-		break;
-	case LOCATION::ROFFICEDOOR:
-	{
-
-	}
-		break;
 	case LOCATION::SHOWSTAGE:
 	{
 		CCTVRealRenderer_->On();
 		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
-		//CCTVRenderer_->GetTransform()->SetLocalZPosition(static_cast<int>(RenderOrder::CCTV));
-		// 설정된 스위치에 해당되는 CCTV 화면을 보여줘야 하지만
-		// 그냥 셋 이미지가 아닌, "애니메트로닉스의 위치를 측정해 산출한 함수에 의한" 이미지가 셋되어야 한다.
-		// 일단 화면에 나오게만 해 보자.
 	}
 		break;
 	case LOCATION::KITCHEN:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("Kitchen.png", true);
 	}
 		break;
 	case LOCATION::BACKSTAGE: 
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
 	}
 		break;
 	case LOCATION::DININGAREA:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
 	}
 		break;
 	case LOCATION::PIRATECOVE:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("PirateCove_Lv1.png", true);
 	}
 		break;
 	case LOCATION::EASTHALLA:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("EastHallA_Default.png", true);
 	}
 		break;
 	case LOCATION::EASTHALLB:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("EastHallB_Default.png", true);
 	}
 		break;
 	case LOCATION::WESTHALLA:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("WestHallA_Default.png", true);
 	}
 		break;
 	case LOCATION::WESTHALLB:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("WestHallB_Default.png", true);
 	}
 		break;
 	case LOCATION::RESTROOMS:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("RestRooms_Default.png", true);
 	}
 		break;
 	case LOCATION::SUPPLYCLOSET:
 	{
-
+		CCTVRealRenderer_->On();
+		CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
 	}
 		break;
 	case LOCATION::NONE:
@@ -415,15 +399,26 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	}
 
-	if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
+	//if (true == GameEngineInput::GetInst().Down("CCTV_Toggle"))
+	//{
+	//	UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
+	//	return "CCTVClose";
+	//}
+
 	{
-		UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
-		return "CCTVClose";
+		UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
+		UIController_->cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam1A, this, std::placeholders::_1));
+		UIController_->cam1BCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam1B, this, std::placeholders::_1));
+		UIController_->cam1CCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam1C, this, std::placeholders::_1));
+		UIController_->cam5Collision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam5, this, std::placeholders::_1));
+		UIController_->cam3Collision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam3, this, std::placeholders::_1));
+		UIController_->cam2ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam2A, this, std::placeholders::_1));
+		UIController_->cam2BCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam2B, this, std::placeholders::_1));
+		UIController_->cam7Collision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam7, this, std::placeholders::_1));
+		UIController_->cam6Collision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam6, this, std::placeholders::_1));
+		UIController_->cam4ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam4A, this, std::placeholders::_1));
+		UIController_->cam4BCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam4B, this, std::placeholders::_1));
 	}
-
-	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
-
-
 
 	return StateInfo();
 }
@@ -684,4 +679,91 @@ void GameController::CollisionCCTVButton(GameEngineCollision* _other)
 void GameController::CollisionMuteCall(GameEngineCollision* _other)
 {
 
+}
+
+void GameController::CollisionCam1A(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::SHOWSTAGE;
+	}
+}
+
+void GameController::CollisionCam1B(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::DININGAREA;
+	}
+}
+
+void GameController::CollisionCam1C(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::PIRATECOVE;
+	}
+}
+
+void GameController::CollisionCam3(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::SUPPLYCLOSET;
+	}
+}
+
+void GameController::CollisionCam5(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::BACKSTAGE;
+	}
+}
+
+void GameController::CollisionCam2A(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::WESTHALLA;
+	}
+}
+
+void GameController::CollisionCam2B(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::WESTHALLB;
+	}
+}
+
+void GameController::CollisionCam7(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::RESTROOMS;
+	}
+}
+
+void GameController::CollisionCam6(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::KITCHEN;
+	}
+}
+
+void GameController::CollisionCam4A(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::EASTHALLA;
+	}
+}
+void GameController::CollisionCam4B(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		CurCCTVState_ = LOCATION::EASTHALLB;
+	}
 }
