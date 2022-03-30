@@ -31,6 +31,7 @@ void GlitchScreen::ImageInit()
 	scanLineRenderer_->SetImage("ScanLineStatic.png", true);
 	scanLineRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::FILTER0) });
 	scanLineRenderer_->CreateAnimationFolder("ScanLine", "ScanLine", 0.04f, false);
+	scanLineRenderer_->CreateAnimationFolder("ScanLineFast", "ScanLine", 0.02f, false);
 	//scanLineRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 	scanLineRenderer_->Off();
 }
@@ -44,6 +45,11 @@ void GlitchScreen::Start()
 void GlitchScreen::Update(float _Deltatime)
 {
 
+}
+
+void GlitchScreen::SetWhiteNoiseAlpha(float _alpha)
+{
+	whiteNoiseRenderer_->SetAlpha(_alpha);
 }
 
 void GlitchScreen::PlayWhiteNoise(bool _on)
@@ -62,7 +68,14 @@ void GlitchScreen::PlayWhiteNoise(bool _on)
 void GlitchScreen::PlayAwakeScanLine()
 {
 	scanLineRenderer_->On();
-	scanLineRenderer_->SetChangeAnimation("ScanLine");
+	scanLineRenderer_->SetChangeAnimation("ScanLine", true);
+}
+
+
+void GlitchScreen::PlayAwakeScanLineFast()
+{
+	scanLineRenderer_->On();
+	scanLineRenderer_->SetChangeAnimation("ScanLineFast", true);
 }
 
 void GlitchScreen::SetStatic()

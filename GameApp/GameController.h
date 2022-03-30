@@ -10,6 +10,7 @@
 // 시각적인 용도를 결정하는 클래스(CCTV 스크린 등) 은 이 게임컨트롤러의 피드백을 받아 움직이게 합니다.
 
 class GameEngineImageRenderer;
+class GlitchScreen;
 class FadeScreen;
 class AIBonnie;
 class AIChica;
@@ -43,6 +44,7 @@ private:
 	void InitAnimation();
 	void InitPlayStatus();
 	void InitEnemy();
+	void InitScreenEffects();
 
 private:
 	void CheckOfficeInput();
@@ -50,6 +52,7 @@ private:
 private:
 	UIController* UIController_;
 	FadeScreen* fadeScreen_;
+	GlitchScreen* glitchScreen_;
 
 	// 컨트롤러 척도
 	const float MAX_ELECTRICITIY_RATE = 100.0f;

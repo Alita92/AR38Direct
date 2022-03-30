@@ -90,14 +90,14 @@ StateInfo IntermissionController::updateStandby(StateInfo _state)
 
 StateInfo IntermissionController::startProceed(StateInfo _state)
 {
-
+	glitchScreen_->PlayAwakeScanLine();
 	SwitchDayRenderer();
 	return StateInfo();
 }
 
 StateInfo IntermissionController::updateProceed(StateInfo _state)
 {
-	glitchScreen_->PlayAwakeScanLine();
+
 	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (3.0f <= deltaTime_)

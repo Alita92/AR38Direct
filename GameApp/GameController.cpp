@@ -6,6 +6,7 @@
 // UIController
 #include "UIController.h"
 #include "FadeScreen.h"
+#include "GlitchScreen.h"
 
 // Enemy AI
 #include "AIBonnie.h"
@@ -128,19 +129,29 @@ void GameController::InitAnimation()
 	}
 }
 
-void GameController::Start()
+void GameController::InitScreenEffects()
 {
-	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
 	fadeScreen_->SetAlpha(1.0f);
 	fadeScreen_->SetLoadingRenderer();
 	fadeScreen_->OffScreen(0.7f);
 
+	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
+	glitchScreen_->SetWhiteNoiseAlpha(0.3f);
+}
+
+void GameController::Start()
+{
+	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
+
+
 	InitUIController();
+	InitScreenEffects();
 	InitEnemy();
 	InitState();
 	InitAnimation();
 	InitPlayStatus();
+	
 
 
 	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
@@ -400,7 +411,8 @@ StateInfo GameController::startCCTV(StateInfo _state)
 {
 	// CCTV를 작동시킨 상태입니다.
 	// 전력 소모량이 1레벨 상승하며,
-
+	glitchScreen_->PlayWhiteNoise(true);
+	glitchScreen_->PlayAwakeScanLineFast();
 	fanRenderer_->Off();
 	CCTVAnimationRenderer_->Off();
 	CurPlayerState_ = PLAYERSTATUS::CCTV;
@@ -583,6 +595,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 StateInfo GameController::startCCTVClose(StateInfo _state)
 {
+	glitchScreen_->PlayWhiteNoise(false);
 	curPowerLevel_ -= 1;
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->On();
@@ -905,6 +918,7 @@ void GameController::CollisionCam1A(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::SHOWSTAGE;
 	}
@@ -914,6 +928,7 @@ void GameController::CollisionCam1B(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::DININGAREA;
 	}
@@ -923,6 +938,7 @@ void GameController::CollisionCam1C(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::PIRATECOVE;
 	}
@@ -932,6 +948,7 @@ void GameController::CollisionCam3(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::SUPPLYCLOSET;
 	}
@@ -941,6 +958,7 @@ void GameController::CollisionCam5(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::BACKSTAGE;
 	}
@@ -950,6 +968,7 @@ void GameController::CollisionCam2A(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::WESTHALLA;
 	}
@@ -959,6 +978,7 @@ void GameController::CollisionCam2B(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::WESTHALLB;
 	}
@@ -968,6 +988,7 @@ void GameController::CollisionCam7(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::RESTROOMS;
 	}
@@ -977,6 +998,7 @@ void GameController::CollisionCam6(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::KITCHEN;
 	}
@@ -986,6 +1008,7 @@ void GameController::CollisionCam4A(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::EASTHALLA;
 	}
@@ -994,6 +1017,7 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::EASTHALLB;
 	}

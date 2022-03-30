@@ -25,9 +25,11 @@ public:
 	GlitchScreen& operator=(const GlitchScreen&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
+	void SetWhiteNoiseAlpha(float _alpha);
 	void PlayWhiteNoise(bool _on);
 	void SetStatic();
 	void PlayAwakeScanLine();
+	void PlayAwakeScanLineFast();
 
 protected:
 	GameEngineImageRenderer* whiteNoiseRenderer_;
