@@ -23,7 +23,7 @@ TitleController::~TitleController() // default destructer 디폴트 소멸자
 void TitleController::ActorInit()
 {
 	titleMouse_ = GetLevel()->CreateActor<GameMouse>();
-	titleMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	titleMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 
 	titleFreddy_ = GetLevel()->CreateActor<TitleFreddy>();
 	titleText_ = GetLevel()->CreateActor<TitleText>();
@@ -57,7 +57,7 @@ void TitleController::Update(float _Deltatime)
 void TitleController::CollisionNewGame(GameEngineCollision* _other)
 {
 	titleText_->titleArrow_->On();
-	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -60.0f,  static_cast<float>(RenderOrder::UI0) });
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -60.0f,  static_cast<float>(RenderOrder::OBJECT0) });
 
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
@@ -69,7 +69,7 @@ void TitleController::CollisionNewGame(GameEngineCollision* _other)
 void TitleController::CollisionContinue(GameEngineCollision* _other)
 {
 	titleText_->titleArrow_->On();
-	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -130.0f,  static_cast<float>(RenderOrder::UI0) });
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -130.0f,  static_cast<float>(RenderOrder::OBJECT0) });
 
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
@@ -80,7 +80,7 @@ void TitleController::CollisionContinue(GameEngineCollision* _other)
 void TitleController::CollisionCustomNight(GameEngineCollision* _other)
 {
 	titleText_->titleArrow_->On();
-	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -280.0f,  static_cast<float>(RenderOrder::UI0) });
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -280.0f,  static_cast<float>(RenderOrder::OBJECT0) });
 
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{

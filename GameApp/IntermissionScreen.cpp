@@ -21,11 +21,11 @@ void IntermissionScreen::Start()
 
 	mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	mainRenderer_->SetImage("ClearScreen.png", true);
-	mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::UI2) });
+	mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::BACKGROUND1) });
 
 	typoRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	typoRenderer_->SetImage("Day1.png", true);
-	typoRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::UI1) });
+	typoRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::OBJECT1) });
 }
 
 void IntermissionScreen::Update(float _DeltaTime)

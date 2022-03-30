@@ -29,7 +29,7 @@ void CustomSettingLevel::LevelStart()
 	{
 		// 타이틀씬의 마우스 액터입니다.
 		GameMouse* mouseActor = CreateActor<GameMouse>();
-		mouseActor->GetUIRenderer()->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+		mouseActor->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 	}
 
 	{

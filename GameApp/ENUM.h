@@ -12,19 +12,7 @@ enum class InGameCollisonType
 
 enum class RenderOrder
 {
-	FADE0,
-	FADE1,
-	FADE2,
-
-	FILTER0,
-	FILTER1,
-	FILTER2,
-
 	CCTV,
-
-	UI0,
-	UI1,
-	UI2,
 
 	OBJECT0,
 	OBJECT1,
@@ -36,6 +24,25 @@ enum class RenderOrder
 
 	MAX = 999
 
+};
+
+enum class UIRenderOrder
+{
+	REAR = 0,
+
+	UI2,
+	UI1,
+	UI0,
+
+	FILTER2,
+	FILTER1,
+	FILTER0,
+
+	FADE2,
+	FADE1,
+	FADE0,
+
+	FRONT = 999
 };
 
 enum class LOCATION

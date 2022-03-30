@@ -5,6 +5,7 @@
 
 // UIController
 #include "UIController.h"
+#include "FadeScreen.h"
 
 // Enemy AI
 #include "AIBonnie.h"
@@ -15,7 +16,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
 	, curDay_(0)
 	, isLdoorClosed_(false), isLdoorLighted_(false), isRdoorClosed_(false), isRdoorLighted_(false)
-	, noElecDeltaTime_(0.0f), noElecTimerCounter_(0), playDeadTimer_(0.0f), deathSceneTimer_(0.0f), PrevCCTVState_(LOCATION::MAX)
+	, noElecDeltaTime_(0.0f), noElecTimerCounter_(0), playDeadTimer_(0.0f), deathSceneTimer_(0.0f), PrevCCTVState_(LOCATION::MAX), fadeScreen_(nullptr)
 {
 
 }
@@ -130,6 +131,11 @@ void GameController::InitAnimation()
 void GameController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
+	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
+	fadeScreen_->SetAlpha(1.0f);
+	fadeScreen_->SetLoadingRenderer();
+	fadeScreen_->OffScreen(0.5f);
+
 	InitUIController();
 	InitEnemy();
 	InitState();

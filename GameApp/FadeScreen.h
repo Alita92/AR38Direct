@@ -5,7 +5,7 @@
 // 용도 : 
 // 설명 : 로딩 화면이나 페이드 인 아웃 연출용으로 사용할 액터입니다.
 
-class GameEngineImageRenderer;
+class GameEngineUIRenderer;
 class FadeScreen : public GameEngineActor
 {
 public:
@@ -17,15 +17,16 @@ public:
 	FadeScreen& operator=(const FadeScreen&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 public:
-	void SetStartAlpha(float _alpha);
+	void SetAlpha(float _alpha);
 	void StartFadeIn(float _time);
 	void StartFadeOut(float _time);
 	void SetLoadingRenderer();
-	void ReleaseScreen(float _time);
+	void OffScreen(float _time);
+	void OnScreen();
 
 protected:
-	GameEngineImageRenderer* fadeScreenRenderer_;
-	GameEngineImageRenderer* loadingClockRenderer_;
+	GameEngineUIRenderer* fadeScreenRenderer_;
+	GameEngineUIRenderer* loadingClockRenderer_;
 
 private:
 	void Start() override;
@@ -37,8 +38,10 @@ private:
 private:
 	float deltaTime_;
 	float divider_;
+	float releaseTime_;
 	bool isFadeIn_;
 	bool isFadeOut_;
+	bool isReleaseOn_;
 
 public:
 

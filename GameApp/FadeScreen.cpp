@@ -2,10 +2,11 @@
 #include "FadeScreen.h"
 
 #include "ENUM.h"
-#include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 
 FadeScreen::FadeScreen() // default constructer 디폴트 생성자
-	: fadeScreenRenderer_(nullptr), loadingClockRenderer_(nullptr), deltaTime_(0.0f), isFadeIn_(false), isFadeOut_(false), divider_(0.0f), isFullFadeIn_(false), isFullFadeOut_(false)
+	: fadeScreenRenderer_(nullptr), loadingClockRenderer_(nullptr), deltaTime_(0.0f), isFadeIn_(false)
+	, isFadeOut_(false), divider_(0.0f), isFullFadeIn_(false), isFullFadeOut_(false), isReleaseOn_(false), releaseTime_(0.0f)
 {
 
 }
@@ -18,13 +19,14 @@ FadeScreen::~FadeScreen() // default destructer 디폴트 소멸자
 
 void FadeScreen::ImageInit()
 {
-	fadeScreenRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	fadeScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	fadeScreenRenderer_->SetImage("ClearScreen.png", true);
-	fadeScreenRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::FADE2) });
-	
-	loadingClockRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	loadingClockRenderer_->SetImage("LoadingClock.png" , true);
-	loadingClockRenderer_->GetTransform()->SetLocalPosition({ 500.0f, -330.0f,static_cast<float>(RenderOrder::FADE1) });
+	fadeScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::FADE2));
+
+	loadingClockRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	loadingClockRenderer_->SetImage("LoadingClock.png", true);
+	loadingClockRenderer_->GetTransform()->SetLocalPosition({ 600.0f, -330.0f, 0.0f });
+	loadingClockRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::FADE1));
 	loadingClockRenderer_->Off();
 }
 
@@ -36,6 +38,20 @@ void FadeScreen::Start()
 
 void FadeScreen::Update(float _Deltatime)
 {
+	if (true == isReleaseOn_)
+	{
+		releaseTime_ -= GameEngineTime::GetInst().GetDeltaTime();
+
+		if (0.0f >= releaseTime_)
+		{
+			fadeScreenRenderer_->Off();
+			if (true == loadingClockRenderer_->IsUpdate())
+			{
+				loadingClockRenderer_->Off();
+			}
+		}
+	}
+
 	if (0.99f <= fadeScreenRenderer_->GetAlpha())
 	{
 		isFullFadeOut_ = true;
@@ -76,7 +92,7 @@ void FadeScreen::Update(float _Deltatime)
 	}
 }
 
-void FadeScreen::SetStartAlpha(float _alpha)
+void FadeScreen::SetAlpha(float _alpha)
 {
 	fadeScreenRenderer_->SetAlpha(_alpha);
 }
@@ -101,16 +117,15 @@ void FadeScreen::SetLoadingRenderer()
 	loadingClockRenderer_->On();
 }
 
-void FadeScreen::ReleaseScreen(float _time)
+void FadeScreen::OffScreen(float _time)
 {
-	_time -= GameEngineTime::GetInst().GetDeltaTime();
+	releaseTime_ = _time;
+	isReleaseOn_ = true;
+}
 
-	if (0.0f >= _time)
-	{
-		fadeScreenRenderer_->Off();
-		if (true == loadingClockRenderer_->IsUpdate())
-		{
-			loadingClockRenderer_->Off();
-		}
-	}
+void FadeScreen::OnScreen()
+{
+	releaseTime_ = 0.0f;
+	isReleaseOn_ = false;
+	fadeScreenRenderer_->On();
 }

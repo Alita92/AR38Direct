@@ -87,228 +87,228 @@ void UIController::ImageInit()
 	timeTenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	timeTenRenderer_->SetImage("M1.png", true);
 	timeTenRenderer_->GetTransform()->SetLocalPosition({ 510.0f, 315.0f, 0.0f });
-	timeTenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	timeTenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	
 	timeOneRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	timeOneRenderer_->SetImage("M2.png", true);
 	timeOneRenderer_->GetTransform()->SetLocalPosition({ 535.0f, 315.0f, 0.0f });
-	timeOneRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	timeOneRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	amRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	amRenderer_->SetImage("UIAM.png", true);
 	amRenderer_->GetTransform()->SetLocalPosition({ 580.0f, 315.0f, 0.0f });
-	amRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	amRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	CCTVButtonRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	CCTVButtonRenderer_->SetImage("UICCTVButton.png", true);
 	CCTVButtonRenderer_->GetTransform()->SetLocalPosition({0.0f,-310.0f,0.0f});
-	CCTVButtonRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	CCTVButtonRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	muteCallRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	muteCallRenderer_->SetImage("UIMuteCall.png", true);
 	muteCallRenderer_->GetTransform()->SetLocalPosition({-550.0f, 320.0f, 0.0f});
-	muteCallRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	muteCallRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	nightTypoRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	nightTypoRenderer_->SetImage("UINight.png", true);
 	nightTypoRenderer_->GetTransform()->SetLocalPosition({ 540.0f, 275.0f, 0.0f });
-	nightTypoRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	nightTypoRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	nightNumRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	nightNumRenderer_->SetImage("S1.png", true);
 	nightNumRenderer_->GetTransform()->SetLocalPosition({ 590.0f, 275.0f, 0.0f });
-	nightNumRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	nightNumRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	powerRateTypoRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerRateTypoRenderer_->SetImage("UIPowerLeft.png", true);
 	powerRateTypoRenderer_->GetTransform()->SetLocalPosition({ -530.0f, -280.0f, 0.0f });
-	powerRateTypoRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	powerRateTypoRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	powerRateHundredRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerRateHundredRenderer_->SetImage("SM1.png", true);
 	powerRateHundredRenderer_->GetTransform()->SetLocalPosition({ -445.0f, -280.0f, 0.0f });
-	powerRateHundredRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	powerRateHundredRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	powerRateTenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerRateTenRenderer_->SetImage("SM0.png", true);
 	powerRateTenRenderer_->GetTransform()->SetLocalPosition({ -425.0F, -280.0f, 0.0f });
-	powerRateTenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	powerRateTenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 		 
 	powerRateOneRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerRateOneRenderer_->SetImage("SM0.png", true);
 	powerRateOneRenderer_->GetTransform()->SetLocalPosition({ -405.0f, -280.0f, 0.0f });
-	powerRateOneRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	powerRateOneRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 		 
 	powerRatePercentageRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerRatePercentageRenderer_->SetImage("UIPercentage.png", true);
 	powerRatePercentageRenderer_->GetTransform()->SetLocalPosition({ -385.0f, -280.0f, 0.0f });
-	powerRatePercentageRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	powerRatePercentageRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	powerLevelTypoRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerLevelTypoRenderer_->SetImage("UIUsage.png", true);
 	powerLevelTypoRenderer_->GetTransform()->SetLocalPosition({ -563.0f, -315.0f, 0.0f });
-	powerLevelTypoRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	powerLevelTypoRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	powerLevelRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	powerLevelRenderer_->SetImage("UIPower1.png", true);
 	powerLevelRenderer_->GetTransform()->SetLocalPosition({ -465.0f, -315.0f, 0.0f });
-	powerLevelRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	powerLevelRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 
 	// CCTV Àü¿ë
 	cameraDisabledRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cameraDisabledRenderer_->SetImage("CameraDisabled.png", true);
 	cameraDisabledRenderer_->GetTransform()->SetLocalPosition({0.0f, 280.0f, 0.0f});
-	cameraDisabledRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	cameraDisabledRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cameraDisabledRenderer_->Off();
 
 	recordingMarkRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	recordingMarkRenderer_->SetImage("RecordingMark.png", true);
 	recordingMarkRenderer_->GetTransform()->SetLocalPosition({ -520.0f, 300.0f, 0.0f });
-	recordingMarkRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	recordingMarkRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//recordingMarkRenderer_->Off();
 
 	cameraNameRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cameraNameRenderer_->SetImage("NameShowStage.png", true);
 	cameraNameRenderer_->GetTransform()->SetLocalPosition({ 315.0f, 60.0f, 0.0f });
-	cameraNameRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	cameraNameRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cameraNameRenderer_->Off();
 
 	mapRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	mapRenderer_->SetImage("CCTVMap0.png", true);
 	mapRenderer_->GetTransform()->SetLocalPosition({ 420.0f, -150.0f, 0.0f });
-	mapRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI0));
+	mapRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//mapRenderer_->Off();
 
 	cam1AScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1AScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam1AScreenRenderer_->GetTransform()->SetLocalPosition({ 360.0f, 10.0f, 0.0f });
-	cam1AScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam1AScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam1AScreenRenderer_->Off();
 
 	cam1ARenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1ARenderer_->SetImage("cam1A.png", true);
 	cam1ARenderer_->GetTransform()->SetLocalPosition({ 360.0f, 10.0f, 0.0f });
-	cam1ARenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam1ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam1AScreenRenderer_->Off();
 
 	cam1BScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1BScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam1BScreenRenderer_->GetTransform()->SetLocalPosition({ 340.0f, -45.0f, 0.0f });
-	cam1BScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam1BScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam1BScreenRenderer_->Off();
 
 	cam1BRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1BRenderer_->SetImage("cam1B.png", true);
 	cam1BRenderer_->GetTransform()->SetLocalPosition({ 340.0f, -45.0f, 0.0f });
-	cam1BRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam1BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam1BRenderer_->Off();
 
 	cam1CScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1CScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam1CScreenRenderer_->GetTransform()->SetLocalPosition({ 300.0f, -120.0f, 0.0f });
-	cam1CScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam1CScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam1CScreenRenderer_->Off();
 
 	cam1CRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1CRenderer_->SetImage("cam1C.png", true);
 	cam1CRenderer_->GetTransform()->SetLocalPosition({ 300.0f, -120.0f, 0.0f });
-	cam1CRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam1CRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam1CRenderer_->Off();
 
 	cam5ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam5ScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam5ScreenRenderer_->GetTransform()->SetLocalPosition({ 230.0f, -75.0f, 0.0f });
-	cam5ScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam5ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam5ScreenRenderer_->Off();
 
 	cam5Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam5Renderer_->SetImage("cam5.png", true);
 	cam5Renderer_->GetTransform()->SetLocalPosition({ 230.0f, -75.0f, 0.0f });
-	cam5Renderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam5Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam5Renderer_->Off();
 
 	cam3ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam3ScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam3ScreenRenderer_->GetTransform()->SetLocalPosition({ 270.0f, -220.0f, 0.0f });
-	cam3ScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam3ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam3ScreenRenderer_->Off();
 
 	cam3Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam3Renderer_->SetImage("cam3.png", true);
 	cam3Renderer_->GetTransform()->SetLocalPosition({ 270.0f, -220.0f, 0.0f });
-	cam3Renderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam3Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam3Renderer_->Off();
 
 	cam2AScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam2AScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam2AScreenRenderer_->GetTransform()->SetLocalPosition({ 355.0f, -235.0f, 0.0f });
-	cam2AScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam2AScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam2AScreenRenderer_->Off();
 
 	cam2ARenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam2ARenderer_->SetImage("cam2A.png", true);
 	cam2ARenderer_->GetTransform()->SetLocalPosition({ 355.0f, -235.0f, 0.0f });
-	cam2ARenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam2ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam2ARenderer_->Off();
 
 	cam2BScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam2BScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam2BScreenRenderer_->GetTransform()->SetLocalPosition({ 355.0f, -278.0f, 0.0f });
-	cam2BScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam2BScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam2BScreenRenderer_->Off();
 
 	cam2BRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam2BRenderer_->SetImage("cam2B.png", true);
 	cam2BRenderer_->GetTransform()->SetLocalPosition({ 355.0f, -278.0f, 0.0f });
-	cam2BRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam2BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam2BRenderer_->Off();
 
 	cam7ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam7ScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam7ScreenRenderer_->GetTransform()->SetLocalPosition({ 567.0f, -75.0f, 0.0f });
-	cam7ScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam7ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam7ScreenRenderer_->Off();
 
 	cam7Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam7Renderer_->SetImage("cam7.png", true);
 	cam7Renderer_->GetTransform()->SetLocalPosition({ 567.0f, -75.0f, 0.0f });
-	cam7Renderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam7Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam7Renderer_->Off();
 
 	cam6ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam6ScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam6ScreenRenderer_->GetTransform()->SetLocalPosition({ 562.0f, -205.0f, 0.0f });
-	cam6ScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam6ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam6ScreenRenderer_->Off();
 
 	cam6Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam6Renderer_->SetImage("cam6.png", true);
 	cam6Renderer_->GetTransform()->SetLocalPosition({ 562.0f, -205.0f, 0.0f });
-	cam6Renderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam6Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam6Renderer_->Off();
 
 	cam4AScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam4AScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam4AScreenRenderer_->GetTransform()->SetLocalPosition({ 463.0f, -235.0f, 0.0f });
-	cam4AScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam4AScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam4AScreenRenderer_->Off();
 
 	cam4ARenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam4ARenderer_->SetImage("cam2A.png", true);
 	cam4ARenderer_->GetTransform()->SetLocalPosition({ 463.0f, -235.0f, 0.0f });
-	cam4ARenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam4ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam4ARenderer_->Off();
 
 	cam4BScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam4BScreenRenderer_->SetImage("CamScreenOff.png", true);
 	cam4BScreenRenderer_->GetTransform()->SetLocalPosition({ 463.0f, -278.0f, 0.0f });
-	cam4BScreenRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI1));
+	cam4BScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 	//cam4BScreenRenderer_->Off();
 
 	cam4BRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam4BRenderer_->SetImage("cam2B.png", true);
 	cam4BRenderer_->GetTransform()->SetLocalPosition({ 463.0f, -278.0f, 0.0f });
-	cam4BRenderer_->SetRenderGroup(static_cast<int>(RenderOrder::UI2));
+	cam4BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//cam4BRenderer_->Off();
 
 }

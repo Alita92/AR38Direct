@@ -65,7 +65,7 @@ void IntermissionController::Start()
 {
 	intermissionScreen_ = GetLevel()->CreateActor<IntermissionScreen>();
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
-	fadeScreen_->SetStartAlpha(0.0f);
+	fadeScreen_->SetAlpha(0.0f);
 
 	StateInit();
 }

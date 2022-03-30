@@ -21,32 +21,32 @@ void TitleText::ImageInit()
 {
 	titleName_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleName_->SetImage("TitleName.png", true);
-	titleName_->GetTransform()->SetLocalPosition({ -370.0f, 200.0f, static_cast<float>(RenderOrder::UI0)});
+	titleName_->GetTransform()->SetLocalPosition({ -370.0f, 200.0f, static_cast<float>(RenderOrder::OBJECT0)});
 
 	titleScott_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleScott_->SetImage("TitleScott.png", true);
-	titleScott_->GetTransform()->SetLocalPosition({ 500.0f, -330.0f,  static_cast<float>(RenderOrder::UI0) });
+	titleScott_->GetTransform()->SetLocalPosition({ 500.0f, -330.0f,  static_cast<float>(RenderOrder::OBJECT0) });
 
 	titleArrow_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleArrow_->SetImage("TItleArrow.png", true);
-	titleArrow_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::UI0) });
+	titleArrow_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::OBJECT0) });
 	titleArrow_->Off();
 
 	titleNewGame_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleNewGame_->SetImage("TitleNewGame.png", true);
-	titleNewGame_->GetTransform()->SetLocalPosition({ -370.0f, -60.0f,  static_cast<float>(RenderOrder::UI0) });
+	titleNewGame_->GetTransform()->SetLocalPosition({ -370.0f, -60.0f,  static_cast<float>(RenderOrder::OBJECT0) });
 
 	titleContinue_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleContinue_->SetImage("TitleContinue.png", true);
-	titleContinue_->GetTransform()->SetLocalPosition({ -370.0f, -130.0f,  static_cast<float>(RenderOrder::UI0) });
+	titleContinue_->GetTransform()->SetLocalPosition({ -370.0f, -130.0f,  static_cast<float>(RenderOrder::OBJECT0) });
 
 	title6thNight_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	title6thNight_->SetImage("Title6thNight.png", true);
-	title6thNight_->GetTransform()->SetLocalPosition({ -360.0f, -210.0f,  static_cast<float>(RenderOrder::UI0) });
+	title6thNight_->GetTransform()->SetLocalPosition({ -360.0f, -210.0f,  static_cast<float>(RenderOrder::OBJECT0) });
 
 	titleCustomNight_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleCustomNight_->SetImage("TitleCustomNight.png", true);
-	titleCustomNight_->GetTransform()->SetLocalPosition({-320.0f, -280.0f, static_cast<float>(RenderOrder::UI0) });
+	titleCustomNight_->GetTransform()->SetLocalPosition({-320.0f, -280.0f, static_cast<float>(RenderOrder::OBJECT0) });
 }
 
 void TitleText::CollisionInit()
