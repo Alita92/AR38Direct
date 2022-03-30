@@ -218,38 +218,18 @@ void GameController::Update(float _Deltatime)
 }
 
 
-StateInfo GameController::startIdle(StateInfo _state)
+void GameController::CheckOfficeInput()
 {
-	aiBonnie_->isPlayerStares_ = true;
-	CurPlayerState_ = PLAYERSTATUS::OFFICE;
-	return StateInfo();
-}
-
-StateInfo GameController::updateIdle(StateInfo _state)
-{
-	if (curTime_ == 6)
-	{
-		return "Win";
-	}
-
-	if (curPowerRate_ <= 0.0f)
-	{
-		return "NoElec";
-	}
-
 	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle"))
 	{
 		if (false == isLdoorClosed_)
 		{
-			lDoorRenderer_->SetChangeAnimation("LdoorClose");
 			isLdoorClosed_ = true;
 			aiBonnie_->isDoorLocked_ = true;
 			curPowerLevel_ += 1;
 		}
 		else
 		{
-
-			lDoorRenderer_->SetChangeAnimation("LdoorOpen");
 			isLdoorClosed_ = false;
 			aiBonnie_->isDoorLocked_ = false;
 			curPowerLevel_ -= 1;
@@ -260,14 +240,12 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	{
 		if (false == isRdoorClosed_)
 		{
-			rDoorRenderer_->SetChangeAnimation("RdoorClose");
 			isRdoorClosed_ = true;
 			curPowerLevel_ += 1;
 
 		}
 		else
 		{
-			rDoorRenderer_->SetChangeAnimation("RdoorOpen");
 			isRdoorClosed_ = false;
 			curPowerLevel_ -= 1;
 		}
@@ -277,15 +255,6 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	{
 		if (false == isLdoorLighted_)
 		{
-			if (LOCATION::LOFFICEDOOR == aiBonnie_->GetLocation())
-			{
-				mainRenderer_->SetImage("OfficeLightL1.png", true);
-			}
-			else
-			{
-				mainRenderer_->SetImage("OfficeLightL0.png", true);
-			}
-
 			isLdoorLighted_ = true;
 
 			if (true == isRdoorLighted_)
@@ -298,7 +267,6 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		}
 		else
 		{
-			mainRenderer_->SetImage("OfficeBasic.png", true);
 			isLdoorLighted_ = false;
 			curPowerLevel_ -= 1;
 		}
@@ -308,7 +276,6 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	{
 		if (false == isRdoorLighted_)
 		{
-			mainRenderer_->SetImage("OfficeLightR0.png", true);
 			isRdoorLighted_ = true;
 			if (true == isLdoorLighted_)
 			{
@@ -320,11 +287,79 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		}
 		else
 		{
-			mainRenderer_->SetImage("OfficeBasic.png", true);
 			isRdoorLighted_ = false;
 			curPowerLevel_ -= 1;
 		}
 	}
+}
+
+StateInfo GameController::startIdle(StateInfo _state)
+{
+	aiBonnie_->isPlayerStares_ = true;
+	CurPlayerState_ = PLAYERSTATUS::OFFICE;
+	return StateInfo();
+}
+
+StateInfo GameController::updateIdle(StateInfo _state)
+{
+
+	CheckOfficeInput();
+
+	if (curTime_ == 6)
+	{
+		return "Win";
+	}
+
+	if (curPowerRate_ <= 0.0f)
+	{
+		return "NoElec";
+	}
+
+		if (false == isLdoorClosed_)
+		{
+			lDoorRenderer_->SetChangeAnimation("LdoorOpen");
+		}
+		else if (true == isLdoorClosed_)
+		{
+			lDoorRenderer_->SetChangeAnimation("LdoorClose");
+		}
+
+		if (false == isRdoorClosed_)
+		{
+			rDoorRenderer_->SetChangeAnimation("RdoorOpen");
+		}
+		else if (true == isRdoorClosed_)
+		{
+			rDoorRenderer_->SetChangeAnimation("RdoorClose");
+		}
+
+		if (true == isLdoorLighted_)
+		{
+			if (LOCATION::LOFFICEDOOR == aiBonnie_->GetLocation())
+			{
+				mainRenderer_->SetImage("OfficeLightL1.png", true);
+			}
+			else
+			{
+				mainRenderer_->SetImage("OfficeLightL0.png", true);
+			}
+		}
+		else if (false == isLdoorLighted_ && false == isRdoorLighted_)
+		{
+			mainRenderer_->SetImage("OfficeBasic.png", true);
+		}
+
+
+		if (true == isRdoorLighted_)
+		{
+			mainRenderer_->SetImage("OfficeLightR0.png", true);
+
+		}
+		else if (false == isRdoorLighted_ && false == isLdoorLighted_)
+		{
+			mainRenderer_->SetImage("OfficeBasic.png", true);
+		}
+	
 
 	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
 

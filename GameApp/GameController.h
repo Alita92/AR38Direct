@@ -44,6 +44,9 @@ private:
 	void InitEnemy();
 
 private:
+	void CheckOfficeInput();
+
+private:
 	UIController* UIController_;
 
 	// 컨트롤러 척도

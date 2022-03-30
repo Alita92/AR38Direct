@@ -52,7 +52,7 @@ void UserGame::Initialize()
 	LevelCreate<GameOverLevel>("GameOver");
 	LevelCreate<CustomSettingLevel>("CustomSetting");
 
-	LevelChange("Title");
+	LevelChange("Play");
 	KeyInit();
 	return;
 }
