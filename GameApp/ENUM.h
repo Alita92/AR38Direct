@@ -64,6 +64,8 @@ enum class DAY
 	DAY3,
 	DAY4,
 	DAY5,
+	DAY6,
 	CUSTOM,
+
 	MAX
 };

@@ -122,6 +122,10 @@ public:
 		SetFrameCallBack(_Name, _Index, std::bind(_FrameFunc, this));
 	}
 
+	inline void SetAlpha(float _Value)
+	{
+		ResultColor.a = _Value;
+	}
 
 protected:
 	void ImageRendererStart();
@@ -131,6 +135,7 @@ private:
 	std::map<std::string, Animation2D*> AllAnimations_;
 	Animation2D* CurAnimation_;
 
+	float4 ResultColor;
 	float4 CutData;
 	GameEngineTexture* CurTexture;
 	void Start() override;

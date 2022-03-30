@@ -11,6 +11,7 @@ class TitleController;
 class TitleText : public GameEngineActor
 {
 	friend TitleController;
+
 private:
 
 public:

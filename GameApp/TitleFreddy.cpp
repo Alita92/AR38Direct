@@ -5,7 +5,7 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 
 TitleFreddy::TitleFreddy() // default constructer 디폴트 생성자
-	: titleFreddyImageRenderer_(nullptr), generalInterTime_(0.0f), facialChangeInterTime_(0.0f), isFirstSessionOut_(false), timeDice_(0), faceDice_(0)
+	: titleFreddyImageRenderer_(nullptr), generalInterTime_(0.0f), facialChangeInterTime_(0.0f), isFirstSessionOut_(false), timeDice_(0), faceDice_(0), isGameStarted_(false)
 {
 
 }
@@ -26,7 +26,10 @@ void TitleFreddy::Start()
 
 void TitleFreddy::Update(float _Deltatime)
 {
-	FreddyFacialChange();
+	if (false == isGameStarted_)
+	{
+		FreddyFacialChange();
+	}
 }
 
 void TitleFreddy::FreddyFacialChange()

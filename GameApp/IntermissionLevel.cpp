@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "IntermissionLevel.h"
 
+#include "IntermissionController.h"
+
 IntermissionLevel::IntermissionLevel() // default constructer 디폴트 생성자
 {
 
@@ -24,7 +26,7 @@ void IntermissionLevel::LevelStart()
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	{
-
+		IntermissionController* intermissionController = CreateActor<IntermissionController>();
 	}
 }
 

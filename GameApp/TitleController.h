@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
 
+class GameMouse;
 class TitleFreddy;
 class TitleText;
 class TitleNewsPaper;
@@ -21,6 +23,10 @@ public:
 	TitleController& operator=(const TitleController&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 protected:
+	const float SCENE_CHANGE_TIME = 5.0f;
+
+protected:
+	GameMouse* titleMouse_;
 	TitleFreddy* titleFreddy_;
 	TitleText* titleText_;
 	TitleNewsPaper* titleNewsPaper_;
@@ -36,5 +42,33 @@ private:
 
 private:
 	void ActorInit();
+	void StateInit();
+
+private:
+	void UpdateTitleAlphaChange();
+
+private:
+	float deltaTime_;
+	float alphaChangeTime_;
+
+private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
+	GameEngineFSM<TitleController> state_;
+
+#pragma region States
+	StateInfo startIdle(StateInfo _state);
+	StateInfo updateIdle(StateInfo _state);
+
+	StateInfo startNewGame(StateInfo _state);
+	StateInfo updateNewGame(StateInfo _state);
+
+	StateInfo startContinue(StateInfo _state);
+	StateInfo updateContinue(StateInfo _state);
+
+	StateInfo startCustomNight(StateInfo _state);
+	StateInfo updateCustomNight(StateInfo _state);
+
+	StateInfo start6thNight(StateInfo _state);
+	StateInfo update6thNight(StateInfo _state);
+#pragma endregion States
 };
 

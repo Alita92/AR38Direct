@@ -56,9 +56,6 @@
     <ClCompile Include="IntermissionLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="IntermissionScreen.cpp">
-      <Filter>Actor\05Intermission</Filter>
-    </ClCompile>
     <ClCompile Include="OfficeFan.cpp">
       <Filter>Actor\02Play\Office</Filter>
     </ClCompile>
@@ -85,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="TitleController.cpp">
       <Filter>Actor\01Title</Filter>
+    </ClCompile>
+    <ClCompile Include="IntermissionScreen.cpp">
+      <Filter>Actor\05Intermission\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="IntermissionController.cpp">
+      <Filter>Actor\05Intermission</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +151,9 @@
     <Filter Include="Actor\01Title\Actors">
       <UniqueIdentifier>{e70f452c-e812-4727-847c-231b461c237b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\05Intermission\Actors">
+      <UniqueIdentifier>{3a58e0b7-39bd-475f-ad64-82740e247db3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -207,9 +213,6 @@
     <ClInclude Include="IntermissionLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="IntermissionScreen.h">
-      <Filter>Actor\05Intermission</Filter>
-    </ClInclude>
     <ClInclude Include="OfficeFan.h">
       <Filter>Actor\02Play\Office</Filter>
     </ClInclude>
@@ -236,6 +239,12 @@
     </ClInclude>
     <ClInclude Include="TitleController.h">
       <Filter>Actor\01Title</Filter>
+    </ClInclude>
+    <ClInclude Include="IntermissionScreen.h">
+      <Filter>Actor\05Intermission\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="IntermissionController.h">
+      <Filter>Actor\05Intermission</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

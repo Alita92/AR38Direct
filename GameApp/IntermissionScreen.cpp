@@ -14,44 +14,18 @@ IntermissionScreen::~IntermissionScreen() // default destructer 디폴트 소멸자
 
 }
 
-void IntermissionScreen::PromoteIntermissionTo(DAY _day)
-{
-	curDay_ = _day;
-
-	switch (curDay_)
-	{
-	case DAY::DAY1:
-	{
-		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		mainRenderer_->SetImage("Newspaper.png");
-
-		typoRenderer_ = nullptr;
-	}
-		break;
-	case DAY::DAY2:
-		break;
-	case DAY::DAY3:
-		break;
-	case DAY::DAY4:
-		break;
-	case DAY::DAY5:
-		break;
-	case DAY::CUSTOM:
-		// 보류... 6th day 로 해야하나?
-		break;
-	case DAY::MAX:
-		break;
-	default:
-		break;
-	}
-}
 
 void IntermissionScreen::Start()
 {
-	curDay_ = DAY::DAY1;
-	PromoteIntermissionTo(curDay_);
+	GetTransform()->SetWorldPosition({ 0.0f,0.0f,0.0f });
 
+	mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	mainRenderer_->SetImage("ClearScreen.png", true);
+	mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::UI2) });
 
+	typoRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	typoRenderer_->SetImage("Day1.png", true);
+	typoRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::UI1) });
 }
 
 void IntermissionScreen::Update(float _DeltaTime)

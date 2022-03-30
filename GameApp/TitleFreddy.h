@@ -35,6 +35,7 @@ private:
 	float generalInterTime_;
 	float facialChangeInterTime_;
 	bool isFirstSessionOut_;
+	bool isGameStarted_;
 
 public:
 	void FreddyFacialChange();

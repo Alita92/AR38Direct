@@ -9,6 +9,7 @@
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "GameOverLevel.h"
+#include "IntermissionLevel.h"
 #include "CustomSettingLevel.h"
 
 UserGame::UserGame() // default constructer 디폴트 생성자
@@ -46,8 +47,8 @@ void UserGame::Initialize()
 	
 
 	LevelCreate<TitleLevel>("Title");
+	LevelCreate<IntermissionLevel>("Intermission");
 	LevelCreate<PlayLevel>("Play");
-
 	LevelCreate<GameOverLevel>("GameOver");
 	LevelCreate<CustomSettingLevel>("CustomSetting");
 
