@@ -6,6 +6,7 @@
 // 용도 : 
 // 설명 : 
 
+class FadeScreen;
 class IntermissionScreen;
 class IntermissionController : public GameEngineActor
 {
@@ -25,6 +26,7 @@ public:
 
 protected:
 	IntermissionScreen* intermissionScreen_;
+	FadeScreen* fadeScreen_;
 	
 private:
 	void Start() override;
@@ -46,6 +48,9 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 
 	StateInfo startProceed(StateInfo _state);
 	StateInfo updateProceed(StateInfo _state);
+
+	StateInfo startFadeOut(StateInfo _state);
+	StateInfo updateFadeOut(StateInfo _state);
 
 #pragma endregion States
 };

@@ -3,11 +3,12 @@
 
 #include <GameEngine/GameEngineImageRenderer.h>
 #include "IntermissionScreen.h"
+#include "FadeScreen.h"
 
 DAY IntermissionController::curDay_ = DAY::DAY1;
 
 IntermissionController::IntermissionController() // default constructer 디폴트 생성자
-	: intermissionScreen_(nullptr), state_(this), deltaTime_(0.0f)
+	: intermissionScreen_(nullptr), state_(this), deltaTime_(0.0f), fadeScreen_(nullptr)
 {
 
 }
@@ -21,6 +22,7 @@ void IntermissionController::StateInit()
 {
 	state_.CreateState("Standby", &IntermissionController::startStandby, &IntermissionController::updateStandby);
 	state_.CreateState("Proceed", &IntermissionController::startProceed, &IntermissionController::updateProceed);
+	state_.CreateState("FadeOut", &IntermissionController::startFadeOut, &IntermissionController::updateFadeOut);
 
 	state_.ChangeState("Standby");
 }
@@ -62,6 +64,8 @@ void IntermissionController::SwitchDayRenderer()
 void IntermissionController::Start()
 {
 	intermissionScreen_ = GetLevel()->CreateActor<IntermissionScreen>();
+	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
+	fadeScreen_->SetStartAlpha(0.0f);
 
 	StateInit();
 }
@@ -93,8 +97,25 @@ StateInfo IntermissionController::updateProceed(StateInfo _state)
 
 	if (3.0f <= deltaTime_)
 	{
-		GetLevel()->RequestLevelChange("Play");
+		fadeScreen_->StartFadeOut(3.0f);
 	}
 
+	if (true == fadeScreen_->isFullFadeOut_)
+	{
+		return "FadeOut";
+	}
+
+	return StateInfo();
+}
+
+StateInfo IntermissionController::startFadeOut(StateInfo _state)
+{
+	return StateInfo();
+}
+
+StateInfo IntermissionController::updateFadeOut(StateInfo _state)
+{
+
+	GetLevel()->RequestLevelChange("Play");
 	return StateInfo();
 }

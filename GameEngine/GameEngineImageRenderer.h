@@ -127,6 +127,11 @@ public:
 		ResultColor.a = _Value;
 	}
 
+	inline float GetAlpha()
+	{
+		return ResultColor.a;
+	}
+
 protected:
 	void ImageRendererStart();
 	void Update(float _DeltaTime) override;

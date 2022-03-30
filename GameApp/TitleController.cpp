@@ -51,9 +51,7 @@ void TitleController::Start()
 
 void TitleController::Update(float _Deltatime)
 {
-
 	state_.Update();
-
 }
 
 void TitleController::CollisionNewGame(GameEngineCollision* _other)
@@ -157,9 +155,10 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 	//	GetLevel()->RequestLevelChange("Play");
 	}
 
-	if (5.0f <= deltaTime_)
+	if (8.0f <= deltaTime_)
 	{
 		GetLevel()->RequestLevelChange("Intermission");
+
 	}
 
 	return StateInfo();
@@ -182,7 +181,9 @@ StateInfo TitleController::startCustomNight(StateInfo _state)
 
 StateInfo TitleController::updateCustomNight(StateInfo _state)
 {
-	return StateInfo();
+	GetLevel()->RequestLevelChange("CustomSetting");
+	return "Idle";
+
 }
 
 StateInfo TitleController::start6thNight(StateInfo _state)

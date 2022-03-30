@@ -3,17 +3,14 @@
 
 #include "IntermissionController.h"
 
+#include "FadeScreen.h"
+
 IntermissionLevel::IntermissionLevel() // default constructer 디폴트 생성자
 {
 
 }
 
 IntermissionLevel::~IntermissionLevel() // default destructer 디폴트 소멸자
-{
-
-}
-
-IntermissionLevel::IntermissionLevel(IntermissionLevel&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
 {
 
 }

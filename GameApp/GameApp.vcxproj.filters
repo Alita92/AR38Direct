@@ -89,6 +89,9 @@
     <ClCompile Include="IntermissionController.cpp">
       <Filter>Actor\05Intermission</Filter>
     </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
+      <Filter>Actor\00Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="IntermissionController.h">
       <Filter>Actor\05Intermission</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
+      <Filter>Actor\00Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
