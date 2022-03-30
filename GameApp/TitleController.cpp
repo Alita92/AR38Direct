@@ -6,11 +6,12 @@
 #include "TitleText.h"
 #include "TitleNewsPaper.h"
 #include "GameMouse.h"
-
+#include "FadeScreen.h"
+#include "GlitchScreen.h"
 #include "ENUM.h"
 
 TitleController::TitleController() // default constructer 디폴트 생성자
-	: titleMouse_(nullptr), titleFreddy_(nullptr), titleText_(nullptr), titleNewsPaper_(nullptr), deltaTime_(0.0f), state_(this), alphaChangeTime_(1.0f)
+	: titleMouse_(nullptr), titleFreddy_(nullptr), titleText_(nullptr), titleNewsPaper_(nullptr), deltaTime_(0.0f), state_(this), alphaChangeTime_(1.0f), fadeScreen_(nullptr)
 {
 
 }
@@ -22,6 +23,11 @@ TitleController::~TitleController() // default destructer 디폴트 소멸자
 
 void TitleController::ActorInit()
 {
+	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
+
+	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
+	fadeScreen_->SetAlpha(0.0f);
+
 	titleMouse_ = GetLevel()->CreateActor<GameMouse>();
 	titleMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 
@@ -102,16 +108,19 @@ void TitleController::UpdateTitleAlphaChange()
 		titleText_->title6thNight_->SetAlpha(alphaChangeTime_);
 		titleText_->titleScott_->SetAlpha(alphaChangeTime_);
 		titleText_->titleArrow_->SetAlpha(alphaChangeTime_);
+		glitchScreen_->whiteNoiseRenderer_->SetAlpha(alphaChangeTime_/2);
 	}
 }
 
 StateInfo TitleController::startIdle(StateInfo _state)
 {
+	glitchScreen_->PlayWhiteNoise(true);
 	return StateInfo();
 }
 
 StateInfo TitleController::updateIdle(StateInfo _state)
 {
+
 	{
 		titleText_->titleNewGameCollision_->Collision(
 			CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleController::CollisionNewGame, this, std::placeholders::_1));
@@ -133,6 +142,7 @@ StateInfo TitleController::startNewGame(StateInfo _state)
 {
 	deltaTime_ = 0.0f;
 
+
 	titleMouse_->Off();
 
 	titleFreddy_->isGameStarted_ = true;
@@ -148,17 +158,20 @@ StateInfo TitleController::startNewGame(StateInfo _state)
 StateInfo TitleController::updateNewGame(StateInfo _state)
 {
 	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
-
-	if (1.0f <= deltaTime_)
+	glitchScreen_->SetStatic();
+	if (0.5f <= deltaTime_)
 	{
 		UpdateTitleAlphaChange();
-	//	GetLevel()->RequestLevelChange("Play");
 	}
 
-	if (8.0f <= deltaTime_)
+	if (7.0f <= deltaTime_)
 	{
-		GetLevel()->RequestLevelChange("Intermission");
+		fadeScreen_->StartFadeOut(2.5f);
 
+		if (true == fadeScreen_->isFullFadeOut_)
+		{
+			GetLevel()->RequestLevelChange("Intermission");
+		}
 	}
 
 	return StateInfo();

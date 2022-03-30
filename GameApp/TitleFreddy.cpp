@@ -94,8 +94,6 @@ void TitleFreddy::RandomImageChange()
 	case 2:
 		titleFreddyImageRenderer_->SetImage("TitleFreddy_3.png", true);
 		break;
-	case 3:
-		break;
 	default:
 		break;
 	}
@@ -107,7 +105,20 @@ void TitleFreddy::RandomImageChange()
 		timeDice_ = randomGenerator_.RandomInt(0, 3);
 		generalInterTime_ = 0.0f;
 		facialChangeInterTime_ = 0.0f;
-		titleFreddyImageRenderer_->SetImage("TitleFreddy_0.png", true);
+		
+		switch (randomGenerator_.RandomInt(0,2))
+		{
+		case 0:
+		case 1:
+			titleFreddyImageRenderer_->SetImage("TitleFreddy_0.png", true);
+			break;
+		case 2:
+			titleFreddyImageRenderer_->SetImage("TitleFreddy_4.png", true);
+			break;
+		default:
+			break;
+		}
+
 		return;
 	}
 }

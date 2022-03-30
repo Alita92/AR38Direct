@@ -84,6 +84,8 @@ void UserGame::ResourcesLoad()
 		GameEngineTexture* CCTVTexture = GameEngineTextureManager::GetInst().Find("CCTVAnimation.png");
 		CCTVTexture->Cut(5, 2);
 
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("WhiteNoise"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("ScanLine"));
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("NoElec"));
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("NoElecBlink"));
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("NoElecFreddy"));

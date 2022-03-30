@@ -3,6 +3,8 @@
 #include <GameEngine/GameEngineFSM.h>
 
 class GameMouse;
+class GlitchScreen;
+class FadeScreen;
 class TitleFreddy;
 class TitleText;
 class TitleNewsPaper;
@@ -13,6 +15,7 @@ private:
 	friend TitleFreddy;
 	friend TitleText;
 	friend TitleNewsPaper;
+	friend GlitchScreen;
 
 public:
 	TitleController(); // default constructer 디폴트 생성자
@@ -26,6 +29,8 @@ protected:
 	const float SCENE_CHANGE_TIME = 5.0f;
 
 protected:
+	GlitchScreen* glitchScreen_;
+	FadeScreen* fadeScreen_;
 	GameMouse* titleMouse_;
 	TitleFreddy* titleFreddy_;
 	TitleText* titleText_;

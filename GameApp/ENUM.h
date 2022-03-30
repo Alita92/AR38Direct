@@ -12,6 +12,10 @@ enum class InGameCollisonType
 
 enum class RenderOrder
 {
+	FRONT,
+	FILTER0,
+	FILTER1,
+	FILTER2,
 	CCTV,
 
 	OBJECT0,
@@ -34,9 +38,7 @@ enum class UIRenderOrder
 	UI1,
 	UI0,
 
-	FILTER2,
-	FILTER1,
-	FILTER0,
+
 
 	FADE2,
 	FADE1,

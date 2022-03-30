@@ -5,6 +5,7 @@
 // 분류 : 
 // 용도 : 
 // 설명 :
+class GameEngineUIRenderer;
 class GameEngineCollision;
 class GameEngineImageRenderer;
 class TitleController;
@@ -24,18 +25,18 @@ public:
 
 protected:
 	// 띄우기만 하면 됨
-	GameEngineImageRenderer* titleName_;
-	GameEngineImageRenderer* titleScott_;
-	GameEngineImageRenderer* titleArrow_;
+	GameEngineUIRenderer* titleName_;
+	GameEngineUIRenderer* titleScott_;
+	GameEngineUIRenderer* titleArrow_;
 
 	// 충돌체 있어야 함
-	GameEngineImageRenderer* titleNewGame_;
+	GameEngineUIRenderer* titleNewGame_;
 	GameEngineCollision* titleNewGameCollision_;
-	GameEngineImageRenderer* titleContinue_;
+	GameEngineUIRenderer* titleContinue_;
 	GameEngineCollision* titleContinueCollision_;
-	GameEngineImageRenderer* title6thNight_;
+	GameEngineUIRenderer* title6thNight_;
 	GameEngineCollision* title6thNightCollision_;
-	GameEngineImageRenderer* titleCustomNight_;
+	GameEngineUIRenderer* titleCustomNight_;
 	GameEngineCollision* titleCustomNightCollision_;
 
 

@@ -97,7 +97,7 @@ StateInfo IntermissionController::updateProceed(StateInfo _state)
 
 	if (3.0f <= deltaTime_)
 	{
-		fadeScreen_->StartFadeOut(3.0f);
+		fadeScreen_->StartFadeOut(2.5f);
 	}
 
 	if (true == fadeScreen_->isFullFadeOut_)

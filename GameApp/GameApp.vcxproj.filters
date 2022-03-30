@@ -92,6 +92,9 @@
     <ClCompile Include="FadeScreen.cpp">
       <Filter>Actor\00Global</Filter>
     </ClCompile>
+    <ClCompile Include="GlitchScreen.cpp">
+      <Filter>Actor\00Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -250,6 +253,9 @@
       <Filter>Actor\05Intermission</Filter>
     </ClInclude>
     <ClInclude Include="FadeScreen.h">
+      <Filter>Actor\00Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GlitchScreen.h">
       <Filter>Actor\00Global</Filter>
     </ClInclude>
   </ItemGroup>
