@@ -58,14 +58,21 @@ void TitleController::Update(float _Deltatime)
 
 void TitleController::CollisionNewGame(GameEngineCollision* _other)
 {
+	titleText_->titleArrow_->On();
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -60.0f,  static_cast<float>(RenderOrder::UI0) });
+
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
 		state_.ChangeState("NewGame");
 	}
+
 }
 
 void TitleController::CollisionContinue(GameEngineCollision* _other)
 {
+	titleText_->titleArrow_->On();
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -130.0f,  static_cast<float>(RenderOrder::UI0) });
+
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
 		state_.ChangeState("Continue");
@@ -74,6 +81,9 @@ void TitleController::CollisionContinue(GameEngineCollision* _other)
 
 void TitleController::CollisionCustomNight(GameEngineCollision* _other)
 {
+	titleText_->titleArrow_->On();
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -280.0f,  static_cast<float>(RenderOrder::UI0) });
+
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
 		state_.ChangeState("CustomNight");
@@ -93,6 +103,7 @@ void TitleController::UpdateTitleAlphaChange()
 		titleText_->titleCustomNight_->SetAlpha(alphaChangeTime_);
 		titleText_->title6thNight_->SetAlpha(alphaChangeTime_);
 		titleText_->titleScott_->SetAlpha(alphaChangeTime_);
+		titleText_->titleArrow_->SetAlpha(alphaChangeTime_);
 	}
 }
 

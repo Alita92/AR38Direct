@@ -26,6 +26,7 @@ protected:
 	// 띄우기만 하면 됨
 	GameEngineImageRenderer* titleName_;
 	GameEngineImageRenderer* titleScott_;
+	GameEngineImageRenderer* titleArrow_;
 
 	// 충돌체 있어야 함
 	GameEngineImageRenderer* titleNewGame_;
@@ -45,11 +46,5 @@ private:
 	void Start() override;
 	void Update(float _Deltatime) override;
 	void DebugRenderUpdate();
-	void CollisionCheckUpdate();
-
-private:
-	void CollisionNewGame(GameEngineCollision* _other);
-	void CollisionContinue(GameEngineCollision* _other);
-	void CollisionCustomNight(GameEngineCollision* _other);
 };
 
