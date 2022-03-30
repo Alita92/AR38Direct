@@ -134,7 +134,7 @@ void GameController::Start()
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
 	fadeScreen_->SetAlpha(1.0f);
 	fadeScreen_->SetLoadingRenderer();
-	fadeScreen_->OffScreen(0.5f);
+	fadeScreen_->OffScreen(0.7f);
 
 	InitUIController();
 	InitEnemy();

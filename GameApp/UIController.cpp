@@ -159,7 +159,7 @@ void UIController::ImageInit()
 	cameraDisabledRenderer_->SetImage("CameraDisabled.png", true);
 	cameraDisabledRenderer_->GetTransform()->SetLocalPosition({0.0f, 280.0f, 0.0f});
 	cameraDisabledRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
-	//cameraDisabledRenderer_->Off();
+	cameraDisabledRenderer_->Off();
 
 	recordingMarkRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	recordingMarkRenderer_->SetImage("RecordingMark.png", true);
@@ -176,7 +176,7 @@ void UIController::ImageInit()
 	mapRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	mapRenderer_->SetImage("CCTVMap0.png", true);
 	mapRenderer_->GetTransform()->SetLocalPosition({ 420.0f, -150.0f, 0.0f });
-	mapRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	mapRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
 	//mapRenderer_->Off();
 
 	cam1AScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -188,7 +188,7 @@ void UIController::ImageInit()
 	cam1ARenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1ARenderer_->SetImage("cam1A.png", true);
 	cam1ARenderer_->GetTransform()->SetLocalPosition({ 360.0f, 10.0f, 0.0f });
-	cam1ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam1ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam1AScreenRenderer_->Off();
 
 	cam1BScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -200,7 +200,7 @@ void UIController::ImageInit()
 	cam1BRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1BRenderer_->SetImage("cam1B.png", true);
 	cam1BRenderer_->GetTransform()->SetLocalPosition({ 340.0f, -45.0f, 0.0f });
-	cam1BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam1BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam1BRenderer_->Off();
 
 	cam1CScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -212,7 +212,7 @@ void UIController::ImageInit()
 	cam1CRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam1CRenderer_->SetImage("cam1C.png", true);
 	cam1CRenderer_->GetTransform()->SetLocalPosition({ 300.0f, -120.0f, 0.0f });
-	cam1CRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam1CRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam1CRenderer_->Off();
 
 	cam5ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -224,7 +224,7 @@ void UIController::ImageInit()
 	cam5Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam5Renderer_->SetImage("cam5.png", true);
 	cam5Renderer_->GetTransform()->SetLocalPosition({ 230.0f, -75.0f, 0.0f });
-	cam5Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam5Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam5Renderer_->Off();
 
 	cam3ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -236,7 +236,7 @@ void UIController::ImageInit()
 	cam3Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam3Renderer_->SetImage("cam3.png", true);
 	cam3Renderer_->GetTransform()->SetLocalPosition({ 270.0f, -220.0f, 0.0f });
-	cam3Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam3Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam3Renderer_->Off();
 
 	cam2AScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -248,7 +248,7 @@ void UIController::ImageInit()
 	cam2ARenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam2ARenderer_->SetImage("cam2A.png", true);
 	cam2ARenderer_->GetTransform()->SetLocalPosition({ 355.0f, -235.0f, 0.0f });
-	cam2ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam2ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam2ARenderer_->Off();
 
 	cam2BScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -260,7 +260,7 @@ void UIController::ImageInit()
 	cam2BRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam2BRenderer_->SetImage("cam2B.png", true);
 	cam2BRenderer_->GetTransform()->SetLocalPosition({ 355.0f, -278.0f, 0.0f });
-	cam2BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam2BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam2BRenderer_->Off();
 
 	cam7ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -272,7 +272,7 @@ void UIController::ImageInit()
 	cam7Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam7Renderer_->SetImage("cam7.png", true);
 	cam7Renderer_->GetTransform()->SetLocalPosition({ 567.0f, -75.0f, 0.0f });
-	cam7Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam7Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam7Renderer_->Off();
 
 	cam6ScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -284,7 +284,7 @@ void UIController::ImageInit()
 	cam6Renderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam6Renderer_->SetImage("cam6.png", true);
 	cam6Renderer_->GetTransform()->SetLocalPosition({ 562.0f, -205.0f, 0.0f });
-	cam6Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam6Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam6Renderer_->Off();
 
 	cam4AScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -296,7 +296,7 @@ void UIController::ImageInit()
 	cam4ARenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam4ARenderer_->SetImage("cam2A.png", true);
 	cam4ARenderer_->GetTransform()->SetLocalPosition({ 463.0f, -235.0f, 0.0f });
-	cam4ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam4ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam4ARenderer_->Off();
 
 	cam4BScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -308,7 +308,7 @@ void UIController::ImageInit()
 	cam4BRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	cam4BRenderer_->SetImage("cam2B.png", true);
 	cam4BRenderer_->GetTransform()->SetLocalPosition({ 463.0f, -278.0f, 0.0f });
-	cam4BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+	cam4BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam4BRenderer_->Off();
 
 }
@@ -562,7 +562,6 @@ StateInfo UIController::updateOfficeUI(StateInfo _state)
 
 StateInfo UIController::startCCTVUI(StateInfo _state)
 {
-	cameraDisabledRenderer_->On();
 	recordingMarkRenderer_->On();
 	cameraNameRenderer_->On();
 	mapRenderer_->On();
@@ -649,36 +648,47 @@ void UIController::SetCCTVNameRenderer(LOCATION _location)
 		break;
 	case LOCATION::SHOWSTAGE:
 		cameraNameRenderer_->SetImage("NameShowStage.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::KITCHEN:
 		cameraNameRenderer_->SetImage("NameKitchen0.png", true);
+		cameraDisabledRenderer_->On();
 		break;
 	case LOCATION::BACKSTAGE:
 		cameraNameRenderer_->SetImage("NameBackStage.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::DININGAREA:
 		cameraNameRenderer_->SetImage("NameDiningArea.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::PIRATECOVE:
 		cameraNameRenderer_->SetImage("NamePirateCove.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::EASTHALLA:
 		cameraNameRenderer_->SetImage("NameEastHallA.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::EASTHALLB:
 		cameraNameRenderer_->SetImage("NameEastHallB.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::WESTHALLA:
 		cameraNameRenderer_->SetImage("NameWestHallA.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::WESTHALLB:
 		cameraNameRenderer_->SetImage("NameWestHallB.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::RESTROOMS:
 		cameraNameRenderer_->SetImage("NameRestRooms.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::SUPPLYCLOSET:
 		cameraNameRenderer_->SetImage("NameSupplyCloset.png", true);
+		cameraDisabledRenderer_->Off();
 		break;
 	case LOCATION::NONE:
 		break;
