@@ -6,6 +6,7 @@
 // 용도 : 
 // 설명 : 
 
+class GlitchScreen;
 class FadeScreen;
 class IntermissionScreen;
 class IntermissionController : public GameEngineActor
@@ -27,6 +28,7 @@ public:
 protected:
 	IntermissionScreen* intermissionScreen_;
 	FadeScreen* fadeScreen_;
+	GlitchScreen* glitchScreen_;
 	
 private:
 	void Start() override;

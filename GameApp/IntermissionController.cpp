@@ -4,11 +4,12 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 #include "IntermissionScreen.h"
 #include "FadeScreen.h"
+#include "GlitchScreen.h"
 
 DAY IntermissionController::curDay_ = DAY::DAY1;
 
 IntermissionController::IntermissionController() // default constructer 디폴트 생성자
-	: intermissionScreen_(nullptr), state_(this), deltaTime_(0.0f), fadeScreen_(nullptr)
+	: intermissionScreen_(nullptr), state_(this), deltaTime_(0.0f), fadeScreen_(nullptr), glitchScreen_(nullptr)
 {
 
 }
@@ -63,10 +64,11 @@ void IntermissionController::SwitchDayRenderer()
 
 void IntermissionController::Start()
 {
+
 	intermissionScreen_ = GetLevel()->CreateActor<IntermissionScreen>();
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
 	fadeScreen_->SetAlpha(0.0f);
-
+	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
 	StateInit();
 }
 
@@ -82,17 +84,20 @@ StateInfo IntermissionController::startStandby(StateInfo _state)
 
 StateInfo IntermissionController::updateStandby(StateInfo _state)
 {
+
 	return "Proceed";
 }
 
 StateInfo IntermissionController::startProceed(StateInfo _state)
 {
+
 	SwitchDayRenderer();
 	return StateInfo();
 }
 
 StateInfo IntermissionController::updateProceed(StateInfo _state)
 {
+	glitchScreen_->PlayAwakeScanLine();
 	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (3.0f <= deltaTime_)

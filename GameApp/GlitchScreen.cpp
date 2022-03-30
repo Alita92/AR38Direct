@@ -61,7 +61,8 @@ void GlitchScreen::PlayWhiteNoise(bool _on)
 
 void GlitchScreen::PlayAwakeScanLine()
 {
-	scanLineRenderer_->SetChangeAnimation("ScanLine", true);
+	scanLineRenderer_->On();
+	scanLineRenderer_->SetChangeAnimation("ScanLine");
 }
 
 void GlitchScreen::SetStatic()
