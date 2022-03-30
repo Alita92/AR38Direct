@@ -81,14 +81,10 @@ private:
 	bool isLdoorLighted_;
 	bool isRdoorLighted_;
 
-
 	// 전기 고갈시 사용 변수
 	float noElecDeltaTime_;
 	GameEngineRandom randomGenerator_;
 	int noElecTimerCounter_;
-
-
-	// 전기, 게임 시간 초기화
 
 
 protected:
@@ -163,6 +159,9 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 
 	StateInfo startBonnieDeath(StateInfo _state);
 	StateInfo updateBonnieDeath(StateInfo _state);
+
+	StateInfo startChicaDeath(StateInfo _state);
+	StateInfo updateChicaDeath(StateInfo _state);
 
 	StateInfo startNoElecDeath(StateInfo _state);
 	StateInfo updateNoElecDeath(StateInfo _state);

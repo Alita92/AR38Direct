@@ -234,6 +234,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TitleController.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleNewsPaper.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIController.cpp">
       <SubType>
       </SubType>
@@ -342,6 +350,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="OfficeTest.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleController.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleNewsPaper.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -20,9 +20,6 @@
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="TitleFreddy.cpp">
-      <Filter>Actor\01Title</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -40,9 +37,6 @@
     </ClCompile>
     <ClCompile Include="TopUI.cpp">
       <Filter>Actor\99ETC</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleText.cpp">
-      <Filter>Actor\01Title</Filter>
     </ClCompile>
     <ClCompile Include="OfficeTest.cpp">
       <Filter>Actor\02Play\Office</Filter>
@@ -79,6 +73,18 @@
     </ClCompile>
     <ClCompile Include="UIController.cpp">
       <Filter>Actor\02Play\Meta\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleFreddy.cpp">
+      <Filter>Actor\01Title\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleNewsPaper.cpp">
+      <Filter>Actor\01Title\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleText.cpp">
+      <Filter>Actor\01Title\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleController.cpp">
+      <Filter>Actor\01Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +145,9 @@
     <Filter Include="Actor\05Intermission">
       <UniqueIdentifier>{3657bf75-2740-4a2f-be5e-8491a7f12b20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\01Title\Actors">
+      <UniqueIdentifier>{e70f452c-e812-4727-847c-231b461c237b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -159,9 +168,6 @@
     <ClInclude Include="CustomVertex.h">
       <Filter>CustomVertex</Filter>
     </ClInclude>
-    <ClInclude Include="TitleFreddy.h">
-      <Filter>Actor\01Title</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -179,9 +185,6 @@
     </ClInclude>
     <ClInclude Include="TopUI.h">
       <Filter>Actor\99ETC</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleText.h">
-      <Filter>Actor\01Title</Filter>
     </ClInclude>
     <ClInclude Include="OfficeTest.h">
       <Filter>Actor\02Play\Office</Filter>
@@ -221,6 +224,18 @@
     </ClInclude>
     <ClInclude Include="UIController.h">
       <Filter>Actor\02Play\Meta\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleFreddy.h">
+      <Filter>Actor\01Title\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleNewsPaper.h">
+      <Filter>Actor\01Title\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleText.h">
+      <Filter>Actor\01Title\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleController.h">
+      <Filter>Actor\01Title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

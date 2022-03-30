@@ -5,9 +5,9 @@
 #include "TitleFreddy.h"
 
 #include "TitleText.h"
+#include "TitleNewsPaper.h"
 
-
-
+#include "TitleController.h"
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineCore.h>
 
@@ -33,10 +33,7 @@ void TitleLevel::LevelStart()
 	}
 
 	{
-		// 타이틀 배경화면의 프레디 애니메이션 액터입니다.
-		TitleFreddy* titleFreddy = CreateActor<TitleFreddy>();
-		// 메뉴 텍스트들 액터입니다.
-		TitleText* titleText = CreateActor<TitleText>();
+		TitleController* titleController = CreateActor<TitleController>();
 	}
 }
 

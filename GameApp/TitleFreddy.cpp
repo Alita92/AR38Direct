@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "TitleFreddy.h"
+#include "ENUM.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
 
@@ -16,11 +17,11 @@ TitleFreddy::~TitleFreddy() // default destructer 디폴트 소멸자
 
 void TitleFreddy::Start()
 {
-	GetTransform()->SetWorldPosition({ 0.f,0.f,-10.f });
+	GetTransform()->SetWorldPosition({ 0.f,0.f,0.f });
 
 	titleFreddyImageRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleFreddyImageRenderer_->SetImage("TitleFreddy_0.png", true);
-	titleFreddyImageRenderer_->GetTransform()->SetLocalPosition({ 0.f,0.f,100.f });
+	titleFreddyImageRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::UI1)});
 }
 
 void TitleFreddy::Update(float _Deltatime)

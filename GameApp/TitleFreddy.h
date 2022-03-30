@@ -5,9 +5,13 @@
 // 설명 : 타이틀 레벨의 배경 화면에 움직이는 프레디의 스프라이트와 애니메이션입니다.
 //		  뒷배경을 대체합니다.
 
+class TitleController;
 class GameEngineImageRenderer;
 class TitleFreddy : public GameEngineActor
 {
+private:
+	friend TitleController;
+
 public:
 	TitleFreddy(); // default constructer 디폴트 생성자
 	~TitleFreddy(); // default destructer 디폴트 소멸자

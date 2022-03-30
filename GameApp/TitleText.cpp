@@ -21,27 +21,27 @@ void TitleText::ImageInit()
 {
 	titleName_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleName_->SetImage("TitleName.png", true);
-	titleName_->GetTransform()->SetLocalPosition({ -500.0f, 200.0f, 0.0f });
+	titleName_->GetTransform()->SetLocalPosition({ -500.0f, 200.0f, static_cast<float>(RenderOrder::UI0)});
 
 	titleScott_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleScott_->SetImage("TitleScott.png", true);
-	titleScott_->GetTransform()->SetLocalPosition({ 500.0f, -330.0f, 0.0f });
+	titleScott_->GetTransform()->SetLocalPosition({ 500.0f, -330.0f,  static_cast<float>(RenderOrder::UI0) });
 
 	titleNewGame_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleNewGame_->SetImage("TitleNewGame.png", true);
-	titleNewGame_->GetTransform()->SetLocalPosition({ -500.0f, -60.0f, 0.0f });
+	titleNewGame_->GetTransform()->SetLocalPosition({ -500.0f, -60.0f,  static_cast<float>(RenderOrder::UI0) });
 
 	titleContinue_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleContinue_->SetImage("TitleContinue.png", true);
-	titleContinue_->GetTransform()->SetLocalPosition({ -500.0f, -130.0f, 0.0f });
+	titleContinue_->GetTransform()->SetLocalPosition({ -500.0f, -130.0f,  static_cast<float>(RenderOrder::UI0) });
 
 	title6thNight_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	title6thNight_->SetImage("Title6thNight.png", true);
-	title6thNight_->GetTransform()->SetLocalPosition({ -490.0f, -200.0f, 0.0f });
+	title6thNight_->GetTransform()->SetLocalPosition({ -490.0f, -200.0f,  static_cast<float>(RenderOrder::UI0) });
 
 	titleCustomNight_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	titleCustomNight_->SetImage("TitleCustomNight.png", true);
-	titleCustomNight_->GetTransform()->SetLocalPosition({-450.0f, -270.0f, 0.0f});
+	titleCustomNight_->GetTransform()->SetLocalPosition({-450.0f, -270.0f, static_cast<float>(RenderOrder::UI0) });
 }
 
 void TitleText::CollisionInit()
@@ -78,7 +78,7 @@ void TitleText::CollisionInit()
 
 void TitleText::Start()
 {
-	GetTransform()->SetWorldPosition({ 0.f,0.f,0.f });
+	GetTransform()->SetWorldPosition({ 0.0f,0.0f,0.0f });
 
 	ImageInit();
 	CollisionInit();
@@ -87,23 +87,23 @@ void TitleText::Start()
 
 void TitleText::Update(float _Deltatime)
 {
-	CollisionCheckUpdate();
+	//CollisionCheckUpdate();
 	DebugRenderUpdate();
 }
 
 void TitleText::CollisionCheckUpdate()
 {
-	titleNewGameCollision_->Collision(
-		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionNewGame, this, std::placeholders::_1));
-
-	titleContinueCollision_->Collision(
-		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionContinue, this, std::placeholders::_1));
-
-	titleCustomNightCollision_->Collision(
-		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionCustomNight, this, std::placeholders::_1));
-
-	title6thNightCollision_->Collision(
-			CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionCustomNight, this, std::placeholders::_1));
+//	titleNewGameCollision_->Collision(
+//		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionNewGame, this, std::placeholders::_1));
+//
+//	titleContinueCollision_->Collision(
+//		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionContinue, this, std::placeholders::_1));
+//
+//	titleCustomNightCollision_->Collision(
+//		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionCustomNight, this, std::placeholders::_1));
+//
+//	title6thNightCollision_->Collision(
+//			CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleText::CollisionCustomNight, this, std::placeholders::_1));
 }
 
 

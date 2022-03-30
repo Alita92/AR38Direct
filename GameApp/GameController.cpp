@@ -40,6 +40,7 @@ void GameController::InitState()
 	state_.CreateState("CCTV", &GameController::startCCTV, &GameController::updateCCTV);
 	
 	state_.CreateState("BonnieDeath", &GameController::startBonnieDeath, &GameController::updateBonnieDeath);
+	state_.CreateState("ChicaDeath", &GameController::startChicaDeath, &GameController::updateChicaDeath);
 
 	state_.CreateState("NoElec", &GameController::startNoElec, &GameController::updateNoElec);
 	state_.CreateState("HeisComing", &GameController::startHeisComing, &GameController::updateHeisComing);
@@ -78,6 +79,7 @@ void GameController::InitAnimation()
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1)});
 
 		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
+		mainRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, true);
 
 		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
@@ -210,7 +212,7 @@ void GameController::Update(float _Deltatime)
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
 	{
 		// 점프스케어 디버깅 중
-		state_.ChangeState("BonnieDeath");
+		state_.ChangeState("ChicaDeath");
 		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
 	}
 }
@@ -424,6 +426,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
 			break;
 		}
+
 		CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
 	}
 		break;
@@ -431,7 +434,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		CCTVRealRenderer_->On();
 
-		if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
+		if (LOCATION::DININGAREA == aiBonnie_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
 			break;
@@ -576,7 +579,12 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 	CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
 	mainRenderer_->SetChangeAnimation("JumpScareBonnie");
+
+	lDoorRenderer_->Off();
+	rDoorRenderer_->Off();
 	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+
+	UIController_->Off();
 	return StateInfo();
 }
 
@@ -591,6 +599,34 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 
 	return StateInfo();
 }
+
+StateInfo GameController::startChicaDeath(StateInfo _state)
+{
+	CCTVRealRenderer_->Off();
+	CCTVAnimationRenderer_->On();
+	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
+	mainRenderer_->SetChangeAnimation("JumpScareChica");
+
+	lDoorRenderer_->Off();
+	rDoorRenderer_->Off();
+	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+
+	UIController_->Off();
+	return StateInfo();
+}
+
+StateInfo GameController::updateChicaDeath(StateInfo _state)
+{
+	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (0.88f <= deathSceneTimer_)
+	{
+		GetLevel()->RequestLevelChange("GameOver");
+	}
+
+	return StateInfo();
+}
+
 
 StateInfo GameController::startNoElec(StateInfo _state)
 {

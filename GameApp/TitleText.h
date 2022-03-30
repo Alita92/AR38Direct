@@ -7,8 +7,12 @@
 // Ό³Έν :
 class GameEngineCollision;
 class GameEngineImageRenderer;
+class TitleController;
 class TitleText : public GameEngineActor
 {
+	friend TitleController;
+private:
+
 public:
 	TitleText();
 	~TitleText();

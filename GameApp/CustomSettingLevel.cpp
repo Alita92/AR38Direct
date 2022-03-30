@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "CustomSettingLevel.h"
 
+#include <GameEngine/GameEngineCore.h>
+
 #include "CustomSettingUI.h"
 #include "GameMouse.h"
 
@@ -38,7 +40,10 @@ void CustomSettingLevel::LevelStart()
 
 void CustomSettingLevel::LevelUpdate(float _DeltaTime)
 {
-
+	if (true == GameEngineInput::GetInst().Down("ESC"))
+	{
+		GameEngineCore::LevelChange("Title");
+	}
 }
 
 void CustomSettingLevel::LevelChangeEndEvent()
