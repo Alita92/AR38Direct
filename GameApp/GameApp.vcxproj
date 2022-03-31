@@ -173,11 +173,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AIBase.cpp">
+    <ClCompile Include="AIBonnie.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="AIBonnie.cpp">
+    <ClCompile Include="AIChica.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -211,6 +211,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameOverBackground.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameOverController.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -303,11 +307,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AIBase.h">
+    <ClInclude Include="AIBonnie.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="AIBonnie.h">
+    <ClInclude Include="AIChica.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -342,6 +346,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameOverBackground.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameOverController.h">
       <SubType>
       </SubType>
     </ClInclude>

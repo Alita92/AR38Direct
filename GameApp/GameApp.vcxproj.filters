@@ -23,9 +23,6 @@
     <ClCompile Include="GameOverLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="GameOverBackground.cpp">
-      <Filter>Actor\03GameOver</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Actor\99ETC</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>Actor\02Play\Office</Filter>
     </ClCompile>
     <ClCompile Include="GameController.cpp">
-      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
-    </ClCompile>
-    <ClCompile Include="AIBase.cpp">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
     <ClCompile Include="AIBonnie.cpp">
@@ -94,6 +88,15 @@
     </ClCompile>
     <ClCompile Include="GlitchScreen.cpp">
       <Filter>Actor\00Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverBackground.cpp">
+      <Filter>Actor\03GameOver\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverController.cpp">
+      <Filter>Actor\03GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="AIChica.cpp">
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +163,9 @@
     <Filter Include="Actor\05Intermission\Actors">
       <UniqueIdentifier>{3a58e0b7-39bd-475f-ad64-82740e247db3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\03GameOver\Actors">
+      <UniqueIdentifier>{ff708ae2-b113-4297-b192-0c84ff35592a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -183,9 +189,6 @@
     <ClInclude Include="GameOverLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="GameOverBackground.h">
-      <Filter>Actor\03GameOver</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Actor\99ETC</Filter>
     </ClInclude>
@@ -206,9 +209,6 @@
     </ClInclude>
     <ClInclude Include="ENUM.h">
       <Filter>ENUM</Filter>
-    </ClInclude>
-    <ClInclude Include="AIBase.h">
-      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
     <ClInclude Include="AIBonnie.h">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
@@ -257,6 +257,15 @@
     </ClInclude>
     <ClInclude Include="GlitchScreen.h">
       <Filter>Actor\00Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverBackground.h">
+      <Filter>Actor\03GameOver\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverController.h">
+      <Filter>Actor\03GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="AIChica.h">
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,68 +1,65 @@
 #include "PreCompile.h"
-#include "AIBonnie.h"
+#include "AIChica.h"
 #include <GameEngineBase/GameEngineRandom.h>
 
-AIBonnie::AIBonnie() // default constructer 디폴트 생성자
+AIChica::AIChica() // default constructer 디폴트 생성자
 	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::SHOWSTAGE), prevLocation_(LOCATION::SHOWSTAGE), state_(this), isDoorLocked_(false), isPlayerStares_(true)
 {
 
 }
 
-AIBonnie::~AIBonnie() // default destructer 디폴트 소멸자
+AIChica::~AIChica() // default destructer 디폴트 소멸자
 {
 
 }
 
-/*
-보니는 이동 경로를 건너 뛸 수 있습니다.
-*/
 
-void AIBonnie::InitState()
+void AIChica::InitState()
 {
-	state_.CreateState("ShowStage", &AIBonnie::startShowStage, &AIBonnie::updateShowStage);
-	state_.CreateState("BackStage", &AIBonnie::startBackStage, &AIBonnie::updateBackStage);
-	state_.CreateState("DiningArea", &AIBonnie::startDiningArea, &AIBonnie::updateDiningArea);
-	state_.CreateState("WestHallA", &AIBonnie::startWestHallA, &AIBonnie::updateWestHallA);
-	state_.CreateState("WestHallB", &AIBonnie::startWestHallB, &AIBonnie::updateWestHallB);
-	state_.CreateState("SupplyCloset", &AIBonnie::startSupplyCloset, &AIBonnie::updateSupplyCloset);
-	state_.CreateState("OfficeDoor", &AIBonnie::startLOfficeDoor, &AIBonnie::updateLOfficeDoor);
-	state_.CreateState("Office", &AIBonnie::startOffice, &AIBonnie::updateOffice);
+	state_.CreateState("ShowStage", &AIChica::startShowStage, &AIChica::updateShowStage);
+	state_.CreateState("RestRooms", &AIChica::startRestRooms, &AIChica::updateRestRooms);
+	state_.CreateState("DiningArea", &AIChica::startDiningArea, &AIChica::updateDiningArea);
+	state_.CreateState("Kitchen", &AIChica::startKitchen, &AIChica::updateKitchen);
+	state_.CreateState("EastHallA", &AIChica::startEastHallA, &AIChica::updateEastHallA);
+	state_.CreateState("EastHallB", &AIChica::startEastHallB, &AIChica::updateEastHallB);
+	state_.CreateState("OfficeDoor", &AIChica::startROfficeDoor, &AIChica::updateROfficeDoor);
+	state_.CreateState("Office", &AIChica::startOffice, &AIChica::updateOffice);
 
 	state_.ChangeState("ShowStage");
 }
 
-void AIBonnie::Start()
+void AIChica::Start()
 {
 	InitState();
 
 }
 
-void AIBonnie::Update(float _DeltaTime)
+void AIChica::Update(float _DeltaTime)
 {
 	state_.Update();
 
 }
 
-void AIBonnie::SetAILevel(int _level)
+void AIChica::SetAILevel(int _level)
 {
 	AILevel_ = _level;
 	return;
 }
 
-void AIBonnie::AddAILevel(int _level)
+void AIChica::AddAILevel(int _level)
 {
 	AILevel_ += _level;
 	return;
 }
 
-StateInfo AIBonnie::startShowStage(StateInfo _state)
+StateInfo AIChica::startShowStage(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::SHOWSTAGE;
 	return StateInfo();
 }
 
-StateInfo AIBonnie::updateShowStage(StateInfo _state)
+StateInfo AIChica::updateShowStage(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
@@ -70,7 +67,7 @@ StateInfo AIBonnie::updateShowStage(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_/20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
 			// 주사위를 굴려 "이동" 이 나온 상태입니다.
 			// 다만 쇼 스테이지에서 이동 가능한 구간은 DiningArea 밖에 없는 관계로...
@@ -83,15 +80,15 @@ StateInfo AIBonnie::updateShowStage(StateInfo _state)
 	return StateInfo();
 }
 
-StateInfo AIBonnie::startBackStage(StateInfo _state)
+StateInfo AIChica::startDiningArea(StateInfo _state)
 {
 	deltatime_ = 0.0f;
-	curLocation_ = LOCATION::BACKSTAGE;
+	curLocation_ = LOCATION::DININGAREA;
 
 	return StateInfo();
 }
 
-StateInfo AIBonnie::updateBackStage(StateInfo _state)
+StateInfo AIChica::updateDiningArea(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
@@ -103,19 +100,18 @@ StateInfo AIBonnie::updateBackStage(StateInfo _state)
 		{
 			switch (randomGenerator_.RandomInt(0, 1))
 			{
-			case 0: // 식당
+			case 0:
 			{
 				prevLocation_ = curLocation_;
-				return "DiningArea";
+				return "RestRooms";
 			}
 			break;
-			case 1: // 서쪽 홀 A
+			case 1:
 			{
 				prevLocation_ = curLocation_;
-				return "WestHallA";
+				return "EastHallA";
 			}
 			break;
-
 			default:
 				break;
 			}
@@ -124,15 +120,16 @@ StateInfo AIBonnie::updateBackStage(StateInfo _state)
 
 	return StateInfo();
 }
-StateInfo AIBonnie::startDiningArea(StateInfo _state)
+
+StateInfo AIChica::startRestRooms(StateInfo _state)
 {
 	deltatime_ = 0.0f;
-	curLocation_ = LOCATION::DININGAREA;
+	curLocation_ = LOCATION::RESTROOMS;
 
 	return StateInfo();
 }
 
-StateInfo AIBonnie::updateDiningArea(StateInfo _state)
+StateInfo AIChica::updateRestRooms(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
@@ -144,24 +141,23 @@ StateInfo AIBonnie::updateDiningArea(StateInfo _state)
 		{
 			switch (randomGenerator_.RandomInt(0, 2))
 			{
-			case 0: // 백스테이지
+			case 0:
 			{
 				prevLocation_ = curLocation_;
-				return "BackStage";
+				return "Kitchen";
 			}
 			break;
-			case 1: // 서쪽 홀 A
+			case 1:
 			{
 				prevLocation_ = curLocation_;
-				return "WestHallA";
+				return "EastHallA";
 			}
 			break;
-			case 2: // 물품 보관실
+			case 2:
 			{
 				prevLocation_ = curLocation_;
-				return "SupplyCloset";
+				return "DiningArea";
 			}
-			break;
 			default:
 				break;
 			}
@@ -171,15 +167,15 @@ StateInfo AIBonnie::updateDiningArea(StateInfo _state)
 	return StateInfo();
 }
 
-StateInfo AIBonnie::startWestHallA(StateInfo _state)
+StateInfo AIChica::startKitchen(StateInfo _state)
 {
 	deltatime_ = 0.0f;
-	curLocation_ = LOCATION::WESTHALLA;
+	curLocation_ = LOCATION::KITCHEN;
 
 	return StateInfo();
 }
 
-StateInfo AIBonnie::updateWestHallA(StateInfo _state)
+StateInfo AIChica::updateKitchen(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
@@ -200,15 +196,14 @@ StateInfo AIBonnie::updateWestHallA(StateInfo _state)
 			case 1:
 			{
 				prevLocation_ = curLocation_;
-				return "WestHallB";
+				return "EastHallA";
 			}
 			break;
 			case 2:
 			{
 				prevLocation_ = curLocation_;
-				return "SupplyCloset";
+				return "RestRooms";
 			}
-			break;
 			default:
 				break;
 			}
@@ -218,73 +213,18 @@ StateInfo AIBonnie::updateWestHallA(StateInfo _state)
 	return StateInfo();
 }
 
-StateInfo AIBonnie::startWestHallB(StateInfo _state)
+StateInfo AIChica::startEastHallA(StateInfo _state)
 {
 	deltatime_ = 0.0f;
-	curLocation_ = LOCATION::WESTHALLB;
+	curLocation_ = LOCATION::EASTHALLA;
 
 	return StateInfo();
 }
 
-StateInfo AIBonnie::updateWestHallB(StateInfo _state)
+StateInfo AIChica::updateEastHallA(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
-	{
-		deltatime_ = 0.0f;
-
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
-		{
-			switch (randomGenerator_.RandomInt(0, 6))
-			{
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			{
-				prevLocation_ = curLocation_;
-				return "OfficeDoor";
-			}
-			break;
-			case 4:
-			{
-				prevLocation_ = curLocation_;
-				return "WestHallA";
-			}
-			break;
-			case 5:
-			{
-				prevLocation_ = curLocation_;
-				return "SupplyCloset";
-			}
-			break;
-			case 6:
-			{
-				prevLocation_ = curLocation_;
-				return "DiningArea";
-			}
-			break;
-			default:
-				break;
-			}
-		}
-	}
-
-	return StateInfo();
-}
-
-StateInfo AIBonnie::startSupplyCloset(StateInfo _state)
-{
-	deltatime_ = 0.0f;
-	curLocation_ = LOCATION::SUPPLYCLOSET;
-
-	return StateInfo();
-}
-
-StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
-{
-	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
 	{
 		deltatime_ = 0.0f;
@@ -303,14 +243,19 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 			case 2:
 			{
 				prevLocation_ = curLocation_;
-				return "WestHallB";
+				return "EastHallB";
 			}
 			break;
 			case 3:
+			{
+				prevLocation_ = curLocation_;
+				return "RestRooms";
+			}
+			break;
 			case 4:
 			{
 				prevLocation_ = curLocation_;
-				return "WestHallA";
+				return "Kitchen";
 			}
 			break;
 			default:
@@ -322,15 +267,63 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 	return StateInfo();
 }
 
-StateInfo AIBonnie::startLOfficeDoor(StateInfo _state)
+StateInfo AIChica::startEastHallB(StateInfo _state)
 {
 	deltatime_ = 0.0f;
-	curLocation_ = LOCATION::LOFFICEDOOR;
+	curLocation_ = LOCATION::EASTHALLB;
 
 	return StateInfo();
 }
 
-StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
+StateInfo AIChica::updateEastHallB(StateInfo _state)
+{
+	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
+	{
+		deltatime_ = 0.0f;
+
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		{
+			switch (randomGenerator_.RandomInt(0, 3))
+			{
+			case 0:
+			case 1:
+			{
+				prevLocation_ = curLocation_;
+				return "OfficeDoor";
+			}
+			break;
+			case 2:
+			{
+				prevLocation_ = curLocation_;
+				return "EastHallA";
+			}
+			break;
+			case 3:
+			{
+				prevLocation_ = curLocation_;
+				return "Kitchen";
+			}
+			break;
+			default:
+				break;
+			}
+		}
+	}
+
+	return StateInfo();
+}
+
+StateInfo AIChica::startROfficeDoor(StateInfo _state)
+{
+	deltatime_ = 0.0f;
+	curLocation_ = LOCATION::ROFFICEDOOR;
+
+	return StateInfo();
+}
+
+StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
@@ -343,60 +336,55 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
-				if (false == isDoorLocked_ && false == isPlayerStares_)
-				{
-					prevLocation_ = curLocation_;
-					return "Office";
-				}
-				else if (false == isDoorLocked_ && true == isPlayerStares_)
-				{
-					return StateInfo();
-				}
+			if (false == isDoorLocked_ && false == isPlayerStares_)
+			{
+				prevLocation_ = curLocation_;
+				return "Office";
+			}
+			else if (false == isDoorLocked_ && true == isPlayerStares_)
+			{
+				return StateInfo();
+			}
 
-				switch (randomGenerator_.RandomInt(0, 3))
-				{
-				case 0:
-				{
-					prevLocation_ = curLocation_;
-					return "WestHallB";
-				}
-					break;
-				case 1:
-				{
-					prevLocation_ = curLocation_;
-					return "WestHallA";
-				}
-					break;
-				case 2:
-				{
-					prevLocation_ = curLocation_;
-					return "DiningArea";
-				}
-					break;
-				case 3:
-				{
-					prevLocation_ = curLocation_;
-					return "SupplyCloset";
-				}
-					break;
-				default:
-					break;
-				}
+			switch (randomGenerator_.RandomInt(0, 3))
+			{
+			case 0:
+			{
+				prevLocation_ = curLocation_;
+				return "EastHallB";
+			}
+			break;
+			case 1:
+			case 2:
+			{
+				prevLocation_ = curLocation_;
+				return "EastHallA";
+			}
+			break;
+			case 3:
+			{
+				prevLocation_ = curLocation_;
+				return "Kitchen";
+			}
+			break;
+			default:
+				break;
+			}
 		}
 	}
 
 	return StateInfo();
 }
 
-StateInfo AIBonnie::startOffice(StateInfo _state)
+StateInfo AIChica::startOffice(StateInfo _state)
 {
 	curLocation_ = LOCATION::OFFICE;
 
 	return StateInfo();
 }
-StateInfo AIBonnie::updateOffice(StateInfo _state)
+
+StateInfo AIChica::updateOffice(StateInfo _state)
 {
-	
 
 	return StateInfo();
 }

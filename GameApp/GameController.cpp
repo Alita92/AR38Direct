@@ -10,14 +10,42 @@
 
 // Enemy AI
 #include "AIBonnie.h"
+#include "AIChica.h"
 
 GameController::GameController() // default constructer 디폴트 생성자
-	: CurPlayerState_(PLAYERSTATUS::OFFICE), CurCCTVState_(LOCATION::SHOWSTAGE), elecUsageTimer_(0.0f), state_(this), curPowerLevel_(0), curPowerRate_(0.0f), isElecCheckOff_(false)
-	, aiBonnie_(nullptr), aiChica_(nullptr), aiFoxy_(nullptr), aiFreddy_(nullptr)
-	, curTime_(0), timeUsageTimer_(0.0f), isTimeCheckOff_(false)
+	: CurPlayerState_(PLAYERSTATUS::OFFICE)
+	, CurCCTVState_(LOCATION::SHOWSTAGE)
+	, elecUsageTimer_(0.0f)
+	, state_(this)
+	, curPowerLevel_(0)
+	, curPowerRate_(0.0f)
+	, isElecCheckOff_(false)
+	, aiBonnie_(nullptr)
+	, aiChica_(nullptr)
+	, aiFoxy_(nullptr)
+	, aiFreddy_(nullptr)
+	, curTime_(0)
+	, timeUsageTimer_(0.0f)
+	, isTimeCheckOff_(false)
 	, curDay_(0)
-	, isLdoorClosed_(false), isLdoorLighted_(false), isRdoorClosed_(false), isRdoorLighted_(false)
-	, noElecDeltaTime_(0.0f), noElecTimerCounter_(0), playDeadTimer_(0.0f), deathSceneTimer_(0.0f), PrevCCTVState_(LOCATION::MAX), fadeScreen_(nullptr)
+	, isLdoorClosed_(false)
+	, isLdoorLighted_(false)
+	, isRdoorClosed_(false)
+	, isRdoorLighted_(false)
+	, noElecDeltaTime_(0.0f)
+	, noElecTimerCounter_(0)
+	, playDeadTimer_(0.0f)
+	, deathSceneTimer_(0.0f)
+	, PrevCCTVState_(LOCATION::MAX)
+	, fadeScreen_(nullptr)
+	, UIController_(nullptr)
+	, rDoorRenderer_(nullptr)
+	, lDoorRenderer_(nullptr)
+	, mainRenderer_(nullptr)
+	, glitchScreen_(nullptr)
+	, fanRenderer_(nullptr)
+	, CCTVRealRenderer_(nullptr)
+	, CCTVAnimationRenderer_(nullptr)
 {
 
 }
@@ -68,7 +96,8 @@ void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
 	aiBonnie_->SetAILevel(15);
-//	aiChica_ = GetLevel()->CreateActor<AIChica>();
+	aiChica_ = GetLevel()->CreateActor<AIChica>();
+	aiChica_->SetAILevel(15);
 //	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
 //	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
 }
@@ -116,8 +145,8 @@ void GameController::InitAnimation()
 		CCTVAnimationRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		CCTVAnimationRenderer_->SetImage("ShowStage_Default.png", true);
 		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
-		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.04f, false);
-		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.04f, false);
+		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.033f, false);
+		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.033f, false);
 		CCTVAnimationRenderer_->Off();
 	}
 
@@ -144,7 +173,6 @@ void GameController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
 
-
 	InitUIController();
 	InitScreenEffects();
 	InitEnemy();
@@ -152,13 +180,10 @@ void GameController::Start()
 	InitAnimation();
 	InitPlayStatus();
 	
-
-
 	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
 	{
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P');
 	}
-	
 }
 
 
@@ -224,14 +249,6 @@ void GameController::Update(float _Deltatime)
 	state_.Update();
 	CheckTime();
 	CheckElectricityUsage();
-
-
-	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPSCENE"))
-	{
-		// 점프스케어 디버깅 중
-		state_.ChangeState("ChicaDeath");
-		// 폴더 애니메이션이 순서대로 프레임이 재생되질 않음..
-	}
 }
 
 
@@ -258,12 +275,14 @@ void GameController::CheckOfficeInput()
 		if (false == isRdoorClosed_)
 		{
 			isRdoorClosed_ = true;
+			aiChica_->isDoorLocked_ = true;
 			curPowerLevel_ += 1;
 
 		}
 		else
 		{
 			isRdoorClosed_ = false;
+			aiChica_->isDoorLocked_ = false;
 			curPowerLevel_ -= 1;
 		}
 	}
@@ -312,7 +331,13 @@ void GameController::CheckOfficeInput()
 
 StateInfo GameController::startIdle(StateInfo _state)
 {
-	aiBonnie_->isPlayerStares_ = true;
+	{
+		// cctv를 보고 있지 않다
+		// AI 에게 인지시켜 주는 겁니다.
+		aiBonnie_->isPlayerStares_ = true;
+		aiChica_->isPlayerStares_ = true;
+	}
+
 	CurPlayerState_ = PLAYERSTATUS::OFFICE;
 	return StateInfo();
 }
@@ -369,8 +394,14 @@ StateInfo GameController::updateIdle(StateInfo _state)
 
 		if (true == isRdoorLighted_)
 		{
-			mainRenderer_->SetImage("OfficeLightR0.png", true);
-
+			if (LOCATION::ROFFICEDOOR == aiChica_->GetLocation())
+			{
+				mainRenderer_->SetImage("OfficeLightR1.png", true);
+			}
+			else
+			{
+				mainRenderer_->SetImage("OfficeLightR0.png", true);
+			}
 		}
 		else if (false == isRdoorLighted_ && false == isLdoorLighted_)
 		{
@@ -398,7 +429,6 @@ StateInfo GameController::updateCCTVOpen(StateInfo _state)
 	// CCTV 작동 애니메이션을 여기서 작동 시킵니다.
 	// 작동의 짧은 시간동안은 어떤 인풋도 먹히지 않도록 조정합니다.
 
-
 	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
 	{
 		return "CCTV";
@@ -417,7 +447,11 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	CCTVAnimationRenderer_->Off();
 	CurPlayerState_ = PLAYERSTATUS::CCTV;
 
-	aiBonnie_->isPlayerStares_ = false;
+	{
+		// 보니, 치카 AI 에게 이제 공격해도 된다는 신호를 줍니다.
+		aiBonnie_->isPlayerStares_ = false;
+		aiChica_->isPlayerStares_ = false;
+	}
 
 	UIController_->SwitchUIState(PLAYERSTATUS::CCTV);
 	return StateInfo();
@@ -425,8 +459,6 @@ StateInfo GameController::startCCTV(StateInfo _state)
 
 StateInfo GameController::updateCCTV(StateInfo _state)
 {
-
-
 	if (LOCATION::OFFICE == aiBonnie_->GetLocation())
 	{
 		playDeadTimer_ += GameEngineTime::GetInst().GetDeltaTime();
@@ -434,6 +466,16 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		if (MAXIMUM_PLAYDEAD_DURATION <= playDeadTimer_)
 		{
 			return "BonnieDeath";
+		}
+	}
+
+	if (LOCATION::OFFICE == aiChica_->GetLocation())
+	{
+		playDeadTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+		if (MAXIMUM_PLAYDEAD_DURATION <= playDeadTimer_)
+		{
+			return "ChicaDeath";
 		}
 	}
 
@@ -455,9 +497,19 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		CCTVRealRenderer_->On();
 
-		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation())
+		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("ShowStage_BCGone.png", true);
+			break;
+		}
+		else if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE == aiChica_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("ShowStage_BonnieGone.png", true);
+			break;
+		}
+		else if (LOCATION::SHOWSTAGE == aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("ShowStage_ChicaGone.png", true);
 			break;
 		}
 
@@ -467,6 +519,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::KITCHEN:
 	{
 		CCTVRealRenderer_->On();
+	
 		CCTVRealRenderer_->SetImage("Kitchen.png", true);
 	}
 		break;
@@ -487,11 +540,22 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		CCTVRealRenderer_->On();
 
-		if (LOCATION::DININGAREA == aiBonnie_->GetLocation())
+		if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("DiningArea_Chica1.png", true);
+			break;
+		}
+		else if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
 			break;
 		}
+		else if (LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("DiningArea_Chica0.png", true);
+			break;
+		}
+
 
 		CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
 	}
@@ -505,12 +569,26 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::EASTHALLA:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::EASTHALLA == aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("EastHallA_Chica0.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("EastHallA_Default.png", true);
 	}
 		break;
 	case LOCATION::EASTHALLB:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::EASTHALLB == aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("EastHallB_Chica0.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("EastHallB_Default.png", true);
 	}
 		break;
@@ -543,6 +621,13 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::RESTROOMS:
 	{
 		CCTVRealRenderer_->On();
+
+		if (LOCATION::RESTROOMS == aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("RestRooms_Chica0.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("RestRooms_Default.png", true);
 	}
 		break;
@@ -629,14 +714,15 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 
 StateInfo GameController::startBonnieDeath(StateInfo _state)
 {
+	glitchScreen_->PlayWhiteNoise(false);
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	mainRenderer_->SetChangeAnimation("JumpScareBonnie");
+	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+	mainRenderer_->SetChangeAnimation("JumpScareBonnie", true);
 
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
-	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 
 	UIController_->Off();
 	return StateInfo();
@@ -645,6 +731,11 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 StateInfo GameController::updateBonnieDeath(StateInfo _state)
 {
 	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
+	{
+		CCTVAnimationRenderer_->Off();
+	}
 
 	if (0.88f <= deathSceneTimer_)
 	{
@@ -656,14 +747,14 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 
 StateInfo GameController::startChicaDeath(StateInfo _state)
 {
+	glitchScreen_->PlayWhiteNoise(false);
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	mainRenderer_->SetChangeAnimation("JumpScareChica");
-
+	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+	mainRenderer_->SetChangeAnimation("JumpScareChica", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
-	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 
 	UIController_->Off();
 	return StateInfo();
@@ -672,6 +763,11 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 StateInfo GameController::updateChicaDeath(StateInfo _state)
 {
 	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
+	{
+		CCTVAnimationRenderer_->Off();
+	}
 
 	if (0.88f <= deathSceneTimer_)
 	{
@@ -893,6 +989,13 @@ void GameController::CollisionCCTVButton(GameEngineCollision* _other)
 			{
 				UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
 				state_.ChangeState("BonnieDeath");
+				return;
+			}
+			else if (LOCATION::OFFICE == aiChica_->GetLocation())
+			{
+				UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
+				state_.ChangeState("ChicaDeath");
+				return;
 			}
 
 

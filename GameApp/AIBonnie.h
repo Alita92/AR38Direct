@@ -1,5 +1,4 @@
 #pragma once
-//#include "AIBase.h"
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
@@ -31,7 +30,7 @@ private:
 	int AILevel_;
 	float deltatime_;
 	LOCATION curLocation_;
-	LOCATION nextLocation_;
+	LOCATION prevLocation_;
 	
 	GameEngineRandom randomGenerator_;
 
@@ -43,6 +42,11 @@ public:
 	LOCATION GetLocation()
 	{
 		return curLocation_;
+	}
+
+	LOCATION GetPrevLocation()
+	{
+		return prevLocation_;
 	}
 
 	bool isDoorLocked_;
