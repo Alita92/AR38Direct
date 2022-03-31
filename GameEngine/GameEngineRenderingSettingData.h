@@ -96,7 +96,7 @@ public:
 
 public:
 	GameEngineSamplerSetting()
-		: Res_(nullptr)
+		: Res_(nullptr), Shader(nullptr), SettingIndex_(0)
 	{
 
 	}
@@ -128,7 +128,7 @@ public:
 
 public:
 	GameEngineTextureSetting()
-		: Res_(nullptr)
+		: Res_(nullptr), Shader(nullptr), SettingIndex_(0)
 	{
 
 	}

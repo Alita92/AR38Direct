@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngineBase/GameEngineRandom.h>
 // 분류 : 
 // 용도 : 
 // 설명 : 
@@ -31,9 +32,12 @@ public:
 	void PlayAwakeScanLine();
 	void PlayAwakeScanLineFast();
 
+	void SetSubRenderer(bool _on);
+
 protected:
 	GameEngineImageRenderer* whiteNoiseRenderer_;
 	GameEngineImageRenderer* scanLineRenderer_;
+	GameEngineImageRenderer* subScanLineRenderer_;
 
 private:
 	void Start() override;
@@ -41,6 +45,17 @@ private:
 
 private:
 	void ImageInit();
-	
+	void ScanLineRandomChange();
+	void RandomImageChange();
+	const float SCANLINE_DOWNSPEED = 40.0f;
+
+	float generalInterTime_;
+	float changeInterTime_;
+	int timeDice_;
+	int changeDice_;
+	bool isFirstSessionOut_;
+	GameEngineRandom randomGenerator_;
+
+	bool isStatic_;
 };
 

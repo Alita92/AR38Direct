@@ -11,7 +11,7 @@
 #include "ENUM.h"
 
 TitleController::TitleController() // default constructer 디폴트 생성자
-	: titleMouse_(nullptr), titleFreddy_(nullptr), titleText_(nullptr), titleNewsPaper_(nullptr), deltaTime_(0.0f), state_(this), alphaChangeTime_(1.0f), fadeScreen_(nullptr)
+	: titleMouse_(nullptr), titleFreddy_(nullptr), titleText_(nullptr), titleNewsPaper_(nullptr), deltaTime_(0.0f), state_(this), alphaChangeTime_(1.0f), fadeScreen_(nullptr), glitchScreen_(nullptr)
 {
 
 }
@@ -109,17 +109,22 @@ void TitleController::UpdateTitleAlphaChange()
 		titleText_->titleScott_->SetAlpha(alphaChangeTime_);
 		titleText_->titleArrow_->SetAlpha(alphaChangeTime_);
 		glitchScreen_->whiteNoiseRenderer_->SetAlpha(alphaChangeTime_/2);
+		glitchScreen_->scanLineRenderer_->SetAlpha(alphaChangeTime_ / 5);
+		glitchScreen_->subScanLineRenderer_->SetAlpha(alphaChangeTime_ / 5);
 	}
 }
 
 StateInfo TitleController::startIdle(StateInfo _state)
 {
 	glitchScreen_->PlayWhiteNoise(true);
+	glitchScreen_->SetWhiteNoiseAlpha(0.4f);
+	glitchScreen_->SetSubRenderer(true);
 	return StateInfo();
 }
 
 StateInfo TitleController::updateIdle(StateInfo _state)
 {
+	glitchScreen_->ScanLineRandomChange();
 
 	{
 		titleText_->titleNewGameCollision_->Collision(
