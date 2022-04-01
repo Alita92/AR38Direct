@@ -50,6 +50,10 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, foxyDeathTimer_(0.0f)
 	, isPirateCoveChecked_(false)
 	, isFoxyRunning_(false)
+	, isAnomalyOn_(false)
+	, anomalyDice_(0)
+	, bonnieDice_(0)
+	, chicaDice_(0)
 {
 
 }
@@ -262,7 +266,7 @@ void GameController::Update(float _Deltatime)
 
 void GameController::CheckOfficeInput()
 {
-	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle"))
+	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle") && true == lDoorRenderer_->IsCurAnimationEnd())
 	{
 		if (false == isLdoorClosed_)
 		{
@@ -280,7 +284,7 @@ void GameController::CheckOfficeInput()
 		}
 	}
 
-	if (true == GameEngineInput::GetInst().Down("RDoor_Toggle"))
+	if (true == GameEngineInput::GetInst().Down("RDoor_Toggle") && true == rDoorRenderer_->IsCurAnimationEnd())
 	{
 		if (false == isRdoorClosed_)
 		{
@@ -384,6 +388,9 @@ StateInfo GameController::updateIdle(StateInfo _state)
 				{
 					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
 					// 문 두들기는 사운드 재생
+					isPirateCoveChecked_ = false;
+					isFoxyRunning_ = false;
+					foxyDeathTimer_ = 0.0f;
 					aiFoxy_->ResetFoxyLevel();
 				}
 			}
@@ -411,6 +418,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 					// 문 두들기는 사운드 재생
 					isPirateCoveChecked_ = false;
 					isFoxyRunning_ = false;
+					foxyDeathTimer_ = 0.0f;
 					aiFoxy_->ResetFoxyLevel();
 				}
 			}
@@ -505,6 +513,12 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	CCTVAnimationRenderer_->Off();
 	CurPlayerState_ = PLAYERSTATUS::CCTV;
 
+	bonnieDice_ = randomGenerator_.RandomInt(0, 1);
+	chicaDice_ = randomGenerator_.RandomInt(0, 1);
+	isAnomalyOn_ = randomGenerator_.RandomBool(25.0f / 100.0f);
+	anomalyDice_ = randomGenerator_.RandomInt(0, 1);
+
+
 	{
 		// 보니, 치카 AI 에게 이제 공격해도 된다는 신호를 줍니다.
 		aiBonnie_->isPlayerStares_ = false;
@@ -557,6 +571,12 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
 		{
+			if (true == isAnomalyOn_)
+			{
+				CCTVRealRenderer_->SetImage("ShowStage_BCGone_Anomaly.png", true);
+				break;
+			}
+
 			CCTVRealRenderer_->SetImage("ShowStage_BCGone.png", true);
 			break;
 		}
@@ -568,6 +588,12 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		else if (LOCATION::SHOWSTAGE == aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("ShowStage_ChicaGone.png", true);
+			break;
+		}
+
+		if (true == isAnomalyOn_)
+		{
+			CCTVRealRenderer_->SetImage("ShowStage_Default_Anomaly.png", true);
 			break;
 		}
 
@@ -587,7 +613,23 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 		if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
 		{
-			CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
+			switch (bonnieDice_)
+			{
+			case 0:
+				CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
+				break;
+			case 1:
+				CCTVRealRenderer_->SetImage("BackStage_Bonnie1.png", true);
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+		
+		if (true == isAnomalyOn_)
+		{
+			CCTVRealRenderer_->SetImage("BackStage_Anomaly.png", true);
 			break;
 		}
 
@@ -605,7 +647,17 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		}
 		else if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
 		{
-			CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
+			switch (bonnieDice_)
+			{
+			case 0:
+				CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
+				break;
+			case 1:
+				CCTVRealRenderer_->SetImage("DiningArea_Bonnie1.png", true);
+				break;
+			default:
+				break;
+			}
 			break;
 		}
 		else if (LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
@@ -613,8 +665,6 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			CCTVRealRenderer_->SetImage("DiningArea_Chica0.png", true);
 			break;
 		}
-
-
 		CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
 	}
 		break;
@@ -658,13 +708,39 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 		if (LOCATION::EASTHALLA == aiChica_->GetLocation())
 		{
-			CCTVRealRenderer_->SetImage("EastHallA_Chica0.png", true);
+			switch (chicaDice_)
+			{
+			case 0:
+				CCTVRealRenderer_->SetImage("EastHallA_Chica0.png", true);
+				break;
+			case 1:
+				CCTVRealRenderer_->SetImage("EastHallA_Chica1.png", true);
+				break;
+			default:
+				break;
+			}
 			break;
 		}
 
+		if (true == isAnomalyOn_)
+		{
+			switch (anomalyDice_)
+			{
+			case 0:
+				CCTVRealRenderer_->SetImage("EastHallA_Anomaly0.png", true);
+				break;
+			case 1:
+				CCTVRealRenderer_->SetImage("EastHallA_Anomaly1.png", true);
+				break;
+			default:
+				break;
+			}
+			break;
+		}
 		CCTVRealRenderer_->SetImage("EastHallA_Default.png", true);
 	}
 		break;
+
 	case LOCATION::EASTHALLB:
 	{
 		CCTVRealRenderer_->On();

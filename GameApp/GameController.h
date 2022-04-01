@@ -99,6 +99,13 @@ private:
 	GameEngineRandom randomGenerator_;
 	int noElecTimerCounter_;
 
+	// 애니매트로닉스 포착 변수
+	int bonnieDice_;
+	int chicaDice_;
+
+	// 심령 효과 변수
+	bool isAnomalyOn_;
+	int anomalyDice_;
 
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);
