@@ -104,11 +104,11 @@ void GameController::InitPlayStatus()
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
-	aiBonnie_->SetAILevel(15);
+	aiBonnie_->SetAILevel(17);
 	aiChica_ = GetLevel()->CreateActor<AIChica>();
-	aiChica_->SetAILevel(15);
+	aiChica_->SetAILevel(17);
 	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
-	aiFoxy_->SetAILevel(15);
+	aiFoxy_->SetAILevel(17);
 //	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
 }
 
