@@ -90,8 +90,8 @@ void UserGame::ResourcesLoad()
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("NoElecBlink"));
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("NoElecFreddy"));
 		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareChica"));
-		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareFreddy"));
-		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("OfficeFan"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("JumpScareFoxy"));
+		GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("RunningFoxy"));
 		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("LdoorClose"));
 		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("LdoorOpen"));
 		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("RdoorClose"));

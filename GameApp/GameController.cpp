@@ -11,6 +11,7 @@
 // Enemy AI
 #include "AIBonnie.h"
 #include "AIChica.h"
+#include "AIFoxy.h"
 
 GameController::GameController() // default constructer 디폴트 생성자
 	: CurPlayerState_(PLAYERSTATUS::OFFICE)
@@ -46,6 +47,9 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, fanRenderer_(nullptr)
 	, CCTVRealRenderer_(nullptr)
 	, CCTVAnimationRenderer_(nullptr)
+	, foxyDeathTimer_(0.0f)
+	, isPirateCoveChecked_(false)
+	, isFoxyRunning_(false)
 {
 
 }
@@ -71,6 +75,7 @@ void GameController::InitState()
 	
 	state_.CreateState("BonnieDeath", &GameController::startBonnieDeath, &GameController::updateBonnieDeath);
 	state_.CreateState("ChicaDeath", &GameController::startChicaDeath, &GameController::updateChicaDeath);
+	state_.CreateState("FoxyDeath", &GameController::startFoxyDeath, &GameController::updateFoxyDeath);
 
 	state_.CreateState("NoElec", &GameController::startNoElec, &GameController::updateNoElec);
 	state_.CreateState("HeisComing", &GameController::startHeisComing, &GameController::updateHeisComing);
@@ -95,10 +100,11 @@ void GameController::InitPlayStatus()
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
-	aiBonnie_->SetAILevel(15);
+	aiBonnie_->SetAILevel(0);
 	aiChica_ = GetLevel()->CreateActor<AIChica>();
-	aiChica_->SetAILevel(15);
-//	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
+	aiChica_->SetAILevel(0);
+	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
+	aiFoxy_->SetAILevel(15);
 //	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
 }
 
@@ -111,6 +117,7 @@ void GameController::InitAnimation()
 
 		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, true);
+		mainRenderer_->CreateAnimationFolder("JumpScareFoxy", "JumpScareFoxy", 0.03f, false);
 
 		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
@@ -153,6 +160,7 @@ void GameController::InitAnimation()
 	{
 		CCTVRealRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVRealRenderer_->CreateAnimationFolder("RunningFoxy", "RunningFoxy", 0.04f, false);
 		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV) });
 		CCTVRealRenderer_->Off();
 	}
@@ -260,12 +268,14 @@ void GameController::CheckOfficeInput()
 		{
 			isLdoorClosed_ = true;
 			aiBonnie_->isDoorLocked_ = true;
+			aiFoxy_->isDoorLocked_ = true;
 			curPowerLevel_ += 1;
 		}
 		else
 		{
 			isLdoorClosed_ = false;
 			aiBonnie_->isDoorLocked_ = false;
+			aiFoxy_->isDoorLocked_ = false;
 			curPowerLevel_ -= 1;
 		}
 	}
@@ -336,6 +346,7 @@ StateInfo GameController::startIdle(StateInfo _state)
 		// AI 에게 인지시켜 주는 겁니다.
 		aiBonnie_->isPlayerStares_ = true;
 		aiChica_->isPlayerStares_ = true;
+		aiFoxy_->isPlayerStares_ = false;
 	}
 
 	CurPlayerState_ = PLAYERSTATUS::OFFICE;
@@ -344,7 +355,6 @@ StateInfo GameController::startIdle(StateInfo _state)
 
 StateInfo GameController::updateIdle(StateInfo _state)
 {
-
 	CheckOfficeInput();
 
 	if (curTime_ == 6)
@@ -357,60 +367,106 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		return "NoElec";
 	}
 
-		if (false == isLdoorClosed_)
+	if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel())
+	{
+		if (true == isPirateCoveChecked_)
 		{
-			lDoorRenderer_->SetChangeAnimation("LdoorOpen");
-		}
-		else if (true == isLdoorClosed_)
-		{
-			lDoorRenderer_->SetChangeAnimation("LdoorClose");
-		}
+			foxyDeathTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
-		if (false == isRdoorClosed_)
-		{
-			rDoorRenderer_->SetChangeAnimation("RdoorOpen");
-		}
-		else if (true == isRdoorClosed_)
-		{
-			rDoorRenderer_->SetChangeAnimation("RdoorClose");
-		}
-
-		if (true == isLdoorLighted_)
-		{
-			if (LOCATION::LOFFICEDOOR == aiBonnie_->GetLocation())
+			if (1.5f <= foxyDeathTimer_)
 			{
-				mainRenderer_->SetImage("OfficeLightL1.png", true);
-			}
-			else
-			{
-				mainRenderer_->SetImage("OfficeLightL0.png", true);
+				if (false == isLdoorClosed_)
+				{
+					foxyDeathTimer_ = 0.0f;
+					return "FoxyDeath";
+				}
+				else
+				{
+					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
+					// 문 두들기는 사운드 재생
+					aiFoxy_->ResetFoxyLevel();
+				}
 			}
 		}
-		else if (false == isLdoorLighted_ && false == isRdoorLighted_)
+		else
 		{
-			mainRenderer_->SetImage("OfficeBasic.png", true);
+			foxyDeathTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+			if (1.0f <= foxyDeathTimer_ && false == isFoxyRunning_)
+			{
+				// 달려오는 사운드 재생
+				isFoxyRunning_ = true;
+			}
+
+			if (2.5f <= foxyDeathTimer_ && true == isFoxyRunning_)
+			{
+				if (false == isLdoorClosed_)
+				{
+					foxyDeathTimer_ = 0.0f;
+					return "FoxyDeath";
+				}
+				else
+				{
+					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
+					// 문 두들기는 사운드 재생
+					aiFoxy_->ResetFoxyLevel();
+				}
+			}
 		}
+	}
 
 
-		if (true == isRdoorLighted_)
+	if (false == isLdoorClosed_)
+	{
+		lDoorRenderer_->SetChangeAnimation("LdoorOpen");
+	}
+	else if (true == isLdoorClosed_)
+	{
+		lDoorRenderer_->SetChangeAnimation("LdoorClose");
+	}
+
+	if (false == isRdoorClosed_)
+	{
+		rDoorRenderer_->SetChangeAnimation("RdoorOpen");
+	}
+	else if (true == isRdoorClosed_)
+	{
+		rDoorRenderer_->SetChangeAnimation("RdoorClose");
+	}
+
+	if (true == isLdoorLighted_)
+	{
+		if (LOCATION::LOFFICEDOOR == aiBonnie_->GetLocation())
 		{
-			if (LOCATION::ROFFICEDOOR == aiChica_->GetLocation())
-			{
-				mainRenderer_->SetImage("OfficeLightR1.png", true);
-			}
-			else
-			{
-				mainRenderer_->SetImage("OfficeLightR0.png", true);
-			}
+			mainRenderer_->SetImage("OfficeLightL1.png", true);
 		}
-		else if (false == isRdoorLighted_ && false == isLdoorLighted_)
+		else
 		{
-			mainRenderer_->SetImage("OfficeBasic.png", true);
+			mainRenderer_->SetImage("OfficeLightL0.png", true);
 		}
+	}
+	else if (false == isLdoorLighted_ && false == isRdoorLighted_)
+	{
+		mainRenderer_->SetImage("OfficeBasic.png", true);
+	}
+
+	if (true == isRdoorLighted_)
+	{
+		if (LOCATION::ROFFICEDOOR == aiChica_->GetLocation())
+		{
+			mainRenderer_->SetImage("OfficeLightR1.png", true);
+		}
+		else
+		{
+			mainRenderer_->SetImage("OfficeLightR0.png", true);
+		}
+	}
+	else if (false == isRdoorLighted_ && false == isLdoorLighted_)
+	{
+		mainRenderer_->SetImage("OfficeBasic.png", true);
+	}
 	
-
 	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
-
 
 	return StateInfo();
 }
@@ -451,6 +507,9 @@ StateInfo GameController::startCCTV(StateInfo _state)
 		// 보니, 치카 AI 에게 이제 공격해도 된다는 신호를 줍니다.
 		aiBonnie_->isPlayerStares_ = false;
 		aiChica_->isPlayerStares_ = false;
+
+		// 폭시는 접근 못 한다고 신호 줍니다.
+		aiFoxy_->isPlayerStares_ = true;
 	}
 
 	UIController_->SwitchUIState(PLAYERSTATUS::CCTV);
@@ -483,9 +542,6 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		// 시간, 전기 하나라도 조건 충족 시 강제로 CCTV 모드가 해제됩니다.
 		// 이후는 Idle 에서 처리해줍니다.
-		//fanRenderer_->Off();
-		//mainRenderer_->SetImage("NoElecStatic.png", true);
-		//CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 		return "NoElec";
 	}
 
@@ -563,7 +619,35 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::PIRATECOVE:
 	{
 		CCTVRealRenderer_->On();
-		CCTVRealRenderer_->SetImage("PirateCove_Lv1.png", true);
+
+		FOXYLEVEL curFoxyLevel = aiFoxy_->GetFoxyLevel();
+
+		switch (curFoxyLevel)
+		{
+		case FOXYLEVEL::LV1:
+			CCTVRealRenderer_->SetImage("PirateCove_Lv1.png", true);
+			break;
+		case FOXYLEVEL::LV2:
+			CCTVRealRenderer_->SetImage("PirateCove_Lv2.png", true);
+			break;
+		case FOXYLEVEL::LV3:
+			CCTVRealRenderer_->SetImage("PirateCove_Lv3.png", true);
+			break;
+		case FOXYLEVEL::LV4:
+		{
+			isPirateCoveChecked_ = true;
+			if (true == randomGenerator_.RandomBool(5.0f / 100.0f))
+			{
+				CCTVRealRenderer_->SetImage("PirateCove_Lv4_Anomaly.png", true);
+			}
+			CCTVRealRenderer_->SetImage("PirateCove_Lv4.png", true);
+		}
+			break;
+		case FOXYLEVEL::MAX:
+			break;
+		default:
+			break;
+		}
 	}
 		break;
 	case LOCATION::EASTHALLA:
@@ -595,6 +679,13 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	case LOCATION::WESTHALLA:
 	{
 		CCTVRealRenderer_->On();
+
+		if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && false == isFoxyRunning_)
+		{
+			isPirateCoveChecked_ = true;
+			isFoxyRunning_ = true;
+			CCTVRealRenderer_->SetChangeAnimation("RunningFoxy");
+		}
 
 		if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
 		{
@@ -689,8 +780,9 @@ StateInfo GameController::startCCTVClose(StateInfo _state)
 		fanRenderer_->On();
 	}
 
-	aiBonnie_->isPlayerStares_ = false;
-
+	aiBonnie_->isPlayerStares_ = true;
+	aiChica_->isPlayerStares_ = true;
+	aiFoxy_->isPlayerStares_ = false;
 
 	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	return StateInfo();
@@ -768,6 +860,32 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 	{
 		CCTVAnimationRenderer_->Off();
 	}
+
+	if (0.88f <= deathSceneTimer_)
+	{
+		GetLevel()->RequestLevelChange("GameOver");
+	}
+
+	return StateInfo();
+}
+
+StateInfo GameController::startFoxyDeath(StateInfo _state)
+{
+	glitchScreen_->PlayWhiteNoise(false);
+	CCTVRealRenderer_->Off();
+	CCTVAnimationRenderer_->Off();
+	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
+	mainRenderer_->SetChangeAnimation("JumpScareFoxy", true);
+	lDoorRenderer_->Off();
+	rDoorRenderer_->Off();
+
+	UIController_->Off();
+	return StateInfo();
+}
+
+StateInfo GameController::updateFoxyDeath(StateInfo _state)
+{
+	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (0.88f <= deathSceneTimer_)
 	{

@@ -83,6 +83,11 @@ private:
 	float playDeadTimer_;
 	float deathSceneTimer_;
 
+	// 폭시 전용 델타타임
+	float foxyDeathTimer_;
+	bool isPirateCoveChecked_;
+	bool isFoxyRunning_;
+
 	// 문 변수
 	bool isLdoorClosed_;
 	bool isRdoorClosed_;
@@ -170,6 +175,9 @@ private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을
 
 	StateInfo startChicaDeath(StateInfo _state);
 	StateInfo updateChicaDeath(StateInfo _state);
+
+	StateInfo startFoxyDeath(StateInfo _state);
+	StateInfo updateFoxyDeath(StateInfo _state);
 
 	StateInfo startNoElecDeath(StateInfo _state);
 	StateInfo updateNoElecDeath(StateInfo _state);

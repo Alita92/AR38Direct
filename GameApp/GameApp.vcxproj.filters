@@ -98,6 +98,9 @@
     <ClCompile Include="AIChica.cpp">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
+    <ClCompile Include="AIFoxy.cpp">
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -265,6 +268,9 @@
       <Filter>Actor\03GameOver</Filter>
     </ClInclude>
     <ClInclude Include="AIChica.h">
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AIFoxy.h">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
   </ItemGroup>

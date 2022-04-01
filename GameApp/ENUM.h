@@ -27,7 +27,6 @@ enum class RenderOrder
 	BACKGROUND2,
 
 	MAX = 999
-
 };
 
 enum class UIRenderOrder
@@ -37,8 +36,6 @@ enum class UIRenderOrder
 	UI2,
 	UI1,
 	UI0,
-
-
 
 	FADE2,
 	FADE1,
@@ -71,6 +68,15 @@ enum class PLAYERSTATUS
 {
 	OFFICE,
 	CCTV,
+	MAX
+};
+
+enum class FOXYLEVEL
+{
+	LV1,
+	LV2,
+	LV3,
+	LV4,
 	MAX
 };
 
