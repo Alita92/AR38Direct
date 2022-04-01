@@ -100,9 +100,9 @@ void GameController::InitPlayStatus()
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
-	aiBonnie_->SetAILevel(0);
+	aiBonnie_->SetAILevel(15);
 	aiChica_ = GetLevel()->CreateActor<AIChica>();
-	aiChica_->SetAILevel(0);
+	aiChica_->SetAILevel(15);
 	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
 	aiFoxy_->SetAILevel(15);
 //	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
@@ -409,6 +409,8 @@ StateInfo GameController::updateIdle(StateInfo _state)
 				{
 					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
 					// 문 두들기는 사운드 재생
+					isPirateCoveChecked_ = false;
+					isFoxyRunning_ = false;
 					aiFoxy_->ResetFoxyLevel();
 				}
 			}
@@ -682,9 +684,9 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 		if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && false == isFoxyRunning_)
 		{
-			isPirateCoveChecked_ = true;
 			isFoxyRunning_ = true;
 			CCTVRealRenderer_->SetChangeAnimation("RunningFoxy");
+			break;
 		}
 
 		if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
