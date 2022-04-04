@@ -6,7 +6,14 @@
 // 그것은 플레이어를 공격하기 위해 시스템상 그렇게 되어있는 것 뿐이다. 자세히 말하자면, 공격을 한 번 더 시도하는 것이다.
 
 AIFreddy::AIFreddy() // default constructer 디폴트 생성자
-	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::SHOWSTAGE), prevLocation_(LOCATION::SHOWSTAGE), state_(this), isDoorLocked_(false), isPlayerStares_(true)
+	:AILevel_(0)
+	, deltatime_(0.0f)
+	, curLocation_(LOCATION::SHOWSTAGE)
+	, prevLocation_(LOCATION::SHOWSTAGE)
+	, state_(this)
+	, isDoorLocked_(false)
+	, isPlayerStares_(true)
+	, isBonnieChica0ut_(false)
 {
 
 }
@@ -21,6 +28,7 @@ void AIFreddy::InitState()
 	state_.CreateState("ShowStage", &AIFreddy::startShowStage, &AIFreddy::updateShowStage);
 	state_.CreateState("RestRooms", &AIFreddy::startRestRooms, &AIFreddy::updateRestRooms);
 	state_.CreateState("DiningArea", &AIFreddy::startDiningArea, &AIFreddy::updateDiningArea);
+	state_.CreateState("Kitchen", &AIFreddy::startKitchen, &AIFreddy::updateKitchen);
 	state_.CreateState("EastHallA", &AIFreddy::startEastHallA, &AIFreddy::updateEastHallA);
 	state_.CreateState("EastHallB", &AIFreddy::startEastHallB, &AIFreddy::updateEastHallB);
 	state_.CreateState("Office", &AIFreddy::startOffice, &AIFreddy::updateOffice);
@@ -56,11 +64,20 @@ StateInfo AIFreddy::startShowStage(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::SHOWSTAGE;
+
+	isBonnieChica0ut_ = false;
+
 	return StateInfo();
 }
 
 StateInfo AIFreddy::updateShowStage(StateInfo _state)
 {
+
+	if (false == isBonnieChica0ut_)
+	{
+		return StateInfo();
+	}
+
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
@@ -98,23 +115,8 @@ StateInfo AIFreddy::updateDiningArea(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
-			switch (randomGenerator_.RandomInt(0, 1))
-			{
-			case 0:
-			{
 				prevLocation_ = curLocation_;
 				return "RestRooms";
-			}
-			break;
-			case 1:
-			{
-				prevLocation_ = curLocation_;
-				return "EastHallA";
-			}
-			break;
-			default:
-				break;
-			}
 		}
 	}
 
@@ -137,36 +139,38 @@ StateInfo AIFreddy::updateRestRooms(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
-		{
-			switch (randomGenerator_.RandomInt(0, 2))
-			{
-			case 0:
-			{
-				prevLocation_ = curLocation_;
-				return "Kitchen";
-			}
-			break;
-			case 1:
-			{
-				prevLocation_ = curLocation_;
-				return "EastHallA";
-			}
-			break;
-			case 2:
-			{
-				prevLocation_ = curLocation_;
-				return "DiningArea";
-			}
-			default:
-				break;
-			}
-		}
+		prevLocation_ = curLocation_;
+		return "Kitchen";
 	}
 
 	return StateInfo();
 }
 
+
+StateInfo AIFreddy::startKitchen(StateInfo _state)
+{
+	deltatime_ = 0.0f;
+	curLocation_ = LOCATION::KITCHEN;
+
+	return StateInfo();
+}
+
+StateInfo AIFreddy::updateKitchen(StateInfo _state)
+{
+	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
+	{
+		deltatime_ = 0.0f;
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		{
+			prevLocation_ = curLocation_;
+			return "EastHallA";
+		}
+	}
+
+	return StateInfo();
+}
 
 StateInfo AIFreddy::startEastHallA(StateInfo _state)
 {
@@ -186,36 +190,8 @@ StateInfo AIFreddy::updateEastHallA(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
-			switch (randomGenerator_.RandomInt(0, 4))
-			{
-			case 0:
-			{
-				prevLocation_ = curLocation_;
-				return "DiningArea";
-			}
-			break;
-			case 1:
-			case 2:
-			{
-				prevLocation_ = curLocation_;
-				return "EastHallB";
-			}
-			break;
-			case 3:
-			{
-				prevLocation_ = curLocation_;
-				return "RestRooms";
-			}
-			break;
-			case 4:
-			{
-				prevLocation_ = curLocation_;
-				return "Kitchen";
-			}
-			break;
-			default:
-				break;
-			}
+			prevLocation_ = curLocation_;
+			return "EastHallB";
 		}
 	}
 
@@ -240,30 +216,8 @@ StateInfo AIFreddy::updateEastHallB(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
-			switch (randomGenerator_.RandomInt(0, 3))
-			{
-			case 0:
-			case 1:
-			{
 				prevLocation_ = curLocation_;
-				return "OfficeDoor";
-			}
-			break;
-			case 2:
-			{
-				prevLocation_ = curLocation_;
-				return "EastHallA";
-			}
-			break;
-			case 3:
-			{
-				prevLocation_ = curLocation_;
-				return "Kitchen";
-			}
-			break;
-			default:
-				break;
-			}
+				return "Office";
 		}
 	}
 

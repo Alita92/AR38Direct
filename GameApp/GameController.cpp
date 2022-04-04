@@ -12,6 +12,7 @@
 #include "AIBonnie.h"
 #include "AIChica.h"
 #include "AIFoxy.h"
+#include "AIFreddy.h"
 
 GameController::GameController() // default constructer 디폴트 생성자
 	: CurPlayerState_(PLAYERSTATUS::OFFICE)
@@ -104,12 +105,13 @@ void GameController::InitPlayStatus()
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
-	aiBonnie_->SetAILevel(17);
+	aiBonnie_->SetAILevel(2);
 	aiChica_ = GetLevel()->CreateActor<AIChica>();
-	aiChica_->SetAILevel(17);
+	aiChica_->SetAILevel(4);
 	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
-	aiFoxy_->SetAILevel(17);
-//	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
+	aiFoxy_->SetAILevel(6);
+	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
+	aiFreddy_->SetAILevel(2);
 }
 
 void GameController::InitAnimation()
@@ -122,6 +124,7 @@ void GameController::InitAnimation()
 		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("JumpScareFoxy", "JumpScareFoxy", 0.03f, false);
+		mainRenderer_->CreateAnimationFolder("JumpScareFreddy", "JumpScareFreddy", 0.03f, false);
 
 		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
 		mainRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
@@ -290,6 +293,7 @@ void GameController::CheckOfficeInput()
 		{
 			isRdoorClosed_ = true;
 			aiChica_->isDoorLocked_ = true;
+			aiFreddy_->isDoorLocked_ = true;
 			curPowerLevel_ += 1;
 
 		}
@@ -297,6 +301,7 @@ void GameController::CheckOfficeInput()
 		{
 			isRdoorClosed_ = false;
 			aiChica_->isDoorLocked_ = false;
+			aiFreddy_->isDoorLocked_ = false;
 			curPowerLevel_ -= 1;
 		}
 	}
@@ -351,6 +356,7 @@ StateInfo GameController::startIdle(StateInfo _state)
 		aiBonnie_->isPlayerStares_ = true;
 		aiChica_->isPlayerStares_ = true;
 		aiFoxy_->isPlayerStares_ = false;
+
 	}
 
 	CurPlayerState_ = PLAYERSTATUS::OFFICE;
@@ -369,6 +375,11 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	if (curPowerRate_ <= 0.0f)
 	{
 		return "NoElec";
+	}
+
+	if (LOCATION::OFFICE == aiFreddy_->GetLocation())
+	{
+		return "FreddyDeath";
 	}
 
 	if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel())
@@ -516,7 +527,7 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	bonnieDice_ = randomGenerator_.RandomInt(0, 1);
 	chicaDice_ = randomGenerator_.RandomInt(0, 1);
 	isAnomalyOn_ = randomGenerator_.RandomBool(25.0f / 100.0f);
-	anomalyDice_ = randomGenerator_.RandomInt(0, 1);
+	anomalyDice_ = randomGenerator_.RandomInt(0, 3);
 
 
 	{
@@ -569,15 +580,30 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		CCTVRealRenderer_->On();
 
-		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
+		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE != aiFreddy_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("ShowStage_AllGone.png", true);
+			break;
+		}
+
+		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE == aiFreddy_->GetLocation())
 		{
 			if (true == isAnomalyOn_)
 			{
 				CCTVRealRenderer_->SetImage("ShowStage_BCGone_Anomaly.png", true);
+				if (false == aiFreddy_->isBonnieChica0ut_)
+				{
+					aiFreddy_->isBonnieChica0ut_ = true;
+				}
+
 				break;
 			}
 
 			CCTVRealRenderer_->SetImage("ShowStage_BCGone.png", true);
+			if (false == aiFreddy_->isBonnieChica0ut_)
+			{
+				aiFreddy_->isBonnieChica0ut_ = true;
+			}
 			break;
 		}
 		else if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE == aiChica_->GetLocation())
@@ -665,6 +691,12 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			CCTVRealRenderer_->SetImage("DiningArea_Chica0.png", true);
 			break;
 		}
+		else if (LOCATION::DININGAREA == aiFreddy_->GetLocation() && LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("DiningArea_Freddy.png", true);
+			break;
+		}
+
 		CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
 	}
 		break;
@@ -721,17 +753,25 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			}
 			break;
 		}
+		else if (LOCATION::EASTHALLA != aiChica_->GetLocation() && LOCATION::EASTHALLA == aiFreddy_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("EastHallA_Freddy.png", true);
+			break;
+		}
 
 		if (true == isAnomalyOn_)
 		{
 			switch (anomalyDice_)
 			{
 			case 0:
+			case 1:
 				CCTVRealRenderer_->SetImage("EastHallA_Anomaly0.png", true);
 				break;
-			case 1:
+			case 2:
+			case 3:
 				CCTVRealRenderer_->SetImage("EastHallA_Anomaly1.png", true);
 				break;
+
 			default:
 				break;
 			}
@@ -745,12 +785,39 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		CCTVRealRenderer_->On();
 
-		if (LOCATION::EASTHALLB == aiChica_->GetLocation())
+		if (LOCATION::EASTHALLB == aiFreddy_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("EastHallB_Freddy.png", true);
+			break;	
+		}
+		else if (LOCATION::EASTHALLB == aiChica_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("EastHallB_Chica0.png", true);
 			break;
 		}
 
+
+		if (true == isAnomalyOn_)
+		{
+			switch (anomalyDice_)
+			{
+			case 0:
+				CCTVRealRenderer_->SetImage("EastHallB_Anomaly0.png", true);
+				break;
+			case 1:
+				CCTVRealRenderer_->SetImage("EastHallB_Anomaly1.png", true);
+				break;
+			case 2:
+				CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
+				break;
+			case 3:
+				CCTVRealRenderer_->SetImage("EastHallB_Anomaly3.png", true);
+				break;
+			default:
+				break;
+			}
+			break;
+		}
 		CCTVRealRenderer_->SetImage("EastHallB_Default.png", true);
 	}
 		break;
@@ -962,6 +1029,33 @@ StateInfo GameController::startFoxyDeath(StateInfo _state)
 }
 
 StateInfo GameController::updateFoxyDeath(StateInfo _state)
+{
+	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (0.88f <= deathSceneTimer_)
+	{
+		GetLevel()->RequestLevelChange("GameOver");
+	}
+
+	return StateInfo();
+}
+
+StateInfo GameController::startFreddyDeath(StateInfo _state)
+{
+	glitchScreen_->PlayWhiteNoise(false);
+	CCTVRealRenderer_->Off();
+	CCTVAnimationRenderer_->Off();
+	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
+	mainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
+	lDoorRenderer_->Off();
+	rDoorRenderer_->Off();
+
+	UIController_->Off();
+
+	return StateInfo();
+}
+
+StateInfo GameController::updateFreddyDeath(StateInfo _state)
 {
 	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 

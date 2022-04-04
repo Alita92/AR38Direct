@@ -30,6 +30,7 @@ private:
 	float deltatime_;
 	LOCATION curLocation_;
 	LOCATION prevLocation_;
+	bool isBonnieChica0ut_;
 
 	GameEngineRandom randomGenerator_;
 
@@ -63,6 +64,9 @@ private:
 
 	StateInfo startRestRooms(StateInfo _state);
 	StateInfo updateRestRooms(StateInfo _state);
+
+	StateInfo startKitchen(StateInfo _state);
+	StateInfo updateKitchen(StateInfo _state);
 
 	StateInfo startEastHallA(StateInfo _state);
 	StateInfo updateEastHallA(StateInfo _state);
