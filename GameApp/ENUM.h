@@ -16,7 +16,8 @@ enum class RenderOrder
 	FILTER0,
 	FILTER1,
 	FILTER2,
-	CCTV,
+	CCTV1,
+	CCTV0,
 
 	OBJECT0,
 	OBJECT1,

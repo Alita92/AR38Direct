@@ -134,9 +134,13 @@ protected:
 	GameEngineImageRenderer* mainRenderer_;
 	GameEngineImageRenderer* CCTVAnimationRenderer_;
 	GameEngineImageRenderer* CCTVRealRenderer_;
+
 	GameEngineImageRenderer* fanRenderer_;
 	GameEngineImageRenderer* lDoorRenderer_;
 	GameEngineImageRenderer* rDoorRenderer_;
+
+	// 주의!!! 하단 렌더러는 폭시 복도 애니메이션 전용!!!
+	GameEngineImageRenderer* foxyRunningRenderer_;
 
 
 private:

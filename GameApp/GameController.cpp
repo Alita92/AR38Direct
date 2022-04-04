@@ -48,6 +48,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, fanRenderer_(nullptr)
 	, CCTVRealRenderer_(nullptr)
 	, CCTVAnimationRenderer_(nullptr)
+	, foxyRunningRenderer_(nullptr)
 	, foxyDeathTimer_(0.0f)
 	, isPirateCoveChecked_(false)
 	, isFoxyRunning_(false)
@@ -167,9 +168,17 @@ void GameController::InitAnimation()
 	{
 		CCTVRealRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
-		CCTVRealRenderer_->CreateAnimationFolder("RunningFoxy", "RunningFoxy", 0.04f, false);
-		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV) });
+
+		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV0) });
 		CCTVRealRenderer_->Off();
+	}
+
+	{
+		foxyRunningRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		foxyRunningRenderer_->SetImage("WestHallA_Default.png", true);
+		foxyRunningRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV1) });
+		foxyRunningRenderer_->CreateAnimationFolder("RunningFoxy", "RunningFoxy", 0.04f, false);
+		foxyRunningRenderer_->Off();
 	}
 }
 
@@ -919,12 +928,14 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	// 디버그 임시
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
 	{
-		CCTVRealRenderer_->SetChangeAnimation("RunningFoxy");
+		CCTVRealRenderer_->Off();
+		foxyRunningRenderer_->On();
+		foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
 	}
 	if (true == GameEngineInput::GetInst().Down("ESC"))
 	{
-		CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
-
+		foxyRunningRenderer_->Off();
+		CCTVRealRenderer_->On();
 	}
 
 
