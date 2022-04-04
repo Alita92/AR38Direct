@@ -843,7 +843,6 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		}
 		else if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && true == isFoxyRunning_)
 		{
-
 			break;
 		}
 		
