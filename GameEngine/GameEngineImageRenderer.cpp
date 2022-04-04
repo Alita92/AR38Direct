@@ -138,6 +138,7 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 GameEngineImageRenderer::GameEngineImageRenderer()
 	: CutData(0, 0, 1, 1)
 	, CurAnimation_(nullptr)
+	//, isAnimationImageSwapped_(false)
 {
 }
 
@@ -188,13 +189,10 @@ void GameEngineImageRenderer::SetIndex(const int Index)
 
 }
 
-void  GameEngineImageRenderer::SetImageNull()
-{
-	CurTexture = nullptr;
-}
 
 void GameEngineImageRenderer::SetImage(const std::string& _ImageName, bool _originalScale)
 {
+	//isAnimationImageSwapped_ = true;
 	CurTexture = GameEngineTextureManager::GetInst().Find(_ImageName);
 
 	if (nullptr == CurTexture)
@@ -284,6 +282,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 
 void GameEngineImageRenderer::SetChangeAnimation(const std::string& _Name, bool _IsForce /*= false*/)
 {
+	//isAnimationImageSwapped_ = false;
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 
 	if (AllAnimations_.end() == FindIter)
@@ -314,7 +313,11 @@ void GameEngineImageRenderer::Update(float _DeltaTime)
 		return;
 	}
 
-	CurAnimation_->Update(_DeltaTime);
+	//if (false == isAnimationImageSwapped_)
+	{
+		CurAnimation_->Update(_DeltaTime);
+	}
+
 }
 
 void GameEngineImageRenderer::SetStartCallBack(const std::string& _Name, std::function<void()> _CallBack)
