@@ -419,13 +419,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		{
 			foxyDeathTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
-			//if (1.0f <= foxyDeathTimer_ && false == isFoxyRunning_)
-			//{
-			//	// 달려오는 사운드 재생
-			//	isFoxyRunning_ = true;
-			//}
-
-			if (2.5f <= foxyDeathTimer_ /* && true == isFoxyRunning_ */)
+			if (2.0f <= foxyDeathTimer_ )
 			{
 				if (false == isLdoorClosed_)
 				{
@@ -437,9 +431,9 @@ StateInfo GameController::updateIdle(StateInfo _state)
 					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
 					// 문 두들기는 사운드 재생
 					isPirateCoveChecked_ = false;
-					//isFoxyRunning_ = false;
 					foxyDeathTimer_ = 0.0f;
 					aiFoxy_->ResetFoxyLevel();
+					isFoxyRunning_ = false;
 				}
 			}
 		}
@@ -587,6 +581,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		// 화면을 바꿔 보여줍니다.
 	case LOCATION::SHOWSTAGE:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE != aiFreddy_->GetLocation())
@@ -637,6 +632,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::KITCHEN:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 	
 		CCTVRealRenderer_->SetImage("Kitchen.png", true);
@@ -644,6 +640,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::BACKSTAGE: 
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
@@ -673,6 +670,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::DININGAREA:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
@@ -711,6 +709,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::PIRATECOVE:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		FOXYLEVEL curFoxyLevel = aiFoxy_->GetFoxyLevel();
@@ -728,7 +727,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			break;
 		case FOXYLEVEL::LV4:
 		{
-			isPirateCoveChecked_ = true;
+			//isPirateCoveChecked_ = true;
 			if (true == randomGenerator_.RandomBool(5.0f / 100.0f))
 			{
 				CCTVRealRenderer_->SetImage("PirateCove_Lv4_Anomaly.png", true);
@@ -745,6 +744,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::EASTHALLA:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		if (LOCATION::EASTHALLA == aiChica_->GetLocation())
@@ -792,6 +792,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 	case LOCATION::EASTHALLB:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		if (LOCATION::EASTHALLB == aiFreddy_->GetLocation())
@@ -832,28 +833,38 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::WESTHALLA:
 	{
-		CCTVRealRenderer_->On();
-
-		if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() /* && false == isFoxyRunning_*/)
+		if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && false == isFoxyRunning_)
 		{
-			//isFoxyRunning_ = true;
-			CCTVRealRenderer_->SetChangeAnimation("RunningFoxy");
+			isFoxyRunning_ = true;
+			foxyRunningRenderer_->On();
+			foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
+			CCTVRealRenderer_->Off();
 			break;
 		}
-
-		if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
+		else if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && true == isFoxyRunning_)
 		{
-			CCTVRealRenderer_->SetImage("WestHallA_Bonnie.png", true);
+
 			break;
 		}
+		
+			CCTVRealRenderer_->On();
+			foxyRunningRenderer_->Off();
 
-		CCTVRealRenderer_->SetImage("WestHallA_Default.png", true);
+			if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("WestHallA_Bonnie.png", true);
+				break;
+			}
+
+			CCTVRealRenderer_->SetImage("WestHallA_Default.png", true);
+		
 	}
 		break;
 	case LOCATION::WESTHALLB:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
-		
+
 		if (LOCATION::WESTHALLB == aiBonnie_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("WestHallB_Bonnie0.png", true);
@@ -865,6 +876,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::RESTROOMS:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		if (LOCATION::RESTROOMS == aiChica_->GetLocation())
@@ -883,6 +895,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 	case LOCATION::SUPPLYCLOSET:
 	{
+		foxyRunningRenderer_->Off();
 		CCTVRealRenderer_->On();
 
 		if (LOCATION::SUPPLYCLOSET == aiBonnie_->GetLocation())
@@ -948,6 +961,7 @@ StateInfo GameController::startCCTVClose(StateInfo _state)
 	glitchScreen_->PlayWhiteNoise(false);
 	curPowerLevel_ -= 1;
 	CCTVRealRenderer_->Off();
+	foxyRunningRenderer_->Off();
 	CCTVAnimationRenderer_->On();
 	if (curPowerRate_ != 0.0f)
 	{
@@ -1045,6 +1059,7 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 
 StateInfo GameController::startFoxyDeath(StateInfo _state)
 {
+	isFoxyRunning_ = false;
 	glitchScreen_->PlayWhiteNoise(false);
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->Off();
