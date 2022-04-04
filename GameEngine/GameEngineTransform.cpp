@@ -263,7 +263,15 @@ void GameEngineTransform::DetachChildTransform(GameEngineTransform* _Transform)
 			continue;
 		}
 
+		// vector는 이걸 해주지 않으면 터진다.
+		// 배열에서 End를 가져오기 때문에
+		// 리스트는 노드니까 노드의 주소값을 기반으로 end가 설정됩니다.
+		// map도 마찬가지고
+		// vector는
+		//             e
+		// [][][][][][]
 		StartIter = Childs_.erase(StartIter);
+		EndIter = Childs_.end();
 	}
 
 }
