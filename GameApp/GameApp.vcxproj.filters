@@ -101,6 +101,9 @@
     <ClCompile Include="AIFoxy.cpp">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClCompile>
+    <ClCompile Include="AIFreddy.cpp">
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -271,6 +274,9 @@
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
     <ClInclude Include="AIFoxy.h">
+      <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
+    </ClInclude>
+    <ClInclude Include="AIFreddy.h">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
     </ClInclude>
   </ItemGroup>
