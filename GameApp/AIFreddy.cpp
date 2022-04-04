@@ -216,8 +216,12 @@ StateInfo AIFreddy::updateEastHallB(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
+			if (false == isDoorLocked_)
+			{
 				prevLocation_ = curLocation_;
 				return "Office";
+			}
+	
 		}
 	}
 

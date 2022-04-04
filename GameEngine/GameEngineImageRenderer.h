@@ -55,7 +55,6 @@ public:
 	GameEngineImageRenderer& operator=(const GameEngineImageRenderer& _Other) = delete;
 	GameEngineImageRenderer& operator=(GameEngineImageRenderer&& _Other) noexcept = delete;
 
-	void SetImageNull();
 	void SetImage(const std::string& _ImageName, bool _originalScale = false);
 	void SetIndex(const int Index);
 
@@ -144,6 +143,7 @@ private:
 	float4 CutData;
 	GameEngineTexture* CurTexture;
 	void Start() override;
+	//bool isAnimationImageSwapped_;
 
 };
 

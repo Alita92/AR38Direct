@@ -105,13 +105,13 @@ void GameController::InitPlayStatus()
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
-	aiBonnie_->SetAILevel(2);
+	aiBonnie_->SetAILevel(4);
 	aiChica_ = GetLevel()->CreateActor<AIChica>();
 	aiChica_->SetAILevel(4);
 	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
-	aiFoxy_->SetAILevel(6);
+	aiFoxy_->SetAILevel(20);
 	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
-	aiFreddy_->SetAILevel(2);
+	aiFreddy_->SetAILevel(20);
 }
 
 void GameController::InitAnimation()
@@ -410,13 +410,13 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		{
 			foxyDeathTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
-			if (1.0f <= foxyDeathTimer_ && false == isFoxyRunning_)
-			{
-				// 달려오는 사운드 재생
-				isFoxyRunning_ = true;
-			}
+			//if (1.0f <= foxyDeathTimer_ && false == isFoxyRunning_)
+			//{
+			//	// 달려오는 사운드 재생
+			//	isFoxyRunning_ = true;
+			//}
 
-			if (2.5f <= foxyDeathTimer_ && true == isFoxyRunning_)
+			if (2.5f <= foxyDeathTimer_ /* && true == isFoxyRunning_ */)
 			{
 				if (false == isLdoorClosed_)
 				{
@@ -428,7 +428,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
 					// 문 두들기는 사운드 재생
 					isPirateCoveChecked_ = false;
-					isFoxyRunning_ = false;
+					//isFoxyRunning_ = false;
 					foxyDeathTimer_ = 0.0f;
 					aiFoxy_->ResetFoxyLevel();
 				}
@@ -825,9 +825,9 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	{
 		CCTVRealRenderer_->On();
 
-		if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && false == isFoxyRunning_)
+		if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() /* && false == isFoxyRunning_*/)
 		{
-			isFoxyRunning_ = true;
+			//isFoxyRunning_ = true;
 			CCTVRealRenderer_->SetChangeAnimation("RunningFoxy");
 			break;
 		}
@@ -861,6 +861,11 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		if (LOCATION::RESTROOMS == aiChica_->GetLocation())
 		{
 			CCTVRealRenderer_->SetImage("RestRooms_Chica0.png", true);
+			break;
+		}
+		else if (LOCATION::RESTROOMS == aiFreddy_->GetLocation())
+		{
+			CCTVRealRenderer_->SetImage("RestRooms_Freddy.png", true);
 			break;
 		}
 
@@ -909,6 +914,19 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		UIController_->cam4ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam4A, this, std::placeholders::_1));
 		UIController_->cam4BCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam4B, this, std::placeholders::_1));
 	}
+
+
+	// 디버그 임시
+	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
+	{
+		CCTVRealRenderer_->SetChangeAnimation("RunningFoxy");
+	}
+	if (true == GameEngineInput::GetInst().Down("ESC"))
+	{
+		CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
+
+	}
+
 
 	return StateInfo();
 }
@@ -1106,8 +1124,6 @@ StateInfo GameController::updateNoElec(StateInfo _state)
 // 이후 2초마다 1 / 5 확률로 프레디가 점프스케어
 
 	noElecDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
-
-
 
 	if (4 == noElecTimerCounter_)
 	{
