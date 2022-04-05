@@ -73,9 +73,9 @@ StateInfo AIFreddy::startShowStage(StateInfo _state)
 StateInfo AIFreddy::updateShowStage(StateInfo _state)
 {
 
-	if (false == isBonnieChica0ut_)
+	//if (false == isBonnieChica0ut_)
 	{
-		return StateInfo();
+	//	return StateInfo();
 	}
 
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();

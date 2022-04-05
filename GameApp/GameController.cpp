@@ -50,6 +50,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, CCTVAnimationRenderer_(nullptr)
 	, foxyRunningRenderer_(nullptr)
 	, foxyDeathTimer_(0.0f)
+	, freddyDeathTimer_(0.0f)
 	, isPirateCoveChecked_(false)
 	, isFoxyRunning_(false)
 	, isAnomalyOn_(false)
@@ -82,6 +83,7 @@ void GameController::InitState()
 	state_.CreateState("BonnieDeath", &GameController::startBonnieDeath, &GameController::updateBonnieDeath);
 	state_.CreateState("ChicaDeath", &GameController::startChicaDeath, &GameController::updateChicaDeath);
 	state_.CreateState("FoxyDeath", &GameController::startFoxyDeath, &GameController::updateFoxyDeath);
+	state_.CreateState("FreddyDeath", &GameController::startFreddyDeath, &GameController::updateFreddyDeath);
 
 	state_.CreateState("NoElec", &GameController::startNoElec, &GameController::updateNoElec);
 	state_.CreateState("HeisComing", &GameController::startHeisComing, &GameController::updateHeisComing);
@@ -106,11 +108,11 @@ void GameController::InitPlayStatus()
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
-	aiBonnie_->SetAILevel(4);
+	aiBonnie_->SetAILevel(0);
 	aiChica_ = GetLevel()->CreateActor<AIChica>();
-	aiChica_->SetAILevel(4);
+	aiChica_->SetAILevel(0);
 	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
-	aiFoxy_->SetAILevel(20);
+	aiFoxy_->SetAILevel(0);
 	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
 	aiFreddy_->SetAILevel(20);
 }
@@ -388,7 +390,13 @@ StateInfo GameController::updateIdle(StateInfo _state)
 
 	if (LOCATION::OFFICE == aiFreddy_->GetLocation())
 	{
-		return "FreddyDeath";
+		freddyDeathTimer_ += GameEngineTime::GetInst().GetDeltaTime();
+		
+		if (3.0f <= freddyDeathTimer_)
+		{
+			return "FreddyDeath";
+		}
+
 	}
 
 	if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel())

@@ -83,10 +83,14 @@ private:
 	float playDeadTimer_;
 	float deathSceneTimer_;
 
-	// 폭시 전용 델타타임
+	// 폭시 전용 변수들
 	float foxyDeathTimer_;
 	bool isPirateCoveChecked_;
 	bool isFoxyRunning_;
+
+	// 프레디 전용 변수들
+	float freddyDeathTimer_;
+
 
 	// 문 변수
 	bool isLdoorClosed_;
