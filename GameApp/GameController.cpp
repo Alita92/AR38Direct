@@ -2,6 +2,7 @@
 #include "GameController.h"
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
+#include <GameEngine/GameEngineUIRenderer.h>
 
 // UIController
 #include "UIController.h"
@@ -57,6 +58,8 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, anomalyDice_(0)
 	, bonnieDice_(0)
 	, chicaDice_(0)
+	, winDeltaTime_(0.0f)
+	, alphaChangeTime_(0.0f)
 {
 
 }
@@ -190,7 +193,7 @@ void GameController::InitScreenEffects()
 	fadeScreen_->SetAlpha(1.0f);
 	fadeScreen_->SetLoadingRenderer();
 	fadeScreen_->OffScreen(0.7f);
-
+	
 	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
 	glitchScreen_->SetWhiteNoiseAlpha(0.3f);
 }
@@ -1306,12 +1309,50 @@ StateInfo GameController::updateNoElecDeath(StateInfo _state)
 
 StateInfo GameController::startWin(StateInfo _state)
 {
+	fadeScreen_->On();
+	UIController_->dayPassHider_->On();
+	UIController_->dayPassNum5_->On();
+	UIController_->dayPassNum6_->On();
+	UIController_->dayPassAM_->On();
+	winDeltaTime_ = 0.0f;
 	return StateInfo();
 }
 
 StateInfo GameController::updateWin(StateInfo _state)
 {
+	winDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	glitchScreen_->SetStatic();
+
+	if (0.5f <= winDeltaTime_)
+	{
+		UpdateAlphaChange();
+	}
+
+	if (7.0f <= winDeltaTime_)
+	{
+		fadeScreen_->StartFadeIn(1.5f);
+
+		if (true == fadeScreen_->isFullFadeIn_)
+		{
+			
+		}
+	}
+
 	return StateInfo();
+}
+
+void GameController::UpdateAlphaChange()
+{
+	if (1.0f >= alphaChangeTime_)
+	{
+		alphaChangeTime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+		UIController_->dayPassHider_->SetAlpha(alphaChangeTime_);
+		UIController_->dayPassNum5_->SetAlpha(alphaChangeTime_);
+		UIController_->dayPassNum6_->SetAlpha(alphaChangeTime_);
+		UIController_->dayPassAM_->SetAlpha(alphaChangeTime_);
+	}
 }
 
 

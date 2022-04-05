@@ -63,6 +63,10 @@ UIController::UIController() // default constructer 디폴트 생성자
 	, cam4BCollision_(nullptr)
 	, state_(this)
 	, deltaTime_(0.0f)
+	, dayPassHider_(nullptr)
+	, dayPassNum5_(nullptr)
+	, dayPassNum6_(nullptr)
+	, dayPassAM_(nullptr)
 {
 
 }
@@ -311,6 +315,37 @@ void UIController::ImageInit()
 	cam4BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//cam4BRenderer_->Off();
 
+	{
+		// 6시 이후 렌더러
+		dayPassHider_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		dayPassHider_->SetImage("DayPassHider.png", true);
+		dayPassHider_->GetTransform()->SetLocalPosition({-100.0f, -50.0f, 0.0f});
+		dayPassHider_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		dayPassHider_->SetAlpha(0.0f);
+		dayPassHider_->Off();
+
+		dayPassNum5_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		dayPassNum5_->SetImage("DayPassNum5.png", true);
+		dayPassNum5_->GetTransform()->SetLocalPosition({ -100.0f, 0.0f, 0.0f });
+		dayPassNum5_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		dayPassNum5_->SetAlpha(0.0f);
+		dayPassNum5_->Off();
+
+		dayPassNum6_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		dayPassNum6_->SetImage("DayPassNum6.png", true);
+		dayPassNum6_->GetTransform()->SetLocalPosition({ -100.0f, 50.0f, 0.0f });
+		dayPassNum6_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		dayPassNum6_->SetAlpha(0.0f);
+		dayPassNum6_->Off();
+
+		dayPassAM_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		dayPassAM_->SetImage("DayPassAM.png", true);
+		dayPassAM_->GetTransform()->SetLocalPosition({ 100.0f, 0.0f, 0.0f });
+		dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		dayPassAM_->SetAlpha(0.0f);
+		dayPassAM_->Off();
+	}
+
 }
 
 void UIController::CollisionInit()
@@ -392,6 +427,7 @@ void UIController::StateInit()
 {
 	state_.CreateState("OfficeUI", &UIController::startOfficeUI, &UIController::updateOfficeUI);
 	state_.CreateState("CCTVUI", &UIController::startCCTVUI, &UIController::updateCCTVUI);
+
 	state_.ChangeState("OfficeUI");
 }
 
@@ -403,12 +439,10 @@ void UIController::Update(float _DeltaTime)
 {
 	DebugRenderUpdate();
 
-	if (true == recordingMarkRenderer_->IsUpdate())
-	{
-		deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
-
-
-	}
+	//if (true == recordingMarkRenderer_->IsUpdate())
+	//{
+	//	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
+	//}
 }
 
 void UIController::DebugRenderUpdate()
@@ -614,8 +648,10 @@ StateInfo UIController::startCCTVUI(StateInfo _state)
 
 StateInfo UIController::updateCCTVUI(StateInfo _state)
 {
+
 	return StateInfo();
 }
+
 
 void UIController::SwitchUIState(PLAYERSTATUS _playerStatus)
 {

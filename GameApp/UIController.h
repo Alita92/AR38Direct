@@ -95,6 +95,11 @@ protected:
 	GameEngineUIRenderer* cam4BRenderer_;
 	GameEngineCollision* cam4BCollision_;
 
+protected:
+	GameEngineUIRenderer* dayPassHider_;
+	GameEngineUIRenderer* dayPassNum5_;
+	GameEngineUIRenderer* dayPassNum6_;
+	GameEngineUIRenderer* dayPassAM_;
 
 
 private:

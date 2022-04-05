@@ -48,6 +48,7 @@ private:
 
 private:
 	void CheckOfficeInput();
+	void UpdateAlphaChange();
 
 private:
 	UIController* UIController_;
@@ -59,7 +60,7 @@ private:
 	const float ELECTRICITY_DEFAULT_USAGE = 9.6f /*9.6f*/ ;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
-	const float EACH_HOUR_REAL_DURATION = 89.0f /*89.0f*/;
+	const float EACH_HOUR_REAL_DURATION = 1.0f /*89.0f*/;
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;
@@ -110,6 +111,10 @@ private:
 	// 심령 효과 변수
 	bool isAnomalyOn_;
 	int anomalyDice_;
+
+	// 승리 시 변수
+	float winDeltaTime_;
+	float alphaChangeTime_;
 
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);
