@@ -11,6 +11,7 @@
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineCore.h>
 
+#include "GameStaticData.h"
 
 TitleLevel::TitleLevel()
 {
@@ -28,6 +29,7 @@ void TitleLevel::LevelStart()
 
 	{
 		TitleController* titleController = CreateActor<TitleController>();
+
 	}
 }
 

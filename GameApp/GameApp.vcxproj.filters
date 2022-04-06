@@ -53,9 +53,6 @@
     <ClCompile Include="OfficeFan.cpp">
       <Filter>Actor\02Play\Office</Filter>
     </ClCompile>
-    <ClCompile Include="GameMouse.cpp">
-      <Filter>Actor\00Global</Filter>
-    </ClCompile>
     <ClCompile Include="CustomSettingLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -83,12 +80,6 @@
     <ClCompile Include="IntermissionController.cpp">
       <Filter>Actor\05Intermission</Filter>
     </ClCompile>
-    <ClCompile Include="FadeScreen.cpp">
-      <Filter>Actor\00Global</Filter>
-    </ClCompile>
-    <ClCompile Include="GlitchScreen.cpp">
-      <Filter>Actor\00Global</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverBackground.cpp">
       <Filter>Actor\03GameOver\Actors</Filter>
     </ClCompile>
@@ -103,6 +94,18 @@
     </ClCompile>
     <ClCompile Include="AIFreddy.cpp">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStaticData.cpp">
+      <Filter>Actor\00Global\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeScreen.cpp">
+      <Filter>Actor\00Global\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMouse.cpp">
+      <Filter>Actor\00Global\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="GlitchScreen.cpp">
+      <Filter>Actor\00Global\Actors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +175,12 @@
     <Filter Include="Actor\03GameOver\Actors">
       <UniqueIdentifier>{ff708ae2-b113-4297-b192-0c84ff35592a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\00Global\Data">
+      <UniqueIdentifier>{5ae764ce-f3b9-4254-939a-8cc1a80afa5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\00Global\Actors">
+      <UniqueIdentifier>{c99914f5-07be-4c58-9a02-9ca0ba6aeee2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -228,9 +237,6 @@
     <ClInclude Include="OfficeFan.h">
       <Filter>Actor\02Play\Office</Filter>
     </ClInclude>
-    <ClInclude Include="GameMouse.h">
-      <Filter>Actor\00Global</Filter>
-    </ClInclude>
     <ClInclude Include="CustomSettingLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -258,12 +264,6 @@
     <ClInclude Include="IntermissionController.h">
       <Filter>Actor\05Intermission</Filter>
     </ClInclude>
-    <ClInclude Include="FadeScreen.h">
-      <Filter>Actor\00Global</Filter>
-    </ClInclude>
-    <ClInclude Include="GlitchScreen.h">
-      <Filter>Actor\00Global</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverBackground.h">
       <Filter>Actor\03GameOver\Actors</Filter>
     </ClInclude>
@@ -278,6 +278,18 @@
     </ClInclude>
     <ClInclude Include="AIFreddy.h">
       <Filter>Actor\02Play\Meta\Controller&amp;AI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStaticData.h">
+      <Filter>Actor\00Global\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeScreen.h">
+      <Filter>Actor\00Global\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMouse.h">
+      <Filter>Actor\00Global\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="GlitchScreen.h">
+      <Filter>Actor\00Global\Actors</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

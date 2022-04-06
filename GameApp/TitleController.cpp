@@ -34,7 +34,6 @@ void TitleController::ActorInit()
 	titleFreddy_ = GetLevel()->CreateActor<TitleFreddy>();
 	titleText_ = GetLevel()->CreateActor<TitleText>();
 	titleNewsPaper_ = GetLevel()->CreateActor<TitleNewsPaper>();
-
 }
 
 void TitleController::StateInit()
