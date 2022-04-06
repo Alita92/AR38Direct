@@ -1309,12 +1309,20 @@ StateInfo GameController::updateNoElecDeath(StateInfo _state)
 
 StateInfo GameController::startWin(StateInfo _state)
 {
-	fadeScreen_->On();
-	UIController_->dayPassHider_->On();
+	fadeScreen_->SetAlpha(0.0f);
+	fadeScreen_->OnScreen();
+
 	UIController_->dayPassNum5_->On();
-	UIController_->dayPassNum6_->On();
 	UIController_->dayPassAM_->On();
 	winDeltaTime_ = 0.0f;
+
+	{
+		aiBonnie_->Off();
+		aiChica_->Off();
+		aiFoxy_->Off();
+		aiFreddy_->Off();
+	}
+
 	return StateInfo();
 }
 
@@ -1324,18 +1332,36 @@ StateInfo GameController::updateWin(StateInfo _state)
 
 	glitchScreen_->SetStatic();
 
-	if (0.5f <= winDeltaTime_)
+	if (0.5f <= winDeltaTime_ && false == fadeScreen_->isFullFadeOut_)
 	{
+		fadeScreen_->StartFadeOut(1.0f);
 		UpdateAlphaChange();
 	}
 
-	if (7.0f <= winDeltaTime_)
+	if (true == fadeScreen_->isFullFadeOut_)
 	{
-		fadeScreen_->StartFadeIn(1.5f);
+		UIController_->dayPassHiderUpper_->On();
+		UIController_->dayPassHiderBottom_->On();
+		UIController_->dayPassNum6_->On();
 
-		if (true == fadeScreen_->isFullFadeIn_)
+	}
+
+	if (2.5f <= winDeltaTime_)
+	{
+		if (UIController_->dayPassNum6_->GetTransform()->GetLocalPosition().y >= UIController_->dayPassAM_->GetTransform()->GetLocalPosition().y)
 		{
-			
+			UIController_->dayPassNum6_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 40.0f);
+			UIController_->dayPassNum5_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 40.0f);
+		}
+		else
+		{
+			if (0.0f <= alphaChangeTime_)
+			{
+				alphaChangeTime_ -= GameEngineTime::GetInst().GetDeltaTime();
+
+				UIController_->dayPassAM_->SetAlpha(alphaChangeTime_);
+				UIController_->dayPassNum6_->SetAlpha(alphaChangeTime_);
+			}
 		}
 	}
 
@@ -1348,9 +1374,7 @@ void GameController::UpdateAlphaChange()
 	{
 		alphaChangeTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-		UIController_->dayPassHider_->SetAlpha(alphaChangeTime_);
 		UIController_->dayPassNum5_->SetAlpha(alphaChangeTime_);
-		UIController_->dayPassNum6_->SetAlpha(alphaChangeTime_);
 		UIController_->dayPassAM_->SetAlpha(alphaChangeTime_);
 	}
 }

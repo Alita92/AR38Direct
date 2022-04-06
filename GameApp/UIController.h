@@ -96,7 +96,9 @@ protected:
 	GameEngineCollision* cam4BCollision_;
 
 protected:
-	GameEngineUIRenderer* dayPassHider_;
+	const float DAYPASS_X_FLOAT = 70.0f;
+	GameEngineUIRenderer* dayPassHiderUpper_;
+	GameEngineUIRenderer* dayPassHiderBottom_;
 	GameEngineUIRenderer* dayPassNum5_;
 	GameEngineUIRenderer* dayPassNum6_;
 	GameEngineUIRenderer* dayPassAM_;

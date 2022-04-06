@@ -43,6 +43,7 @@ enum class UIRenderOrder
 	FADE0,
 
 	DAYPASS,
+	DAYPASSHIDER,
 	
 	FRONT = 999
 };

@@ -63,7 +63,8 @@ UIController::UIController() // default constructer 디폴트 생성자
 	, cam4BCollision_(nullptr)
 	, state_(this)
 	, deltaTime_(0.0f)
-	, dayPassHider_(nullptr)
+	, dayPassHiderUpper_(nullptr)
+	, dayPassHiderBottom_(nullptr)
 	, dayPassNum5_(nullptr)
 	, dayPassNum6_(nullptr)
 	, dayPassAM_(nullptr)
@@ -317,30 +318,34 @@ void UIController::ImageInit()
 
 	{
 		// 6시 이후 렌더러
-		dayPassHider_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-		dayPassHider_->SetImage("DayPassHider.png", true);
-		dayPassHider_->GetTransform()->SetLocalPosition({-100.0f, -50.0f, 0.0f});
-		dayPassHider_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
-		dayPassHider_->SetAlpha(0.0f);
-		dayPassHider_->Off();
+		dayPassHiderUpper_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		dayPassHiderUpper_->SetImage("DayPassHider.png", true);
+		dayPassHiderUpper_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, 100.0f, 0.0f });
+		dayPassHiderUpper_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		dayPassHiderUpper_->Off();
+
+		dayPassHiderBottom_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		dayPassHiderBottom_->SetImage("DayPassHider.png", true);
+		dayPassHiderBottom_->GetTransform()->SetLocalPosition({-1.0f * DAYPASS_X_FLOAT, -100.0f, 0.0f});
+		dayPassHiderBottom_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		dayPassHiderBottom_->Off();
 
 		dayPassNum5_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 		dayPassNum5_->SetImage("DayPassNum5.png", true);
-		dayPassNum5_->GetTransform()->SetLocalPosition({ -100.0f, 0.0f, 0.0f });
+		dayPassNum5_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		dayPassNum5_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 		dayPassNum5_->SetAlpha(0.0f);
 		dayPassNum5_->Off();
 
 		dayPassNum6_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 		dayPassNum6_->SetImage("DayPassNum6.png", true);
-		dayPassNum6_->GetTransform()->SetLocalPosition({ -100.0f, 50.0f, 0.0f });
+		dayPassNum6_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, 100.0f, 0.0f });
 		dayPassNum6_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
-		dayPassNum6_->SetAlpha(0.0f);
 		dayPassNum6_->Off();
 
 		dayPassAM_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 		dayPassAM_->SetImage("DayPassAM.png", true);
-		dayPassAM_->GetTransform()->SetLocalPosition({ 100.0f, 0.0f, 0.0f });
+		dayPassAM_->GetTransform()->SetLocalPosition({ DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 		dayPassAM_->SetAlpha(0.0f);
 		dayPassAM_->Off();
