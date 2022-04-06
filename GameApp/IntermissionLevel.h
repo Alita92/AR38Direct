@@ -5,6 +5,7 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 타이틀 -> 플레이 | 플레이 레벨 간 이동 시 잠시 이동하는 레벨입니다.
+class IntermissionController;
 class IntermissionLevel : public GameEngineLevel
 {
 public:
@@ -15,9 +16,8 @@ public:
 	IntermissionLevel& operator=(const IntermissionLevel& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	IntermissionLevel& operator=(const IntermissionLevel&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-public:
-	DAY curDay_;
-
+protected:
+	IntermissionController* intermissionController_;
 
 private:
 	void LevelStart() override;

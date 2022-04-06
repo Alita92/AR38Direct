@@ -6,6 +6,7 @@
 #include "FadeScreen.h"
 
 IntermissionLevel::IntermissionLevel() // default constructer 디폴트 생성자
+	: intermissionController_(nullptr)
 {
 
 }
@@ -22,8 +23,9 @@ void IntermissionLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
+	if (nullptr == intermissionController_)
 	{
-		IntermissionController* intermissionController = CreateActor<IntermissionController>();
+		intermissionController_ = CreateActor<IntermissionController>();
 	}
 }
 
@@ -34,11 +36,15 @@ void IntermissionLevel::LevelUpdate(float _DeltaTime)
 
 void IntermissionLevel::LevelChangeEndEvent()
 {
-
+	if (nullptr != intermissionController_)
+	{
+		intermissionController_->ControllerReloading();
+	}
 }
 
 void IntermissionLevel::LevelChangeStartEvent()
 {
+
 
 }
 

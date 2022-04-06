@@ -8,12 +8,15 @@
 #include "UIController.h"
 #include "FadeScreen.h"
 #include "GlitchScreen.h"
+#include "GameMouse.h"
 
 // Enemy AI
 #include "AIBonnie.h"
 #include "AIChica.h"
 #include "AIFoxy.h"
 #include "AIFreddy.h"
+
+#include "GameStaticData.h"
 
 GameController::GameController() // default constructer 디폴트 생성자
 	: CurPlayerState_(PLAYERSTATUS::OFFICE)
@@ -30,7 +33,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, curTime_(0)
 	, timeUsageTimer_(0.0f)
 	, isTimeCheckOff_(false)
-	, curDay_(0)
+	, curDay_(DAY::MAX)
 	, isLdoorClosed_(false)
 	, isLdoorLighted_(false)
 	, isRdoorClosed_(false)
@@ -60,6 +63,8 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, chicaDice_(0)
 	, winDeltaTime_(0.0f)
 	, alphaChangeTime_(0.0f)
+	, gameMouse_(nullptr)
+	, alphaChangeTime1_(1.5f)
 {
 
 }
@@ -72,6 +77,7 @@ GameController::~GameController() // default destructer 디폴트 소멸자
 void GameController::InitUIController()
 {
 	UIController_ = GetLevel()->CreateActor<UIController>();
+	UIController_->SetNightTypo(GameStaticData::curDay_);
 }
 
 void GameController::InitState()
@@ -105,20 +111,75 @@ void GameController::InitPlayStatus()
 	curPowerLevel_ = 1;
 	curPowerRate_ = MAX_ELECTRICITIY_RATE;
 	curTime_ = 0;
-	curDay_ = 1;
+	curDay_ = GameStaticData::curDay_;
 }
 
 void GameController::InitEnemy()
 {
 	aiBonnie_ = GetLevel()->CreateActor<AIBonnie>();
-	aiBonnie_->SetAILevel(0);
 	aiChica_ = GetLevel()->CreateActor<AIChica>();
-	aiChica_->SetAILevel(0);
 	aiFoxy_ = GetLevel()->CreateActor<AIFoxy>();
-	aiFoxy_->SetAILevel(0);
 	aiFreddy_ = GetLevel()->CreateActor<AIFreddy>();
-	aiFreddy_->SetAILevel(20);
 }
+
+void GameController::InitEnemyAILevel()
+{
+	switch (GameStaticData::curDay_)
+	{
+	case DAY::DAY1:
+	{
+		aiBonnie_->SetAILevel(0);
+		aiChica_->SetAILevel(0);
+		aiFoxy_->SetAILevel(0);
+		aiFreddy_->SetAILevel(0);
+	}
+	break;
+	case DAY::DAY2:
+	{
+		aiBonnie_->SetAILevel(3);
+		aiChica_->SetAILevel(1);
+		aiFoxy_->SetAILevel(1);
+		aiFreddy_->SetAILevel(0);
+	}
+	break;
+	case DAY::DAY3:
+	{
+		aiBonnie_->SetAILevel(0);
+		aiChica_->SetAILevel(5);
+		aiFoxy_->SetAILevel(2);
+		aiFreddy_->SetAILevel(1);
+	}
+	break;
+	case DAY::DAY4:
+	{
+		aiBonnie_->SetAILevel(2);
+		aiChica_->SetAILevel(4);
+		aiFoxy_->SetAILevel(6);
+		aiFreddy_->SetAILevel(2);
+	}
+	break;
+	case DAY::DAY5:
+	{
+		aiBonnie_->SetAILevel(5);
+		aiChica_->SetAILevel(7);
+		aiFoxy_->SetAILevel(5);
+		aiFreddy_->SetAILevel(3);
+	}
+	break;
+	case DAY::DAY6:
+	{
+
+	}
+	break;
+	case DAY::CUSTOM:
+		break;
+	case DAY::MAX:
+		break;
+	default:
+		break;
+	}
+}
+
 
 void GameController::InitAnimation()
 {
@@ -167,6 +228,7 @@ void GameController::InitAnimation()
 		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
 		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.033f, false);
 		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.033f, false);
+		CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 		CCTVAnimationRenderer_->Off();
 	}
 
@@ -202,9 +264,13 @@ void GameController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
 
+	gameMouse_ = GetLevel()->CreateActor<GameMouse>();
+	gameMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
+
 	InitUIController();
 	InitScreenEffects();
 	InitEnemy();
+	InitEnemyAILevel();
 	InitState();
 	InitAnimation();
 	InitPlayStatus();
@@ -215,6 +281,124 @@ void GameController::Start()
 	}
 }
 
+void GameController::ControllerReloading()
+{
+	state_.ChangeState("Idle");
+	gameMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
+
+	{
+		CurPlayerState_ = PLAYERSTATUS::OFFICE;
+		CurCCTVState_ = LOCATION::SHOWSTAGE;
+		curPowerLevel_ = 1;
+		curPowerRate_ = MAX_ELECTRICITIY_RATE;
+		curTime_ = 0;
+		UIController_->SetTimeRenderer(curTime_);
+		curDay_ = GameStaticData::curDay_;
+	}
+
+	{
+		elecUsageTimer_ = 0.0f;
+		isElecCheckOff_ = false;
+		timeUsageTimer_ = 0.0f;
+		isTimeCheckOff_ = false;
+		isLdoorClosed_ = false;
+		isLdoorLighted_ = false;
+		isRdoorClosed_ = false;
+		isRdoorLighted_ = false;
+		noElecDeltaTime_ = 0.0f;
+		noElecTimerCounter_ = 0;
+		playDeadTimer_ = 0.0f;
+		deathSceneTimer_ = 0.0f;
+		PrevCCTVState_ = LOCATION::MAX;
+		foxyDeathTimer_ = 0.0f;
+		freddyDeathTimer_ = 0.0f;
+		isPirateCoveChecked_ = false;
+		isFoxyRunning_ = false;
+		isAnomalyOn_ = false;
+		anomalyDice_ = 0;
+		bonnieDice_ = 0;
+		chicaDice_ = 0;
+		winDeltaTime_ = 0.0f;
+		alphaChangeTime_ = 0.0f;
+	}
+
+	{
+		mainRenderer_->SetImage("OfficeBasic.png", true);
+		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1) });
+
+		fanRenderer_->SetImage("OfficeFanDefault.png", true);
+		fanRenderer_->GetTransform()->SetLocalPosition({ 49.0f, -41.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		fanRenderer_->SetChangeAnimation("OfficeFan");
+
+		lDoorRenderer_->SetImage("LdoorStatic.png", true);
+		lDoorRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+
+		rDoorRenderer_->SetImage("RdoorStatic.png", true);
+		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+
+		CCTVAnimationRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
+		CCTVAnimationRenderer_->Off();
+
+		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV0) });
+		CCTVRealRenderer_->Off();
+
+		foxyRunningRenderer_->SetImage("WestHallA_Default.png", true);
+		foxyRunningRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV1) });
+		foxyRunningRenderer_->Off();
+
+		UIController_->dayPassHiderUpper_->Off();
+		UIController_->dayPassHiderBottom_->Off();
+		UIController_->dayPassNum6_->Off();
+		UIController_->dayPassNum5_->Off();
+		UIController_->dayPassAM_->Off();
+
+		UIController_->dayPassHiderUpper_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 100.0f, 0.0f });
+		UIController_->dayPassHiderUpper_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		UIController_->dayPassHiderBottom_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, -100.0f, 0.0f });
+		UIController_->dayPassHiderBottom_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		UIController_->dayPassNum5_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
+		UIController_->dayPassNum5_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		//UIController_->dayPassNum5_->SetAlpha(0.0f);
+		UIController_->dayPassNum6_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 100.0f, 0.0f });
+		UIController_->dayPassNum6_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		UIController_->dayPassAM_->GetTransform()->SetLocalPosition({ UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
+		UIController_->dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+	//	UIController_->dayPassAM_->SetAlpha(0.0f);
+
+		UIController_->SetNightTypo(GameStaticData::curDay_);
+	}
+
+	{
+		fadeScreen_->SetAlpha(1.0f);
+		fadeScreen_->StartFadeIn(0.0f);
+		fadeScreen_->SetLoadingRenderer();
+		fadeScreen_->OffScreen(0.7f);
+		glitchScreen_->SetWhiteNoiseAlpha(0.3f);
+	}
+
+	{
+		glitchScreen_->PlayWhiteNoise(false);
+		CCTVRealRenderer_->Off();
+		foxyRunningRenderer_->Off();
+		CCTVAnimationRenderer_->Off();
+		fanRenderer_->On();
+
+		aiBonnie_->isPlayerStares_ = true;
+		aiChica_->isPlayerStares_ = true;
+		aiFoxy_->isPlayerStares_ = false;
+
+		UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
+	}
+
+	fadeScreen_->StartFadeOut(0.0f);
+	UIController_->dayPassNum5_->SetAlpha(0.0f);
+	UIController_->dayPassAM_->SetAlpha(0.0f);
+
+	UIController_->dayPassNum6_->SetAlpha(1.0f);
+	alphaChangeTime1_ = 1.5f;
+}
 
 
 void GameController::CheckTime()
@@ -225,21 +409,21 @@ void GameController::CheckTime()
 	{
 		return;
 	}
+	else if (6 < curTime_)
+	{
+		GameEngineDebug::MsgBoxError("시간이 7시 이상임에도 게임이 끝나지 않습니다.");
+	}
+
 
 	timeUsageTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (EACH_HOUR_REAL_DURATION <= timeUsageTimer_)
 	{
 		// 89초가 지나면 시간 마커에 1시간을 더해줍니다.
+
 		timeUsageTimer_ = 0.0f;
 		curTime_ += 1;
 		UIController_->SetTimeRenderer(curTime_);
-
-		if (6 < curTime_)
-		{
-			GameEngineDebug::MsgBoxError("시간이 7시 이상임에도 게임이 끝나지 않습니다.");
-		}
-
 		return;
 	}
 
@@ -511,7 +695,7 @@ StateInfo GameController::startCCTVOpen(StateInfo _state)
 	// CCTV 작동 애니메이션에 앞서 렌더 오더를 새로 정리합니다.
 	curPowerLevel_ += 1;
 	CCTVAnimationRenderer_->On();
-	CCTVAnimationRenderer_->SetChangeAnimation("CCTVOpen");
+	CCTVAnimationRenderer_->SetChangeAnimation("CCTVOpen", true);
 	return StateInfo();
 }
 
@@ -559,6 +743,11 @@ StateInfo GameController::startCCTV(StateInfo _state)
 
 StateInfo GameController::updateCCTV(StateInfo _state)
 {
+	if (curTime_ == 6)
+	{
+		return "Win";
+	}
+
 	if (LOCATION::OFFICE == aiBonnie_->GetLocation())
 	{
 		playDeadTimer_ += GameEngineTime::GetInst().GetDeltaTime();
@@ -1309,11 +1498,13 @@ StateInfo GameController::updateNoElecDeath(StateInfo _state)
 
 StateInfo GameController::startWin(StateInfo _state)
 {
-	fadeScreen_->SetAlpha(0.0f);
-	fadeScreen_->OnScreen();
 
+	fadeScreen_->OnScreen();
+	fadeScreen_->SetAlpha(0.0f);
+	fadeScreen_->StartFadeIn(0.0f);
 	UIController_->dayPassNum5_->On();
 	UIController_->dayPassAM_->On();
+	alphaChangeTime_ = 0.0f;
 	winDeltaTime_ = 0.0f;
 
 	{
@@ -1334,7 +1525,7 @@ StateInfo GameController::updateWin(StateInfo _state)
 
 	if (0.5f <= winDeltaTime_ && false == fadeScreen_->isFullFadeOut_)
 	{
-		fadeScreen_->StartFadeOut(1.0f);
+		fadeScreen_->StartFadeOut(1.5f);
 		UpdateAlphaChange();
 	}
 
@@ -1350,19 +1541,51 @@ StateInfo GameController::updateWin(StateInfo _state)
 	{
 		if (UIController_->dayPassNum6_->GetTransform()->GetLocalPosition().y >= UIController_->dayPassAM_->GetTransform()->GetLocalPosition().y)
 		{
-			UIController_->dayPassNum6_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 40.0f);
-			UIController_->dayPassNum5_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 40.0f);
+			UIController_->dayPassNum6_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 30.0f);
+			UIController_->dayPassNum5_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 30.0f);
 		}
 		else
 		{
-			if (0.0f <= alphaChangeTime_)
+			if (0.0f <= alphaChangeTime1_)
 			{
-				alphaChangeTime_ -= GameEngineTime::GetInst().GetDeltaTime();
+				alphaChangeTime1_ -= GameEngineTime::GetInst().GetDeltaTime();
 
-				UIController_->dayPassAM_->SetAlpha(alphaChangeTime_);
-				UIController_->dayPassNum6_->SetAlpha(alphaChangeTime_);
+				UIController_->dayPassAM_->SetAlpha(alphaChangeTime1_/1.5f);
+				UIController_->dayPassNum6_->SetAlpha(alphaChangeTime1_/1.5f);
 			}
 		}
+	}
+
+	if (8.0f <= winDeltaTime_)
+	{
+		switch (GameStaticData::curDay_)
+		{
+		case DAY::DAY1:
+			GameStaticData::curDay_ = DAY::DAY2;
+			break;
+		case DAY::DAY2:
+			GameStaticData::curDay_ = DAY::DAY3;
+			break;
+		case DAY::DAY3:
+			GameStaticData::curDay_ = DAY::DAY4;
+			break;
+		case DAY::DAY4:
+			GameStaticData::curDay_ = DAY::DAY5;
+			break;
+		case DAY::DAY5:
+			GameStaticData::curDay_ = DAY::DAY6;
+			break;
+		case DAY::DAY6:
+		
+			break;
+		case DAY::CUSTOM:
+		
+			break;
+		default:
+			break;
+		}
+		GameStaticData::savedDay_ = GameStaticData::curDay_;
+		GetLevel()->RequestLevelChange("Intermission");
 	}
 
 	return StateInfo();
@@ -1370,12 +1593,12 @@ StateInfo GameController::updateWin(StateInfo _state)
 
 void GameController::UpdateAlphaChange()
 {
-	if (1.0f >= alphaChangeTime_)
+	if (1.5f >= alphaChangeTime_)
 	{
 		alphaChangeTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-		UIController_->dayPassNum5_->SetAlpha(alphaChangeTime_);
-		UIController_->dayPassAM_->SetAlpha(alphaChangeTime_);
+		UIController_->dayPassNum5_->SetAlpha(alphaChangeTime_/1.5f);
+		UIController_->dayPassAM_->SetAlpha(alphaChangeTime_/1.5f);
 	}
 }
 

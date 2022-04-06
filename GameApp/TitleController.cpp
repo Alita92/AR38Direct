@@ -10,6 +10,8 @@
 #include "GlitchScreen.h"
 #include "ENUM.h"
 
+#include "GameStaticData.h"
+
 TitleController::TitleController() // default constructer 디폴트 생성자
 	: titleMouse_(nullptr), titleFreddy_(nullptr), titleText_(nullptr), titleNewsPaper_(nullptr), deltaTime_(0.0f), state_(this), alphaChangeTime_(1.0f), fadeScreen_(nullptr), glitchScreen_(nullptr)
 {
@@ -45,6 +47,43 @@ void TitleController::StateInit()
 	state_.CreateState("6thNight", &TitleController::start6thNight, &TitleController::update6thNight);
 
 	state_.ChangeState("Idle");
+}
+
+void TitleController::ControllerReloading()
+{
+	state_.ChangeState("Idle");
+	fadeScreen_->SetAlpha(0.0f);
+	fadeScreen_->StartFadeIn(0.0f);
+	titleMouse_->On();
+	titleMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
+
+	alphaChangeTime_ = 1.0f;
+	deltaTime_ = 0.0f;
+
+	{
+		titleFreddy_->isGameStarted_ = false;
+
+		titleText_->titleNewGameCollision_->On();
+		titleText_->titleContinueCollision_->On();
+		titleText_->titleCustomNightCollision_->On();
+		titleText_->title6thNightCollision_->On();
+	}
+
+	{
+		titleFreddy_->titleFreddyImageRenderer_->SetAlpha(1.0f);
+		titleText_->titleName_->SetAlpha(1.0f);
+		titleText_->titleNewGame_->SetAlpha(1.0f);
+		titleText_->titleContinue_->SetAlpha(1.0f);
+		titleText_->titleCustomNight_->SetAlpha(1.0f);
+		titleText_->title6thNight_->SetAlpha(1.0f);
+		titleText_->titleScott_->SetAlpha(1.0f);
+		titleText_->titleArrow_->SetAlpha(1.0f);
+		glitchScreen_->whiteNoiseRenderer_->SetAlpha(1.0f / 2.0f);
+		glitchScreen_->scanLineRenderer_->SetAlpha(1.0f / 5.0f);
+		glitchScreen_->subScanLineRenderer_->SetAlpha(1.0f / 5.0f);
+	}
+
+
 }
 
 
@@ -146,15 +185,15 @@ StateInfo TitleController::startNewGame(StateInfo _state)
 {
 	deltaTime_ = 0.0f;
 
-
-	titleMouse_->Off();
-
 	titleFreddy_->isGameStarted_ = true;
 
+	titleMouse_->Off();
 	titleText_->titleNewGameCollision_->Off();
 	titleText_->titleContinueCollision_->Off();
 	titleText_->titleCustomNightCollision_->Off();
 	titleText_->title6thNightCollision_->Off();
+
+	GameStaticData::curDay_ = DAY::DAY1;
 
 	return StateInfo();
 }
@@ -168,7 +207,7 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 		UpdateTitleAlphaChange();
 	}
 
-	if (7.0f <= deltaTime_)
+	if (5.0f <= deltaTime_)
 	{
 		fadeScreen_->StartFadeOut(2.5f);
 
@@ -183,11 +222,25 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 
 StateInfo TitleController::startContinue(StateInfo _state)
 {
+	deltaTime_ = 0.0f;
+
+	titleFreddy_->isGameStarted_ = true;
+
+	titleMouse_->Off();
+	titleText_->titleNewGameCollision_->Off();
+	titleText_->titleContinueCollision_->Off();
+	titleText_->titleCustomNightCollision_->Off();
+	titleText_->title6thNightCollision_->Off();
+
+	GameStaticData::curDay_ = GameStaticData::savedDay_;
+
 	return StateInfo();
 }
 
 StateInfo TitleController::updateContinue(StateInfo _state)
 {
+	GetLevel()->RequestLevelChange("Intermission");
+
 	return StateInfo();
 }
 

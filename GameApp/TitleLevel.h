@@ -3,6 +3,7 @@
 #include "ENUM.h"
 
 // Ό³Έν :
+class TitleController;
 class TitleLevel : public GameEngineLevel
 {
 public:
@@ -19,6 +20,7 @@ public:
 
 
 protected:
+	TitleController* titleController_;
 
 private:
 	void LevelStart() override;

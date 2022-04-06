@@ -9,7 +9,9 @@
 // 설명 : 게임의 진행과 플레이어의 상황을 비시각적으로 제어하는 역할의 클래스입니다.
 // 시각적인 용도를 결정하는 클래스(CCTV 스크린 등) 은 이 게임컨트롤러의 피드백을 받아 움직이게 합니다.
 
-class GameEngineImageRenderer;
+class PlayLevel;
+class GameEngineImageRenderer; \
+class GameMouse;
 class GlitchScreen;
 class FadeScreen;
 class AIBonnie;
@@ -20,6 +22,7 @@ class UIController;
 class GameController : public GameEngineActor
 {
 private:
+	friend PlayLevel;
 	friend UIController;
 	friend AIBonnie;
 	friend AIChica;
@@ -44,6 +47,7 @@ private:
 	void InitAnimation();
 	void InitPlayStatus();
 	void InitEnemy();
+	void InitEnemyAILevel();
 	void InitScreenEffects();
 
 private:
@@ -51,8 +55,13 @@ private:
 	void UpdateAlphaChange();
 
 private:
+	void ControllerReloading();
+	void AICheck();
+
+private:
 	UIController* UIController_;
 	FadeScreen* fadeScreen_;
+	GameMouse* gameMouse_;
 	GlitchScreen* glitchScreen_;
 
 	// 컨트롤러 척도
@@ -66,7 +75,7 @@ private:
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;
 
 	// 스테이지 변수
-	int curDay_;
+	DAY curDay_;
 
 	// 전기 변수
 	float curPowerRate_;
@@ -115,6 +124,7 @@ private:
 	// 승리 시 변수
 	float winDeltaTime_;
 	float alphaChangeTime_;
+	float alphaChangeTime1_;
 
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);

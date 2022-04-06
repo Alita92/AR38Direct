@@ -6,7 +6,7 @@
 #include "FadeScreen.h"
 #include "GlitchScreen.h"
 
-DAY IntermissionController::curDay_ = DAY::DAY1;
+#include "GameStaticData.h"
 
 IntermissionController::IntermissionController() // default constructer 디폴트 생성자
 	: intermissionScreen_(nullptr), state_(this), deltaTime_(0.0f), fadeScreen_(nullptr), glitchScreen_(nullptr)
@@ -30,7 +30,7 @@ void IntermissionController::StateInit()
 
 void IntermissionController::SwitchDayRenderer()
 {
-	switch (curDay_)
+	switch (GameStaticData::curDay_)
 	{
 	case DAY::DAY1:
 		intermissionScreen_->typoRenderer_->SetImage("Day1.png", true);
@@ -60,7 +60,12 @@ void IntermissionController::SwitchDayRenderer()
 	}
 }
 
-
+void IntermissionController::ControllerReloading()
+{
+	state_.ChangeState("Standby");
+	fadeScreen_->SetAlpha(0.0f);
+	fadeScreen_->StartFadeIn(0.0f);
+}
 
 void IntermissionController::Start()
 {
@@ -100,9 +105,9 @@ StateInfo IntermissionController::updateProceed(StateInfo _state)
 
 	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (3.0f <= deltaTime_)
+	if (1.5f <= deltaTime_)
 	{
-		fadeScreen_->StartFadeOut(2.5f);
+		fadeScreen_->StartFadeOut(3.2f);
 	}
 
 	if (true == fadeScreen_->isFullFadeOut_)

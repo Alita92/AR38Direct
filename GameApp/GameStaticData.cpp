@@ -2,8 +2,9 @@
 #include "GameStaticData.h"
 
 DAY GameStaticData::curDay_ = DAY::MAX;
+DAY GameStaticData::savedDay_ = DAY::MAX;
 
-int GameStaticData::AIStartLevelBonnie_ = 0;
-int GameStaticData::AIStartLevelChica_ = 0;
-int GameStaticData::AIStartLevelFoxy_ = 0;
-int GameStaticData::AIStartLevelFreddy_ = 0;
+int GameStaticData::AICustomStartLevelBonnie_ = 0;
+int GameStaticData::AICustomStartLevelChica_ = 0;
+int GameStaticData::AICustomStartLevelFoxy_ = 0;
+int GameStaticData::AICustomStartLevelFreddy_ = 0;

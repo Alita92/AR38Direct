@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineLevel.h>
 
 // Ό³Έν :
+class GameController;
 class PlayLevel : public GameEngineLevel
 {
 public:
@@ -16,6 +17,7 @@ public:
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
 protected:
+	GameController* gameController_;
 
 private:
 	void LevelStart() override;

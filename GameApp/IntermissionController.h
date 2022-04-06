@@ -6,12 +6,14 @@
 // 용도 : 
 // 설명 : 
 
+class IntermissionLevel;
 class GlitchScreen;
 class FadeScreen;
 class IntermissionScreen;
 class IntermissionController : public GameEngineActor
 {
 private:
+	friend IntermissionLevel;
 	friend IntermissionScreen;
 
 public:
@@ -22,8 +24,6 @@ public:
 	IntermissionController& operator=(const IntermissionController& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	IntermissionController& operator=(const IntermissionController&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-public:
-	static DAY curDay_;
 
 protected:
 	IntermissionScreen* intermissionScreen_;
@@ -37,6 +37,8 @@ private:
 private:
 	void StateInit();
 	void SwitchDayRenderer();
+
+	void ControllerReloading();
 
 private:
 	float deltaTime_;

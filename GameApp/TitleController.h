@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
+class TitleLevel;
 class GameMouse;
 class GlitchScreen;
 class FadeScreen;
@@ -12,6 +13,7 @@ class GameEngineCollision;
 class TitleController : public GameEngineActor
 {
 private:
+	friend TitleLevel;
 	friend TitleFreddy;
 	friend TitleText;
 	friend TitleNewsPaper;
@@ -48,6 +50,8 @@ private:
 private:
 	void ActorInit();
 	void StateInit();
+
+	void ControllerReloading();
 
 private:
 	void UpdateTitleAlphaChange();

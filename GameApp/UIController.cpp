@@ -5,6 +5,8 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include "GameStaticData.h"
+
 UIController::UIController() // default constructer 디폴트 생성자
 	: timeTenRenderer_(nullptr)
 	, timeOneRenderer_(nullptr)
@@ -483,6 +485,9 @@ void UIController::SetTimeRenderer(int _curTime)
 	}
 	if (0 == _curTime)
 	{
+		timeTenRenderer_->On();
+		timeTenRenderer_->SetImage("M1.png", true);
+		timeOneRenderer_->SetImage("M2.png", true);
 		return;
 	}
 	else
@@ -838,4 +843,38 @@ void UIController::SetCCTVScreenLowlight(LOCATION _location)
 	default:
 		break;
 	}
+}
+
+void UIController::SetNightTypo(DAY _day)
+{
+	switch (_day)
+	{
+	case DAY::DAY1:
+		nightNumRenderer_->SetImage("S1.png", true);
+		break;
+	case DAY::DAY2:
+		nightNumRenderer_->SetImage("S2.png", true);
+		break;
+	case DAY::DAY3:
+		nightNumRenderer_->SetImage("S3.png", true);
+		break;
+	case DAY::DAY4:
+		nightNumRenderer_->SetImage("S4.png", true);
+		break;
+	case DAY::DAY5:
+		nightNumRenderer_->SetImage("S5.png", true);
+		break;
+	case DAY::DAY6:
+		nightNumRenderer_->SetImage("S6.png", true);
+		break;
+	case DAY::CUSTOM:
+		nightNumRenderer_->SetImage("S7.png", true);
+		break;
+	case DAY::MAX:
+		break;
+	default:
+		break;
+	}
+
+
 }

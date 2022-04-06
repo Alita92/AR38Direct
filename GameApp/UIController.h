@@ -115,6 +115,7 @@ public:
 	void SetCCTVNameRenderer(LOCATION _location);
 	void SetCCTVScreenHighlight(LOCATION _location);
 	void SetCCTVScreenLowlight(LOCATION _location);
+	void SetNightTypo(DAY _day);
 	void SwitchUIState(PLAYERSTATUS _playerStatus);
 
 

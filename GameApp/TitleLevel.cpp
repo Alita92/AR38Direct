@@ -14,6 +14,7 @@
 #include "GameStaticData.h"
 
 TitleLevel::TitleLevel()
+	: titleController_(nullptr)
 {
 }
 
@@ -27,9 +28,9 @@ void TitleLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
+	if (nullptr == titleController_)
 	{
-		TitleController* titleController = CreateActor<TitleController>();
-
+		titleController_ = CreateActor<TitleController>();
 	}
 }
 
@@ -47,9 +48,13 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 }
 void TitleLevel::LevelChangeEndEvent()
 {
+	if (nullptr != titleController_)
+	{
+		titleController_->ControllerReloading();
+	}
 
 }
 void TitleLevel::LevelChangeStartEvent()
 {
-
+	
 }

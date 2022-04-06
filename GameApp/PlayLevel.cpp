@@ -10,6 +10,7 @@
 #include "UIController.h"
 
 PlayLevel::PlayLevel()
+	: gameController_(nullptr)
 {
 }
 
@@ -23,16 +24,11 @@ void PlayLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
+	if (nullptr == gameController_)
 	{
-		GameController* gameController = CreateActor<GameController>();
+		gameController_ = CreateActor<GameController>();
 	}
-
-	{
-		// 타이틀씬의 마우스 액터입니다.
-		GameMouse* mouseActor = CreateActor<GameMouse>();
-		mouseActor->GetUIRenderer()->SetRenderGroup(static_cast<int>(RenderOrder::MAX));
 	
-	}
 }
 
 void PlayLevel::LevelUpdate(float _DeltaTime)
@@ -41,7 +37,12 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 }
 void PlayLevel::LevelChangeEndEvent()
 {
+	if (nullptr != gameController_)
+	{
+		gameController_->ControllerReloading();
+	}
 
+	gameController_->InitEnemyAILevel();
 }
 void PlayLevel::LevelChangeStartEvent()
 {
