@@ -85,6 +85,12 @@
     <Filter Include="Object\EngineActor">
       <UniqueIdentifier>{3fe6bae9-1ac3-420d-b8ac-4a37901a3fa2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\PostProcess">
+      <UniqueIdentifier>{2f31e87a-876f-432d-bf84-4b5b6afd91c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\PostProcess\EngineEffect">
+      <UniqueIdentifier>{29c250b0-cb1e-402b-8a6a-69ad72336086}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -245,6 +251,12 @@
     <ClInclude Include="CameraActor.h">
       <Filter>Object\EngineActor</Filter>
     </ClInclude>
+    <ClInclude Include="PostFade.h">
+      <Filter>Object\PostProcess\EngineEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePostProcessRender.h">
+      <Filter>Object\PostProcess</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -396,6 +408,12 @@
     </ClCompile>
     <ClCompile Include="CameraActor.cpp">
       <Filter>Object\EngineActor</Filter>
+    </ClCompile>
+    <ClCompile Include="PostFade.cpp">
+      <Filter>Object\PostProcess\EngineEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePostProcessRender.cpp">
+      <Filter>Object\PostProcess</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

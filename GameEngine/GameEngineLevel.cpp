@@ -10,7 +10,7 @@
 #include "GameEngineCollision.h"
 #include "GameEngineDebugRenderData.h"
 #include "GameEngineRenderTarget.h"
-
+#include <GameEngine\GameEnginePostProcessRender.h>
 
 CameraActor* GameEngineLevel::GetMainCameraActor()
 {
@@ -31,12 +31,31 @@ CameraComponent* GameEngineLevel::GetUICamera()
 {
 	return UICameraActor_->GetCamera();
 }
+
 GameEngineLevel::GameEngineLevel()
 {
+	PostRender["CameraMergePrev"];
+	PostRender["CameraMergeNext"];
 }
 
 GameEngineLevel::~GameEngineLevel()
 {
+	//for (auto& Event : AllEvent_)
+	//{
+	//	delete Event;
+	//}
+	//
+	//AddEvent_.clear();
+
+	for (auto& Effects : PostRender)
+	{
+		for (auto& Effect : Effects.second)
+		{
+			delete Effect;
+		}
+	}
+
+
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
 		std::list<GameEngineActor*>& Actors = Pair.second;
@@ -109,23 +128,40 @@ void GameEngineLevel::LevelChangeStartActorEvent()
 	}
 }
 
-void GameEngineLevel::Render()
+void GameEngineLevel::Render(float _DeltaTime)
 {
 	GameEngineDevice::RenderStart();
 
 	MainCameraActor_->GetCamera()->ClearCameraTarget();
 	UICameraActor_->GetCamera()->ClearCameraTarget();
-	// 월드를 그리는 것이죠
 	MainCameraActor_->GetCamera()->Render();
 	MainCameraActor_->GetCamera()->DebugRender();
-	// ui를 여기에 그리죠?
+
 	UICameraActor_->GetCamera()->Render();
+
+	{
+		std::vector<GameEnginePostProcessRender*>& PostCameraMergePrev = PostRender["CameraMergePrev"];
+		for (size_t i = 0; i < PostCameraMergePrev.size(); i++)
+		{
+			PostCameraMergePrev[i]->Effect(_DeltaTime);
+		}
+	}
 
 	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
 	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
 
+	{
+		std::vector<GameEnginePostProcessRender*>& PostCameraMergeNext = PostRender["CameraMergeNext"];
+		for (size_t i = 0; i < PostCameraMergeNext.size(); i++)
+		{
+			PostCameraMergeNext[i]->Effect(_DeltaTime);
+		}
+	}
+
+
 	// 충돌체 랜더링이 무조건 화면에 뚫고 나와야하는 애들은
 	GameEngineDevice::RenderEnd();
+
 }
 
 void GameEngineLevel::Release(float _DeltaTime)

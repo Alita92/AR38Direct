@@ -31,18 +31,19 @@ GameEngineRenderTarget::GameEngineRenderTarget(GameEngineRenderTarget&& _other) 
 
 }
 
-void GameEngineRenderTarget::Clear()
+void GameEngineRenderTarget::Clear(bool _Death /*= true*/)
 {
 	for (size_t i = 0; i < RenderTargetViews_.size(); i++)
 	{
 		GameEngineDevice::GetContext()->ClearRenderTargetView(RenderTargetViews_[i], ClearColor_[i].Arr1D);
 	}
 
-	if (nullptr != DepthBuffer_)
+	if (nullptr != DepthBuffer_ && true == _Death)
 	{
 		GameEngineDevice::GetContext()->ClearDepthStencilView(DepthBuffer_->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 }
+
 
 void GameEngineRenderTarget::Create(const std::string _TextureName, float4 _ClearColor)
 {
