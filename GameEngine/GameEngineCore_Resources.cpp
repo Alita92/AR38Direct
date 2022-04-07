@@ -55,19 +55,6 @@ void GameEngineCore::EngineResourcesLoad()
 		}
 	}
 
-	{
-		GameEngineDirectory EngineTextureDir;
-		EngineTextureDir.MoveParent("AR38Direct");
-		EngineTextureDir.MoveChild("EngineResources");
-		EngineTextureDir.MoveChild("Sound");
-
-		std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile("wav");
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		}
-	}
 
 	// 라이너가 아닌 포인터 설정을 적용한 샘플러를 만들려면 이렇게 임의로 해 줘야 합니다.
 	// 샘플러 생성 시 기본 값은 어디까지나 라이너이기 때문에...
