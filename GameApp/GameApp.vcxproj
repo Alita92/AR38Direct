@@ -190,10 +190,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Appmain.cpp" />
-    <ClCompile Include="Bullet.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="CCTVScreen.cpp">
       <SubType>
       </SubType>
@@ -250,10 +246,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="OfficeFan.cpp">
       <SubType>
       </SubType>
@@ -271,10 +263,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="UIController.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -304,10 +292,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TopUI.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="UserGame.cpp">
       <SubType>
       </SubType>
@@ -332,10 +316,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="AIFreddy.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -397,10 +377,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Monster.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="OfficeFan.h">
       <SubType>
       </SubType>
@@ -421,10 +397,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <SubType>
       </SubType>
@@ -439,10 +411,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TitleText.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="TopUI.h">
       <SubType>
       </SubType>
     </ClInclude>
