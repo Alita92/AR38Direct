@@ -10,7 +10,7 @@
 #include "GlitchScreen.h"
 #include "ENUM.h"
 
-#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 
 #include "GameStaticData.h"
 
@@ -24,9 +24,6 @@ TitleController::TitleController() // default constructer 디폴트 생성자
 	, alphaChangeTime_(1.0f)
 	, fadeScreen_(nullptr)
 	, glitchScreen_(nullptr)
-	, musicPlayer_(nullptr)
-	, ambientPlayer_(nullptr)
-	, awakeSoundPlayer_(nullptr)
 {
 
 }
@@ -64,8 +61,8 @@ void TitleController::StateInit()
 
 void TitleController::SoundInit()
 {
-
-
+	ambientPlayer_.PlayAlone("StaticLong.wav");
+	musicPlayer_.PlayAlone("TitleMusic.wav");
 }
 
 void TitleController::ControllerReloading()
@@ -110,6 +107,7 @@ void TitleController::Start()
 {
 	ActorInit();
 	StateInit();
+	SoundInit();
 }
 
 void TitleController::Update(float _Deltatime)
@@ -124,6 +122,7 @@ void TitleController::CollisionNewGame(GameEngineCollision* _other)
 
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		state_.ChangeState("NewGame");
 	}
 
@@ -136,6 +135,7 @@ void TitleController::CollisionContinue(GameEngineCollision* _other)
 
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		state_.ChangeState("Continue");
 	}
 }
@@ -147,6 +147,7 @@ void TitleController::CollisionCustomNight(GameEngineCollision* _other)
 
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		state_.ChangeState("CustomNight");
 	}
 }
@@ -203,7 +204,6 @@ StateInfo TitleController::updateIdle(StateInfo _state)
 StateInfo TitleController::startNewGame(StateInfo _state)
 {
 	deltaTime_ = 0.0f;
-
 	titleFreddy_->isGameStarted_ = true;
 
 	titleMouse_->Off();
@@ -232,6 +232,10 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 
 		if (true == fadeScreen_->isFullFadeOut_)
 		{
+			ambientPlayer_.Stop();
+			musicPlayer_.Stop();
+			awakePlayer_.Stop();
+
 			GetLevel()->RequestLevelChange("Intermission");
 		}
 	}

@@ -26,6 +26,8 @@ class GameEngineSound;
 class GameEngineSoundPlayer;
 class GameEngineSoundManager
 {
+
+	friend GameEngineSoundPlayer;
 private:
 	static GameEngineSoundManager* Inst;
 
@@ -50,6 +52,7 @@ public:
 
 private:	// member Var
 	FMOD::System* soundSystem_; // Fmod가 제공해주는 인터페이스
+	FMOD::Channel* channel_;
 	// 사운드파일하나하나가 아니라
 	// fmod를 사용할수 있는지 확인해주고 사운드를 로드할수 있게 해주는 기본 인터페이스입니다.
 	// 이녀석이 먼저 제대로 만들어질수 있는 환경이어야 사운드를 사용할수 있습니다.
@@ -67,6 +70,9 @@ public:
 
 	void Load(const std::string& _name, const std::string& _path);
 	void PlaySoundOneShot(const std::string& _name);
+	void PlaySoundByName(const std::string& _name);
+	void SetVolume(unsigned int _volume);
+	void StopSound();
 	GameEngineSoundPlayer* CreateSoundPlayer();
 
 public:

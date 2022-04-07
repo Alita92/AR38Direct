@@ -127,8 +127,29 @@ void GameEngineSoundManager::PlaySoundOneShot(const std::string& _name)
 		GameEngineDebug::MsgBoxError("PlaySound Error");
 		return;
 	}
+	soundSystem_->playSound(SoundPtr->sound_, 0, false, &channel_);
+	//soundSystem_->playSound(SoundPtr->sound_, nullptr, false, nullptr);
+}
 
-	soundSystem_->playSound(SoundPtr->sound_, nullptr, false, nullptr);
+void GameEngineSoundManager::PlaySoundByName(const std::string& _name)
+{
+	GameEngineSound* SoundPtr = FindSound(_name);
+
+	if (nullptr == SoundPtr)
+	{
+		GameEngineDebug::MsgBoxError("PlaySound Error");
+		return;
+	}
+	soundSystem_->playSound(SoundPtr->sound_, 0, false, &channel_);
+}
+
+void GameEngineSoundManager::SetVolume(unsigned int _volume)
+{
+}
+
+void GameEngineSoundManager::StopSound()
+{
+	channel_->stop();
 }
 
 //member Func

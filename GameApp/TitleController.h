@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 
@@ -10,7 +11,6 @@ class TitleFreddy;
 class TitleText;
 class TitleNewsPaper;
 class GameEngineCollision;
-class GameEngineSoundPlayer;
 class TitleController : public GameEngineActor
 {
 private:
@@ -41,12 +41,9 @@ protected:
 
 private:
 	// SOUND PLAYER
-	GameEngineSoundPlayer* musicPlayer_;
-	GameEngineSoundPlayer* ambientPlayer_;
-	GameEngineSoundPlayer* awakeSoundPlayer_;
-
-	float soundDeltaTime_;
-
+	GameEngineSoundPlayer musicPlayer_;
+	GameEngineSoundPlayer ambientPlayer_;
+	GameEngineSoundPlayer awakePlayer_;
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
