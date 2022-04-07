@@ -12,7 +12,7 @@ void UserGame::ResourcesLoad()
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
 
-		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("mp3");
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("wav");
 
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{

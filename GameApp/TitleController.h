@@ -10,6 +10,7 @@ class TitleFreddy;
 class TitleText;
 class TitleNewsPaper;
 class GameEngineCollision;
+class GameEngineSoundPlayer;
 class TitleController : public GameEngineActor
 {
 private:
@@ -39,6 +40,14 @@ protected:
 	TitleNewsPaper* titleNewsPaper_;
 
 private:
+	// SOUND PLAYER
+	GameEngineSoundPlayer* musicPlayer_;
+	GameEngineSoundPlayer* ambientPlayer_;
+	GameEngineSoundPlayer* awakeSoundPlayer_;
+
+	float soundDeltaTime_;
+
+private:
 	void Start() override;
 	void Update(float _Deltatime) override;
 
@@ -50,6 +59,7 @@ private:
 private:
 	void ActorInit();
 	void StateInit();
+	void SoundInit();
 
 	void ControllerReloading();
 

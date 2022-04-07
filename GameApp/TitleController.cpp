@@ -10,10 +10,23 @@
 #include "GlitchScreen.h"
 #include "ENUM.h"
 
+#include <GameEngineBase/GameEngineSoundPlayer.h>
+
 #include "GameStaticData.h"
 
 TitleController::TitleController() // default constructer 디폴트 생성자
-	: titleMouse_(nullptr), titleFreddy_(nullptr), titleText_(nullptr), titleNewsPaper_(nullptr), deltaTime_(0.0f), state_(this), alphaChangeTime_(1.0f), fadeScreen_(nullptr), glitchScreen_(nullptr)
+	: titleMouse_(nullptr)
+	, titleFreddy_(nullptr)
+	, titleText_(nullptr)
+	, titleNewsPaper_(nullptr)
+	, deltaTime_(0.0f)
+	, state_(this)
+	, alphaChangeTime_(1.0f)
+	, fadeScreen_(nullptr)
+	, glitchScreen_(nullptr)
+	, musicPlayer_(nullptr)
+	, ambientPlayer_(nullptr)
+	, awakeSoundPlayer_(nullptr)
 {
 
 }
@@ -47,6 +60,12 @@ void TitleController::StateInit()
 	state_.CreateState("6thNight", &TitleController::start6thNight, &TitleController::update6thNight);
 
 	state_.ChangeState("Idle");
+}
+
+void TitleController::SoundInit()
+{
+
+
 }
 
 void TitleController::ControllerReloading()

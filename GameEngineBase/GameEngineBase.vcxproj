@@ -51,10 +51,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineSound.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="GameEngineSoundManager.h">
       <SubType>
       </SubType>
@@ -106,10 +102,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineRandom.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="GameEngineSound.cpp">
       <SubType>
       </SubType>
     </ClCompile>

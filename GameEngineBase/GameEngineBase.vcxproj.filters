@@ -63,9 +63,6 @@
     <ClCompile Include="GameEngineDebug.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineSound.cpp">
-      <Filter>Media</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineSoundManager.cpp">
       <Filter>Media</Filter>
     </ClCompile>
@@ -106,9 +103,6 @@
     </ClInclude>
     <ClInclude Include="GameEngineDebug.h">
       <Filter>Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineSound.h">
-      <Filter>Media</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineSoundManager.h">
       <Filter>Media</Filter>
