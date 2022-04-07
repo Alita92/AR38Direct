@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 #include "ENUM.h"
@@ -39,6 +40,10 @@ private:
 	void SwitchDayRenderer();
 
 	void ControllerReloading();
+
+private:
+	// SOUND PLAYER
+	GameEngineSoundPlayer awakePlayer_;
 
 private:
 	float deltaTime_;

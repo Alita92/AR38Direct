@@ -16,6 +16,19 @@ FadeScreen::~FadeScreen() // default destructer 디폴트 소멸자
 
 }
 
+void FadeScreen::Reset()
+{
+	GetTransform()->SetWorldPosition({ 0.0f,0.0f,0.0f });
+	loadingClockRenderer_->Off();
+	deltaTime_ = 0.0f;
+	isFadeIn_ = false;
+	isFadeOut_ = false;
+	divider_ = 0.0f;
+	isFullFadeIn_ = false;
+	isFullFadeOut_ = false;
+	isReleaseOn_ = false;
+	releaseTime_ = 0.0f;
+}
 
 void FadeScreen::ImageInit()
 {

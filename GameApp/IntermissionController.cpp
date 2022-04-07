@@ -95,6 +95,7 @@ StateInfo IntermissionController::updateStandby(StateInfo _state)
 
 StateInfo IntermissionController::startProceed(StateInfo _state)
 {
+	awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 	glitchScreen_->PlayAwakeScanLine();
 	SwitchDayRenderer();
 	return StateInfo();

@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
 #include <GameEngineBase/GameEngineRandom.h>
@@ -69,7 +70,7 @@ private:
 	const float ELECTRICITY_DEFAULT_USAGE = 9.6f /*9.6f*/ ;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
-	const float EACH_HOUR_REAL_DURATION = 1.0f /*89.0f*/;
+	const float EACH_HOUR_REAL_DURATION = 89.0f /*89.0f*/;
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;
@@ -174,6 +175,23 @@ private:
 	AIFoxy* aiFoxy_;
 	AIFreddy* aiFreddy_;
 
+private:
+	// SOUND PLAYER
+	GameEngineSoundPlayer ambientPlayer_;
+	GameEngineSoundPlayer CCTVPlayer_;
+	GameEngineSoundPlayer awakePlayer_;
+	GameEngineSoundPlayer phoneGuyPlayer_;
+	GameEngineSoundPlayer doorSound_;
+	GameEngineSoundPlayer rlightSound_;
+	GameEngineSoundPlayer llightSound_;
+	GameEngineSoundPlayer bonnieSound_;
+	GameEngineSoundPlayer chicaSound_;
+	GameEngineSoundPlayer freddySound_;
+	GameEngineSoundPlayer foxySound_;
+
+	void LoopAmbient();
+	void PlayPhoneGuy();
+	bool isPhoneStop_;
 
 private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
 	GameEngineFSM<GameController> state_;

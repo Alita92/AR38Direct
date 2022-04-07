@@ -17,6 +17,7 @@ void GameOverController::Start()
 {
 	gameOverBackground_ = GetLevel()->CreateActor<GameOverBackground>();
 	gameOverBackground_->SetWhiteNoise(true);
+	ambientPlayer_.PlayOverLap("StaticShort.wav");
 }
 
 void GameOverController::Update(float _Deltatime)
@@ -25,6 +26,7 @@ void GameOverController::Update(float _Deltatime)
 
 	if (WHITE_NOISE_TIME <= deltaTime_ && false == isWhiteNoiseOff_)
 	{
+		ambientPlayer_.Stop();
 		gameOverBackground_->SetWhiteNoise(false);
 		isWhiteNoiseOff_ = true;
 		deltaTime_ = 0.0f;

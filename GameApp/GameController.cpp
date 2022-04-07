@@ -65,6 +65,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, alphaChangeTime_(0.0f)
 	, gameMouse_(nullptr)
 	, alphaChangeTime1_(1.5f)
+	, isPhoneStop_(false)
 {
 
 }
@@ -128,10 +129,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(0);
-		aiChica_->SetAILevel(0);
-		aiFoxy_->SetAILevel(0);
-		aiFreddy_->SetAILevel(0);
+		aiBonnie_->SetAILevel(10);
+		aiChica_->SetAILevel(10);
+		aiFoxy_->SetAILevel(10);
+		aiFreddy_->SetAILevel(10);
 	}
 	break;
 	case DAY::DAY2:
@@ -274,7 +275,8 @@ void GameController::Start()
 	InitState();
 	InitAnimation();
 	InitPlayStatus();
-	
+
+
 	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
 	{
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P');
@@ -320,6 +322,7 @@ void GameController::ControllerReloading()
 		chicaDice_ = 0;
 		winDeltaTime_ = 0.0f;
 		alphaChangeTime_ = 0.0f;
+		isPhoneStop_ = false;
 	}
 
 	{
@@ -375,6 +378,10 @@ void GameController::ControllerReloading()
 		fadeScreen_->StartFadeIn(0.0f);
 		fadeScreen_->SetLoadingRenderer();
 		fadeScreen_->OffScreen(0.7f);
+
+		fadeScreen_->StartFadeOut(0.0f);
+		fadeScreen_->Reset();
+
 		glitchScreen_->SetWhiteNoiseAlpha(0.3f);
 	}
 
@@ -392,7 +399,6 @@ void GameController::ControllerReloading()
 		UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
 	}
 
-	fadeScreen_->StartFadeOut(0.0f);
 	UIController_->dayPassNum5_->SetAlpha(0.0f);
 	UIController_->dayPassAM_->SetAlpha(0.0f);
 
@@ -462,6 +468,8 @@ void GameController::Update(float _Deltatime)
 	state_.Update();
 	CheckTime();
 	CheckElectricityUsage();
+	LoopAmbient();
+	PlayPhoneGuy();
 }
 
 
@@ -469,6 +477,7 @@ void GameController::CheckOfficeInput()
 {
 	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle") && true == lDoorRenderer_->IsCurAnimationEnd())
 	{
+		awakePlayer_.PlayOverLap("Door.wav");
 		if (false == isLdoorClosed_)
 		{
 			isLdoorClosed_ = true;
@@ -487,6 +496,7 @@ void GameController::CheckOfficeInput()
 
 	if (true == GameEngineInput::GetInst().Down("RDoor_Toggle") && true == rDoorRenderer_->IsCurAnimationEnd())
 	{
+		doorSound_.PlayOverLap("Door.wav");
 		if (false == isRdoorClosed_)
 		{
 			isRdoorClosed_ = true;
@@ -508,18 +518,23 @@ void GameController::CheckOfficeInput()
 	{
 		if (false == isLdoorLighted_)
 		{
-			isLdoorLighted_ = true;
-
 			if (true == isRdoorLighted_)
 			{
+				rlightSound_.Stop();
 				isRdoorLighted_ = false;
 				curPowerLevel_--;
 			}
+
+			llightSound_.PlayOverLap("DoorLight.wav", -1);
+			isLdoorLighted_ = true;
+
+		
 			curPowerLevel_++;
 
 		}
 		else
 		{
+			llightSound_.Stop();
 			isLdoorLighted_ = false;
 			curPowerLevel_ -= 1;
 		}
@@ -529,17 +544,22 @@ void GameController::CheckOfficeInput()
 	{
 		if (false == isRdoorLighted_)
 		{
-			isRdoorLighted_ = true;
 			if (true == isLdoorLighted_)
 			{
+				llightSound_.Stop();
 				isLdoorLighted_ = false;
 				curPowerLevel_--;
 			}
+
+			rlightSound_.PlayOverLap("DoorLight.wav", -1);
+			isRdoorLighted_ = true;
+		
 			curPowerLevel_ += 1;
 
 		}
 		else
 		{
+			rlightSound_.Stop();
 			isRdoorLighted_ = false;
 			curPowerLevel_ -= 1;
 		}
@@ -591,7 +611,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		if (true == isPirateCoveChecked_)
 		{
 			foxyDeathTimer_ += GameEngineTime::GetInst().GetDeltaTime();
-
+			foxySound_.PlayAlone("FoxyRun.wav");
 			if (1.5f <= foxyDeathTimer_)
 			{
 				if (false == isLdoorClosed_)
@@ -602,7 +622,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 				else
 				{
 					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
-					// 문 두들기는 사운드 재생
+					foxySound_.PlayOverLap("FoxyDoor.wav");
 					isPirateCoveChecked_ = false;
 					isFoxyRunning_ = false;
 					foxyDeathTimer_ = 0.0f;
@@ -614,6 +634,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		{
 			foxyDeathTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
+			foxySound_.PlayAlone("FoxyRun.wav");
 			if (2.0f <= foxyDeathTimer_ )
 			{
 				if (false == isLdoorClosed_)
@@ -624,7 +645,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 				else
 				{
 					curPowerRate_ -= (5.0f * static_cast<float>(curDay_));
-					// 문 두들기는 사운드 재생
+					foxySound_.PlayOverLap("FoxyDoor.wav");
 					isPirateCoveChecked_ = false;
 					foxyDeathTimer_ = 0.0f;
 					aiFoxy_->ResetFoxyLevel();
@@ -657,6 +678,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	{
 		if (LOCATION::LOFFICEDOOR == aiBonnie_->GetLocation())
 		{
+			bonnieSound_.PlayAlone("WindowScare.wav");
 			mainRenderer_->SetImage("OfficeLightL1.png", true);
 		}
 		else
@@ -673,6 +695,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	{
 		if (LOCATION::ROFFICEDOOR == aiChica_->GetLocation())
 		{
+			chicaSound_.PlayAlone("WindowScare.wav");
 			mainRenderer_->SetImage("OfficeLightR1.png", true);
 		}
 		else
@@ -686,6 +709,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	}
 	
 	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
+	UIController_->muteCallCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMuteCall, this, std::placeholders::_1));
 
 	return StateInfo();
 }
@@ -748,8 +772,13 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		return "Win";
 	}
 
+	{
+		CCTVPlayer_.PlayAlone("CCTV.wav", -1);
+	}
+
 	if (LOCATION::OFFICE == aiBonnie_->GetLocation())
 	{
+
 		playDeadTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
 		if (MAXIMUM_PLAYDEAD_DURATION <= playDeadTimer_)
@@ -760,6 +789,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 	if (LOCATION::OFFICE == aiChica_->GetLocation())
 	{
+		chicaSound_.PlayAlone("ChicaVoice1.wav");
 		playDeadTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
 		if (MAXIMUM_PLAYDEAD_DURATION <= playDeadTimer_)
@@ -1037,6 +1067,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		{
 			isFoxyRunning_ = true;
 			foxyRunningRenderer_->On();
+			awakePlayer_.PlayAlone("FoxyRun.wav");
 			foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
 			CCTVRealRenderer_->Off();
 			break;
@@ -1157,6 +1188,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 StateInfo GameController::startCCTVClose(StateInfo _state)
 {
+	CCTVPlayer_.Stop();
 	glitchScreen_->PlayWhiteNoise(false);
 	curPowerLevel_ -= 1;
 	CCTVRealRenderer_->Off();
@@ -1204,6 +1236,7 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 	rDoorRenderer_->Off();
 
 	UIController_->Off();
+	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
 
@@ -1218,6 +1251,7 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		awakePlayer_.Stop();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1236,6 +1270,7 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 	rDoorRenderer_->Off();
 
 	UIController_->Off();
+	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
 
@@ -1250,6 +1285,7 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		awakePlayer_.Stop();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1267,7 +1303,9 @@ StateInfo GameController::startFoxyDeath(StateInfo _state)
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 
+
 	UIController_->Off();
+	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
 
@@ -1277,6 +1315,7 @@ StateInfo GameController::updateFoxyDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		awakePlayer_.Stop();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1292,7 +1331,7 @@ StateInfo GameController::startFreddyDeath(StateInfo _state)
 	mainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
-
+	awakePlayer_.PlayOverLap("JumpScare.wav");
 	UIController_->Off();
 
 	return StateInfo();
@@ -1304,6 +1343,7 @@ StateInfo GameController::updateFreddyDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		awakePlayer_.Stop();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1313,6 +1353,11 @@ StateInfo GameController::updateFreddyDeath(StateInfo _state)
 
 StateInfo GameController::startNoElec(StateInfo _state)
 {
+	ambientPlayer_.Stop();
+	CCTVPlayer_.Stop();
+	phoneGuyPlayer_.Stop();
+	ambientPlayer_.PlayAlone("PowerDown.wav");
+
 	UIController_->Off();
 
 	if (CurPlayerState_ != PLAYERSTATUS::OFFICE)
@@ -1329,12 +1374,14 @@ StateInfo GameController::startNoElec(StateInfo _state)
 
 	if (true == isRdoorClosed_)
 	{
+		awakePlayer_.PlayOverLap("Door.wav");
 		rDoorRenderer_->SetChangeAnimation("RdoorOpen");
 		isRdoorClosed_ = false;
 	}
 
 	if (true == isLdoorClosed_)
 	{
+		awakePlayer_.PlayOverLap("Door.wav");
 		lDoorRenderer_->SetChangeAnimation("LdoorOpen");
 		isLdoorClosed_ = false;
 	}
@@ -1350,8 +1397,19 @@ StateInfo GameController::updateNoElec(StateInfo _state)
 
 	noElecDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
+	if (true == rDoorRenderer_->IsCurAnimationEnd())
+	{
+		rDoorRenderer_->Off();
+	}
+	if (true == lDoorRenderer_->IsCurAnimationEnd())
+	{
+		lDoorRenderer_->Off();
+	}
+
+
 	if (4 == noElecTimerCounter_)
 	{
+		ambientPlayer_.Stop();
 		return "HeisComing";
 	}
 
@@ -1375,6 +1433,7 @@ StateInfo GameController::updateNoElec(StateInfo _state)
 		{
 			noElecDeltaTime_ = 0.0f;
 			noElecTimerCounter_ = 0;
+			ambientPlayer_.Stop();
 			return "HeisComing";
 		}
 		break;
@@ -1394,6 +1453,8 @@ StateInfo GameController::startHeisComing(StateInfo _state)
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 	mainRenderer_->SetChangeAnimation("NoElec");
+
+	ambientPlayer_.PlayAlone("MusicBox.wav");
 	return StateInfo();
 }
 
@@ -1441,6 +1502,7 @@ StateInfo GameController::startHeKillsYou(StateInfo _state)
 	noElecDeltaTime_ = 0.0f;
 	noElecTimerCounter_ = 0;
 	mainRenderer_->SetChangeAnimation("NoElecBlink");
+	ambientPlayer_.Stop();
 	return StateInfo();
 }
 
@@ -1481,7 +1543,9 @@ StateInfo GameController::updateHeKillsYou(StateInfo _state)
 
 StateInfo GameController::startNoElecDeath(StateInfo _state)
 {
+
 	mainRenderer_->SetChangeAnimation("NoElecFreddy");
+	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
 
@@ -1489,6 +1553,7 @@ StateInfo GameController::updateNoElecDeath(StateInfo _state)
 {
 	if (true == mainRenderer_->IsCurAnimationEnd())
 	{
+		awakePlayer_.Stop();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1609,6 +1674,7 @@ void GameController::CollisionCCTVButton(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVOnOff.wav");
 		// 닿았으면 바로 전환 가능하게
 		if (PLAYERSTATUS::OFFICE != CurPlayerState_)
 		{
@@ -1641,13 +1707,17 @@ void GameController::CollisionCCTVButton(GameEngineCollision* _other)
 
 void GameController::CollisionMuteCall(GameEngineCollision* _other)
 {
-
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		phoneGuyPlayer_.Stop();
+	}
 }
 
 void GameController::CollisionCam1A(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::SHOWSTAGE;
@@ -1658,6 +1728,7 @@ void GameController::CollisionCam1B(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::DININGAREA;
@@ -1668,6 +1739,7 @@ void GameController::CollisionCam1C(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::PIRATECOVE;
@@ -1678,6 +1750,7 @@ void GameController::CollisionCam3(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::SUPPLYCLOSET;
@@ -1688,6 +1761,7 @@ void GameController::CollisionCam5(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::BACKSTAGE;
@@ -1698,6 +1772,7 @@ void GameController::CollisionCam2A(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::WESTHALLA;
@@ -1708,6 +1783,7 @@ void GameController::CollisionCam2B(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::WESTHALLB;
@@ -1718,6 +1794,7 @@ void GameController::CollisionCam7(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::RESTROOMS;
@@ -1728,6 +1805,7 @@ void GameController::CollisionCam6(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::KITCHEN;
@@ -1738,6 +1816,7 @@ void GameController::CollisionCam4A(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::EASTHALLA;
@@ -1747,8 +1826,56 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::EASTHALLB;
 	}
+}
+
+void GameController::LoopAmbient()
+{
+	if (0.0f >= fadeScreen_->GetReleaseTime() && false == isElecCheckOff_)
+	{
+		ambientPlayer_.GetChannel()->setVolume(0.2f);
+		ambientPlayer_.PlayAlone("Office.wav", -1);
+	}
+}
+
+void GameController::PlayPhoneGuy()
+{
+	if (false == isElecCheckOff_ && false == isPhoneStop_)
+	{
+		switch (curDay_)
+		{
+		case DAY::DAY1:
+			phoneGuyPlayer_.PlayAlone("Phone1.wav");
+			break;
+		case DAY::DAY2:
+			phoneGuyPlayer_.PlayAlone("Phone2.wav");
+			break;
+		case DAY::DAY3:
+			phoneGuyPlayer_.PlayAlone("Phone3.wav");
+			break;
+		case DAY::DAY4:
+			phoneGuyPlayer_.PlayAlone("Phone4.wav");
+			break;
+		case DAY::DAY5:
+			phoneGuyPlayer_.PlayAlone("Phone5.wav");
+			break;
+		case DAY::DAY6:
+			phoneGuyPlayer_.PlayAlone("Phone6.wav");
+			break;
+		case DAY::CUSTOM:
+			break;
+		case DAY::MAX:
+			break;
+		default:
+			break;
+		}
+
+		isPhoneStop_ = true;
+	}
+	
+
 }

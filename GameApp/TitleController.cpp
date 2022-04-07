@@ -70,6 +70,8 @@ void TitleController::ControllerReloading()
 	state_.ChangeState("Idle");
 	fadeScreen_->SetAlpha(0.0f);
 	fadeScreen_->StartFadeIn(0.0f);
+	fadeScreen_->Reset();
+
 	titleMouse_->On();
 	titleMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 
@@ -226,7 +228,7 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 		UpdateTitleAlphaChange();
 	}
 
-	if (5.0f <= deltaTime_)
+	if (3.0f <= deltaTime_)
 	{
 		fadeScreen_->StartFadeOut(2.5f);
 

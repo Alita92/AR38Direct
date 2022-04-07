@@ -23,7 +23,11 @@ public:
 	void SetLoadingRenderer();
 	void OffScreen(float _time);
 	void OnScreen();
-
+	void Reset();
+	float GetReleaseTime()
+	{
+		return releaseTime_;
+	}
 protected:
 	GameEngineUIRenderer* fadeScreenRenderer_;
 	GameEngineUIRenderer* loadingClockRenderer_;
@@ -34,6 +38,7 @@ private:
 
 private:
 	void ImageInit();
+
 
 private:
 	float deltaTime_;

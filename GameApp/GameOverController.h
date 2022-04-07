@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngine/GameEngineActor.h>
 
 class GameOverBackground;
@@ -16,6 +17,7 @@ public:
 
 protected:
 	GameOverBackground* gameOverBackground_;
+	GameEngineSoundPlayer ambientPlayer_;
 
 private:
 	const float WHITE_NOISE_TIME = 5.0f;

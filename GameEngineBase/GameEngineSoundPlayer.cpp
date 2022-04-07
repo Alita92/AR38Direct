@@ -100,6 +100,7 @@ void GameEngineSoundPlayer::PlayAlone(const std::string& _name, int _LoopCount /
 	playChannel_->setLoopCount(_LoopCount);
 }
 
+
 void GameEngineSoundPlayer::Stop()
 {
 	if (nullptr == playChannel_)
@@ -109,4 +110,9 @@ void GameEngineSoundPlayer::Stop()
 
 	playChannel_->stop();
 	playChannel_ = nullptr;
+}
+
+FMOD::Channel* GameEngineSoundPlayer::GetChannel()
+{
+	return playChannel_;
 }

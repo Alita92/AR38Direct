@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "GameStaticData.h"
 
-DAY GameStaticData::curDay_ = DAY::MAX;
+DAY GameStaticData::curDay_ = DAY::DAY1;
 DAY GameStaticData::savedDay_ = DAY::MAX;
 
 int GameStaticData::AICustomStartLevelBonnie_ = 0;

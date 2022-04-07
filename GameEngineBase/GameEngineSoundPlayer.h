@@ -37,7 +37,7 @@ public:		//member Func
 
 	// 기존의 사운드가 재생이 끝나야만 다음 사운드를 재생한다.
 	void PlayAlone(const std::string& _name, int _LoopCount = 0);
-
 	void Stop();
+	FMOD::Channel* GetChannel();
 };
 
