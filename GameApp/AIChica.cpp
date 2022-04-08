@@ -35,6 +35,17 @@ void AIChica::InitState()
 	state_.ChangeState("ShowStage");
 }
 
+void AIChica::Reloading()
+{
+	deltatime_ = 0.0f;
+	curLocation_ = LOCATION::SHOWSTAGE;
+	prevLocation_ = LOCATION::MAX;
+	isDoorLocked_ = false;
+	isPlayerStares_ = true;
+	isRecentlyMoved_ = false;
+	state_.ChangeState("ShowStage");
+}
+
 void AIChica::Start()
 {
 	InitState();

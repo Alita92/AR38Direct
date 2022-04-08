@@ -68,6 +68,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, isPhoneStop_(false)
 	, isCCTVGlitched_(false)
 	, CCTVGlitchDeltaTime_(0.0f)
+	, isLoadingDone_(false)
 {
 
 }
@@ -257,7 +258,7 @@ void GameController::InitScreenEffects()
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
 	fadeScreen_->SetAlpha(1.0f);
 	fadeScreen_->SetLoadingRenderer();
-	fadeScreen_->OffScreen(0.7f);
+	//fadeScreen_->OffScreen(0.7f);
 	
 	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
 	glitchScreen_->SetWhiteNoiseAlpha(0.3f);
@@ -289,6 +290,11 @@ void GameController::Start()
 void GameController::ControllerReloading()
 {
 	state_.ChangeState("Idle");
+	aiBonnie_->Reloading();
+	aiChica_->Reloading();
+	aiFoxy_->Reloading();
+	aiFreddy_->Reloading();
+
 	gameMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 
 	{
@@ -326,6 +332,7 @@ void GameController::ControllerReloading()
 		winDeltaTime_ = 0.0f;
 		alphaChangeTime_ = 0.0f;
 		isPhoneStop_ = false;
+		isLoadingDone_ = false;
 	}
 
 	{
@@ -380,7 +387,7 @@ void GameController::ControllerReloading()
 		fadeScreen_->SetAlpha(1.0f);
 		fadeScreen_->StartFadeIn(0.0f);
 		fadeScreen_->SetLoadingRenderer();
-		fadeScreen_->OffScreen(0.7f);
+		//fadeScreen_->OffScreen(0.7f);
 
 		fadeScreen_->StartFadeOut(0.0f);
 		fadeScreen_->Reset();
@@ -586,6 +593,13 @@ StateInfo GameController::startIdle(StateInfo _state)
 
 StateInfo GameController::updateIdle(StateInfo _state)
 {
+	if (false == isLoadingDone_)
+	{
+		fadeScreen_->SetLoadingRenderer();
+		fadeScreen_->OffScreen(0.7f);
+		isLoadingDone_ = true;
+	}
+
 	CheckOfficeInput();
 
 	if (curTime_ == 6)
@@ -1653,7 +1667,7 @@ StateInfo GameController::updateWin(StateInfo _state)
 			UIController_->dayPassNum6_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 30.0f);
 			UIController_->dayPassNum5_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 30.0f);
 		}
-		else
+		else if (7.0f <= winDeltaTime_)
 		{
 			if (0.0f <= alphaChangeTime1_)
 			{
@@ -1665,7 +1679,7 @@ StateInfo GameController::updateWin(StateInfo _state)
 		}
 	}
 
-	if (8.0f <= winDeltaTime_)
+	if (9.0f <= winDeltaTime_)
 	{
 		switch (GameStaticData::curDay_)
 		{

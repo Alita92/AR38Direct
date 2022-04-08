@@ -38,6 +38,7 @@ public:
 	void SetAILevel(int _level);
 	void AddAILevel(int _level);
 	void InitState();
+	void Reloading();
 
 	LOCATION GetLocation()
 	{

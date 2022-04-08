@@ -25,6 +25,15 @@ void AIFoxy::InitState()
 	state_.ChangeState("Lv1");
 }
 
+void AIFoxy::Reloading()
+{
+	deltatime_ = 0.0f;
+	level_ = FOXYLEVEL::MAX;
+	isDoorLocked_ = false;
+	isPlayerStares_ = false;
+	state_.ChangeState("Lv1");
+}
+
 void AIFoxy::Start()
 {
 	InitState();

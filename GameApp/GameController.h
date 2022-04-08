@@ -11,7 +11,7 @@
 // 시각적인 용도를 결정하는 클래스(CCTV 스크린 등) 은 이 게임컨트롤러의 피드백을 받아 움직이게 합니다.
 
 class PlayLevel;
-class GameEngineImageRenderer; \
+class GameEngineImageRenderer;
 class GameMouse;
 class GlitchScreen;
 class FadeScreen;
@@ -64,13 +64,14 @@ private:
 	FadeScreen* fadeScreen_;
 	GameMouse* gameMouse_;
 	GlitchScreen* glitchScreen_;
+	bool isLoadingDone_;
 
 	// 컨트롤러 척도
 	const float MAX_ELECTRICITIY_RATE = 100.0f;
 	const float ELECTRICITY_DEFAULT_USAGE = 9.6f /*9.6f*/ ;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
-	const float EACH_HOUR_REAL_DURATION = 89.0f /*89.0f*/;
+	const float EACH_HOUR_REAL_DURATION = 1.0f /*89.0f*/;
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;

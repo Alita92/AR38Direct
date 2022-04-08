@@ -9,7 +9,7 @@ AIFreddy::AIFreddy() // default constructer 디폴트 생성자
 	:AILevel_(0)
 	, deltatime_(0.0f)
 	, curLocation_(LOCATION::SHOWSTAGE)
-	, prevLocation_(LOCATION::SHOWSTAGE)
+	, prevLocation_(LOCATION::MAX)
 	, state_(this)
 	, isDoorLocked_(false)
 	, isPlayerStares_(true)
@@ -36,6 +36,19 @@ void AIFreddy::InitState()
 
 	state_.ChangeState("ShowStage");
 }
+
+void AIFreddy::Reloading()
+{
+	deltatime_ = 0.0f;
+	curLocation_ = LOCATION::SHOWSTAGE;
+	prevLocation_ = LOCATION::MAX;
+	isDoorLocked_ = false;
+	isPlayerStares_ = true;
+	isRecentlyMoved_ = false;
+	isBonnieChica0ut_ = false;
+	state_.ChangeState("ShowStage");
+}
+
 
 void AIFreddy::Start()
 {
