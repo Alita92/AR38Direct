@@ -58,6 +58,10 @@ private:
 private:
 	void ControllerReloading();
 	void AICheck();
+	bool flag1_;
+	bool flag2_;
+	bool flag3_;
+	bool flag4_;
 
 private:
 	UIController* UIController_;
@@ -71,7 +75,7 @@ private:
 	const float ELECTRICITY_DEFAULT_USAGE = 9.6f /*9.6f*/ ;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
-	const float EACH_HOUR_REAL_DURATION = 1.0f /*89.0f*/;
+	const float EACH_HOUR_REAL_DURATION = 89.0f /*89.0f*/;
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;

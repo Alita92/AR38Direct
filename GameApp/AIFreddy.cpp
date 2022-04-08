@@ -15,6 +15,7 @@ AIFreddy::AIFreddy() // default constructer 디폴트 생성자
 	, isPlayerStares_(true)
 	, isBonnieChica0ut_(false)
 	, isRecentlyMoved_(false)
+	, soundDice_(0)
 {
 
 }
@@ -46,7 +47,9 @@ void AIFreddy::Reloading()
 	isPlayerStares_ = true;
 	isRecentlyMoved_ = false;
 	isBonnieChica0ut_ = false;
+
 	state_.ChangeState("ShowStage");
+	soundDice_ = 0;
 }
 
 
@@ -78,18 +81,17 @@ StateInfo AIFreddy::startShowStage(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::SHOWSTAGE;
-
 	isBonnieChica0ut_ = false;
-
+	
 	return StateInfo();
 }
 
 StateInfo AIFreddy::updateShowStage(StateInfo _state)
 {
 
-	//if (false == isBonnieChica0ut_)
+	if (false == isBonnieChica0ut_)
 	{
-	//	return StateInfo();
+		return StateInfo();
 	}
 
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
@@ -105,6 +107,7 @@ StateInfo AIFreddy::updateShowStage(StateInfo _state)
 			// 이 이후로 쇼 스테이지로 다시 갈 일은 없습니다.
 			prevLocation_ = curLocation_;
 			isRecentlyMoved_ = true;
+			PlayRandomMoveSound();
 			return "DiningArea";
 		}
 	}
@@ -132,6 +135,7 @@ StateInfo AIFreddy::updateDiningArea(StateInfo _state)
 		{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				PlayRandomMoveSound();
 				return "RestRooms";
 		}
 	}
@@ -157,6 +161,7 @@ StateInfo AIFreddy::updateRestRooms(StateInfo _state)
 
 		prevLocation_ = curLocation_;
 		isRecentlyMoved_ = true;
+		PlayRandomMoveSound();
 		return "Kitchen";
 	}
 
@@ -183,6 +188,7 @@ StateInfo AIFreddy::updateKitchen(StateInfo _state)
 		{
 			prevLocation_ = curLocation_;
 			isRecentlyMoved_ = true;
+			PlayRandomMoveSound();
 			return "EastHallA";
 		}
 	}
@@ -210,6 +216,7 @@ StateInfo AIFreddy::updateEastHallA(StateInfo _state)
 		{
 			prevLocation_ = curLocation_;
 			isRecentlyMoved_ = true;
+			PlayRandomMoveSound();
 			return "EastHallB";
 		}
 	}
@@ -239,12 +246,14 @@ StateInfo AIFreddy::updateEastHallB(StateInfo _state)
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				PlayRandomMoveSound();
 				return "Office";
 			}
 			else
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				PlayRandomMoveSound();
 				return "DiningArea";
 			}
 	
@@ -265,4 +274,24 @@ StateInfo AIFreddy::updateOffice(StateInfo _state)
 {
 
 	return StateInfo();
+}
+
+void AIFreddy::PlayRandomMoveSound()
+{
+	soundDice_ = randomGenerator_.RandomInt(0, 2);
+
+	switch (soundDice_)
+	{
+	case 0:
+		moveSound_.PlayAlone("FreddyMove0.wav");
+		break;
+	case 1:
+		moveSound_.PlayAlone("FreddyMove1.wav");
+		break;
+	case 2:
+		moveSound_.PlayAlone("FreddyMove2.wav");
+		break;
+	default:
+		break;
+	}
 }

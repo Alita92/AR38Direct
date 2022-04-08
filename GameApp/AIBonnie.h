@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
@@ -15,7 +16,6 @@ private:
 
 public:
 	AIBonnie(); // default constructer 디폴트 생성자
-
 	~AIBonnie(); // default destructer 디폴트 소멸자
 	AIBonnie(const AIBonnie& _other) = delete; // default Copy constructer 디폴트 복사생성자
 	AIBonnie(AIBonnie&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
@@ -34,6 +34,9 @@ private:
 	LOCATION prevLocation_;
 	
 	GameEngineRandom randomGenerator_;
+
+private:
+	GameEngineSoundPlayer moveSound_;
 
 public:
 	void SetAILevel(int _level);

@@ -229,6 +229,7 @@ StateInfo AIBonnie::updateWestHallA(StateInfo _state)
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				moveSound_.PlayAlone("BonnieChicaMove.wav");
 				return "WestHallB";
 			}
 			break;
@@ -275,6 +276,7 @@ StateInfo AIBonnie::updateWestHallB(StateInfo _state)
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				moveSound_.PlayAlone("BonnieChicaMove.wav");
 				return "OfficeDoor";
 			}
 			break;
@@ -401,6 +403,7 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 				{
 					prevLocation_ = curLocation_;
 					isRecentlyMoved_ = true;
+					moveSound_.PlayAlone("BonnieChicaMove.wav");
 					return "WestHallB";
 				}
 					break;
@@ -408,6 +411,7 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 				{
 					prevLocation_ = curLocation_;
 					isRecentlyMoved_ = true;
+					moveSound_.PlayAlone("BonnieChicaMove.wav");
 					return "WestHallA";
 				}
 					break;
@@ -415,6 +419,7 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 				{
 					prevLocation_ = curLocation_;
 					isRecentlyMoved_ = true;
+					moveSound_.PlayAlone("BonnieChicaMove.wav");
 					return "DiningArea";
 				}
 					break;
@@ -422,6 +427,7 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 				{
 					prevLocation_ = curLocation_;
 					isRecentlyMoved_ = true;
+					moveSound_.PlayAlone("BonnieChicaMove.wav");
 					return "SupplyCloset";
 				}
 					break;

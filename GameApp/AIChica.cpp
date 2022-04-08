@@ -11,6 +11,7 @@ AIChica::AIChica() // default constructer 디폴트 생성자
 	, isDoorLocked_(false)
 	, isPlayerStares_(true)
 	, isRecentlyMoved_(false)
+	, soundDice_(0)
 {
 
 }
@@ -43,6 +44,7 @@ void AIChica::Reloading()
 	isDoorLocked_ = false;
 	isPlayerStares_ = true;
 	isRecentlyMoved_ = false;
+	soundDice_ = 0;
 	state_.ChangeState("ShowStage");
 }
 
@@ -195,12 +197,36 @@ StateInfo AIChica::startKitchen(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::KITCHEN;
-
+	soundDice_ = randomGenerator_.RandomInt(0, 3);
 	return StateInfo();
 }
 
 StateInfo AIChica::updateKitchen(StateInfo _state)
 {
+	if (false == isPlayerStares_)
+	{
+		moveSound_.GetChannel()->setVolume(0.5);
+	}
+
+	switch (soundDice_)
+	{
+	case 0:
+		moveSound_.PlayAlone("ChicaKitchen0.wav", -1);
+		break;
+	case 1:
+		moveSound_.PlayAlone("ChicaKitchen1.wav", -1);
+		break;
+	case 2:
+		moveSound_.PlayAlone("ChicaKitchen2.wav", -1);
+		break;
+	case 3:
+		moveSound_.PlayAlone("ChicaKitchen3.wav", -1);
+		break;
+	default:
+		break;
+	}
+
+
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
@@ -209,6 +235,7 @@ StateInfo AIChica::updateKitchen(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
+			moveSound_.Stop();
 			switch (randomGenerator_.RandomInt(0, 2))
 			{
 			case 0:
@@ -323,6 +350,7 @@ StateInfo AIChica::updateEastHallB(StateInfo _state)
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				moveSound_.PlayAlone("BonnieChicaMove.wav");
 				return "OfficeDoor";
 			}
 			break;
@@ -391,6 +419,7 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				moveSound_.PlayAlone("BonnieChicaMove.wav");
 				return "EastHallB";
 			}
 			break;
@@ -399,6 +428,7 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				moveSound_.PlayAlone("BonnieChicaMove.wav");
 				return "EastHallA";
 			}
 			break;
@@ -406,6 +436,7 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 			{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
+				moveSound_.PlayAlone("BonnieChicaMove.wav");
 				return "Kitchen";
 			}
 			break;

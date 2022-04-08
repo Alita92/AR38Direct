@@ -69,6 +69,10 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, isCCTVGlitched_(false)
 	, CCTVGlitchDeltaTime_(0.0f)
 	, isLoadingDone_(false)
+	, flag1_(false)
+	, flag2_(false)
+	, flag3_(false)
+	, flag4_(false)
 {
 
 }
@@ -132,10 +136,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(5);
-		aiChica_->SetAILevel(7);
-		aiFoxy_->SetAILevel(5);
-		aiFreddy_->SetAILevel(3);
+		aiBonnie_->SetAILevel(2);
+		aiChica_->SetAILevel(4);
+		aiFoxy_->SetAILevel(6);
+		aiFreddy_->SetAILevel(2);
 	}
 	break;
 	case DAY::DAY2:
@@ -184,6 +188,37 @@ void GameController::InitEnemyAILevel()
 	}
 }
 
+void GameController::AICheck()
+{
+	if (1 == curTime_ && false == flag1_)
+	{
+		aiBonnie_->AddAILevel(1);
+		flag1_ = true;
+	}
+
+	if (2 == curTime_ && false == flag2_)
+	{
+		aiBonnie_->AddAILevel(1);
+		flag2_ = true;
+
+	}
+
+	if (3 == curTime_ && false == flag3_)
+	{
+		aiBonnie_->AddAILevel(1);
+		aiChica_->AddAILevel(1);
+		aiFoxy_->AddAILevel(1);
+		flag3_ = true;
+	}
+
+	if (4 == curTime_ && false == flag4_)
+	{
+		aiBonnie_->AddAILevel(1);
+		aiChica_->AddAILevel(1);
+		aiFoxy_->AddAILevel(1);
+		flag4_ = true;
+	}
+}
 
 void GameController::InitAnimation()
 {
@@ -238,7 +273,7 @@ void GameController::InitAnimation()
 
 	{
 		CCTVRealRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVRealRenderer_->SetImage("ClearScreen.png", true);
 
 		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV0) });
 		CCTVRealRenderer_->Off();
@@ -333,6 +368,10 @@ void GameController::ControllerReloading()
 		alphaChangeTime_ = 0.0f;
 		isPhoneStop_ = false;
 		isLoadingDone_ = false;
+		flag1_ = false;
+		flag2_ = false;
+		flag3_ = false;
+		flag4_ = false;
 	}
 
 	{
@@ -480,6 +519,7 @@ void GameController::Update(float _Deltatime)
 	CheckElectricityUsage();
 	LoopAmbient();
 	PlayPhoneGuy();
+	AICheck();
 }
 
 
@@ -760,9 +800,9 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	glitchScreen_->PlayWhiteNoise(true);
 	glitchScreen_->PlayAwakeScanLineFast();
 	fanRenderer_->Off();
+	CCTVRealRenderer_->On();
 	CCTVAnimationRenderer_->Off();
 	CurPlayerState_ = PLAYERSTATUS::CCTV;
-
 	bonnieDice_ = randomGenerator_.RandomInt(0, 1);
 	chicaDice_ = randomGenerator_.RandomInt(0, 1);
 	isAnomalyOn_ = randomGenerator_.RandomBool(25.0f / 100.0f);

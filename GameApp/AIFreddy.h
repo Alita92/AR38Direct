@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineFSM.h>
@@ -35,6 +36,10 @@ private:
 
 	GameEngineRandom randomGenerator_;
 
+private:
+	GameEngineSoundPlayer moveSound_;
+	int soundDice_;
+	void PlayRandomMoveSound();
 public:
 	void SetAILevel(int _level);
 	void AddAILevel(int _level);
