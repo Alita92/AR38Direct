@@ -3,7 +3,14 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 AIChica::AIChica() // default constructer 디폴트 생성자
-	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::SHOWSTAGE), prevLocation_(LOCATION::SHOWSTAGE), state_(this), isDoorLocked_(false), isPlayerStares_(true)
+	: AILevel_(0)
+	, deltatime_(0.0f)
+	, curLocation_(LOCATION::SHOWSTAGE)
+	, prevLocation_(LOCATION::MAX)
+	, state_(this)
+	, isDoorLocked_(false)
+	, isPlayerStares_(true)
+	, isRecentlyMoved_(false)
 {
 
 }
@@ -73,6 +80,7 @@ StateInfo AIChica::updateShowStage(StateInfo _state)
 			// 다만 쇼 스테이지에서 이동 가능한 구간은 DiningArea 밖에 없는 관계로...
 			// 이 이후로 쇼 스테이지로 다시 갈 일은 없습니다.
 			prevLocation_ = curLocation_;
+			isRecentlyMoved_ = true;
 			return "DiningArea";
 		}
 	}
@@ -103,12 +111,14 @@ StateInfo AIChica::updateDiningArea(StateInfo _state)
 			case 0:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "RestRooms";
 			}
 			break;
 			case 1:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "EastHallA";
 			}
 			break;
@@ -144,18 +154,21 @@ StateInfo AIChica::updateRestRooms(StateInfo _state)
 			case 0:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "Kitchen";
 			}
 			break;
 			case 1:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "EastHallA";
 			}
 			break;
 			case 2:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "DiningArea";
 			}
 			default:
@@ -190,18 +203,21 @@ StateInfo AIChica::updateKitchen(StateInfo _state)
 			case 0:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "DiningArea";
 			}
 			break;
 			case 1:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "EastHallA";
 			}
 			break;
 			case 2:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "RestRooms";
 			}
 			default:
@@ -236,6 +252,7 @@ StateInfo AIChica::updateEastHallA(StateInfo _state)
 			case 0:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "DiningArea";
 			}
 			break;
@@ -243,18 +260,21 @@ StateInfo AIChica::updateEastHallA(StateInfo _state)
 			case 2:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "EastHallB";
 			}
 			break;
 			case 3:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "RestRooms";
 			}
 			break;
 			case 4:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "Kitchen";
 			}
 			break;
@@ -291,18 +311,21 @@ StateInfo AIChica::updateEastHallB(StateInfo _state)
 			case 1:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "OfficeDoor";
 			}
 			break;
 			case 2:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "EastHallA";
 			}
 			break;
 			case 3:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "Kitchen";
 			}
 			break;
@@ -325,6 +348,11 @@ StateInfo AIChica::startROfficeDoor(StateInfo _state)
 
 StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 {
+	if (true == isPlayerStares_)
+	{
+		return StateInfo();
+	}
+
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	// 문이 열려있다면 CCTV를 보는 중에는 무조건 오피스로 들어오고
@@ -333,12 +361,12 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
 			if (false == isDoorLocked_ && false == isPlayerStares_)
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "Office";
 			}
 			else if (false == isDoorLocked_ && true == isPlayerStares_)
@@ -351,6 +379,7 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 			case 0:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "EastHallB";
 			}
 			break;
@@ -358,12 +387,14 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 			case 2:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "EastHallA";
 			}
 			break;
 			case 3:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "Kitchen";
 			}
 			break;

@@ -3,7 +3,15 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 AIBonnie::AIBonnie() // default constructer 디폴트 생성자
-	:AILevel_(0), deltatime_(0.0f), curLocation_(LOCATION::SHOWSTAGE), prevLocation_(LOCATION::SHOWSTAGE), state_(this), isDoorLocked_(false), isPlayerStares_(true)
+	: AILevel_(0)
+	, deltatime_(0.0f)
+	, curLocation_(LOCATION::SHOWSTAGE)
+	, prevLocation_(LOCATION::MAX)
+	, state_(this)
+	, isDoorLocked_(false)
+	, isPlayerStares_(true)
+	, isRecentlyMoved_(false)
+
 {
 
 }
@@ -41,6 +49,7 @@ void AIBonnie::Update(float _DeltaTime)
 {
 	state_.Update();
 
+
 }
 
 void AIBonnie::SetAILevel(int _level)
@@ -76,6 +85,7 @@ StateInfo AIBonnie::updateShowStage(StateInfo _state)
 			// 다만 쇼 스테이지에서 이동 가능한 구간은 DiningArea 밖에 없는 관계로...
 			// 이 이후로 쇼 스테이지로 다시 갈 일은 없습니다.
 			prevLocation_ = curLocation_;
+			isRecentlyMoved_ = true;
 			return "DiningArea";
 		}
 	}
@@ -85,6 +95,7 @@ StateInfo AIBonnie::updateShowStage(StateInfo _state)
 
 StateInfo AIBonnie::startBackStage(StateInfo _state)
 {
+
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::BACKSTAGE;
 
@@ -106,12 +117,14 @@ StateInfo AIBonnie::updateBackStage(StateInfo _state)
 			case 0: // 식당
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "DiningArea";
 			}
 			break;
 			case 1: // 서쪽 홀 A
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "WestHallA";
 			}
 			break;
@@ -147,18 +160,21 @@ StateInfo AIBonnie::updateDiningArea(StateInfo _state)
 			case 0: // 백스테이지
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "BackStage";
 			}
 			break;
 			case 1: // 서쪽 홀 A
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "WestHallA";
 			}
 			break;
 			case 2: // 물품 보관실
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "SupplyCloset";
 			}
 			break;
@@ -194,18 +210,21 @@ StateInfo AIBonnie::updateWestHallA(StateInfo _state)
 			case 0:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "DiningArea";
 			}
 			break;
 			case 1:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "WestHallB";
 			}
 			break;
 			case 2:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "SupplyCloset";
 			}
 			break;
@@ -244,24 +263,28 @@ StateInfo AIBonnie::updateWestHallB(StateInfo _state)
 			case 3:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "OfficeDoor";
 			}
 			break;
 			case 4:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "WestHallA";
 			}
 			break;
 			case 5:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "SupplyCloset";
 			}
 			break;
 			case 6:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "DiningArea";
 			}
 			break;
@@ -296,6 +319,7 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 			case 0:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "DiningArea";
 			}
 			break;
@@ -303,6 +327,7 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 			case 2:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "WestHallB";
 			}
 			break;
@@ -310,6 +335,7 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 			case 4:
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "WestHallA";
 			}
 			break;
@@ -332,6 +358,11 @@ StateInfo AIBonnie::startLOfficeDoor(StateInfo _state)
 
 StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 {
+	if (true == isPlayerStares_)
+	{
+		return StateInfo();
+	}
+
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	// 문이 열려있다면 CCTV를 보는 중에는 무조건 오피스로 들어오고
@@ -358,24 +389,28 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 				case 0:
 				{
 					prevLocation_ = curLocation_;
+					isRecentlyMoved_ = true;
 					return "WestHallB";
 				}
 					break;
 				case 1:
 				{
 					prevLocation_ = curLocation_;
+					isRecentlyMoved_ = true;
 					return "WestHallA";
 				}
 					break;
 				case 2:
 				{
 					prevLocation_ = curLocation_;
+					isRecentlyMoved_ = true;
 					return "DiningArea";
 				}
 					break;
 				case 3:
 				{
 					prevLocation_ = curLocation_;
+					isRecentlyMoved_ = true;
 					return "SupplyCloset";
 				}
 					break;

@@ -74,6 +74,7 @@ private:
 	const int FIRST_DAY = 1;
 	const int MAX_DAY = 5;
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;
+	const float DEFAULT_CCTV_GLITCH_TIME = 3.02f;
 
 	// 스테이지 변수
 	DAY curDay_;
@@ -102,6 +103,10 @@ private:
 	// 프레디 전용 변수들
 	float freddyDeathTimer_;
 
+	// CCTV 불량 화면용 델타타임
+	bool isCCTVGlitched_;
+	float CCTVGlitchDeltaTime_;
+	void CheckRecentMovement();
 
 	// 문 변수
 	bool isLdoorClosed_;
@@ -191,6 +196,7 @@ private:
 
 	void LoopAmbient();
 	void PlayPhoneGuy();
+	void StopAllSound();
 	bool isPhoneStop_;
 
 private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.

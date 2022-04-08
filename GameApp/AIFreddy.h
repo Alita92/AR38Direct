@@ -28,6 +28,7 @@ private:
 	const float ACTION_FREQUENCY = 3.02;
 	int AILevel_;
 	float deltatime_;
+	bool isRecentlyMoved_;
 	LOCATION curLocation_;
 	LOCATION prevLocation_;
 	bool isBonnieChica0ut_;

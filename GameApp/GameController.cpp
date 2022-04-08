@@ -66,6 +66,8 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, gameMouse_(nullptr)
 	, alphaChangeTime1_(1.5f)
 	, isPhoneStop_(false)
+	, isCCTVGlitched_(false)
+	, CCTVGlitchDeltaTime_(0.0f)
 {
 
 }
@@ -129,10 +131,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(10);
-		aiChica_->SetAILevel(10);
-		aiFoxy_->SetAILevel(10);
-		aiFreddy_->SetAILevel(10);
+		aiBonnie_->SetAILevel(5);
+		aiChica_->SetAILevel(7);
+		aiFoxy_->SetAILevel(5);
+		aiFreddy_->SetAILevel(3);
 	}
 	break;
 	case DAY::DAY2:
@@ -281,6 +283,7 @@ void GameController::Start()
 	{
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPSCENE", 'P');
 	}
+	
 }
 
 void GameController::ControllerReloading()
@@ -789,7 +792,24 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 	if (LOCATION::OFFICE == aiChica_->GetLocation())
 	{
-		chicaSound_.PlayAlone("ChicaVoice1.wav");
+		switch (randomGenerator_.RandomInt(0,3))
+		{
+		case 0:
+			chicaSound_.PlayAlone("ChicaVoice0.wav");
+			break;
+		case 1:
+			chicaSound_.PlayAlone("ChicaVoice1.wav");
+			break;
+		case 2:
+			chicaSound_.PlayAlone("ChicaVoice2.wav");
+			break;
+		case 3:
+			chicaSound_.PlayAlone("ChicaVoice3.wav");
+			break;
+		default:
+			break;
+		}
+
 		playDeadTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
 		if (MAXIMUM_PLAYDEAD_DURATION <= playDeadTimer_)
@@ -805,278 +825,299 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		return "NoElec";
 	}
 
-	switch (CurCCTVState_)
-	{
-		// 현 CCTV가 어디를 지향했는지에 따라
-		// 화면을 바꿔 보여줍니다.
-	case LOCATION::SHOWSTAGE:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
+	// 내가 시점을 고정한 곳 CurCCTVState_ 에 보니, 치카, 프레디 중 한 명이 있었는데, 그 시점에 자리를 옮겼다면,
+	// 일정 시간동안 CCTV가 먹통이 되는 걸 구현해야 한다.
 
-		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE != aiFreddy_->GetLocation())
+
+	if (true == isCCTVGlitched_)
+	{
+		CCTVGlitchDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
+		CCTVRealRenderer_->SetImage("ClearScreen.png", true);
+		if (DEFAULT_CCTV_GLITCH_TIME <= CCTVGlitchDeltaTime_)
 		{
-			CCTVRealRenderer_->SetImage("ShowStage_AllGone.png", true);
-			break;
+			CCTVGlitchDeltaTime_ = 0.0f;
+			isCCTVGlitched_ = false;
 		}
-
-		if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE == aiFreddy_->GetLocation())
+	}
+	else
+	{
+		CheckRecentMovement();
+		switch (CurCCTVState_)
 		{
-			if (true == isAnomalyOn_)
+			// 현 CCTV가 어디를 지향했는지에 따라
+			// 화면을 바꿔 보여줍니다.
+
+
+		case LOCATION::SHOWSTAGE:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+
+
+			if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE != aiFreddy_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("ShowStage_BCGone_Anomaly.png", true);
+				CCTVRealRenderer_->SetImage("ShowStage_AllGone.png", true);
+				break;
+			}
+
+			if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE == aiFreddy_->GetLocation())
+			{
+				if (true == isAnomalyOn_)
+				{
+					CCTVRealRenderer_->SetImage("ShowStage_BCGone_Anomaly.png", true);
+					if (false == aiFreddy_->isBonnieChica0ut_)
+					{
+						aiFreddy_->isBonnieChica0ut_ = true;
+					}
+
+					break;
+				}
+
+				CCTVRealRenderer_->SetImage("ShowStage_BCGone.png", true);
 				if (false == aiFreddy_->isBonnieChica0ut_)
 				{
 					aiFreddy_->isBonnieChica0ut_ = true;
 				}
-
+				break;
+			}
+			else if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE == aiChica_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("ShowStage_BonnieGone.png", true);
+				break;
+			}
+			else if (LOCATION::SHOWSTAGE == aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("ShowStage_ChicaGone.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("ShowStage_BCGone.png", true);
-			if (false == aiFreddy_->isBonnieChica0ut_)
+			if (true == isAnomalyOn_)
 			{
-				aiFreddy_->isBonnieChica0ut_ = true;
+				CCTVRealRenderer_->SetImage("ShowStage_Default_Anomaly.png", true);
+				break;
+			}
+
+			CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
+		}
+		break;
+		case LOCATION::KITCHEN:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+			CCTVRealRenderer_->SetImage("Kitchen.png", true);
+		}
+		break;
+		case LOCATION::BACKSTAGE:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+			if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
+			{
+				switch (bonnieDice_)
+				{
+				case 0:
+					CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
+					break;
+				case 1:
+					CCTVRealRenderer_->SetImage("BackStage_Bonnie1.png", true);
+					break;
+				default:
+					break;
+				}
+				break;
+			}
+
+			if (true == isAnomalyOn_)
+			{
+				CCTVRealRenderer_->SetImage("BackStage_Anomaly.png", true);
+				break;
+			}
+
+			CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
+		}
+		break;
+		case LOCATION::DININGAREA:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+			if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("DiningArea_Chica1.png", true);
+				break;
+			}
+			else if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
+			{
+				switch (bonnieDice_)
+				{
+				case 0:
+					CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
+					break;
+				case 1:
+					CCTVRealRenderer_->SetImage("DiningArea_Bonnie1.png", true);
+					break;
+				default:
+					break;
+				}
+				break;
+			}
+			else if (LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("DiningArea_Chica0.png", true);
+				break;
+			}
+			else if (LOCATION::DININGAREA == aiFreddy_->GetLocation() && LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("DiningArea_Freddy.png", true);
+				break;
+			}
+
+			CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
+		}
+		break;
+		case LOCATION::PIRATECOVE:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+			FOXYLEVEL curFoxyLevel = aiFoxy_->GetFoxyLevel();
+
+			switch (curFoxyLevel)
+			{
+			case FOXYLEVEL::LV1:
+				CCTVRealRenderer_->SetImage("PirateCove_Lv1.png", true);
+				break;
+			case FOXYLEVEL::LV2:
+				CCTVRealRenderer_->SetImage("PirateCove_Lv2.png", true);
+				break;
+			case FOXYLEVEL::LV3:
+				CCTVRealRenderer_->SetImage("PirateCove_Lv3.png", true);
+				break;
+			case FOXYLEVEL::LV4:
+			{
+				//isPirateCoveChecked_ = true;
+				if (true == randomGenerator_.RandomBool(5.0f / 100.0f))
+				{
+					CCTVRealRenderer_->SetImage("PirateCove_Lv4_Anomaly.png", true);
+				}
+				CCTVRealRenderer_->SetImage("PirateCove_Lv4.png", true);
 			}
 			break;
-		}
-		else if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE == aiChica_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("ShowStage_BonnieGone.png", true);
-			break;
-		}
-		else if (LOCATION::SHOWSTAGE == aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("ShowStage_ChicaGone.png", true);
-			break;
-		}
-
-		if (true == isAnomalyOn_)
-		{
-			CCTVRealRenderer_->SetImage("ShowStage_Default_Anomaly.png", true);
-			break;
-		}
-
-		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
-	}
-		break;
-	case LOCATION::KITCHEN:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
-	
-		CCTVRealRenderer_->SetImage("Kitchen.png", true);
-	}
-		break;
-	case LOCATION::BACKSTAGE: 
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
-
-		if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
-		{
-			switch (bonnieDice_)
-			{
-			case 0:
-				CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
-				break;
-			case 1:
-				CCTVRealRenderer_->SetImage("BackStage_Bonnie1.png", true);
+			case FOXYLEVEL::MAX:
 				break;
 			default:
 				break;
 			}
-			break;
 		}
-		
-		if (true == isAnomalyOn_)
-		{
-			CCTVRealRenderer_->SetImage("BackStage_Anomaly.png", true);
-			break;
-		}
-
-		CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
-	}
 		break;
-	case LOCATION::DININGAREA:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
+		case LOCATION::EASTHALLA:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
 
-		if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("DiningArea_Chica1.png", true);
-			break;
-		}
-		else if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
-		{
-			switch (bonnieDice_)
+			if (LOCATION::EASTHALLA == aiChica_->GetLocation())
 			{
-			case 0:
-				CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
-				break;
-			case 1:
-				CCTVRealRenderer_->SetImage("DiningArea_Bonnie1.png", true);
-				break;
-			default:
+				switch (chicaDice_)
+				{
+				case 0:
+					CCTVRealRenderer_->SetImage("EastHallA_Chica0.png", true);
+					break;
+				case 1:
+					CCTVRealRenderer_->SetImage("EastHallA_Chica1.png", true);
+					break;
+				default:
+					break;
+				}
 				break;
 			}
-			break;
-		}
-		else if (LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("DiningArea_Chica0.png", true);
-			break;
-		}
-		else if (LOCATION::DININGAREA == aiFreddy_->GetLocation() && LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("DiningArea_Freddy.png", true);
-			break;
-		}
-
-		CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
-	}
-		break;
-	case LOCATION::PIRATECOVE:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
-
-		FOXYLEVEL curFoxyLevel = aiFoxy_->GetFoxyLevel();
-
-		switch (curFoxyLevel)
-		{
-		case FOXYLEVEL::LV1:
-			CCTVRealRenderer_->SetImage("PirateCove_Lv1.png", true);
-			break;
-		case FOXYLEVEL::LV2:
-			CCTVRealRenderer_->SetImage("PirateCove_Lv2.png", true);
-			break;
-		case FOXYLEVEL::LV3:
-			CCTVRealRenderer_->SetImage("PirateCove_Lv3.png", true);
-			break;
-		case FOXYLEVEL::LV4:
-		{
-			//isPirateCoveChecked_ = true;
-			if (true == randomGenerator_.RandomBool(5.0f / 100.0f))
+			else if (LOCATION::EASTHALLA != aiChica_->GetLocation() && LOCATION::EASTHALLA == aiFreddy_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("PirateCove_Lv4_Anomaly.png", true);
-			}
-			CCTVRealRenderer_->SetImage("PirateCove_Lv4.png", true);
-		}
-			break;
-		case FOXYLEVEL::MAX:
-			break;
-		default:
-			break;
-		}
-	}
-		break;
-	case LOCATION::EASTHALLA:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
-
-		if (LOCATION::EASTHALLA == aiChica_->GetLocation())
-		{
-			switch (chicaDice_)
-			{
-			case 0:
-				CCTVRealRenderer_->SetImage("EastHallA_Chica0.png", true);
-				break;
-			case 1:
-				CCTVRealRenderer_->SetImage("EastHallA_Chica1.png", true);
-				break;
-			default:
+				CCTVRealRenderer_->SetImage("EastHallA_Freddy.png", true);
 				break;
 			}
-			break;
-		}
-		else if (LOCATION::EASTHALLA != aiChica_->GetLocation() && LOCATION::EASTHALLA == aiFreddy_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("EastHallA_Freddy.png", true);
-			break;
-		}
 
-		if (true == isAnomalyOn_)
-		{
-			switch (anomalyDice_)
+			if (true == isAnomalyOn_)
 			{
-			case 0:
-			case 1:
-				CCTVRealRenderer_->SetImage("EastHallA_Anomaly0.png", true);
-				break;
-			case 2:
-			case 3:
-				CCTVRealRenderer_->SetImage("EastHallA_Anomaly1.png", true);
-				break;
+				switch (anomalyDice_)
+				{
+				case 0:
+				case 1:
+					CCTVRealRenderer_->SetImage("EastHallA_Anomaly0.png", true);
+					break;
+				case 2:
+				case 3:
+					CCTVRealRenderer_->SetImage("EastHallA_Anomaly1.png", true);
+					break;
 
-			default:
+				default:
+					break;
+				}
 				break;
 			}
-			break;
+			CCTVRealRenderer_->SetImage("EastHallA_Default.png", true);
 		}
-		CCTVRealRenderer_->SetImage("EastHallA_Default.png", true);
-	}
 		break;
 
-	case LOCATION::EASTHALLB:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
-
-		if (LOCATION::EASTHALLB == aiFreddy_->GetLocation())
+		case LOCATION::EASTHALLB:
 		{
-			CCTVRealRenderer_->SetImage("EastHallB_Freddy.png", true);
-			break;	
-		}
-		else if (LOCATION::EASTHALLB == aiChica_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("EastHallB_Chica0.png", true);
-			break;
-		}
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
 
-
-		if (true == isAnomalyOn_)
-		{
-			switch (anomalyDice_)
+			if (LOCATION::EASTHALLB == aiFreddy_->GetLocation())
 			{
-			case 0:
-				CCTVRealRenderer_->SetImage("EastHallB_Anomaly0.png", true);
-				break;
-			case 1:
-				CCTVRealRenderer_->SetImage("EastHallB_Anomaly1.png", true);
-				break;
-			case 2:
-				CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
-				break;
-			case 3:
-				CCTVRealRenderer_->SetImage("EastHallB_Anomaly3.png", true);
-				break;
-			default:
+				CCTVRealRenderer_->SetImage("EastHallB_Freddy.png", true);
 				break;
 			}
-			break;
+			else if (LOCATION::EASTHALLB == aiChica_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("EastHallB_Chica0.png", true);
+				break;
+			}
+
+
+			if (true == isAnomalyOn_)
+			{
+				switch (anomalyDice_)
+				{
+				case 0:
+					CCTVRealRenderer_->SetImage("EastHallB_Anomaly0.png", true);
+					break;
+				case 1:
+					CCTVRealRenderer_->SetImage("EastHallB_Anomaly1.png", true);
+					break;
+				case 2:
+					CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
+					break;
+				case 3:
+					CCTVRealRenderer_->SetImage("EastHallB_Anomaly3.png", true);
+					break;
+				default:
+					break;
+				}
+				break;
+			}
+			CCTVRealRenderer_->SetImage("EastHallB_Default.png", true);
 		}
-		CCTVRealRenderer_->SetImage("EastHallB_Default.png", true);
-	}
 		break;
-	case LOCATION::WESTHALLA:
-	{
-		if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && false == isFoxyRunning_)
+		case LOCATION::WESTHALLA:
 		{
-			isFoxyRunning_ = true;
-			foxyRunningRenderer_->On();
-			awakePlayer_.PlayAlone("FoxyRun.wav");
-			foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
-			CCTVRealRenderer_->Off();
-			break;
-		}
-		else if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && true == isFoxyRunning_)
-		{
-			break;
-		}
-		
+			if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && false == isFoxyRunning_)
+			{
+				isFoxyRunning_ = true;
+				foxyRunningRenderer_->On();
+				awakePlayer_.PlayAlone("FoxyRun.wav");
+				foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
+				CCTVRealRenderer_->Off();
+				break;
+			}
+			else if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && true == isFoxyRunning_)
+			{
+				break;
+			}
+
 			CCTVRealRenderer_->On();
 			foxyRunningRenderer_->Off();
 
@@ -1087,70 +1128,72 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			}
 
 			CCTVRealRenderer_->SetImage("WestHallA_Default.png", true);
-		
-	}
-		break;
-	case LOCATION::WESTHALLB:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
 
-		if (LOCATION::WESTHALLB == aiBonnie_->GetLocation())
+		}
+		break;
+		case LOCATION::WESTHALLB:
 		{
-			CCTVRealRenderer_->SetImage("WestHallB_Bonnie0.png", true);
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+			if (LOCATION::WESTHALLB == aiBonnie_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("WestHallB_Bonnie0.png", true);
+				break;
+			}
+
+			CCTVRealRenderer_->SetImage("WestHallB_Default.png", true);
+		}
+		break;
+		case LOCATION::RESTROOMS:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+			if (LOCATION::RESTROOMS == aiChica_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("RestRooms_Chica0.png", true);
+				break;
+			}
+			else if (LOCATION::RESTROOMS == aiFreddy_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("RestRooms_Freddy.png", true);
+				break;
+			}
+
+			CCTVRealRenderer_->SetImage("RestRooms_Default.png", true);
+		}
+		break;
+		case LOCATION::SUPPLYCLOSET:
+		{
+			foxyRunningRenderer_->Off();
+			CCTVRealRenderer_->On();
+
+			if (LOCATION::SUPPLYCLOSET == aiBonnie_->GetLocation())
+			{
+				CCTVRealRenderer_->SetImage("SuppltCloset_Bonnie.png", true);
+				break;
+			}
+
+			CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
+		}
+		break;
+		case LOCATION::NONE:
+		{
+
+		}
+		break;
+		case LOCATION::MAX:
+			break;
+		default:
 			break;
 		}
-
-		CCTVRealRenderer_->SetImage("WestHallB_Default.png", true);
-	}
-		break;
-	case LOCATION::RESTROOMS:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
-
-		if (LOCATION::RESTROOMS == aiChica_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("RestRooms_Chica0.png", true);
-			break;
-		}
-		else if (LOCATION::RESTROOMS == aiFreddy_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("RestRooms_Freddy.png", true);
-			break;
-		}
-
-		CCTVRealRenderer_->SetImage("RestRooms_Default.png", true);
-	}
-		break;
-	case LOCATION::SUPPLYCLOSET:
-	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
-
-		if (LOCATION::SUPPLYCLOSET == aiBonnie_->GetLocation())
-		{
-			CCTVRealRenderer_->SetImage("SuppltCloset_Bonnie.png", true);
-			break;
-		}
-
-		CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
-	}
-		break;
-	case LOCATION::NONE:
-	{
-
-	}
-		break;
-	case LOCATION::MAX:
-		break;
-	default:
-		break;
 	}
 
-	UIController_->SetCCTVNameRenderer(CurCCTVState_);
-	UIController_->SetCCTVScreenLowlight(PrevCCTVState_);
-	UIController_->SetCCTVScreenHighlight(CurCCTVState_);
+		UIController_->SetCCTVNameRenderer(CurCCTVState_);
+		UIController_->SetCCTVScreenLowlight(PrevCCTVState_);
+		UIController_->SetCCTVScreenHighlight(CurCCTVState_);
+	
 
 	{
 		UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
@@ -1231,7 +1274,7 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
 	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	mainRenderer_->SetChangeAnimation("JumpScareBonnie", true);
-
+	isElecCheckOff_ = true;
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 
@@ -1251,7 +1294,7 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
-		awakePlayer_.Stop();
+		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1261,6 +1304,7 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 StateInfo GameController::startChicaDeath(StateInfo _state)
 {
 	glitchScreen_->PlayWhiteNoise(false);
+	isElecCheckOff_ = true;
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
@@ -1285,7 +1329,7 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
-		awakePlayer_.Stop();
+		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1295,6 +1339,7 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 StateInfo GameController::startFoxyDeath(StateInfo _state)
 {
 	isFoxyRunning_ = false;
+	isElecCheckOff_ = true;
 	glitchScreen_->PlayWhiteNoise(false);
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->Off();
@@ -1315,7 +1360,7 @@ StateInfo GameController::updateFoxyDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
-		awakePlayer_.Stop();
+		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1325,6 +1370,7 @@ StateInfo GameController::updateFoxyDeath(StateInfo _state)
 StateInfo GameController::startFreddyDeath(StateInfo _state)
 {
 	glitchScreen_->PlayWhiteNoise(false);
+	isElecCheckOff_ = true;
 	CCTVRealRenderer_->Off();
 	CCTVAnimationRenderer_->Off();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
@@ -1333,7 +1379,6 @@ StateInfo GameController::startFreddyDeath(StateInfo _state)
 	rDoorRenderer_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	UIController_->Off();
-
 	return StateInfo();
 }
 
@@ -1343,7 +1388,7 @@ StateInfo GameController::updateFreddyDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
-		awakePlayer_.Stop();
+		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
@@ -1563,7 +1608,6 @@ StateInfo GameController::updateNoElecDeath(StateInfo _state)
 
 StateInfo GameController::startWin(StateInfo _state)
 {
-
 	fadeScreen_->OnScreen();
 	fadeScreen_->SetAlpha(0.0f);
 	fadeScreen_->StartFadeIn(0.0f);
@@ -1878,4 +1922,63 @@ void GameController::PlayPhoneGuy()
 	}
 	
 
+}
+
+
+void GameController::CheckRecentMovement()
+{
+	if (true == aiBonnie_->isRecentlyMoved_ )
+	{
+		if (CurCCTVState_ == aiBonnie_->GetPrevLocation() || CurCCTVState_ == aiBonnie_->GetLocation())
+		{
+			glitchScreen_->PlayAwakeScanLineFast();
+			awakePlayer_.PlayOverLap("CCTVError0.wav");
+			isCCTVGlitched_ = true;
+			aiBonnie_->isRecentlyMoved_ = false;
+			return;
+		}
+		else
+		{
+			aiBonnie_->isRecentlyMoved_ = false;
+		}
+	}
+
+	if (true == aiChica_->isRecentlyMoved_)
+	{
+		if (CurCCTVState_ == aiChica_->GetPrevLocation() || CurCCTVState_ == aiChica_->GetLocation())
+		{
+			glitchScreen_->PlayAwakeScanLineFast();
+			awakePlayer_.PlayOverLap("CCTVError0.wav");
+			isCCTVGlitched_ = true;
+			aiChica_->isRecentlyMoved_ = false;
+			return;
+		}
+		else
+		{
+			aiChica_->isRecentlyMoved_ = false;
+		}
+	}
+	//
+	//if (true == aiFreddy_->isRecentlyMoved && aiBonnie_->GetPrevLocation() == CurCCTVState_)
+	//{
+	//	glitchScreen_->PlayAwakeScanLineFast();
+	//	awakePlayer_.PlayOverLap("CCTVError0.wav");
+	//	isCCTVGlitched_ = true;
+	//	return;
+	//}
+}
+
+void GameController::StopAllSound()
+{
+	ambientPlayer_.Stop();
+	CCTVPlayer_.Stop();
+	awakePlayer_.Stop();
+	phoneGuyPlayer_.Stop();
+	doorSound_.Stop();
+	rlightSound_.Stop();
+	llightSound_.Stop();
+	bonnieSound_.Stop();
+	chicaSound_.Stop();
+	freddySound_.Stop();
+	foxySound_.Stop();
 }

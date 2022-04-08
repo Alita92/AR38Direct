@@ -12,6 +12,7 @@ GameEngineSoundPlayer::GameEngineSoundPlayer()
 	: playSoundFile_(nullptr)
 	, playChannel_(nullptr)
 	, PlayCount(-1)
+	, isStop_(true)
 {
 }
 
@@ -36,6 +37,11 @@ bool GameEngineSoundPlayer::IsPlay()
 	return Check;
 }
 
+bool GameEngineSoundPlayer::IsStop()
+{
+	return isStop_;
+}
+
 void GameEngineSoundPlayer::PlayCountReset(int _Count /*= -1*/)
 {
 	PlayCount = _Count;
@@ -43,6 +49,8 @@ void GameEngineSoundPlayer::PlayCountReset(int _Count /*= -1*/)
 
 void GameEngineSoundPlayer::PlayOverLap(const std::string& _name, int _LoopCount/* = 1*/)
 {
+	isStop_ = false;
+
 	GameEngineSound* SoundPtr = GameEngineSoundManager::GetInst().FindSound(_name);
 
 	if (nullptr == SoundPtr)
@@ -70,6 +78,7 @@ void GameEngineSoundPlayer::PlayOverLap(const std::string& _name, int _LoopCount
 
 void GameEngineSoundPlayer::PlayAlone(const std::string& _name, int _LoopCount /*= 1*/)
 {
+	isStop_ = false;
 	// 함수를 만들어서 그함수를 다시 실행
 	GameEngineSound* SoundPtr = GameEngineSoundManager::GetInst().FindSound(_name);
 
@@ -110,6 +119,7 @@ void GameEngineSoundPlayer::Stop()
 
 	playChannel_->stop();
 	playChannel_ = nullptr;
+	isStop_ = true;
 }
 
 FMOD::Channel* GameEngineSoundPlayer::GetChannel()

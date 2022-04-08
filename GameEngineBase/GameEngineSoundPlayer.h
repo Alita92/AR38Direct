@@ -14,6 +14,7 @@ private:	// member Var
 	GameEngineSoundManager* playSoundFile_;
 	FMOD::Channel* playChannel_; // 
 	int PlayCount;
+	bool isStop_;
 
 public:
 	GameEngineSoundPlayer(); // default constructer 디폴트 생성자
@@ -29,7 +30,7 @@ public:		//delete operator
 
 public:		//member Func
 	bool IsPlay();
-
+	bool IsStop();
 	void PlayCountReset(int _Count = -1);
 
 	// 겹쳐서 재생 기존의 사운드가 재생되고 있어도 그냥 재생한다. OneShot.

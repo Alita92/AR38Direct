@@ -14,6 +14,7 @@ AIFreddy::AIFreddy() // default constructer 디폴트 생성자
 	, isDoorLocked_(false)
 	, isPlayerStares_(true)
 	, isBonnieChica0ut_(false)
+	, isRecentlyMoved_(false)
 {
 
 }
@@ -90,6 +91,7 @@ StateInfo AIFreddy::updateShowStage(StateInfo _state)
 			// 다만 쇼 스테이지에서 이동 가능한 구간은 DiningArea 밖에 없는 관계로...
 			// 이 이후로 쇼 스테이지로 다시 갈 일은 없습니다.
 			prevLocation_ = curLocation_;
+			isRecentlyMoved_ = true;
 			return "DiningArea";
 		}
 	}
@@ -116,6 +118,7 @@ StateInfo AIFreddy::updateDiningArea(StateInfo _state)
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "RestRooms";
 		}
 	}
@@ -140,6 +143,7 @@ StateInfo AIFreddy::updateRestRooms(StateInfo _state)
 		deltatime_ = 0.0f;
 
 		prevLocation_ = curLocation_;
+		isRecentlyMoved_ = true;
 		return "Kitchen";
 	}
 
@@ -165,6 +169,7 @@ StateInfo AIFreddy::updateKitchen(StateInfo _state)
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
 			prevLocation_ = curLocation_;
+			isRecentlyMoved_ = true;
 			return "EastHallA";
 		}
 	}
@@ -191,6 +196,7 @@ StateInfo AIFreddy::updateEastHallA(StateInfo _state)
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
 		{
 			prevLocation_ = curLocation_;
+			isRecentlyMoved_ = true;
 			return "EastHallB";
 		}
 	}
@@ -219,7 +225,14 @@ StateInfo AIFreddy::updateEastHallB(StateInfo _state)
 			if (false == isDoorLocked_)
 			{
 				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
 				return "Office";
+			}
+			else
+			{
+				prevLocation_ = curLocation_;
+				isRecentlyMoved_ = true;
+				return "DiningArea";
 			}
 	
 		}
