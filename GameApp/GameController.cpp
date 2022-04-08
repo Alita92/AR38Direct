@@ -64,7 +64,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, winDeltaTime_(0.0f)
 	, alphaChangeTime_(0.0f)
 	, gameMouse_(nullptr)
-	, alphaChangeTime1_(1.5f)
+	, alphaChangeTime1_(2.0f)
 	, isPhoneStop_(false)
 	, isCCTVGlitched_(false)
 	, CCTVGlitchDeltaTime_(0.0f)
@@ -413,7 +413,7 @@ void GameController::ControllerReloading()
 	UIController_->dayPassAM_->SetAlpha(0.0f);
 
 	UIController_->dayPassNum6_->SetAlpha(1.0f);
-	alphaChangeTime1_ = 1.5f;
+	alphaChangeTime1_ = 2.0f;
 }
 
 
@@ -1622,6 +1622,8 @@ StateInfo GameController::updateNoElecDeath(StateInfo _state)
 
 StateInfo GameController::startWin(StateInfo _state)
 {
+	isElecCheckOff_ = true;
+	StopAllSound();
 	fadeScreen_->OnScreen();
 	fadeScreen_->SetAlpha(0.0f);
 	fadeScreen_->StartFadeIn(0.0f);
@@ -1636,6 +1638,8 @@ StateInfo GameController::startWin(StateInfo _state)
 		aiFoxy_->Off();
 		aiFreddy_->Off();
 	}
+
+	ambientPlayer_.PlayAlone("WinChime.wav");
 
 	return StateInfo();
 }
@@ -1667,19 +1671,20 @@ StateInfo GameController::updateWin(StateInfo _state)
 			UIController_->dayPassNum6_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 30.0f);
 			UIController_->dayPassNum5_->GetTransform()->SetLocalDeltaTimeMove(float4::DOWN * 30.0f);
 		}
-		else if (7.0f <= winDeltaTime_)
+		else if (8.0f <= winDeltaTime_)
 		{
 			if (0.0f <= alphaChangeTime1_)
 			{
+				awakePlayer_.PlayAlone("WinChildren.wav");
 				alphaChangeTime1_ -= GameEngineTime::GetInst().GetDeltaTime();
 
-				UIController_->dayPassAM_->SetAlpha(alphaChangeTime1_/1.5f);
-				UIController_->dayPassNum6_->SetAlpha(alphaChangeTime1_/1.5f);
+				UIController_->dayPassAM_->SetAlpha(alphaChangeTime1_/2.0f);
+				UIController_->dayPassNum6_->SetAlpha(alphaChangeTime1_/2.0f);
 			}
 		}
 	}
 
-	if (9.0f <= winDeltaTime_)
+	if (10.0f <= winDeltaTime_)
 	{
 		switch (GameStaticData::curDay_)
 		{
@@ -1708,6 +1713,7 @@ StateInfo GameController::updateWin(StateInfo _state)
 			break;
 		}
 		GameStaticData::savedDay_ = GameStaticData::curDay_;
+		StopAllSound();
 		GetLevel()->RequestLevelChange("Intermission");
 	}
 
@@ -1893,7 +1899,7 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 
 void GameController::LoopAmbient()
 {
-	if (0.0f >= fadeScreen_->GetReleaseTime() && false == isElecCheckOff_)
+	if (0.0f >= fadeScreen_->GetReleaseTime() && false == isElecCheckOff_ && true == isLoadingDone_)
 	{
 		ambientPlayer_.GetChannel()->setVolume(0.2f);
 		ambientPlayer_.PlayAlone("Office.wav", -1);
@@ -1972,14 +1978,22 @@ void GameController::CheckRecentMovement()
 			aiChica_->isRecentlyMoved_ = false;
 		}
 	}
-	//
-	//if (true == aiFreddy_->isRecentlyMoved && aiBonnie_->GetPrevLocation() == CurCCTVState_)
-	//{
-	//	glitchScreen_->PlayAwakeScanLineFast();
-	//	awakePlayer_.PlayOverLap("CCTVError0.wav");
-	//	isCCTVGlitched_ = true;
-	//	return;
-	//}
+	
+	if (true == aiFreddy_->isRecentlyMoved_)
+	{
+		if (CurCCTVState_ == aiFreddy_->GetPrevLocation() || CurCCTVState_ == aiFreddy_->GetLocation())
+		{
+			glitchScreen_->PlayAwakeScanLineFast();
+			awakePlayer_.PlayOverLap("CCTVError0.wav");
+			isCCTVGlitched_ = true;
+			aiFreddy_->isRecentlyMoved_ = false;
+			return;
+		}
+		else
+		{
+			aiFreddy_->isRecentlyMoved_ = false;
+		}
+	}
 }
 
 void GameController::StopAllSound()
