@@ -44,9 +44,6 @@
     <ClCompile Include="CustomSettingLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="CustomSettingUI.cpp">
-      <Filter>Actor\04CustomSetting</Filter>
-    </ClCompile>
     <ClCompile Include="UIController.cpp">
       <Filter>Actor\02Play\Meta\UI</Filter>
     </ClCompile>
@@ -94,6 +91,12 @@
     </ClCompile>
     <ClCompile Include="GlitchScreen.cpp">
       <Filter>Actor\00Global\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomSettingUI.cpp">
+      <Filter>Actor\04CustomSetting\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomSettingController.cpp">
+      <Filter>Actor\04CustomSetting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +172,9 @@
     <Filter Include="Actor\00Global\Actors">
       <UniqueIdentifier>{c99914f5-07be-4c58-9a02-9ca0ba6aeee2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\04CustomSetting\Actors">
+      <UniqueIdentifier>{5a7c7d90-bed7-4bd6-9be6-a0e49922ea5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -215,9 +221,6 @@
     </ClInclude>
     <ClInclude Include="CustomSettingLevel.h">
       <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="CustomSettingUI.h">
-      <Filter>Actor\04CustomSetting</Filter>
     </ClInclude>
     <ClInclude Include="UIController.h">
       <Filter>Actor\02Play\Meta\UI</Filter>
@@ -266,6 +269,12 @@
     </ClInclude>
     <ClInclude Include="GlitchScreen.h">
       <Filter>Actor\00Global\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomSettingUI.h">
+      <Filter>Actor\04CustomSetting\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomSettingController.h">
+      <Filter>Actor\04CustomSetting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

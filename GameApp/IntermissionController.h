@@ -10,6 +10,7 @@
 class IntermissionLevel;
 class GlitchScreen;
 class FadeScreen;
+class GameEngineCollision;
 class IntermissionScreen;
 class IntermissionController : public GameEngineActor
 {

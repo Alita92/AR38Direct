@@ -3,7 +3,7 @@
 
 #include <GameEngine/GameEngineCore.h>
 
-#include "CustomSettingUI.h"
+#include "CustomSettingController.h"
 #include "GameMouse.h"
 
 #include <GameEngine/CameraComponent.h>
@@ -11,6 +11,7 @@
 #include <GameEngine/CameraActor.h>
 
 CustomSettingLevel::CustomSettingLevel() // default constructer 디폴트 생성자
+	: controller_(nullptr)
 {
 
 }
@@ -25,17 +26,7 @@ void CustomSettingLevel::LevelStart()
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
-
-	{
-		// 타이틀씬의 마우스 액터입니다.
-		GameMouse* mouseActor = CreateActor<GameMouse>();
-		mouseActor->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
-	}
-
-	{
-		CustomSettingUI* customSettingUI = CreateActor<CustomSettingUI>();
-	}
-
+	controller_ = CreateActor<CustomSettingController>();
 }
 
 void CustomSettingLevel::LevelUpdate(float _DeltaTime)

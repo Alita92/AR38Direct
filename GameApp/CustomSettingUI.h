@@ -1,10 +1,15 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
+class CustomSettingUIController;
+
 class GameEngineCollision;
 class GameEngineImageRenderer;
 class CustomSettingUI : public GameEngineActor
 {
+private:
+	friend CustomSettingUIController;
+
 public:
 	CustomSettingUI();
 	~CustomSettingUI();
@@ -13,7 +18,7 @@ public:
 	CustomSettingUI& operator=(const CustomSettingUI& _other) = delete; // default Copy operator 디폴트 대입 연산자
 	CustomSettingUI& operator=(const CustomSettingUI&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-protected:
+public:
 	// 충돌체 미포함 렌더러
 	GameEngineImageRenderer* clearScreen_;
 
@@ -79,28 +84,12 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
-	void DebugRenderUpdate();
-	void CollisionCheckUpdate();
+	void LevelCheckUpdate();
 
 	void ImageInit();
 	void CollisionInit();
 
-private:
-	void CollisionAIButtonFreddyL(GameEngineCollision* _other);
-	void CollisionAIButtonFreddyR(GameEngineCollision* _other);
-
-	void CollisionAIButtonBonnieL(GameEngineCollision* _other);
-	void CollisionAIButtonBonnieR(GameEngineCollision* _other);
-
-	void CollisionAIButtonChicaL(GameEngineCollision* _other);
-	void CollisionAIButtonChicaR(GameEngineCollision* _other);
-
-	void CollisionAIButtonFoxyL(GameEngineCollision* _other);
-	void CollisionAIButtonFoxyR(GameEngineCollision* _other);
-
-	void CollisionReadyButton(GameEngineCollision* _other);
-
-private:
+public:
 	int AILevelFreddy_;
 	int AILevelBonnie_;
 	int AILevelChica_;

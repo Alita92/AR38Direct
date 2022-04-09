@@ -4,18 +4,53 @@
 
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine/GameEngineImageRenderer.h>
-
 CustomSettingUI::CustomSettingUI() // default constructer 디폴트 생성자
+	: clearScreen_(nullptr)
+	, customizeNight_(nullptr)
+	, nameFreddy_(nullptr)
+	, portraitFreddy_(nullptr)
+	, AILevelFreddyBanner_(nullptr)
+	, nameBonnie_(nullptr)
+	, portraitBonnie_(nullptr)
+	, AILevelBonnieBanner_(nullptr)
+	, nameChica_(nullptr)
+	, portraitChica_(nullptr)
+	, AILevelChicaBanner_(nullptr)
+	, nameFoxy_(nullptr)
+	, portraitFoxy_(nullptr)
+	, AILevelFoxyBanner_(nullptr)
+	, Instruction_(nullptr)
+	, AIButtonFreddyL_(nullptr)
+	, AIButtonFreddyLCollision_(nullptr)
+	, AIButtonFreddyR_(nullptr)
+	, AIButtonFreddyRCollision_(nullptr)
+	, AIButtonBonnieL_(nullptr)
+	, AIButtonBonnieLCollision_(nullptr)
+	, AIButtonBonnieR_(nullptr)
+	, AIButtonBonnieRCollision_(nullptr)
+	, AIButtonChicaL_(nullptr)
+	, AIButtonChicaLCollision_(nullptr)
+	, AIButtonChicaR_(nullptr)
+	, AIButtonChicaRCollision_(nullptr)
+	, AIButtonFoxyL_(nullptr)
+	, AIButtonFoxyLCollision_(nullptr)
+	, AIButtonFoxyR_(nullptr)
+	, AIButtonFoxyRCollision_(nullptr)
+	, ReadyButton_(nullptr)
+	, ReadyButtonCollision_(nullptr)
+	, AINumberTenFreddy_(nullptr)
+	, AINumberOneFreddy_(nullptr)
+	, AINumberTenBonnie_(nullptr)
+	, AINumberOneBonnie_(nullptr)
+	, AINumberTenChica_(nullptr)
+	, AINumberOneChica_(nullptr)
+	, AINumberTenFoxy_(nullptr)
+	, AINumberOneFoxy_(nullptr)
 {
 
 }
 
 CustomSettingUI::~CustomSettingUI() // default destructer 디폴트 소멸자
-{
-
-}
-
-CustomSettingUI::CustomSettingUI(CustomSettingUI&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
 {
 
 }
@@ -145,10 +180,55 @@ void CustomSettingUI::ImageInit()
 }
 
 
-
 void CustomSettingUI::CollisionInit()
 {
+	{
+		AIButtonFreddyLCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonFreddyLCollision_->GetTransform()->SetLocalPosition(AIButtonFreddyL_->GetTransform()->GetLocalPosition());
+		AIButtonFreddyLCollision_->GetTransform()->SetLocalScaling(AIButtonFreddyL_->GetTransform()->GetLocalScaling());
+		AIButtonFreddyLCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 
+		AIButtonFreddyRCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonFreddyRCollision_->GetTransform()->SetLocalPosition(AIButtonFreddyR_->GetTransform()->GetLocalPosition());
+		AIButtonFreddyRCollision_->GetTransform()->SetLocalScaling(AIButtonFreddyR_->GetTransform()->GetLocalScaling());
+		AIButtonFreddyRCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		AIButtonBonnieLCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonBonnieLCollision_->GetTransform()->SetLocalPosition(AIButtonBonnieL_->GetTransform()->GetLocalPosition());
+		AIButtonBonnieLCollision_->GetTransform()->SetLocalScaling(AIButtonBonnieL_->GetTransform()->GetLocalScaling());
+		AIButtonBonnieLCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		AIButtonBonnieRCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonBonnieRCollision_->GetTransform()->SetLocalPosition(AIButtonBonnieR_->GetTransform()->GetLocalPosition());
+		AIButtonBonnieRCollision_->GetTransform()->SetLocalScaling(AIButtonBonnieR_->GetTransform()->GetLocalScaling());
+		AIButtonBonnieRCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		AIButtonChicaLCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonChicaLCollision_->GetTransform()->SetLocalPosition(AIButtonChicaL_->GetTransform()->GetLocalPosition());
+		AIButtonChicaLCollision_->GetTransform()->SetLocalScaling(AIButtonChicaL_->GetTransform()->GetLocalScaling());
+		AIButtonChicaLCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		AIButtonChicaRCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonChicaRCollision_->GetTransform()->SetLocalPosition(AIButtonChicaR_->GetTransform()->GetLocalPosition());
+		AIButtonChicaRCollision_->GetTransform()->SetLocalScaling(AIButtonChicaR_->GetTransform()->GetLocalScaling());
+		AIButtonChicaRCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		AIButtonFoxyLCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonFoxyLCollision_->GetTransform()->SetLocalPosition(AIButtonFoxyL_->GetTransform()->GetLocalPosition());
+		AIButtonFoxyLCollision_->GetTransform()->SetLocalScaling(AIButtonFoxyL_->GetTransform()->GetLocalScaling());
+		AIButtonFoxyLCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		AIButtonFoxyRCollision_ = CreateTransformComponent<GameEngineCollision>();
+		AIButtonFoxyRCollision_->GetTransform()->SetLocalPosition(AIButtonFoxyR_->GetTransform()->GetLocalPosition());
+		AIButtonFoxyRCollision_->GetTransform()->SetLocalScaling(AIButtonFoxyR_->GetTransform()->GetLocalScaling());
+		AIButtonFoxyRCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
 }
 
 void CustomSettingUI::Start()
@@ -161,64 +241,65 @@ void CustomSettingUI::Start()
 
 void CustomSettingUI::Update(float _Deltatime)
 {
-	CollisionCheckUpdate();
-	DebugRenderUpdate();
+	LevelCheckUpdate();
 }
 
-void CustomSettingUI::DebugRenderUpdate()
+void CustomSettingUI::LevelCheckUpdate()
 {
-#ifdef _DEBUG
-	//GetLevel()->PushDebugRender(titleNewGameCollision_->GetTransform(), CollisionType::Rect);
-	//GetLevel()->PushDebugRender(titleContinueCollision_->GetTransform(), CollisionType::Rect);
-#endif
-}
+	{
+		if (10 <= AILevelFreddy_)
+		{
+			AINumberTenFreddy_->On();
+			AINumberTenFreddy_->SetImage("AINumber" + std::to_string(AILevelFreddy_ / 10) + ".png", true);
+		}
+		else if (10 > AILevelFreddy_)
+		{
+			AINumberTenFreddy_->Off();
+		}
+		
+		AINumberOneFreddy_->SetImage("AINumber" + std::to_string(AILevelFreddy_ % 10) + ".png", true);
 
-void CustomSettingUI::CollisionCheckUpdate()
-{
+	}
 
-}
+	{
+		if (10 <= AILevelBonnie_)
+		{
+			AINumberTenBonnie_->On();
+			AINumberTenBonnie_->SetImage("AINumber" + std::to_string(AILevelBonnie_ / 10) + ".png", true);
+		}
+		else if (10 > AILevelBonnie_)
+		{
+			AINumberTenBonnie_->Off();
+		}
 
-void CustomSettingUI::CollisionAIButtonFreddyL(GameEngineCollision* _other)
-{
+		AINumberOneBonnie_->SetImage("AINumber" + std::to_string(AILevelBonnie_ % 10) + ".png", true);
+	}
 
-}
+	{
+		if (10 <= AILevelChica_)
+		{
+			AINumberTenChica_->On();
+			AINumberTenChica_->SetImage("AINumber" + std::to_string(AILevelChica_ / 10) + ".png", true);
+		}
+		else if (10 > AILevelChica_)
+		{
+			AINumberTenChica_->Off();
+		}
 
-void CustomSettingUI::CollisionAIButtonFreddyR(GameEngineCollision* _other)
-{
+		AINumberOneChica_->SetImage("AINumber" + std::to_string(AILevelChica_ % 10) + ".png", true);
+	}
 
-}
+	{
+		if (10 <= AILevelFoxy_)
+		{
+			AINumberTenFoxy_->On();
+			AINumberTenFoxy_->SetImage("AINumber" + std::to_string(AILevelFoxy_ / 10) + ".png", true);
+		}
+		else if (10 > AILevelFoxy_)
+		{
+			AINumberTenFoxy_->Off();
+		}
 
-void CustomSettingUI::CollisionAIButtonBonnieL(GameEngineCollision* _other)
-{
-
-}
-
-void CustomSettingUI::CollisionAIButtonBonnieR(GameEngineCollision* _other)
-{
-
-}
-
-void CustomSettingUI::CollisionAIButtonChicaL(GameEngineCollision* _other)
-{
-
-}
-
-void CustomSettingUI::CollisionAIButtonChicaR(GameEngineCollision* _other)
-{
-
-}
-
-void CustomSettingUI::CollisionAIButtonFoxyL(GameEngineCollision* _other)
-{
-
-}
-
-void CustomSettingUI::CollisionAIButtonFoxyR(GameEngineCollision* _other)
-{
-
-}
-
-void CustomSettingUI::CollisionReadyButton(GameEngineCollision* _other)
-{
-
+		AINumberOneFoxy_->SetImage("AINumber" + std::to_string(AILevelFoxy_ % 10) + ".png", true);
+	}
 }

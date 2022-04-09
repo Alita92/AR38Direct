@@ -5,6 +5,7 @@
 // 분류 : 
 // 용도 : 
 // 설명 : 
+class CustomSettingController;
 class CustomSettingLevel : public GameEngineLevel
 {
 public:
@@ -16,6 +17,7 @@ public:
 	CustomSettingLevel& operator=(const CustomSettingLevel&& _other) noexcept = delete;
 
 protected:
+	CustomSettingController* controller_;
 
 private:
 	void LevelStart() override;
