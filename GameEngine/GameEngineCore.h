@@ -66,6 +66,7 @@ public:
 protected:
 	virtual void Initialize() = 0;
 	virtual void ResourcesLoad() = 0;
+	virtual void ResourceCreate() = 0;
 	virtual void Release() = 0;
 
 public:

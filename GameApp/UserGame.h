@@ -22,6 +22,7 @@ private:		//delete operator
 public:
 	virtual void Initialize() override;
 	virtual void ResourcesLoad() override;
+	virtual void ResourceCreate() override;
 	virtual void Release() override;
 	void KeyInit();
 
