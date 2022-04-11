@@ -25,8 +25,8 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::LevelStart()
 {
-	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Perspective);
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -300.0f));
 
 	if (nullptr == titleController_)
 	{
@@ -41,9 +41,9 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 		GameEngineCore::LevelChange("Play");
 	}
 
-	if (true == GameEngineInput::GetInst().Down("ESC"))
+	if (true == GameEngineInput::GetInst().Press("CCTV_NEXT"))
 	{
-
+		GetMainCamera()->GetTransform()->SetWorldDeltaTimeRotation(float4{0.0f, 1.0f, 0.0f} * 100.0f);
 	}
 }
 void TitleLevel::LevelChangeEndEvent()
