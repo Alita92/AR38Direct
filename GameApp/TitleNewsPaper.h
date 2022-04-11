@@ -6,6 +6,7 @@
 // 설명 : 
 class TitleController;
 class GameEngineImageRenderer;
+class GameEngineBackgroundRenderer;
 class TitleNewsPaper : public GameEngineActor
 {
 private:
@@ -20,7 +21,7 @@ public:
 	TitleNewsPaper& operator=(const TitleNewsPaper&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 protected:
-	GameEngineImageRenderer* newsPaperRenderer_;
+	GameEngineBackgroundRenderer* newsPaperRenderer_;
 
 private:
 	void Start() override;

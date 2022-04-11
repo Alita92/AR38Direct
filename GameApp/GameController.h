@@ -12,6 +12,7 @@
 
 class PlayLevel;
 class GameEngineImageRenderer;
+class GameEngineCollision;
 class GameMouse;
 class GlitchScreen;
 class FadeScreen;
@@ -50,6 +51,7 @@ private:
 	void InitEnemy();
 	void InitEnemyAILevel();
 	void InitScreenEffects();
+	void InitSwitchCollision();
 
 private:
 	void CheckOfficeInput();
@@ -153,6 +155,13 @@ protected:
 	void CollisionCam4A(GameEngineCollision* _other);
 	void CollisionCam4B(GameEngineCollision* _other);
 
+	void CollisionSwitchDoorL(GameEngineCollision* _other);
+	void CollisionSwitchDoorR(GameEngineCollision* _other);
+	void CollisionSwitchLightL(GameEngineCollision* _other);
+	void CollisionSwitchLightR(GameEngineCollision* _other);
+
+
+
 public:
 	// 렌더러들 디폴트 Position
 
@@ -168,6 +177,14 @@ protected:
 	GameEngineImageRenderer* fanRenderer_;
 	GameEngineImageRenderer* lDoorRenderer_;
 	GameEngineImageRenderer* rDoorRenderer_;
+
+	GameEngineImageRenderer* lSwitchRenderer_;
+	GameEngineCollision* lSwitchDoorCollision_;
+	GameEngineCollision* lSwitchLightCollision_;
+
+	GameEngineImageRenderer* rSwitchRenderer_;
+	GameEngineCollision* rSwitchDoorCollision_;
+	GameEngineCollision* rSwitchLightCollision_;
 
 	// 주의!!! 하단 렌더러는 폭시 복도 애니메이션 전용!!!
 	GameEngineImageRenderer* foxyRunningRenderer_;

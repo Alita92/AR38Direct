@@ -47,6 +47,8 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, UIController_(nullptr)
 	, rDoorRenderer_(nullptr)
 	, lDoorRenderer_(nullptr)
+	, rSwitchRenderer_(nullptr)
+	, lSwitchRenderer_(nullptr)
 	, mainRenderer_(nullptr)
 	, glitchScreen_(nullptr)
 	, fanRenderer_(nullptr)
@@ -73,6 +75,10 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, flag2_(false)
 	, flag3_(false)
 	, flag4_(false)
+	, lSwitchDoorCollision_(nullptr)
+	, lSwitchLightCollision_(nullptr)
+	, rSwitchDoorCollision_(nullptr)
+	, rSwitchLightCollision_(nullptr)
 {
 
 }
@@ -254,6 +260,19 @@ void GameController::InitAnimation()
 	}
 
 	{
+		rSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		rSwitchRenderer_->SetImage("SwitchR_00.png", true);
+		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 650.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		rSwitchRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 0, 14, 0.04f, false);
+	}
+
+	{
+		lSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		lSwitchRenderer_->SetImage("SwitchL_00.png", true);
+		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -650.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+	}
+
+	{
 		rDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rDoorRenderer_->SetImage("RdoorStatic.png", true);
 		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
@@ -299,6 +318,33 @@ void GameController::InitScreenEffects()
 	glitchScreen_->SetWhiteNoiseAlpha(0.3f);
 }
 
+void GameController::InitSwitchCollision()
+{
+	{
+		lSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
+		lSwitchDoorCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		lSwitchDoorCollision_->GetTransform()->SetLocalScaling({40.0f, 55.0f, 1.0f});
+		lSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		lSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
+		lSwitchLightCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		lSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		rSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
+		rSwitchDoorCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		rSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+
+		rSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
+		rSwitchLightCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		rSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+}
+
 void GameController::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f ,0.0f, 10.0f });
@@ -313,7 +359,6 @@ void GameController::Start()
 	InitState();
 	InitAnimation();
 	InitPlayStatus();
-
 
 	if (false == GameEngineInput::GetInst().IsKey("DEBUG_SKIPSCENE"))
 	{
@@ -1249,6 +1294,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		UIController_->SetCCTVScreenHighlight(CurCCTVState_);
 	
 
+
 	{
 		UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
 		UIController_->cam1ACollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCam1A, this, std::placeholders::_1));
@@ -1768,6 +1814,130 @@ void GameController::UpdateAlphaChange()
 
 		UIController_->dayPassNum5_->SetAlpha(alphaChangeTime_/1.5f);
 		UIController_->dayPassAM_->SetAlpha(alphaChangeTime_/1.5f);
+	}
+}
+
+
+
+void GameController::CollisionSwitchDoorL(GameEngineCollision* _other)
+{
+	if (PLAYERSTATUS::OFFICE != CurPlayerState_)
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1") && true == lDoorRenderer_->IsCurAnimationEnd())
+	{
+		awakePlayer_.PlayOverLap("Door.wav");
+		if (false == isLdoorClosed_)
+		{
+			isLdoorClosed_ = true;
+			aiBonnie_->isDoorLocked_ = true;
+			aiFoxy_->isDoorLocked_ = true;
+			curPowerLevel_ += 1;
+		}
+		else
+		{
+			isLdoorClosed_ = false;
+			aiBonnie_->isDoorLocked_ = false;
+			aiFoxy_->isDoorLocked_ = false;
+			curPowerLevel_ -= 1;
+		}
+	}
+}
+
+void GameController::CollisionSwitchDoorR(GameEngineCollision* _other)
+{
+	if (PLAYERSTATUS::OFFICE != CurPlayerState_)
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1") && true == rDoorRenderer_->IsCurAnimationEnd())
+	{
+		doorSound_.PlayOverLap("Door.wav");
+		if (false == isRdoorClosed_)
+		{
+			isRdoorClosed_ = true;
+			aiChica_->isDoorLocked_ = true;
+			aiFreddy_->isDoorLocked_ = true;
+			curPowerLevel_ += 1;
+
+		}
+		else
+		{
+			isRdoorClosed_ = false;
+			aiChica_->isDoorLocked_ = false;
+			aiFreddy_->isDoorLocked_ = false;
+			curPowerLevel_ -= 1;
+		}
+	}
+}
+
+void GameController::CollisionSwitchLightL(GameEngineCollision* _other)
+{
+	if (PLAYERSTATUS::OFFICE != CurPlayerState_)
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		if (false == isLdoorLighted_)
+		{
+			if (true == isRdoorLighted_)
+			{
+				rlightSound_.Stop();
+				isRdoorLighted_ = false;
+				curPowerLevel_--;
+			}
+
+			llightSound_.PlayOverLap("DoorLight.wav", -1);
+			isLdoorLighted_ = true;
+
+
+			curPowerLevel_++;
+
+		}
+		else
+		{
+			llightSound_.Stop();
+			isLdoorLighted_ = false;
+			curPowerLevel_ -= 1;
+		}
+	}
+}
+
+void GameController::CollisionSwitchLightR(GameEngineCollision* _other)
+{
+	if (PLAYERSTATUS::OFFICE != CurPlayerState_)
+	{
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		if (false == isRdoorLighted_)
+		{
+			if (true == isLdoorLighted_)
+			{
+				llightSound_.Stop();
+				isLdoorLighted_ = false;
+				curPowerLevel_--;
+			}
+
+			rlightSound_.PlayOverLap("DoorLight.wav", -1);
+			isRdoorLighted_ = true;
+
+			curPowerLevel_ += 1;
+
+		}
+		else
+		{
+			rlightSound_.Stop();
+			isRdoorLighted_ = false;
+			curPowerLevel_ -= 1;
+		}
 	}
 }
 

@@ -3,6 +3,7 @@
 #include "ENUM.h"
 
 #include <GameEngine/GameEngineImageRenderer.h>
+#include <GameEngine/GameEngineBackgroundRenderer.h>
 
 TitleNewsPaper::TitleNewsPaper() // default constructer 디폴트 생성자
 	: newsPaperRenderer_(nullptr)
@@ -19,7 +20,7 @@ void TitleNewsPaper::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f, 0.0f, 0.0f });
 
-	newsPaperRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	newsPaperRenderer_ = CreateTransformComponent<GameEngineBackgroundRenderer>(GetTransform());
 
 	newsPaperRenderer_->SetImage("TitlePrologue.png", true);
 	newsPaperRenderer_->GetTransform()->SetLocalPosition({0.0f,0.0f,static_cast<float>(RenderOrder::BACKGROUND1)});

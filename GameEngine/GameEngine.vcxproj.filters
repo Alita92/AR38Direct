@@ -257,6 +257,9 @@
     <ClInclude Include="GameEnginePostProcessRender.h">
       <Filter>Object\PostProcess</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineBackgroundRenderer.h">
+      <Filter>Object\Component\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -414,6 +417,9 @@
     </ClCompile>
     <ClCompile Include="GameEnginePostProcessRender.cpp">
       <Filter>Object\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBackgroundRenderer.cpp">
+      <Filter>Object\Component\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
