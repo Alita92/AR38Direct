@@ -411,10 +411,10 @@ void GameEngineCore::EngineResourcesCreate()
 
 	{
 		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("TextureBackground");
-		Pipe->SetInputAssembler1VertexBufferSetting("HalfCylinder");
+		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");
 		Pipe->SetVertexShader("Texture_VS");
-		Pipe->SetInputAssembler2IndexBufferSetting("HalfCylinder");
+		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 		Pipe->SetPixelShader("Texture_PS");
