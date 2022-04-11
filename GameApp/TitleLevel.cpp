@@ -25,8 +25,8 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::LevelStart()
 {
-	GetMainCamera()->SetProjectionMode(ProjectionMode::Perspective);
-	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -300.0f));
+	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
 	if (nullptr == titleController_)
 	{
