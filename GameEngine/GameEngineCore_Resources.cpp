@@ -228,46 +228,46 @@ void GameEngineCore::EngineResourcesCreate()
 
 		{
 			HalfCylinderVertex[0] = { float4({ -0.5f, 0.5f, 0.0f }),  { 0.0f, 0.0f } };
-			HalfCylinderVertex[1] = { float4({ -0.375f, 0.5f, 0.2f }),  { 0.125f, 0.0f } };
-			HalfCylinderVertex[2] = { float4({ -0.375f, -0.5f, 0.2f }),  { 0.125f, 1.0f } };
-			HalfCylinderVertex[3] = { float4({ -0.5f, -0.5f, 0.0f }),  { 0.0f, 1.0f } };
+			HalfCylinderVertex[1] = { float4({ -0.375f, 0.5f, 0.0f }),  { 0.125f, 0.0f } };
+			HalfCylinderVertex[2] = { float4({ -0.375f, -0.5f, 0.0f }),  { 0.125f, 1.0f } };
+			HalfCylinderVertex[3] = { float4({ -0.5f, -0.5f, 0.5f }),  { 0.0f, 1.0f } };
 
-			HalfCylinderVertex[4] = { float4({ -0.375f, 0.5f, 0.2f }),  { 0.125f, 0.0f } };
-			HalfCylinderVertex[5] = { float4({ -0.25f, 0.5f, 0.4f }),  { 0.25f, 0.0f } };
-			HalfCylinderVertex[6] = { float4({ -0.25f, -0.5f, 0.4f }),  { 0.25f, 1.0f } };
-			HalfCylinderVertex[7] = { float4({ -0.375f, -0.5f, 0.2f }),  { 0.125f, 1.0f } };
+			HalfCylinderVertex[4] = { float4({-0.375f, 0.5f, 0.0f}),  {0.125f, 0.0f}};
+			HalfCylinderVertex[5] = { float4({ -0.25f, 0.5f, 0.0f}),  {0.25f, 0.0f} };
+			HalfCylinderVertex[6] = { float4({-0.25f, -0.5f, 0.0f}),  {0.25f, 1.0f}};
+			HalfCylinderVertex[7] = { float4({-0.375f, -0.5f, 0.0f}), {0.125f, 1.0f}};
 
-			HalfCylinderVertex[8] = { float4({ -0.25f, 0.5f, 0.4f }),  { 0.25f, 0.0f } };
-			HalfCylinderVertex[9] = { float4({ -0.125f, 0.5f, 0.7f }),  { 0.375f, 0.0f } };
-			HalfCylinderVertex[10] = { float4({ -0.125f, -0.5f, 0.7f }),  { 0.375f, 1.0f } };
-			HalfCylinderVertex[11] = { float4({ -0.25f, -0.5f, 0.4f }),  { 0.25f, 1.0f } };
+			HalfCylinderVertex[8] = { float4({ -0.25f, 0.5f, 0.0f }),  { 0.25f, 0.0f } };
+			HalfCylinderVertex[9] = { float4({ -0.125f, 0.5f, 0.0f }),  { 0.375f, 0.0f } };
+			HalfCylinderVertex[10] = { float4({ -0.125f, -0.5f, 0.0f }),  { 0.375f, 1.0f } };
+			HalfCylinderVertex[11] = { float4({ -0.25f, -0.5f, 0.0f }),  { 0.25f, 1.0f } };
 
 			// Áß¾Ó
-			HalfCylinderVertex[12] = { float4({ -0.125f, 0.5f, 0.7f }),  { 0.375f, 0.0f } };
-			HalfCylinderVertex[13] = { float4({ 0.0f, 0.5f, 1.0f }),  { 0.5f, 0.0f } };
-			HalfCylinderVertex[14] = { float4({ 0.0f, -0.5f, 1.0f }),  { 0.5f, 1.0f } };
-			HalfCylinderVertex[15] = { float4({ -0.125f, -0.5f, 0.7f }),  { 0.375f, 1.0f } };
+			HalfCylinderVertex[12] = { float4({ -0.125f, 0.5f, 0.0f }),  { 0.375f, 0.0f } };
+			HalfCylinderVertex[13] = { float4({ 0.0f, 0.5f, 0.0f }),  { 0.5f, 0.0f } };
+			HalfCylinderVertex[14] = { float4({ 0.0f, -0.5f, 0.0f }),  { 0.5f, 1.0f } };
+			HalfCylinderVertex[15] = { float4({ -0.125f, -0.5f, 0.0f }),  { 0.375f, 1.0f } };
 
-			HalfCylinderVertex[16] = { float4({ 0.0f, 0.5f, 1.0f }),  { 0.5f, 0.0f } };
-			HalfCylinderVertex[17] = { float4({ 0.125f, 0.5f, 0.7f }),  { 0.625f, 0.0f } };
-			HalfCylinderVertex[18] = { float4({ 0.125f, -0.5f, 0.7f }),  { 0.625f, 1.0f } };
-			HalfCylinderVertex[19] = { float4({ 0.0f, -0.5f, 1.0f }),  { 0.5f, 1.0f } };
+			HalfCylinderVertex[16] = { float4({ 0.0f, 0.5f, 0.0f }),  { 0.5f, 0.0f } };
+			HalfCylinderVertex[17] = { float4({ 0.125f, 0.5f, 0.0f }),  { 0.625f, 0.0f } };
+			HalfCylinderVertex[18] = { float4({ 0.125f, -0.5f, 0.0f }),  { 0.625f, 1.0f } };
+			HalfCylinderVertex[19] = { float4({ 0.0f, -0.5f, 0.0f }),  { 0.5f, 1.0f } };
 			// Áß¾Ó ³¡
 
-			HalfCylinderVertex[20] = { float4({ 0.125f, 0.5f, 0.7f }),  { 0.625f, 0.0f } };
-			HalfCylinderVertex[21] = { float4({ 0.25f, 0.5f, 0.4f }),  { 0.75f, 0.0f } };
-			HalfCylinderVertex[22] = { float4({ 0.25f, -0.5f, 0.4f }),  { 0.75f, 1.0f } };
-			HalfCylinderVertex[23] = { float4({ 0.125f, -0.5f, 0.7f }),  { 0.625f, 1.0f } };
+			HalfCylinderVertex[20] = { float4({ 0.125f, 0.5f, 0.0f }),  { 0.625f, 0.0f } };
+			HalfCylinderVertex[21] = { float4({ 0.25f, 0.5f, 0.0f }),  { 0.75f, 0.0f } };
+			HalfCylinderVertex[22] = { float4({ 0.25f, -0.5f, 0.0f }),  { 0.75f, 1.0f } };
+			HalfCylinderVertex[23] = { float4({ 0.125f, -0.5f, 0.0f }),  { 0.625f, 1.0f } };
 
-			HalfCylinderVertex[24] = { float4({ 0.25f, 0.5f, 0.4f }),  { 0.75f, 0.0f } };
-			HalfCylinderVertex[25] = { float4({ 0.375f, 0.5f, 0.2f }),  { 0.875f, 0.0f } };
-			HalfCylinderVertex[26] = { float4({ 0.375f, -0.5f, 0.2f }),  { 0.875f, 1.0f } };
-			HalfCylinderVertex[27] = { float4({ 0.25f, -0.5f, 0.4f }),  { 0.75f, 1.0f } };
+			HalfCylinderVertex[24] = { float4({ 0.25f, 0.5f, 0.0f }),  { 0.75f, 0.0f } };
+			HalfCylinderVertex[25] = { float4({ 0.375f, 0.5f, 0.0f }),  { 0.875f, 0.0f } };
+			HalfCylinderVertex[26] = { float4({ 0.375f, -0.5f, 0.0f }),  { 0.875f, 1.0f } };
+			HalfCylinderVertex[27] = { float4({ 0.25f, -0.5f, 0.0f }),  { 0.75f, 1.0f } };
 
-			HalfCylinderVertex[28] = { float4({ 0.375f, 0.5f, 0.2f }),  { 0.875f, 0.0f } };
+			HalfCylinderVertex[28] = { float4({ 0.375f, 0.5f, 0.0f }),  { 0.875f, 0.0f } };
 			HalfCylinderVertex[29] = { float4({ 0.5f, 0.5f, 0.0f }),  { 1.0f, 0.0f } };
 			HalfCylinderVertex[30] = { float4({ 0.5f, -0.5f, 0.0f }),  { 1.0f, 1.0f } };
-			HalfCylinderVertex[31] = { float4({ 0.375f, -0.5f,0.2f }),  { 0.875f, 1.0f } };
+			HalfCylinderVertex[31] = { float4({ 0.375f, -0.5f,0.0f }),  { 0.875f, 1.0f } };
 		}
 
 		GameEngineVertexBufferManager::GetInst().Create("HalfCylinder", HalfCylinderVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);

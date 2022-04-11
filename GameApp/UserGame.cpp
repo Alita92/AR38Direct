@@ -52,7 +52,7 @@ void UserGame::Initialize()
 	LevelCreate<GameOverLevel>("GameOver");
 	LevelCreate<CustomSettingLevel>("CustomSetting");
 
-	LevelChange("Title");
+	LevelChange("Play");
 	KeyInit();
 	return;
 }
@@ -77,8 +77,9 @@ void UserGame::KeyInit()
 		GameEngineInput::GetInst().CreateKey("RLight_Toggle", 'D');
 
 		GameEngineInput::GetInst().CreateKey("CCTV_Toggle", 'X');
-		GameEngineInput::GetInst().CreateKey("CCTV_NEXT", 'Z');
-		GameEngineInput::GetInst().CreateKey("CCTV_PREV", 'C');
+		GameEngineInput::GetInst().CreateKey("RotateRight", 'Z');
+		GameEngineInput::GetInst().CreateKey("RotateLeft", 'C');
+
 
 	}
 }

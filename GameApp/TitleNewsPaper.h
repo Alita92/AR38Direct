@@ -21,7 +21,7 @@ public:
 	TitleNewsPaper& operator=(const TitleNewsPaper&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 protected:
-	GameEngineBackgroundRenderer* newsPaperRenderer_;
+	GameEngineImageRenderer* newsPaperRenderer_;
 
 private:
 	void Start() override;

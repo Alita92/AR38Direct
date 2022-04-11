@@ -12,6 +12,7 @@
 
 class PlayLevel;
 class GameEngineImageRenderer;
+class GameEngineBackgroundRenderer;
 class GameEngineCollision;
 class GameMouse;
 class GlitchScreen;
@@ -170,7 +171,7 @@ public:
 	float4 DEFAULT_CCTV_POS_CCTV = { 0.0f,0.0f,-2.0f };
 
 protected:
-	GameEngineImageRenderer* mainRenderer_;
+	GameEngineBackgroundRenderer* mainRenderer_;
 	GameEngineImageRenderer* CCTVAnimationRenderer_;
 	GameEngineImageRenderer* CCTVRealRenderer_;
 

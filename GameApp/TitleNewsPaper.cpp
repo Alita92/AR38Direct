@@ -20,7 +20,7 @@ void TitleNewsPaper::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f, 0.0f, 0.0f });
 
-	newsPaperRenderer_ = CreateTransformComponent<GameEngineBackgroundRenderer>(GetTransform());
+	newsPaperRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
 	newsPaperRenderer_->SetImage("TitlePrologue.png", true);
 	newsPaperRenderer_->GetTransform()->SetLocalPosition({0.0f,0.0f,static_cast<float>(RenderOrder::BACKGROUND1)});

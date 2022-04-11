@@ -40,11 +40,6 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 	{
 		GameEngineCore::LevelChange("Play");
 	}
-
-	if (true == GameEngineInput::GetInst().Press("CCTV_NEXT"))
-	{
-		GetMainCamera()->GetTransform()->SetWorldDeltaTimeRotation(float4{0.0f, 1.0f, 0.0f} * 100.0f);
-	}
 }
 void TitleLevel::LevelChangeEndEvent()
 {

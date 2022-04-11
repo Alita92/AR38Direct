@@ -2,6 +2,7 @@
 #include "GameController.h"
 #include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
+#include <GameEngine/GameEngineBackgroundRenderer.h>
 #include <GameEngine/GameEngineUIRenderer.h>
 
 // UIController
@@ -229,7 +230,7 @@ void GameController::AICheck()
 void GameController::InitAnimation()
 {
 	{
-		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		mainRenderer_ = CreateTransformComponent<GameEngineBackgroundRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeBasic.png", true);
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1)});
 
@@ -262,14 +263,14 @@ void GameController::InitAnimation()
 	{
 		rSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rSwitchRenderer_->SetImage("SwitchR_00.png", true);
-		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 650.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 720.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
 		rSwitchRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 0, 14, 0.04f, false);
 	}
 
 	{
 		lSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		lSwitchRenderer_->SetImage("SwitchL_00.png", true);
-		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -650.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -720.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
 	}
 
 	{
@@ -570,6 +571,18 @@ void GameController::Update(float _Deltatime)
 
 void GameController::CheckOfficeInput()
 {
+
+	if (true == GameEngineInput::GetInst().Press("RotateRight"))
+	{
+		GetLevel()->GetMainCamera()->GetTransform()->SetWorldDeltaTimeRotation(float4{ 0.0f, 1.0f, 0.0f } * 100.0f);
+	}
+
+
+	if (true == GameEngineInput::GetInst().Press("RotateLeft"))
+	{
+		GetLevel()->GetMainCamera()->GetTransform()->SetWorldDeltaTimeRotation(float4{ 0.0f, 1.0f, 0.0f } * -100.0f);
+	}
+
 	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle") && true == lDoorRenderer_->IsCurAnimationEnd())
 	{
 		awakePlayer_.PlayOverLap("Door.wav");
