@@ -76,6 +76,7 @@ UIController::UIController() // default constructer 디폴트 생성자
 	, CCTVAnimationRenderer_(nullptr)
 	, CCTVRealRenderer_(nullptr)
 	, foxyRunningRenderer_(nullptr)
+	, cctvBorderRenderer_(nullptr)
 {
 
 }
@@ -97,6 +98,13 @@ void UIController::Start()
 
 void UIController::ImageInit()
 {
+	{
+		cctvBorderRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		cctvBorderRenderer_->SetImage("CCTVBorder.png", true);
+		cctvBorderRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,0.0f });
+		cctvBorderRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+		cctvBorderRenderer_->Off();
+	}
 
 	{
 		CCTVAnimationRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -203,7 +211,7 @@ void UIController::ImageInit()
 
 	recordingMarkRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	recordingMarkRenderer_->SetImage("RecordingMark.png", true);
-	recordingMarkRenderer_->GetTransform()->SetLocalPosition({ -520.0f, 300.0f, 0.0f });
+	recordingMarkRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 290.0f, 0.0f });
 	recordingMarkRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 	//recordingMarkRenderer_->Off();
 
@@ -642,8 +650,14 @@ StateInfo UIController::startOfficeUI(StateInfo _state)
 	 cam4BRenderer_->Off();
 	cam4BCollision_->Off();
 
+	cctvBorderRenderer_->Off();
+
 	mouseLeftCollision_->On();
 	mouseRightCollision_->On();
+
+	muteCallRenderer_->On();
+	muteCallCollision_->On();
+
 
 	return StateInfo();
 }
@@ -703,8 +717,14 @@ StateInfo UIController::startCCTVUI(StateInfo _state)
 	cam4BRenderer_->On();
 	cam4BCollision_->On();
 
+	cctvBorderRenderer_->On();
+
 	mouseLeftCollision_->Off();
 	mouseRightCollision_->Off();
+
+
+	muteCallRenderer_->Off();
+	muteCallCollision_->Off();
 	return StateInfo();
 }
 

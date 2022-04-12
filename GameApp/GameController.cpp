@@ -255,7 +255,7 @@ void GameController::InitAnimation()
 	{
 		lDoorRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		lDoorRenderer_->SetImage("LdoorStatic.png", true);
-		lDoorRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1)});
+		lDoorRenderer_->GetTransform()->SetLocalPosition({ -615.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1)});
 		lDoorRenderer_->CreateAnimation("LdoorAnimation.png", "LdoorClose", 14, 0, 0.04f, false);
 		lDoorRenderer_->CreateAnimation("LdoorAnimation.png", "LdoorOpen", 0, 14, 0.04f, false);
 	}
@@ -263,14 +263,14 @@ void GameController::InitAnimation()
 	{
 		rSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rSwitchRenderer_->SetImage("SwitchR_00.png", true);
-		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 720.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
+		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 730.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
 		rSwitchRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 0, 14, 0.04f, false);
 	}
 
 	{
 		lSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		lSwitchRenderer_->SetImage("SwitchL_00.png", true);
-		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -720.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
+		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -760.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
 	}
 
 	{
@@ -2251,7 +2251,7 @@ void GameController::CCTVScreenMove()
 	{
 		if (false == CCTVMoveFlag_) // аб╥н
 		{
-			if (-160.0f <= UIController_->CCTVRealRenderer_->GetTransform()->GetLocalPosition().x)
+			if (-150.0f <= UIController_->CCTVRealRenderer_->GetTransform()->GetLocalPosition().x)
 			{
 				UIController_->CCTVRealRenderer_->GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * DEFAULT_CCTV_SCREEN_MOVESPEED);
 			}
@@ -2262,7 +2262,7 @@ void GameController::CCTVScreenMove()
 		}
 		else if (true == CCTVMoveFlag_) // ©Л╥н
 		{
-			if (160.0f >= UIController_->CCTVRealRenderer_->GetTransform()->GetLocalPosition().x)
+			if (150.0f >= UIController_->CCTVRealRenderer_->GetTransform()->GetLocalPosition().x)
 			{
 				UIController_->CCTVRealRenderer_->GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * DEFAULT_CCTV_SCREEN_MOVESPEED);
 			}

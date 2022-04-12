@@ -51,6 +51,7 @@ protected:
 
 protected:
 	// CCTV 모드 전용 렌더링?
+	GameEngineUIRenderer* cctvBorderRenderer_;
 	GameEngineUIRenderer* cameraDisabledRenderer_;
 	GameEngineUIRenderer* recordingMarkRenderer_;
 	GameEngineUIRenderer* cameraNameRenderer_;

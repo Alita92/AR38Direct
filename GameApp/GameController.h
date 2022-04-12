@@ -84,7 +84,7 @@ private:
 	const int MAX_DAY = 5;
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;
 	const float DEFAULT_CCTV_GLITCH_TIME = 3.02f;
-	const float DEFAULT_CCTV_SCREEN_MOVESPEED = 100.0f;
+	const float DEFAULT_CCTV_SCREEN_MOVESPEED = 80.0f;
 
 	// 스테이지 변수
 	DAY curDay_;
