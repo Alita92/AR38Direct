@@ -143,9 +143,9 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(20);
-		aiChica_->SetAILevel(20);
-		aiFoxy_->SetAILevel(0);
+		aiBonnie_->SetAILevel(0);
+		aiChica_->SetAILevel(0);
+		aiFoxy_->SetAILevel(20);
 		aiFreddy_->SetAILevel(0);
 	}
 	break;
@@ -2056,12 +2056,14 @@ void GameController::CollisionCCTVButton(GameEngineCollision* _other)
 			if (LOCATION::OFFICE == aiBonnie_->GetLocation())
 			{
 				UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
+
 				state_.ChangeState("BonnieDeath");
 				return;
 			}
 			else if (LOCATION::OFFICE == aiChica_->GetLocation())
 			{
 				UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
+	
 				state_.ChangeState("ChicaDeath");
 				return;
 			}
@@ -2084,6 +2086,8 @@ void GameController::CollisionMuteCall(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		UIController_->muteCallRenderer_->Off();
+		UIController_->muteCallCollision_->Off();
 		phoneGuyPlayer_.Stop();
 	}
 }

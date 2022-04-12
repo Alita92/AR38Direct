@@ -24,6 +24,7 @@
     <FxCompile Include="EngineResources\Shader\Fade.fx" />
     <FxCompile Include="EngineResources\Shader\TargetMerge.fx" />
     <FxCompile Include="EngineResources\Shader\Texture.fx" />
+    <FxCompile Include="Resources\Shader\Distortion.fx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
