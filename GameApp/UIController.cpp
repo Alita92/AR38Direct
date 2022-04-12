@@ -3,6 +3,7 @@
 #include "ENUM.h"
 
 #include <GameEngine/GameEngineUIRenderer.h>
+#include <GameEngine/GameEngineImageRenderer.h>
 #include <GameEngine/GameEngineCollision.h>
 
 #include "GameStaticData.h"
@@ -70,6 +71,11 @@ UIController::UIController() // default constructer 디폴트 생성자
 	, dayPassNum5_(nullptr)
 	, dayPassNum6_(nullptr)
 	, dayPassAM_(nullptr)
+	, mouseLeftCollision_(nullptr)
+	, mouseRightCollision_(nullptr)
+	, CCTVAnimationRenderer_(nullptr)
+	, CCTVRealRenderer_(nullptr)
+	, foxyRunningRenderer_(nullptr)
 {
 
 }
@@ -91,6 +97,33 @@ void UIController::Start()
 
 void UIController::ImageInit()
 {
+
+	{
+		CCTVAnimationRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		CCTVAnimationRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f /*static_cast<float>(RenderOrder::OBJECT0)*/ });
+		CCTVAnimationRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.033f, false);
+		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.033f, false);
+		CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+		CCTVAnimationRenderer_->Off();
+	}
+
+	{
+		CCTVRealRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		CCTVRealRenderer_->SetImage("ClearScreen.png", true);
+		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV0)});
+		CCTVRealRenderer_->Off();
+	}
+
+	{
+		foxyRunningRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		foxyRunningRenderer_->SetImage("WestHallA_Default.png", true);
+		foxyRunningRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV1) });
+		foxyRunningRenderer_->CreateAnimationFolder("RunningFoxy", "RunningFoxy", 0.04f, false);
+		foxyRunningRenderer_->Off();
+	}
+
 	timeTenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	timeTenRenderer_->SetImage("M1.png", true);
 	timeTenRenderer_->GetTransform()->SetLocalPosition({ 510.0f, 315.0f, 0.0f });
@@ -428,6 +461,18 @@ void UIController::CollisionInit()
 		cam4BCollision_->GetTransform()->SetLocalScaling(cam4BScreenRenderer_->GetTransform()->GetLocalScaling());
 		cam4BCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
+
+	{
+		mouseLeftCollision_ = CreateTransformComponent<GameEngineCollision>();
+		mouseLeftCollision_->GetTransform()->SetLocalPosition({ -560.0f , 0.0f, 0.0f});
+		mouseLeftCollision_->GetTransform()->SetLocalScaling({ 240.0f, 720.0f, 1.0f});
+		mouseLeftCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::MOUSESCROLL));
+		
+		mouseRightCollision_ = CreateTransformComponent<GameEngineCollision>();
+		mouseRightCollision_->GetTransform()->SetLocalPosition({ 560.0f , 0.0f, 0.0f });
+		mouseRightCollision_->GetTransform()->SetLocalScaling({ 240.0f, 720.0f, 1.0f });
+		mouseRightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::MOUSESCROLL));
+	}
 }
 
 void UIController::StateInit()
@@ -445,11 +490,6 @@ void UIController::StateInit()
 void UIController::Update(float _DeltaTime)
 {
 	DebugRenderUpdate();
-
-	//if (true == recordingMarkRenderer_->IsUpdate())
-	//{
-	//	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
-	//}
 }
 
 void UIController::DebugRenderUpdate()
@@ -457,6 +497,7 @@ void UIController::DebugRenderUpdate()
 #ifdef _DEBUG
 	GetLevel()->PushDebugRender(CCTVButtonCollision_->GetTransform(), CollisionType::Rect);
 	GetLevel()->PushDebugRender(muteCallCollision_->GetTransform(), CollisionType::Rect);
+
 
 	if (true == cam1ACollision_->IsUpdate())
 	{
@@ -471,6 +512,11 @@ void UIController::DebugRenderUpdate()
 		GetLevel()->PushDebugRender(cam6Collision_->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(cam4ACollision_->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(cam4BCollision_->GetTransform(), CollisionType::Rect);
+	}
+	else if (false == cam1ACollision_->IsUpdate())
+	{
+		GetLevel()->PushDebugRender(mouseLeftCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(mouseRightCollision_->GetTransform(), CollisionType::Rect);
 	}
 
 #endif
@@ -596,6 +642,9 @@ StateInfo UIController::startOfficeUI(StateInfo _state)
 	 cam4BRenderer_->Off();
 	cam4BCollision_->Off();
 
+	mouseLeftCollision_->On();
+	mouseRightCollision_->On();
+
 	return StateInfo();
 }
 
@@ -653,6 +702,9 @@ StateInfo UIController::startCCTVUI(StateInfo _state)
 	cam4BScreenRenderer_->On();
 	cam4BRenderer_->On();
 	cam4BCollision_->On();
+
+	mouseLeftCollision_->Off();
+	mouseRightCollision_->Off();
 	return StateInfo();
 }
 

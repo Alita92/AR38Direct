@@ -53,9 +53,6 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, mainRenderer_(nullptr)
 	, glitchScreen_(nullptr)
 	, fanRenderer_(nullptr)
-	, CCTVRealRenderer_(nullptr)
-	, CCTVAnimationRenderer_(nullptr)
-	, foxyRunningRenderer_(nullptr)
 	, foxyDeathTimer_(0.0f)
 	, freddyDeathTimer_(0.0f)
 	, isPirateCoveChecked_(false)
@@ -281,31 +278,8 @@ void GameController::InitAnimation()
 		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorOpen", 14, 0, 0.04f, false);
 	}
 
-	{		
-		CCTVAnimationRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		CCTVAnimationRenderer_->SetImage("ShowStage_Default.png", true);
-		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
-		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVOpen", 0, 9, 0.033f, false);
-		CCTVAnimationRenderer_->CreateAnimation("CCTVAnimation.png", "CCTVClose", 9, 0, 0.033f, false);
-		CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
-		CCTVAnimationRenderer_->Off();
-	}
+	// 여기 밑에걸 UI로 옮길 것...
 
-	{
-		CCTVRealRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		CCTVRealRenderer_->SetImage("ClearScreen.png", true);
-
-		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV0) });
-		CCTVRealRenderer_->Off();
-	}
-
-	{
-		foxyRunningRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		foxyRunningRenderer_->SetImage("WestHallA_Default.png", true);
-		foxyRunningRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV1) });
-		foxyRunningRenderer_->CreateAnimationFolder("RunningFoxy", "RunningFoxy", 0.04f, false);
-		foxyRunningRenderer_->Off();
-	}
 }
 
 void GameController::InitScreenEffects()
@@ -322,27 +296,27 @@ void GameController::InitScreenEffects()
 void GameController::InitSwitchCollision()
 {
 	{
-		lSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchDoorCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
-		lSwitchDoorCollision_->GetTransform()->SetLocalScaling({40.0f, 55.0f, 1.0f});
-		lSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
-
-		lSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchLightCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
-		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
-		lSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
-	}
-
-	{
-		rSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchDoorCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
-		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
-		rSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
-
-		rSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchLightCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
-		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
-		rSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+		//lSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
+		//lSwitchDoorCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		//lSwitchDoorCollision_->GetTransform()->SetLocalScaling({40.0f, 55.0f, 1.0f});
+		//lSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+		//
+		//lSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
+		//lSwitchLightCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		//lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		//lSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}	//
+		//
+	{	//
+		//rSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
+		//rSwitchDoorCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		//rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		//rSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+		//
+		//rSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
+		//rSwitchLightCollision_->GetTransform()->SetLocalPosition(lSwitchRenderer_->GetTransform()->GetLocalPosition());
+		//rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		//rSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 }
 
@@ -434,17 +408,6 @@ void GameController::ControllerReloading()
 		rDoorRenderer_->SetImage("RdoorStatic.png", true);
 		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
 
-		CCTVAnimationRenderer_->SetImage("ShowStage_Default.png", true);
-		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT0) });
-		CCTVAnimationRenderer_->Off();
-
-		CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
-		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV0) });
-		CCTVRealRenderer_->Off();
-
-		foxyRunningRenderer_->SetImage("WestHallA_Default.png", true);
-		foxyRunningRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV1) });
-		foxyRunningRenderer_->Off();
 
 		UIController_->dayPassHiderUpper_->Off();
 		UIController_->dayPassHiderBottom_->Off();
@@ -482,9 +445,9 @@ void GameController::ControllerReloading()
 
 	{
 		glitchScreen_->PlayWhiteNoise(false);
-		CCTVRealRenderer_->Off();
-		foxyRunningRenderer_->Off();
-		CCTVAnimationRenderer_->Off();
+		UIController_->CCTVRealRenderer_->Off();
+		UIController_->foxyRunningRenderer_->Off();
+		UIController_->CCTVAnimationRenderer_->Off();
 		fanRenderer_->On();
 
 		aiBonnie_->isPlayerStares_ = true;
@@ -825,6 +788,8 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	
 	UIController_->CCTVButtonCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionCCTVButton, this, std::placeholders::_1));
 	UIController_->muteCallCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMuteCall, this, std::placeholders::_1));
+	UIController_->mouseLeftCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMouseLeft, this, std::placeholders::_1));
+	UIController_->mouseRightCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMouseRight, this, std::placeholders::_1));
 
 	return StateInfo();
 }
@@ -833,8 +798,8 @@ StateInfo GameController::startCCTVOpen(StateInfo _state)
 {
 	// CCTV 작동 애니메이션에 앞서 렌더 오더를 새로 정리합니다.
 	curPowerLevel_ += 1;
-	CCTVAnimationRenderer_->On();
-	CCTVAnimationRenderer_->SetChangeAnimation("CCTVOpen", true);
+	UIController_->CCTVAnimationRenderer_->On();
+	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVOpen", true);
 	return StateInfo();
 }
 
@@ -843,7 +808,7 @@ StateInfo GameController::updateCCTVOpen(StateInfo _state)
 	// CCTV 작동 애니메이션을 여기서 작동 시킵니다.
 	// 작동의 짧은 시간동안은 어떤 인풋도 먹히지 않도록 조정합니다.
 
-	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
+	if (true == UIController_->CCTVAnimationRenderer_->IsCurAnimationEnd())
 	{
 		return "CCTV";
 	}
@@ -858,8 +823,8 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	glitchScreen_->PlayWhiteNoise(true);
 	glitchScreen_->PlayAwakeScanLineFast();
 	fanRenderer_->Off();
-	CCTVRealRenderer_->On();
-	CCTVAnimationRenderer_->Off();
+	UIController_->CCTVRealRenderer_->On();
+	UIController_->CCTVAnimationRenderer_->Off();
 	CurPlayerState_ = PLAYERSTATUS::CCTV;
 	bonnieDice_ = randomGenerator_.RandomInt(0, 1);
 	chicaDice_ = randomGenerator_.RandomInt(0, 1);
@@ -944,7 +909,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	if (true == isCCTVGlitched_)
 	{
 		CCTVGlitchDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
-		CCTVRealRenderer_->SetImage("ClearScreen.png", true);
+		UIController_->CCTVRealRenderer_->SetImage("ClearScreen.png", true);
 		if (DEFAULT_CCTV_GLITCH_TIME <= CCTVGlitchDeltaTime_)
 		{
 			CCTVGlitchDeltaTime_ = 0.0f;
@@ -962,14 +927,14 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 		case LOCATION::SHOWSTAGE:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 
 
 			if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation() && LOCATION::SHOWSTAGE != aiFreddy_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("ShowStage_AllGone.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("ShowStage_AllGone.png", true);
 				break;
 			}
 
@@ -977,7 +942,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			{
 				if (true == isAnomalyOn_)
 				{
-					CCTVRealRenderer_->SetImage("ShowStage_BCGone_Anomaly.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("ShowStage_BCGone_Anomaly.png", true);
 					if (false == aiFreddy_->isBonnieChica0ut_)
 					{
 						aiFreddy_->isBonnieChica0ut_ = true;
@@ -986,7 +951,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 					break;
 				}
 
-				CCTVRealRenderer_->SetImage("ShowStage_BCGone.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("ShowStage_BCGone.png", true);
 				if (false == aiFreddy_->isBonnieChica0ut_)
 				{
 					aiFreddy_->isBonnieChica0ut_ = true;
@@ -995,46 +960,46 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			}
 			else if (LOCATION::SHOWSTAGE != aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE == aiChica_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("ShowStage_BonnieGone.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("ShowStage_BonnieGone.png", true);
 				break;
 			}
 			else if (LOCATION::SHOWSTAGE == aiBonnie_->GetLocation() && LOCATION::SHOWSTAGE != aiChica_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("ShowStage_ChicaGone.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("ShowStage_ChicaGone.png", true);
 				break;
 			}
 
 			if (true == isAnomalyOn_)
 			{
-				CCTVRealRenderer_->SetImage("ShowStage_Default_Anomaly.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("ShowStage_Default_Anomaly.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("ShowStage_Default.png", true);
 		}
 		break;
 		case LOCATION::KITCHEN:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
-			CCTVRealRenderer_->SetImage("Kitchen.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("Kitchen.png", true);
 		}
 		break;
 		case LOCATION::BACKSTAGE:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			if (LOCATION::BACKSTAGE == aiBonnie_->GetLocation())
 			{
 				switch (bonnieDice_)
 				{
 				case 0:
-					CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("BackStage_Bonnie0.png", true);
 					break;
 				case 1:
-					CCTVRealRenderer_->SetImage("BackStage_Bonnie1.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("BackStage_Bonnie1.png", true);
 					break;
 				default:
 					break;
@@ -1044,21 +1009,21 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 
 			if (true == isAnomalyOn_)
 			{
-				CCTVRealRenderer_->SetImage("BackStage_Anomaly.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("BackStage_Anomaly.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("BackStage_Default.png", true);
 		}
 		break;
 		case LOCATION::DININGAREA:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("DiningArea_Chica1.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("DiningArea_Chica1.png", true);
 				break;
 			}
 			else if (LOCATION::DININGAREA == aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
@@ -1066,10 +1031,10 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 				switch (bonnieDice_)
 				{
 				case 0:
-					CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("DiningArea_Bonnie0.png", true);
 					break;
 				case 1:
-					CCTVRealRenderer_->SetImage("DiningArea_Bonnie1.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("DiningArea_Bonnie1.png", true);
 					break;
 				default:
 					break;
@@ -1078,44 +1043,44 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			}
 			else if (LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA == aiChica_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("DiningArea_Chica0.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("DiningArea_Chica0.png", true);
 				break;
 			}
 			else if (LOCATION::DININGAREA == aiFreddy_->GetLocation() && LOCATION::DININGAREA != aiBonnie_->GetLocation() && LOCATION::DININGAREA != aiChica_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("DiningArea_Freddy.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("DiningArea_Freddy.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("DiningArea_Default.png", true);
 		}
 		break;
 		case LOCATION::PIRATECOVE:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			FOXYLEVEL curFoxyLevel = aiFoxy_->GetFoxyLevel();
 
 			switch (curFoxyLevel)
 			{
 			case FOXYLEVEL::LV1:
-				CCTVRealRenderer_->SetImage("PirateCove_Lv1.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("PirateCove_Lv1.png", true);
 				break;
 			case FOXYLEVEL::LV2:
-				CCTVRealRenderer_->SetImage("PirateCove_Lv2.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("PirateCove_Lv2.png", true);
 				break;
 			case FOXYLEVEL::LV3:
-				CCTVRealRenderer_->SetImage("PirateCove_Lv3.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("PirateCove_Lv3.png", true);
 				break;
 			case FOXYLEVEL::LV4:
 			{
 				//isPirateCoveChecked_ = true;
 				if (true == randomGenerator_.RandomBool(5.0f / 100.0f))
 				{
-					CCTVRealRenderer_->SetImage("PirateCove_Lv4_Anomaly.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("PirateCove_Lv4_Anomaly.png", true);
 				}
-				CCTVRealRenderer_->SetImage("PirateCove_Lv4.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("PirateCove_Lv4.png", true);
 			}
 			break;
 			case FOXYLEVEL::MAX:
@@ -1127,18 +1092,18 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		break;
 		case LOCATION::EASTHALLA:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			if (LOCATION::EASTHALLA == aiChica_->GetLocation())
 			{
 				switch (chicaDice_)
 				{
 				case 0:
-					CCTVRealRenderer_->SetImage("EastHallA_Chica0.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallA_Chica0.png", true);
 					break;
 				case 1:
-					CCTVRealRenderer_->SetImage("EastHallA_Chica1.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallA_Chica1.png", true);
 					break;
 				default:
 					break;
@@ -1147,7 +1112,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			}
 			else if (LOCATION::EASTHALLA != aiChica_->GetLocation() && LOCATION::EASTHALLA == aiFreddy_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("EastHallA_Freddy.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("EastHallA_Freddy.png", true);
 				break;
 			}
 
@@ -1157,11 +1122,11 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 				{
 				case 0:
 				case 1:
-					CCTVRealRenderer_->SetImage("EastHallA_Anomaly0.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallA_Anomaly0.png", true);
 					break;
 				case 2:
 				case 3:
-					CCTVRealRenderer_->SetImage("EastHallA_Anomaly1.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallA_Anomaly1.png", true);
 					break;
 
 				default:
@@ -1169,23 +1134,23 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 				}
 				break;
 			}
-			CCTVRealRenderer_->SetImage("EastHallA_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("EastHallA_Default.png", true);
 		}
 		break;
 
 		case LOCATION::EASTHALLB:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			if (LOCATION::EASTHALLB == aiFreddy_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("EastHallB_Freddy.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("EastHallB_Freddy.png", true);
 				break;
 			}
 			else if (LOCATION::EASTHALLB == aiChica_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("EastHallB_Chica0.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("EastHallB_Chica0.png", true);
 				break;
 			}
 
@@ -1195,23 +1160,23 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 				switch (anomalyDice_)
 				{
 				case 0:
-					CCTVRealRenderer_->SetImage("EastHallB_Anomaly0.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly0.png", true);
 					break;
 				case 1:
-					CCTVRealRenderer_->SetImage("EastHallB_Anomaly1.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly1.png", true);
 					break;
 				case 2:
-					CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
 					break;
 				case 3:
-					CCTVRealRenderer_->SetImage("EastHallB_Anomaly3.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly3.png", true);
 					break;
 				default:
 					break;
 				}
 				break;
 			}
-			CCTVRealRenderer_->SetImage("EastHallB_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("EastHallB_Default.png", true);
 		}
 		break;
 		case LOCATION::WESTHALLA:
@@ -1219,10 +1184,10 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 			if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && false == isFoxyRunning_)
 			{
 				isFoxyRunning_ = true;
-				foxyRunningRenderer_->On();
+				UIController_->foxyRunningRenderer_->On();
 				awakePlayer_.PlayAlone("FoxyRun.wav");
-				foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
-				CCTVRealRenderer_->Off();
+				UIController_->foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
+				UIController_->CCTVRealRenderer_->Off();
 				break;
 			}
 			else if (FOXYLEVEL::LV4 == aiFoxy_->GetFoxyLevel() && true == isFoxyRunning_)
@@ -1230,64 +1195,64 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 				break;
 			}
 
-			CCTVRealRenderer_->On();
-			foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
 
 			if (LOCATION::WESTHALLA == aiBonnie_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("WestHallA_Bonnie.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("WestHallA_Bonnie.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("WestHallA_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("WestHallA_Default.png", true);
 
 		}
 		break;
 		case LOCATION::WESTHALLB:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			if (LOCATION::WESTHALLB == aiBonnie_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("WestHallB_Bonnie0.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("WestHallB_Bonnie0.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("WestHallB_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("WestHallB_Default.png", true);
 		}
 		break;
 		case LOCATION::RESTROOMS:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			if (LOCATION::RESTROOMS == aiChica_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("RestRooms_Chica0.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("RestRooms_Chica0.png", true);
 				break;
 			}
 			else if (LOCATION::RESTROOMS == aiFreddy_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("RestRooms_Freddy.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("RestRooms_Freddy.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("RestRooms_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("RestRooms_Default.png", true);
 		}
 		break;
 		case LOCATION::SUPPLYCLOSET:
 		{
-			foxyRunningRenderer_->Off();
-			CCTVRealRenderer_->On();
+			UIController_->foxyRunningRenderer_->Off();
+			UIController_->CCTVRealRenderer_->On();
 
 			if (LOCATION::SUPPLYCLOSET == aiBonnie_->GetLocation())
 			{
-				CCTVRealRenderer_->SetImage("SuppltCloset_Bonnie.png", true);
+				UIController_->CCTVRealRenderer_->SetImage("SuppltCloset_Bonnie.png", true);
 				break;
 			}
 
-			CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
+			UIController_->CCTVRealRenderer_->SetImage("SupplyCloset_Default.png", true);
 		}
 		break;
 		case LOCATION::NONE:
@@ -1327,14 +1292,14 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 	// 디버그 임시
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
 	{
-		CCTVRealRenderer_->Off();
-		foxyRunningRenderer_->On();
-		foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
+		UIController_->CCTVRealRenderer_->Off();
+		UIController_->foxyRunningRenderer_->On();
+		UIController_->foxyRunningRenderer_->SetChangeAnimation("RunningFoxy", true);
 	}
 	if (true == GameEngineInput::GetInst().Down("ESC"))
 	{
-		foxyRunningRenderer_->Off();
-		CCTVRealRenderer_->On();
+		UIController_->foxyRunningRenderer_->Off();
+		UIController_->CCTVRealRenderer_->On();
 	}
 
 
@@ -1347,9 +1312,9 @@ StateInfo GameController::startCCTVClose(StateInfo _state)
 	CCTVPlayer_.Stop();
 	glitchScreen_->PlayWhiteNoise(false);
 	curPowerLevel_ -= 1;
-	CCTVRealRenderer_->Off();
-	foxyRunningRenderer_->Off();
-	CCTVAnimationRenderer_->On();
+	UIController_->CCTVRealRenderer_->Off();
+	UIController_->foxyRunningRenderer_->Off();
+	UIController_->CCTVAnimationRenderer_->On();
 	if (curPowerRate_ != 0.0f)
 	{
 		fanRenderer_->On();
@@ -1359,20 +1324,20 @@ StateInfo GameController::startCCTVClose(StateInfo _state)
 	aiChica_->isPlayerStares_ = true;
 	aiFoxy_->isPlayerStares_ = false;
 
-	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	return StateInfo();
 }
 
 StateInfo GameController::updateCCTVClose(StateInfo _state)
 {
-	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
+	if (true == UIController_->CCTVAnimationRenderer_->IsCurAnimationEnd())
 	{
 		if (curPowerRate_ != 0)
 		{
 			mainRenderer_->SetImage("OfficeBasic.png", true);
 		}
 
-		CCTVAnimationRenderer_->Off();
+		UIController_->CCTVAnimationRenderer_->Off();
 
 		return "Idle";
 	}
@@ -1382,10 +1347,10 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 StateInfo GameController::startBonnieDeath(StateInfo _state)
 {
 	glitchScreen_->PlayWhiteNoise(false);
-	CCTVRealRenderer_->Off();
-	CCTVAnimationRenderer_->On();
+	UIController_->CCTVRealRenderer_->Off();
+	UIController_->CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	mainRenderer_->SetChangeAnimation("JumpScareBonnie", true);
 	isElecCheckOff_ = true;
 	lDoorRenderer_->Off();
@@ -1400,9 +1365,9 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 {
 	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
+	if (true == UIController_->CCTVAnimationRenderer_->IsCurAnimationEnd())
 	{
-		CCTVAnimationRenderer_->Off();
+		UIController_->CCTVAnimationRenderer_->Off();
 	}
 
 	if (0.88f <= deathSceneTimer_)
@@ -1418,10 +1383,10 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 {
 	glitchScreen_->PlayWhiteNoise(false);
 	isElecCheckOff_ = true;
-	CCTVRealRenderer_->Off();
-	CCTVAnimationRenderer_->On();
+	UIController_->CCTVRealRenderer_->Off();
+	UIController_->CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	mainRenderer_->SetChangeAnimation("JumpScareChica", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
@@ -1435,9 +1400,9 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 {
 	deathSceneTimer_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (true == CCTVAnimationRenderer_->IsCurAnimationEnd())
+	if (true == UIController_->CCTVAnimationRenderer_->IsCurAnimationEnd())
 	{
-		CCTVAnimationRenderer_->Off();
+		UIController_->CCTVAnimationRenderer_->Off();
 	}
 
 	if (0.88f <= deathSceneTimer_)
@@ -1454,8 +1419,8 @@ StateInfo GameController::startFoxyDeath(StateInfo _state)
 	isFoxyRunning_ = false;
 	isElecCheckOff_ = true;
 	glitchScreen_->PlayWhiteNoise(false);
-	CCTVRealRenderer_->Off();
-	CCTVAnimationRenderer_->Off();
+	UIController_->CCTVRealRenderer_->Off();
+	UIController_->CCTVAnimationRenderer_->Off();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
 	mainRenderer_->SetChangeAnimation("JumpScareFoxy", true);
 	lDoorRenderer_->Off();
@@ -1484,8 +1449,8 @@ StateInfo GameController::startFreddyDeath(StateInfo _state)
 {
 	glitchScreen_->PlayWhiteNoise(false);
 	isElecCheckOff_ = true;
-	CCTVRealRenderer_->Off();
-	CCTVAnimationRenderer_->Off();
+	UIController_->CCTVRealRenderer_->Off();
+	UIController_->CCTVAnimationRenderer_->Off();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
 	mainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
 	lDoorRenderer_->Off();
@@ -1520,8 +1485,8 @@ StateInfo GameController::startNoElec(StateInfo _state)
 
 	if (CurPlayerState_ != PLAYERSTATUS::OFFICE)
 	{
-		CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
-		CCTVRealRenderer_->Off();
+		UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+		UIController_->CCTVRealRenderer_->Off();
 	}
 	
 	isElecCheckOff_ = true;
@@ -2117,6 +2082,23 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 		glitchScreen_->PlayAwakeScanLineFast();
 		PrevCCTVState_ = CurCCTVState_;
 		CurCCTVState_ = LOCATION::EASTHALLB;
+	}
+}
+
+
+void GameController::CollisionMouseLeft(GameEngineCollision* _other)
+{
+	if (155.0f >= GetTransform()->GetWorldPosition().x)
+	{
+		GetTransform()->SetWorldDeltaTimeMove(float4::RIGHT * DEFAULT_MOUSE_SCROLLSPEED);
+	}
+}
+
+void GameController::CollisionMouseRight(GameEngineCollision* _other)
+{
+	if (-155.0f <= GetTransform()->GetWorldPosition().x)
+	{
+		GetTransform()->SetWorldDeltaTimeMove(float4::LEFT * DEFAULT_MOUSE_SCROLLSPEED);
 	}
 }
 

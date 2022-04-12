@@ -5,6 +5,7 @@
 enum class InGameCollisonType
 {
 	MOUSEPOINTER,
+	MOUSESCROLL,
 	UI,
 	GAMEACTOR,
 	MAX

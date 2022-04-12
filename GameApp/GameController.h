@@ -12,6 +12,7 @@
 
 class PlayLevel;
 class GameEngineImageRenderer;
+class GameEngineUIRenderer;
 class GameEngineBackgroundRenderer;
 class GameEngineCollision;
 class GameMouse;
@@ -161,7 +162,8 @@ protected:
 	void CollisionSwitchLightL(GameEngineCollision* _other);
 	void CollisionSwitchLightR(GameEngineCollision* _other);
 
-
+	void CollisionMouseLeft(GameEngineCollision* _other);
+	void CollisionMouseRight(GameEngineCollision* _other);
 
 public:
 	// 렌더러들 디폴트 Position
@@ -169,11 +171,11 @@ public:
 	float4 DEFAULT_FAN_POS_OFFICE = { 49.0f, -41.0f, -1.0f };
 	float4 DEFAULT_FAN_POS_CCTV = { 49.0f, -41.0f, 1.0f };
 	float4 DEFAULT_CCTV_POS_CCTV = { 0.0f,0.0f,-2.0f };
+	float DEFAULT_MOUSE_SCROLLSPEED = 333.0f;
 
-protected:
+public:
 	GameEngineBackgroundRenderer* mainRenderer_;
-	GameEngineImageRenderer* CCTVAnimationRenderer_;
-	GameEngineImageRenderer* CCTVRealRenderer_;
+
 
 	GameEngineImageRenderer* fanRenderer_;
 	GameEngineImageRenderer* lDoorRenderer_;
@@ -187,8 +189,9 @@ protected:
 	GameEngineCollision* rSwitchDoorCollision_;
 	GameEngineCollision* rSwitchLightCollision_;
 
+
+
 	// 주의!!! 하단 렌더러는 폭시 복도 애니메이션 전용!!!
-	GameEngineImageRenderer* foxyRunningRenderer_;
 
 
 private:

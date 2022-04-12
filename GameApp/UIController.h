@@ -7,6 +7,7 @@
 // 설명 : 
 class GameEngineUIRenderer;
 class GameEngineCollision;
+class GameEngineImageRenderer;
 class GameController;
 class UIController : public GameEngineActor
 {
@@ -22,6 +23,10 @@ public:
 	UIController& operator=(const UIController&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 protected:
+	GameEngineImageRenderer* foxyRunningRenderer_;
+	GameEngineUIRenderer* CCTVAnimationRenderer_;
+	GameEngineImageRenderer* CCTVRealRenderer_;
+
 	GameEngineUIRenderer* timeTenRenderer_;
 	GameEngineUIRenderer* timeOneRenderer_;
 	GameEngineUIRenderer* amRenderer_;
@@ -94,6 +99,10 @@ protected:
 	GameEngineUIRenderer* cam4BScreenRenderer_;
 	GameEngineUIRenderer* cam4BRenderer_;
 	GameEngineCollision* cam4BCollision_;
+
+private:
+	GameEngineCollision* mouseLeftCollision_;
+	GameEngineCollision* mouseRightCollision_;
 
 protected:
 	const float DAYPASS_X_FLOAT = 70.0f;
