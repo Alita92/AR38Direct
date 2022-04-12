@@ -23,6 +23,8 @@ public:
 	UIController& operator=(const UIController&& _other) noexcept = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
 protected:
+	GameEngineUIRenderer* subtitleRenderer_;
+
 	GameEngineImageRenderer* foxyRunningRenderer_;
 	GameEngineUIRenderer* CCTVAnimationRenderer_;
 	GameEngineImageRenderer* CCTVRealRenderer_;

@@ -80,6 +80,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, CCTVMoveDeltaTime_(0.0f)
 	, isCCTVFullyTilted_(false)
 	, CCTVMoveFlag_(false)
+	, subtitleDeltatime_(0.0f)
 {
 
 }
@@ -396,6 +397,7 @@ void GameController::ControllerReloading()
 		CCTVMoveDeltaTime_ = 0.0f;
 		isCCTVFullyTilted_ = false;
 		CCTVMoveFlag_ = false;
+		subtitleDeltatime_ = 0.0f;
 	}
 
 	{
@@ -534,6 +536,7 @@ void GameController::Update(float _Deltatime)
 	PlayPhoneGuy();
 	AICheck();
 	UpdateDebugRender();
+	UpdateSubtitle();
 }
 
 
@@ -2392,5 +2395,16 @@ void GameController::CCTVScreenMove()
 	}
 
 
+
+}
+
+void GameController::UpdateSubtitle()
+{
+	subtitleDeltatime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+	if (0.0f <= subtitleDeltatime_)
+	{
+		UIController_->subtitleRenderer_->On();
+	}
 
 }

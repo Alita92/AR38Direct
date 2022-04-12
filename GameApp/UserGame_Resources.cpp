@@ -107,6 +107,18 @@ void UserGame::ResourcesLoad()
 		}
 
 		imageDir.MoveParent("Play");
+		imageDir.MoveChild("Subtitles");
+		imageDir.MoveChild("DAY1");
+
+		std::vector<GameEngineFile> Day1Sub = imageDir.GetAllFile("png");
+
+		for (size_t i = 0; i < Day1Sub.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(Day1Sub[i].GetFullPath());
+		}
+
+
+		imageDir.MoveParent("Play");
 		imageDir.MoveChild("CCTV");
 		imageDir.MoveChild("BackStage");
 

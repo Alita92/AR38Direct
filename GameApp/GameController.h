@@ -149,6 +149,9 @@ private:
 	float alphaChangeTime_;
 	float alphaChangeTime1_;
 
+	// 자막 델타타임 변수
+	float subtitleDeltatime_;
+
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);
 	void CollisionMuteCall(GameEngineCollision* _other);
@@ -226,6 +229,7 @@ private:
 	void LoopAmbient();
 	void PlayPhoneGuy();
 	void StopAllSound();
+	void UpdateSubtitle();
 	bool isPhoneStop_;
 
 private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
