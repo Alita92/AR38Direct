@@ -84,6 +84,7 @@ private:
 	const int MAX_DAY = 5;
 	const float MAXIMUM_PLAYDEAD_DURATION = 20.0f;
 	const float DEFAULT_CCTV_GLITCH_TIME = 3.02f;
+	const float DEFAULT_CCTV_SCREEN_MOVESPEED = 100.0f;
 
 	// 스테이지 변수
 	DAY curDay_;
@@ -111,6 +112,12 @@ private:
 
 	// 프레디 전용 변수들
 	float freddyDeathTimer_;
+
+	// CCTV 좌우 이동용
+	void CCTVScreenMove();
+	float CCTVMoveDeltaTime_;
+	bool isCCTVFullyTilted_;
+	bool CCTVMoveFlag_;
 
 	// CCTV 불량 화면용 델타타임
 	bool isCCTVGlitched_;
@@ -171,7 +178,7 @@ public:
 	float4 DEFAULT_FAN_POS_OFFICE = { 49.0f, -41.0f, -1.0f };
 	float4 DEFAULT_FAN_POS_CCTV = { 49.0f, -41.0f, 1.0f };
 	float4 DEFAULT_CCTV_POS_CCTV = { 0.0f,0.0f,-2.0f };
-	float DEFAULT_MOUSE_SCROLLSPEED = 333.0f;
+	float DEFAULT_MOUSE_SCROLLSPEED = 433.0f;
 
 public:
 	GameEngineBackgroundRenderer* mainRenderer_;
@@ -188,11 +195,6 @@ public:
 	GameEngineImageRenderer* rSwitchRenderer_;
 	GameEngineCollision* rSwitchDoorCollision_;
 	GameEngineCollision* rSwitchLightCollision_;
-
-
-
-	// 주의!!! 하단 렌더러는 폭시 복도 애니메이션 전용!!!
-
 
 private:
 	PLAYERSTATUS CurPlayerState_;

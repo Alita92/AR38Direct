@@ -77,6 +77,9 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, lSwitchLightCollision_(nullptr)
 	, rSwitchDoorCollision_(nullptr)
 	, rSwitchLightCollision_(nullptr)
+	, CCTVMoveDeltaTime_(0.0f)
+	, isCCTVFullyTilted_(false)
+	, CCTVMoveFlag_(false)
 {
 
 }
@@ -392,6 +395,9 @@ void GameController::ControllerReloading()
 		flag2_ = false;
 		flag3_ = false;
 		flag4_ = false;
+		CCTVMoveDeltaTime_ = 0.0f;
+		isCCTVFullyTilted_ = false;
+		CCTVMoveFlag_ = false;
 	}
 
 	{
@@ -1166,8 +1172,8 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly1.png", true);
 					break;
 				case 2:
-					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
-					break;
+UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
+break;
 				case 3:
 					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly3.png", true);
 					break;
@@ -1265,6 +1271,9 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 		default:
 			break;
 		}
+
+
+		CCTVScreenMove();
 	}
 
 		UIController_->SetCCTVNameRenderer(CurCCTVState_);
@@ -2214,4 +2223,56 @@ void GameController::StopAllSound()
 	chicaSound_.Stop();
 	freddySound_.Stop();
 	foxySound_.Stop();
+}
+
+void GameController::CCTVScreenMove()
+{
+	if (true == isCCTVFullyTilted_)
+	{
+		CCTVMoveDeltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+		if (1.5f <= CCTVMoveDeltaTime_)
+		{
+
+			if (true == CCTVMoveFlag_)
+			{
+				CCTVMoveFlag_ = false;
+			}
+			else 
+			{
+				CCTVMoveFlag_ = true;
+			}
+
+			isCCTVFullyTilted_ = false;
+			CCTVMoveDeltaTime_ = 0.0f;
+		}
+	}
+	else
+	{
+		if (false == CCTVMoveFlag_) // 좌로
+		{
+			if (-160.0f <= UIController_->CCTVRealRenderer_->GetTransform()->GetLocalPosition().x)
+			{
+				UIController_->CCTVRealRenderer_->GetTransform()->SetLocalDeltaTimeMove(float4::LEFT * DEFAULT_CCTV_SCREEN_MOVESPEED);
+			}
+			else
+			{
+				isCCTVFullyTilted_ = true;
+			}
+		}
+		else if (true == CCTVMoveFlag_) // 우로
+		{
+			if (160.0f >= UIController_->CCTVRealRenderer_->GetTransform()->GetLocalPosition().x)
+			{
+				UIController_->CCTVRealRenderer_->GetTransform()->SetLocalDeltaTimeMove(float4::RIGHT * DEFAULT_CCTV_SCREEN_MOVESPEED);
+			}
+			else
+			{
+				isCCTVFullyTilted_ = true;
+			}
+		}
+	}
+
+
+
 }
