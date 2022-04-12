@@ -98,6 +98,9 @@
     <ClCompile Include="CustomSettingController.cpp">
       <Filter>Actor\04CustomSetting</Filter>
     </ClCompile>
+    <ClCompile Include="CurvedEffect.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -174,6 +177,9 @@
     </Filter>
     <Filter Include="Actor\04CustomSetting\Actors">
       <UniqueIdentifier>{5a7c7d90-bed7-4bd6-9be6-a0e49922ea5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{68c6b212-5010-4b84-a6cf-9f251150108e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +281,9 @@
     </ClInclude>
     <ClInclude Include="CustomSettingController.h">
       <Filter>Actor\04CustomSetting</Filter>
+    </ClInclude>
+    <ClInclude Include="CurvedEffect.h">
+      <Filter>PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

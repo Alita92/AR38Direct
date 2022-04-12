@@ -8,6 +8,7 @@
 
 #include "GameController.h"
 #include "UIController.h"
+#include "CurvedEffect.h"
 
 PlayLevel::PlayLevel()
 	: gameController_(nullptr)
@@ -28,6 +29,25 @@ void PlayLevel::LevelStart()
 	{
 		gameController_ = CreateActor<GameController>();
 	}
+
+	{
+		CurvedEffect* Curved = AddPostProcessCameraMergePrev<CurvedEffect>(GetMainCamera()->GetCameraRenderTarget());
+		// Curved->SetTarget(GetMainCamera()->GetCameraRenderTarget());
+
+
+		//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
+		//float4 Size = { 128, 72 };
+		//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
+	}
+
+	//FadeEffect = AddPostProcessCameraMergeNext<PostFade>();
+	//FadeEffect->SetTarget(GameEngineDevice::GetBackBufferTarget());
+
+	//GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
+	//float4 Size = { 128, 72 };
+	//Window->PushRenderTarget("PostEffectFade", FadeEffect->GetResult(), Size * 3);
+
+	//FadeEffect->SetData(10, FadeOption::DARK);
 	
 }
 

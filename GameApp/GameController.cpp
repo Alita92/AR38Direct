@@ -231,7 +231,7 @@ void GameController::AICheck()
 void GameController::InitAnimation()
 {
 	{
-		mainRenderer_ = CreateTransformComponent<GameEngineBackgroundRenderer>(GetTransform());
+		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeBasic.png", true);
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1)});
 

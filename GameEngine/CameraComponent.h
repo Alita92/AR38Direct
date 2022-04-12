@@ -35,10 +35,14 @@ public:
 
 	void PushDebugRender(GameEngineTransform* _Trans, CollisionType _Type);
 
-	GameEngineRenderTarget* CameraBufferTarget_;
 
 
 	void ChangeRendererGroup(int _Group, GameEngineRenderer* _Renderer);
+
+	inline GameEngineRenderTarget* GetCameraRenderTarget()
+	{
+		return CameraBufferTarget_;
+	}
 
 
 protected:
@@ -46,10 +50,7 @@ protected:
 	void Update(float _DeltaTime) override;
 
 private:
-	inline GameEngineRenderTarget* GetCameraRenderTarget()
-	{
-		return CameraBufferTarget_;
-	}
+	GameEngineRenderTarget* CameraBufferTarget_;
 
 
 

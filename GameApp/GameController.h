@@ -185,7 +185,7 @@ public:
 	float DEFAULT_MOUSE_SCROLLSPEED = 433.0f;
 
 public:
-	GameEngineBackgroundRenderer* mainRenderer_;
+	GameEngineImageRenderer* mainRenderer_;
 
 
 	GameEngineImageRenderer* fanRenderer_;
