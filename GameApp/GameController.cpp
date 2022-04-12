@@ -143,10 +143,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(2);
-		aiChica_->SetAILevel(4);
-		aiFoxy_->SetAILevel(6);
-		aiFreddy_->SetAILevel(2);
+		aiBonnie_->SetAILevel(20);
+		aiChica_->SetAILevel(20);
+		aiFoxy_->SetAILevel(0);
+		aiFreddy_->SetAILevel(0);
 	}
 	break;
 	case DAY::DAY2:
@@ -280,9 +280,6 @@ void GameController::InitAnimation()
 		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 0, 14, 0.04f, false);
 		rDoorRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorOpen", 14, 0, 0.04f, false);
 	}
-
-	// 여기 밑에걸 UI로 옮길 것...
-
 }
 
 void GameController::InitScreenEffects()
@@ -1386,6 +1383,8 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 	isElecCheckOff_ = true;
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
+	lSwitchRenderer_->Off();
+	rSwitchRenderer_->Off();
 
 	UIController_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
@@ -1417,10 +1416,12 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 	UIController_->CCTVRealRenderer_->Off();
 	UIController_->CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose", true);
 	mainRenderer_->SetChangeAnimation("JumpScareChica", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
+	lSwitchRenderer_->Off();
+	rSwitchRenderer_->Off();
 
 	UIController_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
@@ -1457,7 +1458,6 @@ StateInfo GameController::startFoxyDeath(StateInfo _state)
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 
-
 	UIController_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
@@ -1486,6 +1486,8 @@ StateInfo GameController::startFreddyDeath(StateInfo _state)
 	mainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
+	lSwitchRenderer_->Off();
+	rSwitchRenderer_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	UIController_->Off();
 	return StateInfo();
