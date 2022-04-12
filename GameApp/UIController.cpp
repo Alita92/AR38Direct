@@ -504,7 +504,7 @@ void UIController::DebugRenderUpdate()
 {
 #ifdef _DEBUG
 	GetLevel()->PushDebugRender(CCTVButtonCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(muteCallCollision_->GetTransform(), CollisionType::Rect);
+
 
 
 	if (true == cam1ACollision_->IsUpdate())
@@ -525,6 +525,7 @@ void UIController::DebugRenderUpdate()
 	{
 		GetLevel()->PushDebugRender(mouseLeftCollision_->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(mouseRightCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(muteCallCollision_->GetTransform(), CollisionType::Rect);
 	}
 
 #endif

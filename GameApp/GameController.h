@@ -54,6 +54,7 @@ private:
 	void InitEnemyAILevel();
 	void InitScreenEffects();
 	void InitSwitchCollision();
+	void UpdateDebugRender();
 
 private:
 	void CheckOfficeInput();
