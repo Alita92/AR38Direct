@@ -298,7 +298,7 @@ void GameEngineCore::EngineResourcesCreate()
 		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;//D3D11_FILL_SOLID;
 		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
 		Info.AntialiasedLineEnable = true;
-		Info.MultisampleEnable = true;
+		Info.MultisampleEnable = false;
 		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
 		Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 	}

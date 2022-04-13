@@ -146,7 +146,7 @@ void GameController::InitEnemyAILevel()
 	{
 		aiBonnie_->SetAILevel(0);
 		aiChica_->SetAILevel(0);
-		aiFoxy_->SetAILevel(20);
+		aiFoxy_->SetAILevel(0);
 		aiFreddy_->SetAILevel(0);
 	}
 	break;
@@ -265,7 +265,6 @@ void GameController::InitAnimation()
 		rSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rSwitchRenderer_->SetImage("SwitchR_00.png", true);
 		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 730.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
-		rSwitchRenderer_->CreateAnimation("RdoorAnimation.png", "RdoorClose", 0, 14, 0.04f, false);
 	}
 
 	{
@@ -298,25 +297,25 @@ void GameController::InitSwitchCollision()
 {
 	{
 		lSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchDoorCollision_->GetTransform()->SetLocalPosition({lSwitchRenderer_->GetTransform()->GetLocalPosition().x + 5.0f, lSwitchRenderer_->GetTransform()->GetLocalPosition().y + 45.0f, lSwitchRenderer_->GetTransform()->GetLocalPosition().z});
-		lSwitchDoorCollision_->GetTransform()->SetLocalScaling({40.0f, 55.0f, 1.0f});
+		lSwitchDoorCollision_->GetTransform()->SetLocalPosition({-820.0f, 45.0f, 0.0f});
+		lSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		lSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 		
 		lSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchLightCollision_->GetTransform()->SetLocalPosition({lSwitchRenderer_->GetTransform()->GetLocalPosition().x + 5.0f, lSwitchRenderer_->GetTransform()->GetLocalPosition().y - 37.0f, lSwitchRenderer_->GetTransform()->GetLocalPosition().z });
-		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		lSwitchLightCollision_->GetTransform()->SetLocalPosition({-820.0f, -37.0f, 0.0f});
+		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		lSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 	}	//
 		//
 	{	//
 		rSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchDoorCollision_->GetTransform()->SetLocalPosition({rSwitchRenderer_->GetTransform()->GetLocalPosition().x - 5.0f, rSwitchRenderer_->GetTransform()->GetLocalPosition().y + 45.0f, rSwitchRenderer_->GetTransform()->GetLocalPosition().z });
-		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		rSwitchDoorCollision_->GetTransform()->SetLocalPosition({ 790.0f, 45.0f,0.0f});
+		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		rSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 		
 		rSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchLightCollision_->GetTransform()->SetLocalPosition({ rSwitchRenderer_->GetTransform()->GetLocalPosition().x - 5.0f, rSwitchRenderer_->GetTransform()->GetLocalPosition().y - 37.0f, rSwitchRenderer_->GetTransform()->GetLocalPosition().z });
-		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 40.0f, 55.0f, 1.0f });
+		rSwitchLightCollision_->GetTransform()->SetLocalPosition({ 790.0f, -37.0f,0.0f });
+		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		rSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 	}
 }
@@ -2218,7 +2217,7 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 
 void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 {
-	if (155.0f >= GetTransform()->GetWorldPosition().x)
+	if (240.0f >= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::RIGHT * DEFAULT_MOUSE_SCROLLSPEED);
 	}
@@ -2226,7 +2225,7 @@ void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 
 void GameController::CollisionMouseRight(GameEngineCollision* _other)
 {
-	if (-155.0f <= GetTransform()->GetWorldPosition().x)
+	if (-220.0f <= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::LEFT * DEFAULT_MOUSE_SCROLLSPEED);
 	}

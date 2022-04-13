@@ -46,15 +46,17 @@ float4 Curved_PS(VertexOut _in) : SV_Target0
     CalUv.x *= 2.0f;
     CalUv.x -= 1.0f;
     CalUv.x *= UVMulty.x;
-    CalUv.x += 1.0f;
-    CalUv.x /= 2.0f;
+     CalUv.x += 1.0f;
+  //   CalUv.x /= 1.0f;
+    CalUv.x -= 0.5f;
+ 
     
     CalUv.y *= 2.0f;
     CalUv.y -= 1.0f;
     CalUv.y *= UVMulty.x;
     CalUv.y += 1.0f;
-    CalUv.y /= 2.0f;
-
+    CalUv.y /= 1.0f;
+     CalUv.y -= 0.5f;
     
     
     float4 Color = Tex.Sample(Smp, CalUv);
