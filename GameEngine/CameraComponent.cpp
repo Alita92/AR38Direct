@@ -111,7 +111,7 @@ void CameraComponent::Render()
 
 			Renderer->GetTransform()->GetTransformData().Projection_ = Projection;
 			Renderer->GetTransform()->GetTransformData().View_ = View;
-			Renderer->GetTransform()->GetTransformData().CalWVP();
+			Renderer->GetTransform()->GetTransformData().WVPCalculation();
 			Renderer->Render();
 		}
 	}
@@ -193,7 +193,7 @@ void CameraComponent::DebugRender()
 	{
 		DebugVector_[i].Data.Projection_ = Projection;
 		DebugVector_[i].Data.View_ = View;
-		DebugVector_[i].Data.CalWVP();
+		DebugVector_[i].Data.WVPCalculation();
 
 
 		DebugVector_[i].ShaderHelper.Setting();

@@ -5,6 +5,8 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include <iostream>
 
+
+std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> GameEngineWindow::MessageCallBack_ = nullptr;
 // Æ÷ÀÎÅÍÇü ½Ì±ÛÅæ
 GameEngineWindow* GameEngineWindow::Inst = new GameEngineWindow();
 
@@ -12,6 +14,17 @@ bool WindowOn = true;
 
 LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
 {
+    if (nullptr != GameEngineWindow::MessageCallBack_)
+    {
+        if (0 != GameEngineWindow::MessageCallBack_(_hWnd, _message, _wParam, _lParam))
+        {
+            return true;
+        }
+    }
+
+    //if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+    //    return true;
+
     switch (_message)
     {
     case WM_PAINT:
@@ -113,6 +126,7 @@ void GameEngineWindow::CreateMainWindow(const std::string& _titlename, const flo
     }
 
     // setlocale(LC_ALL, "");
+
     windowTitle_ = _titlename;
     windowhandle_ = nullptr;
     windowhandle_ = CreateWindowA(className_.c_str(), "TEST", WS_OVERLAPPEDWINDOW,
@@ -187,3 +201,29 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
     }
 }
 
+
+
+bool GameEngineWindow::IsWindowRangeOut(const float4& _Pos)
+{
+    if (0 > _Pos.x)
+    {
+        return true;
+    }
+
+    if (0 > _Pos.y)
+    {
+        return true;
+    }
+
+    if (_Pos.x > GetSize().x)
+    {
+        return true;
+    }
+
+    if (_Pos.y > GetSize().y)
+    {
+        return true;
+    }
+
+    return false;
+}

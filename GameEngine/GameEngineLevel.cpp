@@ -78,7 +78,7 @@ void GameEngineLevel::Init()
 	UICameraActor_ = CreateActor<CameraActor>();
 
 	UICameraActor_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
-	UICameraActor_->GetCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
+	UICameraActor_->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 }
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)

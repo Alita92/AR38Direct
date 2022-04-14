@@ -12,36 +12,36 @@ GameEngineTransform::~GameEngineTransform()
 
 void GameEngineTransform::TransformUpdate()
 {
-	// 행렬을 업데이트? 해 준다?
-	TransformData_.LocalCalculation();
-	//void LocalCalculation()
-	//{
-	//	LocalScaling_.Scaling(vLocalScaling_);
-	//	LocalRotation_.RotationDeg(vLocalRotation_);
-	//	LocalPosition_.Translation(vLocalPosition_);
-	//
-	//	LocalWorld_ = LocalScaling_ * LocalRotation_ * LocalPosition_;
-	//} <= 이런 식으로...
 
-	if (nullptr != Parent_) // 부모 액터가 있다면
+	TransformData_.LocalCalculation();
+
+	// TransData_.LocalWorld_;
+	// [][][][]
+	// [][][][]
+	// [][][][]
+	// [][][][]
+
+	// TransData_.WorldWorld_;
+	// [][][][]
+	// [][][][]
+	// [][][][]
+	// [][][][]
+
+
+	if (nullptr != Parent_)
 	{
 		TransformData_.ParentSetting(Parent_->TransformData_.WorldWorld_);
-		// 자신의 로컬에 부모의 월드값을 곱연산해준다
 	}
-	else { // 부모 액터가 없으면...
-		TransformData_.RootCalculation(); 
-		// 내 로컬이 곧 월드다...
+	else {
+		TransformData_.RootCalculation();
 	}
 
 	ColData_.OBB.Extents = TransformData_.vWorldScaling_.halffloat4().DxXmfloat3;
 	ColData_.OBB.Orientation = TransformData_.vWorldRotation_.ToDegreeQuaternion().DxXmfloat4;
 	ColData_.OBB.Center = TransformData_.vWorldPosition_.DxXmfloat3;
-	// 트랜스폼을 업데이트 하면서 콜리젼 데이터 역시 갱신 후 가지고 있는다.
 
-	// 이후에는 내 자식들의(있다면) 트랜스폼들을 재귀함수로 타고 들어가서 업데이트해준다.
 	for (GameEngineTransform* ChildTransform_ : Childs_)
 	{
-		// 
 		ChildTransform_->TransformUpdate();
 	}
 }
@@ -160,7 +160,7 @@ void GameEngineTransform::SetWorldScaling(const float4& _Value)
 }
 
 // 무모건 디그리
-void GameEngineTransform::SetLocalRotation(const float4& _Value)
+void GameEngineTransform::SetLocalRotationDegree(const float4& _Value)
 {
 	if (nullptr == Parent_)
 	{
@@ -178,7 +178,7 @@ void GameEngineTransform::SetLocalRotation(const float4& _Value)
 	TransformUpdate();
 }
 
-void GameEngineTransform::SetWorldRotation(const float4& _Value)
+void GameEngineTransform::SetWorldRotationDegree(const float4& _Value)
 {
 	if (nullptr == Parent_)
 	{
@@ -211,23 +211,7 @@ void GameEngineTransform::SetLocalPosition(const float4& _Value)
 	TransformData_.vLocalPosition_ = _Value;
 	CalculationWorldPosition();
 	AllChildCalculationPosition();
-	TransformUpdate();
-}
 
-void GameEngineTransform::SetLocalZPosition(const float& _Value)
-{
-	if (nullptr == Parent_)
-	{
-		TransformData_.vLocalPosition_.z = _Value;
-		TransformData_.vWorldPosition_.z = _Value;
-		AllChildCalculationPosition();
-		TransformUpdate();
-		return;
-	}
-
-	TransformData_.vLocalPosition_.z = _Value;
-	CalculationWorldPosition();
-	AllChildCalculationPosition();
 	TransformUpdate();
 }
 
@@ -263,13 +247,6 @@ void GameEngineTransform::DetachChildTransform(GameEngineTransform* _Transform)
 			continue;
 		}
 
-		// vector는 이걸 해주지 않으면 터진다.
-		// 배열에서 End를 가져오기 때문에
-		// 리스트는 노드니까 노드의 주소값을 기반으로 end가 설정됩니다.
-		// map도 마찬가지고
-		// vector는
-		//             e
-		// [][][][][][]
 		StartIter = Childs_.erase(StartIter);
 		EndIter = Childs_.end();
 	}
@@ -289,3 +266,10 @@ void GameEngineTransform::AttachTransform(GameEngineTransform* _Transform)
 	Parent_->Childs_.push_back(this);
 }
 
+void GameEngineTransform::Copy(const GameEngineTransform& _Other)
+{
+	TransformData_ = _Other.TransformData_;
+	ColData_ = _Other.ColData_;
+	Parent_ = _Other.Parent_;
+	Childs_ = _Other.Childs_;
+}

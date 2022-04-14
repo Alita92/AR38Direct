@@ -1,11 +1,10 @@
 #pragma once
 #include "GameEngineActor.h"
+#include "CameraComponent.h"
 
 class CameraComponent;
-// 설명 : 카메라 컴포넌트가 추가된 프리팹 액터
-// 의도가 있다기보단
-// 편의를 위해 만들어논 겁니다.
-class CameraActor : public GameEngineActor // Actor 상속받는다.
+// 설명 :
+class CameraActor : public GameEngineActor
 {
 public:
 	// constrcuter destructer
@@ -26,13 +25,26 @@ public:
 	float4x4 GetViewMatrix();
 	float4x4 GetProjectionMatrix();
 
+	bool IsFreeCameraMode();
+
+	void FreeCameraModeSwitch();
+	void FreeCameraModeOn();
+	void FreeCameraModeOff();
+
+
 protected:
 	virtual void Start();
-
 	virtual void Update(float _DeltaTime);
 
 private:
+	GameEngineTransform OriginTransform;
+	float FreeCameraSpeed_;
+	float RotSpeed_;
+	bool IsFreeCameraMode_;
+	ProjectionMode PrevCamMode_;
 	CameraComponent* Camera_;
-	// 카메라 컴포넌트를 멤버로 보유한다.
+
+
+
 };
 

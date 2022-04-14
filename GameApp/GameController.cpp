@@ -144,10 +144,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(0);
-		aiChica_->SetAILevel(0);
-		aiFoxy_->SetAILevel(0);
-		aiFreddy_->SetAILevel(0);
+		aiBonnie_->SetAILevel(10);
+		aiChica_->SetAILevel(10);
+		aiFoxy_->SetAILevel(12);
+		aiFreddy_->SetAILevel(10);
 	}
 	break;
 	case DAY::DAY2:
@@ -556,16 +556,6 @@ void GameController::UpdateDebugRender()
 void GameController::CheckOfficeInput()
 {
 
-	if (true == GameEngineInput::GetInst().Press("RotateRight"))
-	{
-		GetLevel()->GetMainCamera()->GetTransform()->SetWorldDeltaTimeRotation(float4{ 0.0f, 1.0f, 0.0f } * 100.0f);
-	}
-
-
-	if (true == GameEngineInput::GetInst().Press("RotateLeft"))
-	{
-		GetLevel()->GetMainCamera()->GetTransform()->SetWorldDeltaTimeRotation(float4{ 0.0f, 1.0f, 0.0f } * -100.0f);
-	}
 
 	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle") && true == lDoorRenderer_->IsCurAnimationEnd())
 	{
