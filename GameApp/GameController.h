@@ -151,6 +151,7 @@ private:
 
 	// 자막 델타타임 변수
 	float subtitleDeltatime_;
+	int subtitleIndex_;
 
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);

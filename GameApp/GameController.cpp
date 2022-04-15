@@ -81,6 +81,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, isCCTVFullyTilted_(false)
 	, CCTVMoveFlag_(false)
 	, subtitleDeltatime_(0.0f)
+	, subtitleIndex_(0)
 {
 
 }
@@ -2391,9 +2392,135 @@ void GameController::UpdateSubtitle()
 {
 	subtitleDeltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (0.0f <= subtitleDeltatime_)
+	if (0.0f <= subtitleDeltatime_ && 0 == subtitleIndex_)
 	{
 		UIController_->subtitleRenderer_->On();
+		subtitleIndex_++;
 	}
 
+	if (2.0f <= subtitleDeltatime_ && 1 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0002.png", true);
+		subtitleIndex_++;
+	}
+
+	if (4.0f <= subtitleDeltatime_ && 2 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0003.png", true);
+		subtitleIndex_++;
+	}
+
+	if (6.0f <= subtitleDeltatime_ && 3 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0004.png", true);
+		subtitleIndex_++;
+	}
+
+	if (8.0f <= subtitleDeltatime_ && 4 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0005.png", true);
+		subtitleIndex_++;
+	}
+
+	if (10.0f <= subtitleDeltatime_ && 5 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0006.png", true);
+		subtitleIndex_++;
+	}
+
+	if (12.0f <= subtitleDeltatime_ && 6 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0007.png", true);
+		subtitleIndex_++;
+	}
+
+	if (14.0f <= subtitleDeltatime_ && 7 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0008.png", true);
+		subtitleIndex_++;
+	}
+
+	if (16.0f <= subtitleDeltatime_ && 8 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0009.png", true);
+		subtitleIndex_++;
+	}
+
+	if (18.0f <= subtitleDeltatime_ && 9 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0010.png", true);
+		subtitleIndex_++;
+	}
+
+	if (20.0f <= subtitleDeltatime_ && 10 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0011.png", true);
+		subtitleIndex_++;
+	}
+
+	if (22.0f <= subtitleDeltatime_ && 11 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0012.png", true);
+		subtitleIndex_++;
+	}
+
+	if (24.0f <= subtitleDeltatime_ && 12 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0013.png", true);
+		subtitleIndex_++;
+	}
+
+	if (26.0f <= subtitleDeltatime_ && 13 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0014.png", true);
+		subtitleIndex_++;
+	}
+
+	if (28.0f <= subtitleDeltatime_ && 14 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0015.png", true);
+		subtitleIndex_++;
+	}
+
+	if (30.0f <= subtitleDeltatime_ && 15 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0016.png", true);
+		subtitleIndex_++;
+	}
+
+	if (32.0f <= subtitleDeltatime_ && 16 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0017.png", true);
+		subtitleIndex_++;
+	}
+
+	if (34.0f <= subtitleDeltatime_ && 17 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0018.png", true);
+		subtitleIndex_++;
+	}
+
+	if (36.0f <= subtitleDeltatime_ && 18 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0019.png", true);
+		subtitleIndex_++;
+	}
+
+	if (38.0f <= subtitleDeltatime_ && 19 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0020.png", true);
+		subtitleIndex_++;
+	}
+
+	if (40.0f <= subtitleDeltatime_ && 20 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0021.png", true);
+		subtitleIndex_++;
+	}
+
+	if (42.0f <= subtitleDeltatime_ && 21 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0022.png", true);
+		subtitleIndex_++;
+	}
 }
