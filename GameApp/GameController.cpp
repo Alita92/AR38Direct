@@ -2523,4 +2523,22 @@ void GameController::UpdateSubtitle()
 		UIController_->subtitleRenderer_->SetImage("0022.png", true);
 		subtitleIndex_++;
 	}
+
+	if (44.0f <= subtitleDeltatime_ && 22 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0023.png", true);
+		subtitleIndex_++;
+	}
+
+	if (46.0f <= subtitleDeltatime_ && 23 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0024.png", true);
+		subtitleIndex_++;
+	}
+
+	if (48.0f <= subtitleDeltatime_ && 24 == subtitleIndex_)
+	{
+		UIController_->subtitleRenderer_->SetImage("0025.png", true);
+		subtitleIndex_++;
+	}
 }
