@@ -318,24 +318,24 @@ void GameController::InitSwitchCollision()
 {
 	{
 		lSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchDoorCollision_->GetTransform()->SetLocalPosition({-820.0f, 45.0f, 0.0f});
+		lSwitchDoorCollision_->GetTransform()->SetLocalPosition({-830.0f, 45.0f, 0.0f});
 		lSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		lSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 		
 		lSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchLightCollision_->GetTransform()->SetLocalPosition({-820.0f, -37.0f, 0.0f});
+		lSwitchLightCollision_->GetTransform()->SetLocalPosition({-830.0f, -42.0f, 0.0f});
 		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		lSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 	}	
 		
 	{	
 		rSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchDoorCollision_->GetTransform()->SetLocalPosition({ 790.0f, 45.0f,0.0f});
+		rSwitchDoorCollision_->GetTransform()->SetLocalPosition({ 800.0f, 45.0f,0.0f});
 		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		rSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 		
 		rSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchLightCollision_->GetTransform()->SetLocalPosition({ 790.0f, -37.0f,0.0f });
+		rSwitchLightCollision_->GetTransform()->SetLocalPosition({ 800.0f, -42.0f,0.0f });
 		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		rSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 	}
