@@ -56,16 +56,13 @@ void PlayLevel::LevelStart()
 
 void PlayLevel::LevelUpdate(float _DeltaTime)
 {
-	static bool Check = false;
-
-	if (false == Check && nullptr != GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
+	//if (nullptr != GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
 	{
-		GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
+		GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
 		float4 Size = { 128, 72 };
 		Window->PushRenderTarget("메인 카메라 타겟", curved_->GetOriginalTarget(), Size * 3);
 		Window->PushRenderTarget("포스트 프로세스 머지 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
 		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
-		Check = true;
 	}
 
 }

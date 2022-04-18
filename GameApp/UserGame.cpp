@@ -49,7 +49,7 @@ void UserGame::Initialize()
 	//GameEngineInput::GetInst().HideCursor();
 
 	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
-	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
+
 
 
 	LevelCreate<TitleLevel>("Title");
@@ -58,7 +58,7 @@ void UserGame::Initialize()
 	LevelCreate<GameOverLevel>("GameOver");
 	LevelCreate<CustomSettingLevel>("CustomSetting");
 
-	LevelChange("Title");
+	LevelChange("Play");
 	KeyInit();
 	return;
 }
