@@ -11,6 +11,7 @@
 #include "GameEngineDebugRenderData.h"
 #include "GameEngineRenderTarget.h"
 #include <GameEngine\GameEnginePostProcessRender.h>
+#include "GameEngineGUI.h"
 
 CameraActor* GameEngineLevel::GetMainCameraActor()
 {
@@ -150,6 +151,9 @@ void GameEngineLevel::Render(float _DeltaTime)
 
 	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
 	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
+
+	GameEngineGUI::GetInst()->GUIRenderStart();
+	GameEngineGUI::GetInst()->GUIRenderEnd();
 
 	{
 		std::vector<GameEnginePostProcessRender*>& PostCameraMergeNext = PostRender["CameraMergeNext"];

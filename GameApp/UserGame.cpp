@@ -45,6 +45,9 @@ void UserGame::Initialize()
 
 	GameEngineInput::GetInst().HideCursor();
 	
+	//GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
+	//GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
+
 
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<IntermissionLevel>("Intermission");
