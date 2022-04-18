@@ -91,7 +91,8 @@ enum class FOXYLEVEL
 
 enum class DAY
 {
-	DAY1,
+
+	DAY1 = 1,
 	DAY2,
 	DAY3,
 	DAY4,
