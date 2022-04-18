@@ -188,6 +188,7 @@ public:
 public:
 	GameEngineImageRenderer* mainRenderer_;
 
+	GameEngineImageRenderer* jumpScareRenderer_; // 점프스케어 애니메이션 전용 렌더러입니다.
 
 	GameEngineImageRenderer* fanRenderer_;
 	GameEngineImageRenderer* lDoorRenderer_;

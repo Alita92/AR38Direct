@@ -14,6 +14,10 @@ enum class InGameCollisonType
 enum class RenderOrder
 {
 	FRONT,
+
+	SWITCH,
+	JUMPSCARE,
+	
 	FILTER0,
 	FILTER1,
 	FILTER2,

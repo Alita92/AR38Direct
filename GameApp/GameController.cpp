@@ -51,6 +51,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, rSwitchRenderer_(nullptr)
 	, lSwitchRenderer_(nullptr)
 	, mainRenderer_(nullptr)
+	, jumpScareRenderer_(nullptr)
 	, glitchScreen_(nullptr)
 	, fanRenderer_(nullptr)
 	, foxyDeathTimer_(0.0f)
@@ -247,6 +248,25 @@ void GameController::InitAnimation()
 	}
 
 	{
+		jumpScareRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+		jumpScareRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<float>(RenderOrder::JUMPSCARE) });
+		jumpScareRenderer_->SetImage("OfficeBasic.png", true);
+
+
+		jumpScareRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
+		jumpScareRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, true);
+		jumpScareRenderer_->CreateAnimationFolder("JumpScareFoxy", "JumpScareFoxy", 0.03f, false);
+		jumpScareRenderer_->CreateAnimationFolder("JumpScareFreddy", "JumpScareFreddy", 0.03f, false);
+
+		jumpScareRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
+		jumpScareRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
+		jumpScareRenderer_->CreateAnimationFolder("NoElecFreddy", "NoElecFreddy", 0.04f, false);
+
+		jumpScareRenderer_->Off();
+
+	}
+
+	{
 		fanRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		fanRenderer_->SetImage("OfficeFanDefault.png", true);
 		fanRenderer_->GetTransform()->SetLocalPosition({ 49.0f, -41.0f, static_cast<float>(RenderOrder::OBJECT1) });
@@ -265,13 +285,13 @@ void GameController::InitAnimation()
 	{
 		rSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		rSwitchRenderer_->SetImage("SwitchR_00.png", true);
-		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 730.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
+		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 730.0f, 0.0f, static_cast<float>(RenderOrder::SWITCH) });
 	}
 
 	{
 		lSwitchRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		lSwitchRenderer_->SetImage("SwitchL_00.png", true);
-		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -760.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT2) });
+		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -760.0f, 0.0f, static_cast<float>(RenderOrder::SWITCH) });
 	}
 
 	{
@@ -306,9 +326,9 @@ void GameController::InitSwitchCollision()
 		lSwitchLightCollision_->GetTransform()->SetLocalPosition({-820.0f, -37.0f, 0.0f});
 		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
 		lSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
-	}	//
-		//
-	{	//
+	}	
+		
+	{	
 		rSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
 		rSwitchDoorCollision_->GetTransform()->SetLocalPosition({ 790.0f, 45.0f,0.0f});
 		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
@@ -404,16 +424,19 @@ void GameController::ControllerReloading()
 		mainRenderer_->SetImage("OfficeBasic.png", true);
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1) });
 
+		jumpScareRenderer_->Off();
+
 		fanRenderer_->SetImage("OfficeFanDefault.png", true);
 		fanRenderer_->GetTransform()->SetLocalPosition({ 49.0f, -41.0f, static_cast<float>(RenderOrder::OBJECT1) });
 		fanRenderer_->SetChangeAnimation("OfficeFan");
 
 		lDoorRenderer_->SetImage("LdoorStatic.png", true);
 		lDoorRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		lDoorRenderer_->On();
 
 		rDoorRenderer_->SetImage("RdoorStatic.png", true);
 		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
-
+		rDoorRenderer_->On();
 
 		UIController_->dayPassHiderUpper_->Off();
 		UIController_->dayPassHiderBottom_->Off();
@@ -435,13 +458,14 @@ void GameController::ControllerReloading()
 	//	UIController_->dayPassAM_->SetAlpha(0.0f);
 
 		UIController_->SetNightTypo(GameStaticData::curDay_);
+		UIController_->On();
 	}
 
 	{
 		fadeScreen_->SetAlpha(1.0f);
 		fadeScreen_->StartFadeIn(0.0f);
 		fadeScreen_->SetLoadingRenderer();
-		//fadeScreen_->OffScreen(0.7f);
+
 
 		fadeScreen_->StartFadeOut(0.0f);
 		fadeScreen_->Reset();
@@ -1372,7 +1396,10 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 	UIController_->CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
 	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
-	mainRenderer_->SetChangeAnimation("JumpScareBonnie", true);
+	
+	jumpScareRenderer_->On();
+	jumpScareRenderer_->SetChangeAnimation("JumpScareBonnie", true);
+	//mainRenderer_->SetChangeAnimation("JumpScareBonnie", true);
 	isElecCheckOff_ = true;
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
@@ -1410,7 +1437,9 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 	UIController_->CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
 	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose", true);
-	mainRenderer_->SetChangeAnimation("JumpScareChica", true);
+	jumpScareRenderer_->On();
+	jumpScareRenderer_->SetChangeAnimation("JumpScareChica", true);
+	//mainRenderer_->SetChangeAnimation("JumpScareChica", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 	lSwitchRenderer_->Off();
@@ -1447,7 +1476,10 @@ StateInfo GameController::startFoxyDeath(StateInfo _state)
 	UIController_->CCTVRealRenderer_->Off();
 	UIController_->CCTVAnimationRenderer_->Off();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	mainRenderer_->SetChangeAnimation("JumpScareFoxy", true);
+	
+	jumpScareRenderer_->On();
+	jumpScareRenderer_->SetChangeAnimation("JumpScareFoxy", true);
+	//mainRenderer_->SetChangeAnimation("JumpScareFoxy", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 
@@ -1476,7 +1508,10 @@ StateInfo GameController::startFreddyDeath(StateInfo _state)
 	UIController_->CCTVRealRenderer_->Off();
 	UIController_->CCTVAnimationRenderer_->Off();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	mainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
+
+	jumpScareRenderer_->On();
+	jumpScareRenderer_->SetChangeAnimation("JumpScareFreddy", true);
+	//mainRenderer_->SetChangeAnimation("JumpScareFreddy", true);
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 	lSwitchRenderer_->Off();
@@ -1601,7 +1636,10 @@ StateInfo GameController::startHeisComing(StateInfo _state)
 	noElecTimerCounter_ = 0;
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
-	mainRenderer_->SetChangeAnimation("NoElec");
+	
+	jumpScareRenderer_->On();
+	jumpScareRenderer_->SetChangeAnimation("NoElec", true);
+	//mainRenderer_->SetChangeAnimation("NoElec");
 
 	ambientPlayer_.PlayAlone("MusicBox.wav");
 	return StateInfo();
@@ -1650,7 +1688,10 @@ StateInfo GameController::startHeKillsYou(StateInfo _state)
 {
 	noElecDeltaTime_ = 0.0f;
 	noElecTimerCounter_ = 0;
-	mainRenderer_->SetChangeAnimation("NoElecBlink");
+
+	jumpScareRenderer_->On();
+	jumpScareRenderer_->SetChangeAnimation("NoElecBlink", true);
+//	mainRenderer_->SetChangeAnimation("NoElecBlink");
 	ambientPlayer_.Stop();
 	return StateInfo();
 }
@@ -1692,8 +1733,9 @@ StateInfo GameController::updateHeKillsYou(StateInfo _state)
 
 StateInfo GameController::startNoElecDeath(StateInfo _state)
 {
-
-	mainRenderer_->SetChangeAnimation("NoElecFreddy");
+	jumpScareRenderer_->On();
+	jumpScareRenderer_->SetChangeAnimation("NoElecFreddy", true);
+//	mainRenderer_->SetChangeAnimation("NoElecFreddy");
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
