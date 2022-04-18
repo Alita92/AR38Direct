@@ -13,6 +13,7 @@ private:	// member Var
 	std::vector<GameEngineTexture*> Textures_;
 	// std::vector<D3D11_VIEWPORT> ViewPort_;
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews_;
+	std::vector<ID3D11ShaderResourceView*> ShaderResourcesViews_;
 
 	std::vector<float4> ClearColor_;
 
@@ -28,6 +29,17 @@ public:
 	{
 		return Textures_[_Index];
 	}
+
+	inline ID3D11ShaderResourceView* GetShaderResourcesView(size_t _Index)
+	{
+		return ShaderResourcesViews_[_Index];
+	}
+
+	inline float4 GetTextureSize(size_t _Index)
+	{
+		return Textures_[_Index]->GetTextureSize();
+	}
+
 
 
 	void Clear(bool _Death = true);

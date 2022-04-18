@@ -24,7 +24,7 @@ public:
 
 	void SetRenderGroup(int _Order) override;
 protected:
-
+	static int UIRendererCount;
 
 private:
 	void Start() override;

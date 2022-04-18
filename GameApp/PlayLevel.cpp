@@ -10,6 +10,9 @@
 #include "UIController.h"
 #include "CurvedEffect.h"
 
+#include <GameEngine/GameEngineGUI.h>
+#include <GameEngine/GameEngineRenderWindow.h>
+
 PlayLevel::PlayLevel()
 	: gameController_(nullptr)
 {
@@ -53,6 +56,16 @@ void PlayLevel::LevelStart()
 
 void PlayLevel::LevelUpdate(float _DeltaTime)
 {
+	static bool Check = false;
+
+	if (false == Check && nullptr != GameEngineGUI::GetInst()->FindGUIWindow("RenderWindow"))
+	{
+		GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineRenderWindow>("RenderWindow");
+		float4 Size = { 128, 72 };
+		Window->PushRenderTarget("메인 카메라 타겟", GetMainCamera()->GetCameraRenderTarget(), Size * 3);
+		Window->PushRenderTarget("UI 카메라 타겟", GetUICamera()->GetCameraRenderTarget(), Size * 3);
+		Check = true;
+	}
 
 }
 void PlayLevel::LevelChangeEndEvent()

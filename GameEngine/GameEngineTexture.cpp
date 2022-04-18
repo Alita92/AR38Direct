@@ -174,7 +174,7 @@ void GameEngineTexture::Load(const std::string& _Path)
 	// PNG Ç³È­¼³
 
 	std::wstring wPath;
-	GameEngineString::StringToWString(_Path, wPath);
+	GameEngineString::AnsiToUnicode(_Path, wPath);
 
 	// PNG
 	if (Extension == "TGA")

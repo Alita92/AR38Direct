@@ -5,12 +5,15 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderingPipeLine.h>
+#include <GameEngine\GameEngineLevelControlWindow.h>
 
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "GameOverLevel.h"
 #include "IntermissionLevel.h"
 #include "CustomSettingLevel.h"
+
+#include <GameEngine\GameEngineRenderWindow.h>
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -43,10 +46,10 @@ void UserGame::Initialize()
 	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
 	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
-	GameEngineInput::GetInst().HideCursor();
-	
-	//GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
-	//GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
+	//GameEngineInput::GetInst().HideCursor();
+
+	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
+	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
 
 
 	LevelCreate<TitleLevel>("Title");

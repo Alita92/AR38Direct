@@ -3,20 +3,25 @@
 #include "GameEngineLevel.h"
 #include "CameraComponent.h"
 
+
+int GameEngineUIRenderer::UIRendererCount = 0;
+
 GameEngineUIRenderer::GameEngineUIRenderer()
 {
+	++UIRendererCount;
 }
 
 GameEngineUIRenderer::~GameEngineUIRenderer()
 {
+	--UIRendererCount;
 }
-
 void GameEngineUIRenderer::Start()
 {
 	// Push Render¸¦ ¸Þ
 	GetLevel()->GetUICamera()->PushRenderer(GetOrder(), this);
 	SetRenderingPipeLine("TextureUI");
 	ImageRendererStart();
+
 }
 
 

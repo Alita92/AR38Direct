@@ -296,6 +296,15 @@
     <ClInclude Include="GameEngineGUI.h">
       <Filter>Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderWindow.h">
+      <Filter>Imgui\EngineWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineImageShotWindow.h">
+      <Filter>Imgui\EngineWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevelControlWindow.h">
+      <Filter>Imgui\EngineWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -477,6 +486,15 @@
     </ClCompile>
     <ClCompile Include="GameEngineGUI.cpp">
       <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderWindow.cpp">
+      <Filter>Imgui\EngineWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImageShotWindow.cpp">
+      <Filter>Imgui\EngineWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp">
+      <Filter>Imgui\EngineWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
