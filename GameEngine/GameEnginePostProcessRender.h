@@ -29,6 +29,7 @@ public:
 	}
 
 	void CreateResultTarget();
+	void CreatePrevTarget();
 
 	inline void SetEffect(const std::string& _Effect)
 	{
@@ -48,6 +49,10 @@ public:
 		return Result_;
 	}
 
+	GameEngineRenderTarget* GetOriginalTarget()
+	{
+		return prevTarget_;
+	}
 
 	// constrcuter destructer
 	GameEnginePostProcessRender();
@@ -65,6 +70,7 @@ protected:
 	virtual void Effect(float _DeltaTime) = 0;
 
 	GameEngineRenderTarget* Target_;
+	GameEngineRenderTarget* prevTarget_;
 	GameEngineRenderingPipeLine* Effect_;
 	GameEngineShaderResHelper Res_;
 

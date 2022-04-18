@@ -7,6 +7,7 @@ GameEnginePostProcessRender::GameEnginePostProcessRender()
 	, Effect_(nullptr)
 	, IsResultCreate_(false)
 	, Result_(nullptr)
+	, prevTarget_(nullptr)
 {
 }
 
@@ -17,6 +18,12 @@ GameEnginePostProcessRender::~GameEnginePostProcessRender()
 		delete Result_;
 		Result_ = nullptr;
 	}
+
+	if (nullptr != prevTarget_)
+	{
+		delete prevTarget_;
+		prevTarget_ = nullptr;
+	}
 }
 
 void GameEnginePostProcessRender::CreateResultTarget()
@@ -26,6 +33,14 @@ void GameEnginePostProcessRender::CreateResultTarget()
 	Result_->CreateDepthBuffer(GameEngineWindow::GetInst().GetSize());
 	IsResultCreate_ = true;
 }
+
+void GameEnginePostProcessRender::CreatePrevTarget()
+{
+	prevTarget_ = new GameEngineRenderTarget();
+	prevTarget_->Create(GameEngineWindow::GetInst().GetSize(), float4::NONE);
+	prevTarget_->CreateDepthBuffer(GameEngineWindow::GetInst().GetSize());
+}
+
 
 void GameEnginePostProcessRender::Initialize()
 {

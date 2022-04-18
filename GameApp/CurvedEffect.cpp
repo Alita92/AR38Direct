@@ -13,6 +13,9 @@ CurvedEffect::~CurvedEffect()
 
 void CurvedEffect::Effect(float _DeltaTime)
 {
+	prevTarget_->Clear();
+	prevTarget_->Copy(Target_);
+
 	Result_->Clear();
 	Result_->Setting();
 	Res_.Setting();
@@ -27,6 +30,7 @@ void CurvedEffect::Effect(float _DeltaTime)
 void CurvedEffect::Initialize()
 {
 	CreateResultTarget();
+	CreatePrevTarget();
 	SetEffect("Curved");
 	Res_.SettingTexture("Tex", Target_->GetTexture(0));
 	Res_.SettingTexture("TexUV", "CurvedUV.png");

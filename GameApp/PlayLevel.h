@@ -3,6 +3,7 @@
 
 // Ό³Έν :
 class GameController;
+class CurvedEffect;
 class PlayLevel : public GameEngineLevel
 {
 public:
@@ -18,7 +19,8 @@ public:
 
 protected:
 	GameController* gameController_;
-
+	CurvedEffect* curved_;
+	
 private:
 	void LevelStart() override;
 	void LevelUpdate(float _DeltaTime) override;
