@@ -183,7 +183,7 @@ public:
 	float4 DEFAULT_FAN_POS_OFFICE = { 49.0f, -41.0f, -1.0f };
 	float4 DEFAULT_FAN_POS_CCTV = { 49.0f, -41.0f, 1.0f };
 	float4 DEFAULT_CCTV_POS_CCTV = { 0.0f,0.0f,-2.0f };
-	float DEFAULT_MOUSE_SCROLLSPEED = 433.0f;
+	float DEFAULT_MOUSE_SCROLLSPEED = 633.0f;
 
 public:
 	GameEngineImageRenderer* mainRenderer_;

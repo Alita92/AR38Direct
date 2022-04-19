@@ -318,25 +318,25 @@ void GameController::InitSwitchCollision()
 {
 	{
 		lSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchDoorCollision_->GetTransform()->SetLocalPosition({-830.0f, 45.0f, 0.0f});
-		lSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
+		lSwitchDoorCollision_->GetTransform()->SetLocalPosition({-760.0f, 55.0f, 0.0f});
+		lSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 60.0f, 80.0f, 1.0f });
 		lSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 		
 		lSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		lSwitchLightCollision_->GetTransform()->SetLocalPosition({-830.0f, -42.0f, 0.0f});
-		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
+		lSwitchLightCollision_->GetTransform()->SetLocalPosition({-760.0f, -52.0f, 0.0f});
+		lSwitchLightCollision_->GetTransform()->SetLocalScaling({ 60.0f, 80.0f, 1.0f });
 		lSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 	}	
 		
 	{	
 		rSwitchDoorCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchDoorCollision_->GetTransform()->SetLocalPosition({ 800.0f, 45.0f,0.0f});
-		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
+		rSwitchDoorCollision_->GetTransform()->SetLocalPosition({ 730.0f, 55.0f,0.0f});
+		rSwitchDoorCollision_->GetTransform()->SetLocalScaling({ 60.0f, 80.0f, 1.0f });
 		rSwitchDoorCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 		
 		rSwitchLightCollision_ = CreateTransformComponent<GameEngineCollision>();
-		rSwitchLightCollision_->GetTransform()->SetLocalPosition({ 800.0f, -42.0f,0.0f });
-		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 50.0f, 65.0f, 1.0f });
+		rSwitchLightCollision_->GetTransform()->SetLocalPosition({ 730.0f, -52.0f,0.0f });
+		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 60.0f, 80.0f, 1.0f });
 		rSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 	}
 }
@@ -2250,7 +2250,7 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 
 void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 {
-	if (240.0f >= GetTransform()->GetWorldPosition().x)
+	if (158.0f >= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::RIGHT * DEFAULT_MOUSE_SCROLLSPEED);
 	}
@@ -2258,7 +2258,7 @@ void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 
 void GameController::CollisionMouseRight(GameEngineCollision* _other)
 {
-	if (-220.0f <= GetTransform()->GetWorldPosition().x)
+	if (-158.0f <= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::LEFT * DEFAULT_MOUSE_SCROLLSPEED);
 	}
