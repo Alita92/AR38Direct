@@ -245,7 +245,7 @@ void CameraComponent::Start()
 	{
 		DebugVector_[i].ShaderHelper_.ShaderResourcesCheck(Pipe->GetVertexShader());
 		DebugVector_[i].ShaderHelper_.ShaderResourcesCheck(Pipe->GetPixelShader());
-		DebugVector_[i].Color_ = float4::RED;
+		DebugVector_[i].Color_ = float4::GREEN;
 		DebugVector_[i].ShaderHelper_.SettingConstantBufferLink("ResultColor", DebugVector_[i].Color_);
 		DebugVector_[i].ShaderHelper_.SettingConstantBufferLink("TransformData", DebugVector_[i].Data_);
 	}

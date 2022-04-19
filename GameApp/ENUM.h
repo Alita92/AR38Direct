@@ -15,9 +15,8 @@ enum class RenderOrder
 {
 	FRONT,
 
-	SWITCH,
 	JUMPSCARE,
-	
+	SWITCH,
 	FILTER0,
 	FILTER1,
 	FILTER2,

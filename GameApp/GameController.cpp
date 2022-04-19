@@ -236,15 +236,6 @@ void GameController::InitAnimation()
 		mainRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 		mainRenderer_->SetImage("OfficeBasic.png", true);
 		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1)});
-
-		mainRenderer_->CreateAnimation("JumpScareBonnie.png", "JumpScareBonnie", 0, 10, 0.04f, true);
-		mainRenderer_->CreateAnimationFolder("JumpScareChica", "JumpScareChica", 0.04f, true);
-		mainRenderer_->CreateAnimationFolder("JumpScareFoxy", "JumpScareFoxy", 0.03f, false);
-		mainRenderer_->CreateAnimationFolder("JumpScareFreddy", "JumpScareFreddy", 0.03f, false);
-
-		mainRenderer_->CreateAnimationFolder("NoElec", "NoElec", 0.04f, true);
-		mainRenderer_->CreateAnimationFolder("NoElecBlink", "NoElecBlink", 0.04f, false);
-		mainRenderer_->CreateAnimationFolder("NoElecFreddy", "NoElecFreddy", 0.04f, false);
 	}
 
 	{
@@ -672,6 +663,7 @@ void GameController::CheckOfficeInput()
 		}
 	}
 }
+
 
 StateInfo GameController::startIdle(StateInfo _state)
 {
@@ -1537,9 +1529,17 @@ StateInfo GameController::updateFreddyDeath(StateInfo _state)
 
 StateInfo GameController::startNoElec(StateInfo _state)
 {
+	glitchScreen_->PlayWhiteNoise(false);
 	ambientPlayer_.Stop();
 	CCTVPlayer_.Stop();
 	phoneGuyPlayer_.Stop();
+	awakePlayer_.Stop();
+	rlightSound_.Stop();
+	llightSound_.Stop();
+	bonnieSound_.Stop();
+	chicaSound_.Stop();
+	freddySound_.Stop();
+	foxySound_.Stop();
 	ambientPlayer_.PlayAlone("PowerDown.wav");
 
 	UIController_->Off();
@@ -1568,6 +1568,11 @@ StateInfo GameController::startNoElec(StateInfo _state)
 		awakePlayer_.PlayOverLap("Door.wav");
 		lDoorRenderer_->SetChangeAnimation("LdoorOpen");
 		isLdoorClosed_ = false;
+	}
+
+	{
+		lSwitchRenderer_->Off();
+		rSwitchRenderer_->Off();
 	}
 
 	return StateInfo();
@@ -1626,6 +1631,11 @@ StateInfo GameController::updateNoElec(StateInfo _state)
 		}
 	}
 
+	{
+		UIController_->mouseLeftCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMouseLeft, this, std::placeholders::_1));
+		UIController_->mouseRightCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMouseRight, this, std::placeholders::_1));
+	}
+
 	return StateInfo();
 }
 
@@ -1681,6 +1691,12 @@ StateInfo GameController::updateHeisComing(StateInfo _state)
 			break;
 		}
 	}
+
+	{
+		UIController_->mouseLeftCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMouseLeft, this, std::placeholders::_1));
+		UIController_->mouseRightCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionMouseRight, this, std::placeholders::_1));
+	}
+
 	return StateInfo();
 }
 
@@ -1735,14 +1751,13 @@ StateInfo GameController::startNoElecDeath(StateInfo _state)
 {
 	jumpScareRenderer_->On();
 	jumpScareRenderer_->SetChangeAnimation("NoElecFreddy", true);
-//	mainRenderer_->SetChangeAnimation("NoElecFreddy");
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
 
 StateInfo GameController::updateNoElecDeath(StateInfo _state)
 {
-	if (true == mainRenderer_->IsCurAnimationEnd())
+	if (true == jumpScareRenderer_->IsCurAnimationEnd())
 	{
 		awakePlayer_.Stop();
 		GetLevel()->RequestLevelChange("GameOver");
