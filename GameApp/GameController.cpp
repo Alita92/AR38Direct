@@ -146,10 +146,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(0);
-		aiChica_->SetAILevel(0);
-		aiFoxy_->SetAILevel(0);
-		aiFreddy_->SetAILevel(0);
+		aiBonnie_->SetAILevel(10);
+		aiChica_->SetAILevel(10);
+		aiFoxy_->SetAILevel(10);
+		aiFreddy_->SetAILevel(10);
 	}
 	break;
 	case DAY::DAY2:
@@ -1707,7 +1707,7 @@ StateInfo GameController::startHeKillsYou(StateInfo _state)
 
 	jumpScareRenderer_->On();
 	jumpScareRenderer_->SetChangeAnimation("NoElecBlink", true);
-//	mainRenderer_->SetChangeAnimation("NoElecBlink");
+
 	ambientPlayer_.Stop();
 	return StateInfo();
 }
@@ -1729,7 +1729,7 @@ StateInfo GameController::updateHeKillsYou(StateInfo _state)
 		{
 			noElecDeltaTime_ = 0.0f;
 			noElecTimerCounter_++;
-			return StateInfo();
+			return StateInfo(); 
 		}
 		break;
 		case 4:

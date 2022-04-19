@@ -77,7 +77,7 @@ private:
 
 	// 컨트롤러 척도
 	const float MAX_ELECTRICITIY_RATE = 100.0f;
-	const float ELECTRICITY_DEFAULT_USAGE = 0.6f /*9.6f*/ ;
+	const float ELECTRICITY_DEFAULT_USAGE = 0.1f /*9.6f*/ ;
 	const int START_TIME_MARKER = 0;
 	const int END_TIME_MARKER = 6;
 	const float EACH_HOUR_REAL_DURATION = 89.0f /*89.0f*/;
