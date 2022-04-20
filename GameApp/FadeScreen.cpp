@@ -22,10 +22,10 @@ void FadeScreen::Reset()
 	loadingClockRenderer_->Off();
 	deltaTime_ = 0.0f;
 	isFadeIn_ = false;
-	isFadeOut_ = false;
+	isFadeOut_ = true;
 	divider_ = 0.0f;
 	isFullFadeIn_ = false;
-	isFullFadeOut_ = false;
+	isFullFadeOut_ = true;
 	isReleaseOn_ = false;
 	releaseTime_ = 0.0f;
 }

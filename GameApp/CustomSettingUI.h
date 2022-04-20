@@ -89,10 +89,52 @@ private:
 	void ImageInit();
 	void CollisionInit();
 
-public:
+
 	int AILevelFreddy_;
 	int AILevelBonnie_;
 	int AILevelChica_;
 	int AILevelFoxy_;
+
+
+public:
+	inline int GetFreddyLevel()
+	{
+		return AILevelFreddy_;
+	}
+
+	inline int GetBonnieLevel()
+	{
+		return AILevelBonnie_;
+	}
+
+	inline int GetChicaLevel()
+	{
+		return AILevelChica_;
+	}
+
+	inline int GetFoxyLevel()
+	{
+		return AILevelFoxy_;
+	}
+
+	inline void AddFreddyLevel(int _number)
+	{
+		AILevelFreddy_ += _number;
+	}
+
+	inline void AddBonnieLevel(int _number)
+	{
+		AILevelBonnie_ += _number;
+	}
+
+	inline void AddChicaLevel(int _number)
+	{
+		AILevelChica_ += _number;
+	}
+
+	inline void AddFoxyLevel(int _number)
+	{
+		AILevelFoxy_ += _number;
+	}
 };
 

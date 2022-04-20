@@ -455,12 +455,6 @@ void GameController::ControllerReloading()
 	{
 		fadeScreen_->Reset();
 		fadeScreen_->SetAlpha(1.0f);
-		fadeScreen_->StartFadeIn(0.0f);
-		fadeScreen_->SetLoadingRenderer();
-
-
-		fadeScreen_->StartFadeOut(0.0f);
-
 
 		glitchScreen_->SetWhiteNoiseAlpha(0.3f);
 	}

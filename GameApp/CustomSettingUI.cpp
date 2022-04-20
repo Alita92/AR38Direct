@@ -46,6 +46,10 @@ CustomSettingUI::CustomSettingUI() // default constructer 디폴트 생성자
 	, AINumberOneChica_(nullptr)
 	, AINumberTenFoxy_(nullptr)
 	, AINumberOneFoxy_(nullptr)
+	, AILevelFreddy_(0)
+	, AILevelBonnie_(0)
+	, AILevelChica_(0)
+	, AILevelFoxy_(0)
 {
 
 }
@@ -228,6 +232,13 @@ void CustomSettingUI::CollisionInit()
 		AIButtonFoxyRCollision_->GetTransform()->SetLocalPosition(AIButtonFoxyR_->GetTransform()->GetLocalPosition());
 		AIButtonFoxyRCollision_->GetTransform()->SetLocalScaling(AIButtonFoxyR_->GetTransform()->GetLocalScaling());
 		AIButtonFoxyRCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+	}
+
+	{
+		ReadyButtonCollision_ = CreateTransformComponent<GameEngineCollision>();
+		ReadyButtonCollision_->GetTransform()->SetLocalPosition(ReadyButton_->GetTransform()->GetLocalPosition());
+		ReadyButtonCollision_->GetTransform()->SetLocalScaling(ReadyButton_->GetTransform()->GetLocalScaling());
+		ReadyButtonCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 }
 
