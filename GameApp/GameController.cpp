@@ -453,13 +453,14 @@ void GameController::ControllerReloading()
 	}
 
 	{
+		fadeScreen_->Reset();
 		fadeScreen_->SetAlpha(1.0f);
 		fadeScreen_->StartFadeIn(0.0f);
 		fadeScreen_->SetLoadingRenderer();
 
 
 		fadeScreen_->StartFadeOut(0.0f);
-		fadeScreen_->Reset();
+
 
 		glitchScreen_->SetWhiteNoiseAlpha(0.3f);
 	}
@@ -1861,7 +1862,7 @@ StateInfo GameController::updateWin(StateInfo _state)
 		}
 		GameStaticData::savedDay_ = GameStaticData::curDay_;
 		StopAllSound();
-		GetLevel()->RequestLevelChange("Intermission");
+		GetLevel()->RequestLevelChange("TrialOver");
 	}
 
 	return StateInfo();

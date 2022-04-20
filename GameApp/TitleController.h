@@ -56,7 +56,6 @@ private:
 private:
 	void ActorInit();
 	void StateInit();
-	void SoundInit();
 
 	void ControllerReloading();
 
@@ -67,7 +66,7 @@ private:
 	float deltaTime_;
 	float alphaChangeTime_;
 
-private: // FSM 은 기성 시스템을 가져왔으나 선생님이 새로 만드실 경우 리팩토링을 염두에 둡니다.
+private:
 	GameEngineFSM<TitleController> state_;
 
 #pragma region States

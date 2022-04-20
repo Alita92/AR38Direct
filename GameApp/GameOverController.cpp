@@ -17,11 +17,16 @@ void GameOverController::Start()
 {
 	gameOverBackground_ = GetLevel()->CreateActor<GameOverBackground>();
 	gameOverBackground_->SetWhiteNoise(true);
-	ambientPlayer_.PlayOverLap("StaticShort.wav");
+	//ambientPlayer_.PlayOverLap("StaticShort.wav");
 }
 
 void GameOverController::Update(float _Deltatime)
 {
+	if (false == isWhiteNoiseOff_)
+	{
+		ambientPlayer_.PlayAlone("StaticShort.wav", -1);
+	}
+
 	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (WHITE_NOISE_TIME <= deltaTime_ && false == isWhiteNoiseOff_)
@@ -39,4 +44,11 @@ void GameOverController::Update(float _Deltatime)
 
 		GetLevel()->RequestLevelChange("Title");
 	}
+}
+
+void GameOverController::Reloading()
+{
+	deltaTime_ = 0.0f;
+	isWhiteNoiseOff_ = false;
+
 }

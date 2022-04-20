@@ -7,6 +7,9 @@
 // Ό³Έν : 
 class GameOverLevel : public GameEngineLevel
 {
+private:
+	friend class GameOverController;
+
 public:
 	GameOverLevel();
 	~GameOverLevel();
@@ -14,7 +17,10 @@ public:
 	GameOverLevel(GameOverLevel&& _other) noexcept;
 	GameOverLevel& operator=(const GameOverLevel& _other) = delete;
 	GameOverLevel& operator=(const GameOverLevel&& _other) noexcept = delete;
+
 protected:		
+	GameOverController* controller_;
+
 
 private:		
 	void LevelStart() override;

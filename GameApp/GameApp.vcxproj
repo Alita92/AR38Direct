@@ -270,6 +270,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TrialOverController.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TrialOverLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UIController.cpp">
       <SubType>
       </SubType>
@@ -406,6 +414,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TitleNewsPaper.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TrialOverController.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TrialOverLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

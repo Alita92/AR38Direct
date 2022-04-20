@@ -288,5 +288,21 @@ void UserGame::ResourcesLoad()
 		}
 	}
 
+	// Trial Over Level
+	{
+		GameEngineDirectory imageDir;
+		imageDir.MoveParent("AR38Direct");
+		imageDir.MoveChild("Resources");
+		imageDir.MoveChild("Image");
+		imageDir.MoveChild("TrialOver");
+
+		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+
+		for (size_t i = 0; i < allFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		}
+	}
+
 	AppShaderLoad();
 }

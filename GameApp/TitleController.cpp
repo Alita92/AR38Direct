@@ -59,11 +59,6 @@ void TitleController::StateInit()
 	state_.ChangeState("Idle");
 }
 
-void TitleController::SoundInit()
-{
-	ambientPlayer_.PlayAlone("StaticLong.wav");
-	musicPlayer_.PlayAlone("TitleMusic.wav");
-}
 
 void TitleController::ControllerReloading()
 {
@@ -109,7 +104,6 @@ void TitleController::Start()
 {
 	ActorInit();
 	StateInit();
-	SoundInit();
 }
 
 void TitleController::Update(float _Deltatime)
@@ -176,6 +170,7 @@ void TitleController::UpdateTitleAlphaChange()
 
 StateInfo TitleController::startIdle(StateInfo _state)
 {
+
 	glitchScreen_->PlayWhiteNoise(true);
 	glitchScreen_->SetWhiteNoiseAlpha(0.4f);
 	glitchScreen_->SetSubRenderer(true);
@@ -184,6 +179,9 @@ StateInfo TitleController::startIdle(StateInfo _state)
 
 StateInfo TitleController::updateIdle(StateInfo _state)
 {
+	ambientPlayer_.PlayAlone("StaticLong.wav");
+	musicPlayer_.PlayAlone("TitleMusic.wav");
+
 	glitchScreen_->ScanLineRandomChange();
 
 	{

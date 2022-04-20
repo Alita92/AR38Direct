@@ -101,6 +101,12 @@
     <ClCompile Include="CurvedEffect.cpp">
       <Filter>PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="TrialOverLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TrialOverController.cpp">
+      <Filter>Actor\06TrialOver</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -180,6 +186,12 @@
     </Filter>
     <Filter Include="PostEffect">
       <UniqueIdentifier>{68c6b212-5010-4b84-a6cf-9f251150108e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\06TrialOver">
+      <UniqueIdentifier>{d812e6f5-7f24-4e6b-9e64-47bd92469e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\06TrialOver\Actors">
+      <UniqueIdentifier>{2e9d0d8e-9ffc-43fb-aa82-401f075f0a40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +296,12 @@
     </ClInclude>
     <ClInclude Include="CurvedEffect.h">
       <Filter>PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="TrialOverLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TrialOverController.h">
+      <Filter>Actor\06TrialOver</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

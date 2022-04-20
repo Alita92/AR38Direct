@@ -5,6 +5,9 @@
 class GameOverBackground;
 class GameOverController : public GameEngineActor
 {
+private:
+	friend class GameOverLevel;
+
 public:
 	GameOverController(); // default constructer 디폴트 생성자
 	~GameOverController(); // default destructer 디폴트 소멸자
@@ -29,5 +32,8 @@ private:
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
+
+private:
+	void Reloading();
 };
 

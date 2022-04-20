@@ -12,6 +12,7 @@
 #include "GameOverLevel.h"
 #include "IntermissionLevel.h"
 #include "CustomSettingLevel.h"
+#include "TrialOverLevel.h"
 
 #include <GameEngine\GameEngineRenderWindow.h>
 
@@ -33,30 +34,14 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 
 void UserGame::Initialize()
 {
-	//TransData.View.ViewToLH( { 0.0f, 0.0f, -10.0f }, {0.0f, 0.0f , 1.0f}, {0.0f, 1.0f , 0.0f});
-
-	//TransData.Proj.OrthographicLH( 1280.f, 720.f, 0.1f, 1000.0f );
-
-
-	//TransData.Scale.Scaling2D(200.0f);
-	//TransData.Rotation.RotationDeg({ 0.0f, 0.0f, 45.0f });
-	//TransData.Position.Translation({ 0.0f, 0.0f, 0.0f });
-	//TransData.CalWorld();
-
-	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
-	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
-
-	//GameEngineInput::GetInst().HideCursor();
-
 	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
-
-
 
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<IntermissionLevel>("Intermission");
 	LevelCreate<PlayLevel>("Play");
 	LevelCreate<GameOverLevel>("GameOver");
 	LevelCreate<CustomSettingLevel>("CustomSetting");
+	LevelCreate<TrialOverLevel>("TrialOver");
 
 	LevelChange("Title");
 	KeyInit();
@@ -85,8 +70,6 @@ void UserGame::KeyInit()
 		GameEngineInput::GetInst().CreateKey("CCTV_Toggle", 'X');
 		GameEngineInput::GetInst().CreateKey("RotateRight", 'Z');
 		GameEngineInput::GetInst().CreateKey("RotateLeft", 'C');
-
-
 	}
 }
 
