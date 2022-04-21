@@ -33,5 +33,6 @@ private:
 
 private:
 	bool isFadeIn_;
+	bool isLevelChanged_;
 };
 

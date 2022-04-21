@@ -6,7 +6,7 @@
 
 
 TrialOverController::TrialOverController() // default constructer 디폴트 생성자
-	: trialOverBackground_(nullptr), isFadeIn_(false)
+	: trialOverBackground_(nullptr), isFadeIn_(false), isLevelChanged_(false)
 {
 
 }
@@ -23,6 +23,7 @@ void TrialOverController::Start()
 
 void TrialOverController::Update(float _Deltatime)
 {
+
 	if (false == isFadeIn_)
 	{
 		ambientPlayer_.PlayAlone("MusicBox.wav");
@@ -35,6 +36,12 @@ void TrialOverController::Update(float _Deltatime)
 	if (true == fadeScreen_->isFullFadeIn_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
 		fadeScreen_->StartFadeOut(1.5f);
+		isLevelChanged_ = true;
+	}
+
+	if (true == isFadeIn_ && true == fadeScreen_->isFullFadeOut_ && true == isLevelChanged_)
+	{
+		GetLevel()->RequestLevelChange("Warning");
 	}
 
 
@@ -57,6 +64,7 @@ void TrialOverController::Reloading()
 	trialOverBackground_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::BACKGROUND1) });
 
 	isFadeIn_ = false;
+	isLevelChanged_ = false;
 	fadeScreen_->Reset();
 	fadeScreen_->SetAlpha(1.0f);
 }

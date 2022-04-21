@@ -5,7 +5,7 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 
 WarningController::WarningController() // default constructer 디폴트 생성자
-	: isFadeIn_(false)
+	: isFadeIn_(false), isLevelChange_(false), fadeScreen_(nullptr), warningBackground_(nullptr),deltaTime_(0.0f)
 {
 
 }
@@ -23,7 +23,8 @@ void WarningController::Start()
 
 void WarningController::Update(float _Deltatime)
 {
-	static bool levelchange = false;
+
+	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (false == isFadeIn_)
 	{
@@ -34,15 +35,20 @@ void WarningController::Update(float _Deltatime)
 
 	if (true == fadeScreen_->isFullFadeIn_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
+		deltaTime_ = 0.0f;
 		fadeScreen_->StartFadeOut(1.5f);
-		levelchange = true;
+		isLevelChange_ = true;
+	}
+	else if (true == fadeScreen_->isFullFadeIn_ && 3.0f <= deltaTime_ && false == isLevelChange_)
+	{
+		fadeScreen_->StartFadeOut(1.5f);
+		isLevelChange_ = true;
 	}
 
-	if (true == isFadeIn_ && true == fadeScreen_->isFullFadeOut_ && true == levelchange)
+	if (true == isFadeIn_ && true == fadeScreen_->isFullFadeOut_ && true == isLevelChange_)
 	{
 		GetLevel()->RequestLevelChange("Title");
 	}
-
 }
 
 void WarningController::InitImage()
@@ -62,6 +68,8 @@ void WarningController::Reloading()
 	warningBackground_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::BACKGROUND1) });
 
 	isFadeIn_ = false;
+	deltaTime_ = 0.0f;
+	isLevelChange_ = false;
 	fadeScreen_->Reset();
 	fadeScreen_->SetAlpha(1.0f);
 }

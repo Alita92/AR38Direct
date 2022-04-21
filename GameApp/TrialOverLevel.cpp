@@ -35,7 +35,7 @@ void TrialOverLevel::LevelUpdate(float _DeltaTime)
 }
 void TrialOverLevel::LevelChangeEndEvent()
 {
-
+	controller_->Reloading();
 }
 void TrialOverLevel::LevelChangeStartEvent()
 {

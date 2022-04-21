@@ -83,6 +83,8 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, CCTVMoveFlag_(false)
 	, subtitleDeltatime_(0.0f)
 	, subtitleIndex_(0)
+	, isFadeIn_(false)
+	, firstLoadingDeltatime_(0.0f)
 {
 
 }
@@ -299,7 +301,6 @@ void GameController::InitScreenEffects()
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
 	fadeScreen_->SetAlpha(1.0f);
 	fadeScreen_->SetLoadingRenderer();
-	//fadeScreen_->OffScreen(0.7f);
 	
 	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
 	glitchScreen_->SetWhiteNoiseAlpha(0.3f);
@@ -406,9 +407,12 @@ void GameController::ControllerReloading()
 		flag3_ = false;
 		flag4_ = false;
 		CCTVMoveDeltaTime_ = 0.0f;
+		alphaChangeTime1_ = 2.0f;
 		isCCTVFullyTilted_ = false;
 		CCTVMoveFlag_ = false;
 		subtitleDeltatime_ = 0.0f;
+		isFadeIn_ = false;
+		firstLoadingDeltatime_ = 0.0f;
 	}
 
 	{
@@ -437,13 +441,16 @@ void GameController::ControllerReloading()
 
 		UIController_->dayPassHiderUpper_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 100.0f, 0.0f });
 		UIController_->dayPassHiderUpper_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+
 		UIController_->dayPassHiderBottom_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, -100.0f, 0.0f });
 		UIController_->dayPassHiderBottom_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+
 		UIController_->dayPassNum5_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		UIController_->dayPassNum5_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 		//UIController_->dayPassNum5_->SetAlpha(0.0f);
 		UIController_->dayPassNum6_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 100.0f, 0.0f });
 		UIController_->dayPassNum6_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+
 		UIController_->dayPassAM_->GetTransform()->SetLocalPosition({ UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		UIController_->dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 	//	UIController_->dayPassAM_->SetAlpha(0.0f);
@@ -455,7 +462,8 @@ void GameController::ControllerReloading()
 	{
 		fadeScreen_->Reset();
 		fadeScreen_->SetAlpha(1.0f);
-
+		fadeScreen_->SetLoadingRenderer();
+		fadeScreen_->OnScreen();
 		glitchScreen_->SetWhiteNoiseAlpha(0.3f);
 	}
 
@@ -475,9 +483,9 @@ void GameController::ControllerReloading()
 
 	UIController_->dayPassNum5_->SetAlpha(0.0f);
 	UIController_->dayPassAM_->SetAlpha(0.0f);
-
-	UIController_->dayPassNum6_->SetAlpha(1.0f);
-	alphaChangeTime1_ = 2.0f;
+	UIController_->dayPassNum6_->SetAlpha(0.0f);
+	UIController_->dayPassHiderBottom_->SetAlpha(0.0f);
+	UIController_->dayPassHiderUpper_->SetAlpha(0.0f);
 }
 
 
@@ -679,9 +687,15 @@ StateInfo GameController::updateIdle(StateInfo _state)
 {
 	if (false == isLoadingDone_)
 	{
-		fadeScreen_->SetLoadingRenderer();
-		fadeScreen_->OffScreen(0.7f);
-		isLoadingDone_ = true;
+		firstLoadingDeltatime_ += GameEngineTime::GetInst().GetDeltaTime();
+
+		if (1.0f <= firstLoadingDeltatime_)
+		{
+			fadeScreen_->SetAlpha(0.0f);
+			firstLoadingDeltatime_ = 0.0f;
+			fadeScreen_->RemoveLoadingRenderer();
+			isLoadingDone_ = true;
+		}
 	}
 
 	CheckOfficeInput();
@@ -1767,10 +1781,12 @@ StateInfo GameController::startWin(StateInfo _state)
 	isElecCheckOff_ = true;
 	StopAllSound();
 	fadeScreen_->OnScreen();
-	fadeScreen_->SetAlpha(0.0f);
-	fadeScreen_->StartFadeIn(0.0f);
+	//fadeScreen_->SetAlpha(0.0f);
 	UIController_->dayPassNum5_->On();
 	UIController_->dayPassAM_->On();
+	UIController_->dayPassNum6_->On();
+	UIController_->dayPassHiderUpper_->On();
+	UIController_->dayPassHiderBottom_->On();
 	alphaChangeTime_ = 0.0f;
 	winDeltaTime_ = 0.0f;
 
@@ -1794,7 +1810,12 @@ StateInfo GameController::updateWin(StateInfo _state)
 
 	if (0.5f <= winDeltaTime_ && false == fadeScreen_->isFullFadeOut_)
 	{
-		fadeScreen_->StartFadeOut(1.5f);
+		if (false == isFadeIn_)
+		{
+			fadeScreen_->StartFadeOut(1.5f);
+
+			isFadeIn_ = true;
+		}
 		UpdateAlphaChange();
 	}
 

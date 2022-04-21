@@ -153,6 +153,10 @@ private:
 	float subtitleDeltatime_;
 	int subtitleIndex_;
 
+	// 페이드인아웃 변수
+	bool isFadeIn_;
+	float firstLoadingDeltatime_;
+
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);
 	void CollisionMuteCall(GameEngineCollision* _other);

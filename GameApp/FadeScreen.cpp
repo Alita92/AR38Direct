@@ -130,6 +130,11 @@ void FadeScreen::SetLoadingRenderer()
 	loadingClockRenderer_->On();
 }
 
+void FadeScreen::RemoveLoadingRenderer()
+{
+	loadingClockRenderer_->Off();
+}
+
 void FadeScreen::OffScreen(float _time)
 {
 	releaseTime_ = _time;

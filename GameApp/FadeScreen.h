@@ -21,6 +21,7 @@ public:
 	void StartFadeIn(float _time);
 	void StartFadeOut(float _time);
 	void SetLoadingRenderer();
+	void RemoveLoadingRenderer();
 	void OffScreen(float _time);
 	void OnScreen();
 	void Reset();

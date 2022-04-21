@@ -33,5 +33,7 @@ private:
 
 private:
 	bool isFadeIn_;
+	bool isLevelChange_;
+	float deltaTime_;
 };
 
