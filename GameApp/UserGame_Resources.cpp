@@ -4,6 +4,20 @@
 #include "UserGame_Resources_Shader.h"
 
 
+void TextureLoading(GameEngineDirectory Dir)
+{
+	std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+	for (size_t i = 0; i < AllFile.size(); i++)
+	{
+		GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		// Sleep(10);
+	}
+
+	--UserGame::LoadingFolder;
+}
+
+
 void UserGame::ResourcesLoad()
 {
 	{
@@ -20,7 +34,21 @@ void UserGame::ResourcesLoad()
 		}
 	}
 
+	GameEngineDirectory TextureDir;
+	TextureDir.MoveParent("AR38Direct");
+	TextureDir.MoveChild("Resources");
+	TextureDir.MoveChild("Image");
+	TextureDir.MoveChild("Common");
 
+	std::vector<GameEngineDirectory> AllDir = TextureDir.GetAllDirectoryRecursive();
+	LoadingFolder = static_cast<int>(AllDir.size());
+
+	for (size_t i = 0; i < AllDir.size(); i++)
+	{
+		GameEngineCore::ThreadQueue.JobPost(std::bind(TextureLoading, AllDir[i]));
+	}
+
+	/*
 	{
 		// Title Level
 		{
@@ -29,13 +57,14 @@ void UserGame::ResourcesLoad()
 			imageDir.MoveChild("Resources");
 			imageDir.MoveChild("Image");
 			imageDir.MoveChild("Common");
+			TextureLoading(imageDir);
 
-			std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-			for (size_t i = 0; i < allFile.size(); i++)
-			{
-				GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-			}
+			//std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+			//
+			//for (size_t i = 0; i < allFile.size(); i++)
+			//{
+			//	GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+			//}
 		}
 
 		{
@@ -44,13 +73,14 @@ void UserGame::ResourcesLoad()
 			imageDir.MoveChild("Resources");
 			imageDir.MoveChild("Image");
 			imageDir.MoveChild("Title");
+			TextureLoading(imageDir);
 
-			std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-			for (size_t i = 0; i < allFile.size(); i++)
-			{
-				GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-			}
+		//	std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+		//
+		//	for (size_t i = 0; i < allFile.size(); i++)
+		//	{
+		//		GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		//	}
 		}
 	}
 	
@@ -61,13 +91,14 @@ void UserGame::ResourcesLoad()
 		imageDir.MoveChild("Resources");
 		imageDir.MoveChild("Image");
 		imageDir.MoveChild("Play");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < allFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-		}
+	//	std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+	//
+	//	for (size_t i = 0; i < allFile.size(); i++)
+	//	{
+	//		GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+	//	}
 
 		GameEngineTexture* officeFanTexture = GameEngineTextureManager::GetInst().Find("OfficeFan.png");
 		officeFanTexture->Cut(1, 3);
@@ -98,136 +129,146 @@ void UserGame::ResourcesLoad()
 		//	GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("RdoorOpen"));
 
 		imageDir.MoveChild("UI");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> UI = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < UI.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(UI[i].GetFullPath());
-		}
+//		std::vector<GameEngineFile> UI = imageDir.GetAllFile("png");
+//
+//		for (size_t i = 0; i < UI.size(); i++)
+//		{
+//			GameEngineTextureManager::GetInst().Load(UI[i].GetFullPath());
+//		}
 
 		imageDir.MoveParent("Play");
 		imageDir.MoveChild("Subtitles");
 		imageDir.MoveChild("DAY1");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> Day1Sub = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < Day1Sub.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(Day1Sub[i].GetFullPath());
-		}
+	//	std::vector<GameEngineFile> Day1Sub = imageDir.GetAllFile("png");
+	//
+	//	for (size_t i = 0; i < Day1Sub.size(); i++)
+	//	{
+	//		GameEngineTextureManager::GetInst().Load(Day1Sub[i].GetFullPath());
+	//	}
 
 
 		imageDir.MoveParent("Play");
 		imageDir.MoveChild("CCTV");
 		imageDir.MoveChild("BackStage");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> BackStage = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < BackStage.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(BackStage[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> BackStage = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < BackStage.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(BackStage[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("DiningArea");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> DiningArea = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < DiningArea.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(DiningArea[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> DiningArea = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < DiningArea.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(DiningArea[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("EastHallA");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> EastHallA = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < EastHallA.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(EastHallA[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> EastHallA = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < EastHallA.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(EastHallA[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("EastHallB");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> EastHallB = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < EastHallB.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(EastHallB[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> EastHallB = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < EastHallB.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(EastHallB[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("ETC");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> ETC = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < ETC.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(ETC[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> ETC = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < ETC.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(ETC[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("ShowStage");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> ShowStage = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < ShowStage.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(ShowStage[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> ShowStage = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < ShowStage.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(ShowStage[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("PirateCove");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> PirateCove = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < PirateCove.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(PirateCove[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> PirateCove = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < PirateCove.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(PirateCove[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("RestRooms");
 
-		std::vector<GameEngineFile> RestRooms = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < RestRooms.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(RestRooms[i].GetFullPath());
-		}
+		TextureLoading(imageDir);
+		//std::vector<GameEngineFile> RestRooms = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < RestRooms.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(RestRooms[i].GetFullPath());
+		//}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("SupplyCloset");
-
-		std::vector<GameEngineFile> SupplyCloset = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < SupplyCloset.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(SupplyCloset[i].GetFullPath());
-		}
+		TextureLoading(imageDir);
+//		std::vector<GameEngineFile> SupplyCloset = imageDir.GetAllFile("png");
+//
+//		for (size_t i = 0; i < SupplyCloset.size(); i++)
+//		{
+//			GameEngineTextureManager::GetInst().Load(SupplyCloset[i].GetFullPath());
+//		}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("WestHallA");
-
-		std::vector<GameEngineFile> WestHallA = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < WestHallA.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(WestHallA[i].GetFullPath());
-		}
+		TextureLoading(imageDir);
+	//	std::vector<GameEngineFile> WestHallA = imageDir.GetAllFile("png");
+	//
+	//	for (size_t i = 0; i < WestHallA.size(); i++)
+	//	{
+	//		GameEngineTextureManager::GetInst().Load(WestHallA[i].GetFullPath());
+	//	}
 
 		imageDir.MoveParent("CCTV");
 		imageDir.MoveChild("WestHallB");
-
-		std::vector<GameEngineFile> WestHallB = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < WestHallB.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(WestHallB[i].GetFullPath());
-		}
+		TextureLoading(imageDir);
+		//std::vector<GameEngineFile> WestHallB = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < WestHallB.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(WestHallB[i].GetFullPath());
+		//}
 	}
 	
 
@@ -238,13 +279,13 @@ void UserGame::ResourcesLoad()
 		imageDir.MoveChild("Resources");
 		imageDir.MoveChild("Image");
 		imageDir.MoveChild("GameOver");
-
-		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < allFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-		}
+		TextureLoading(imageDir);
+		//std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < allFile.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		//}
 	}
 
 	{
@@ -262,13 +303,14 @@ void UserGame::ResourcesLoad()
 		imageDir.MoveChild("Resources");
 		imageDir.MoveChild("Image");
 		imageDir.MoveChild("CustomSetting");
+		TextureLoading(imageDir);
 
-		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < allFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-		}
+		//std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < allFile.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		//}
 	}
 
 
@@ -279,13 +321,13 @@ void UserGame::ResourcesLoad()
 		imageDir.MoveChild("Resources");
 		imageDir.MoveChild("Image");
 		imageDir.MoveChild("Intermission");
-
-		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < allFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-		}
+		TextureLoading(imageDir);
+		//std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < allFile.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		//}
 	}
 
 	// Trial Over Level
@@ -295,14 +337,14 @@ void UserGame::ResourcesLoad()
 		imageDir.MoveChild("Resources");
 		imageDir.MoveChild("Image");
 		imageDir.MoveChild("TrialOver");
-
-		std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-
-		for (size_t i = 0; i < allFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-		}
+		TextureLoading(imageDir);
+		//std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
+		//
+		//for (size_t i = 0; i < allFile.size(); i++)
+		//{
+		//	GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
+		//}
 	}
-
+	*/
 	AppShaderLoad();
 }

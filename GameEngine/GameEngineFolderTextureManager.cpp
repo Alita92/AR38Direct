@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineFolderTextureManager.h"
 #include "GameEngineFolderTexture.h"
+#include <mutex>
 
 GameEngineFolderTextureManager* GameEngineFolderTextureManager::Inst = new GameEngineFolderTextureManager();
 

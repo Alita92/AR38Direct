@@ -31,6 +31,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineIocp.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineMath.h">
       <SubType>
       </SubType>
@@ -67,6 +71,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineThread.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineThreadQueue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineTime.h">
       <SubType>
       </SubType>
@@ -86,6 +98,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineFile.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineIocp.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -122,6 +138,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineString.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineThread.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineThreadQueue.cpp">
       <SubType>
       </SubType>
     </ClCompile>

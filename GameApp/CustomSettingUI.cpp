@@ -177,6 +177,9 @@ void CustomSettingUI::ImageInit()
 	AINumberOneChica_->GetTransform()->SetLocalPosition({ 144.0f, -135.0f, 0.0f });
 
 	AINumberTenFoxy_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	AINumberTenFoxy_->SetImage("AINumber1.png", true);
+	AINumberTenFoxy_->GetTransform()->SetLocalPosition({420.0f, -135.0f, 0.0f});
+	AINumberTenFoxy_->Off();
 
 	AINumberOneFoxy_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	AINumberOneFoxy_->SetImage("AINumber0.png", true);
@@ -262,6 +265,7 @@ void CustomSettingUI::LevelCheckUpdate()
 		{
 			AINumberTenFreddy_->On();
 			AINumberTenFreddy_->SetImage("AINumber" + std::to_string(AILevelFreddy_ / 10) + ".png", true);
+			
 		}
 		else if (10 > AILevelFreddy_)
 		{
@@ -305,10 +309,12 @@ void CustomSettingUI::LevelCheckUpdate()
 		{
 			AINumberTenFoxy_->On();
 			AINumberTenFoxy_->SetImage("AINumber" + std::to_string(AILevelFoxy_ / 10) + ".png", true);
+			AINumberOneFoxy_->GetTransform()->SetLocalPosition({450.0f, -135.0f, 0.0f});
 		}
 		else if (10 > AILevelFoxy_)
 		{
 			AINumberTenFoxy_->Off();
+			AINumberOneFoxy_->GetTransform()->SetLocalPosition({ 440.0f, -135.0f, 0.0f });
 		}
 
 		AINumberOneFoxy_->SetImage("AINumber" + std::to_string(AILevelFoxy_ % 10) + ".png", true);

@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineDevice.h"
+#include <mutex>
 
 // Ό³Έν : 
 class GameEngineFolderTexture;

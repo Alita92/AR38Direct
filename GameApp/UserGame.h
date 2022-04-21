@@ -3,7 +3,13 @@
 
 class UserGame : public GameEngineCore
 {
-private:	
+public:
+	// 락이 걸리지 않는다.
+	// 락이 걸리는데 가벼운 락이 걸려서 빠르다.
+	// 운영체제가 관리해주는 cpu 수준의 락을 거는데 이게 빠르다.
+	// 64바이트
+	static std::atomic<int> LoadingFolder;
+
 public:
 	UserGame(); 
 	~UserGame(); 

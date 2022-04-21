@@ -16,6 +16,11 @@
 
 #include <GameEngine\GameEngineRenderWindow.h>
 
+
+std::atomic<int> UserGame::LoadingFolder = 0;
+
+
+
 UserGame::UserGame() 
 {
 

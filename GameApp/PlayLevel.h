@@ -22,6 +22,8 @@ protected:
 	CurvedEffect* curved_;
 	
 private:
+	void CreateActorLevel();
+
 	void LevelStart() override;
 	void LevelUpdate(float _DeltaTime) override;
 	void LevelChangeEndEvent() override;

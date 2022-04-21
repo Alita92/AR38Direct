@@ -101,6 +101,8 @@ void GameEngineDevice::Initialize()
 	}
 
 	//CreateSwapChain();
+	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+	
 }
 
 void GameEngineDevice::CreateSwapChain()

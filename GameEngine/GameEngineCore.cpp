@@ -10,7 +10,11 @@
 #include "GameEngineBase/GameEngineDirectory.h"
 #include "GameEngineBase/GameEngineFile.h"
 
+GameEngineThreadQueue GameEngineCore::ThreadQueue = GameEngineThreadQueue("GameEngineThread");
+
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
+
+
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
 {
@@ -57,6 +61,8 @@ void GameEngineCore::EngineDestroy()
 			Level.second = nullptr;
 		}
 	}
+
+	ThreadQueue.Destroy();
 
 	GameEngineManagerHelper::ManagerRelease();
 	GameEngineInput::Destroy();
