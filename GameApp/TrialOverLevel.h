@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineLevel.h>
 #include "ENUM.h"
 
+class TrialOverController;
 class TrialOverLevel : public GameEngineLevel
 {
 private:
@@ -23,5 +24,8 @@ private:
 	void LevelUpdate(float _DeltaTime) override;
 	void LevelChangeEndEvent() override;
 	void LevelChangeStartEvent() override;
+
+private:
+	void CreateActorLevel();
 };
 

@@ -11,6 +11,7 @@
 #include <GameEngine/CameraComponent.h>
 #include <GameEngine/GameEngineCore.h>
 
+#include "UserGame.h"
 #include "GameStaticData.h"
 
 TitleLevel::TitleLevel()
@@ -28,14 +29,21 @@ void TitleLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
-	if (nullptr == titleController_)
-	{
-		titleController_ = CreateActor<TitleController>();
-	}
+
 }
 
 void TitleLevel::LevelUpdate(float _DeltaTime)
 {
+
+	static bool CreateActorCheck = false;
+
+	if (0 >= UserGame::LoadingFolder
+		&& false == CreateActorCheck)
+	{
+		titleController_ = CreateActor<TitleController>();
+		CreateActorCheck = true;
+	}
+
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
 	{
 		GameEngineCore::LevelChange("Play");

@@ -7,6 +7,7 @@
 #include <GameEngine/GameEngineRenderingPipeLine.h>
 #include <GameEngine\GameEngineLevelControlWindow.h>
 
+#include "WarningLevel.h"
 #include "TitleLevel.h"
 #include "PlayLevel.h"
 #include "GameOverLevel.h"
@@ -40,6 +41,7 @@ void UserGame::Initialize()
 {
 	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
 
+	LevelCreate<WarningLevel>("Warning");
 	LevelCreate<TitleLevel>("Title");
 	LevelCreate<IntermissionLevel>("Intermission");
 	LevelCreate<PlayLevel>("Play");
@@ -47,7 +49,7 @@ void UserGame::Initialize()
 	LevelCreate<CustomSettingLevel>("CustomSetting");
 	LevelCreate<TrialOverLevel>("TrialOver");
 
-	LevelChange("Title");
+	LevelChange("Warning");
 	KeyInit();
 	return;
 }

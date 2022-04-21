@@ -20,8 +20,7 @@ void GlitchScreen::ImageInit()
 {
 	whiteNoiseRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 	whiteNoiseRenderer_->SetImage("WhiteNoiseStatic.png", true);
-	whiteNoiseRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::FILTER1)});
-	//whiteNoiseRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
+	whiteNoiseRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::FILTER1) });
 	whiteNoiseRenderer_->CreateAnimationFolder("WhiteNoise", "WhiteNoise", 0.02f, true);
 	whiteNoiseRenderer_->SetChangeAnimation("WhiteNoise");
 	whiteNoiseRenderer_->Off();
@@ -31,7 +30,6 @@ void GlitchScreen::ImageInit()
 	scanLineRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::FILTER0) });
 	scanLineRenderer_->CreateAnimationFolder("ScanLine", "ScanLine", 0.04f, false);
 	scanLineRenderer_->CreateAnimationFolder("ScanLineFast", "ScanLine", 0.02f, false);
-	//scanLineRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 	scanLineRenderer_->Off();
 
 	subScanLineRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());

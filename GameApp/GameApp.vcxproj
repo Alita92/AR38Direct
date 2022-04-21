@@ -317,6 +317,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WarningController.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WarningLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBonnie.h">
@@ -451,6 +459,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UserGame_Resources_Shader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WarningController.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WarningLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

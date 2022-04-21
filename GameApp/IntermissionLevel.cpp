@@ -4,6 +4,7 @@
 #include "IntermissionController.h"
 
 #include "FadeScreen.h"
+#include "UserGame.h"
 
 IntermissionLevel::IntermissionLevel() // default constructer 디폴트 생성자
 	: intermissionController_(nullptr)
@@ -23,15 +24,20 @@ void IntermissionLevel::LevelStart()
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
 
-	if (nullptr == intermissionController_)
-	{
-		intermissionController_ = CreateActor<IntermissionController>();
-	}
+
+	
 }
 
 void IntermissionLevel::LevelUpdate(float _DeltaTime)
 {
+	static bool CreateActorCheck = false;
 
+	if (0 >= UserGame::LoadingFolder
+		&& false == CreateActorCheck)
+	{
+		intermissionController_ = CreateActor<IntermissionController>();
+		CreateActorCheck = true;
+	}
 }
 
 void IntermissionLevel::LevelChangeEndEvent()

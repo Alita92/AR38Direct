@@ -10,6 +10,8 @@
 #include <GameEngine/GameEngineTransform.h>
 #include <GameEngine/CameraActor.h>
 
+#include "UserGame.h"
+
 CustomSettingLevel::CustomSettingLevel() // default constructer 디폴트 생성자
 	: controller_(nullptr)
 {
@@ -26,11 +28,23 @@ void CustomSettingLevel::LevelStart()
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
-	controller_ = CreateActor<CustomSettingController>();
+
+
+
 }
 
 void CustomSettingLevel::LevelUpdate(float _DeltaTime)
 {
+
+	static bool CreateActorCheck = false;
+
+	if (0 >= UserGame::LoadingFolder
+		&& false == CreateActorCheck)
+	{
+
+		controller_ = CreateActor<CustomSettingController>();
+		CreateActorCheck = true;
+	}
 	if (true == GameEngineInput::GetInst().Down("ESC"))
 	{
 		GameEngineCore::LevelChange("Title");

@@ -107,6 +107,12 @@
     <ClCompile Include="TrialOverController.cpp">
       <Filter>Actor\06TrialOver</Filter>
     </ClCompile>
+    <ClCompile Include="WarningLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="WarningController.cpp">
+      <Filter>Actor\07Warning</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -192,6 +198,9 @@
     </Filter>
     <Filter Include="Actor\06TrialOver\Actors">
       <UniqueIdentifier>{2e9d0d8e-9ffc-43fb-aa82-401f075f0a40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\07Warning">
+      <UniqueIdentifier>{39c29a15-23e0-4b52-b755-4e652c32b756}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +311,12 @@
     </ClInclude>
     <ClInclude Include="TrialOverController.h">
       <Filter>Actor\06TrialOver</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningController.h">
+      <Filter>Actor\07Warning</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

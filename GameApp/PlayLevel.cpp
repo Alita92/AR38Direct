@@ -27,7 +27,6 @@ PlayLevel::~PlayLevel()
 void PlayLevel::LevelStart()
 {
 
-	
 }
 
 void PlayLevel::LevelUpdate(float _DeltaTime)
