@@ -85,6 +85,7 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, subtitleIndex_(0)
 	, isFadeIn_(false)
 	, firstLoadingDeltatime_(0.0f)
+	, isMuted_(false)
 {
 
 }
@@ -413,6 +414,7 @@ void GameController::ControllerReloading()
 		subtitleDeltatime_ = 0.0f;
 		isFadeIn_ = false;
 		firstLoadingDeltatime_ = 0.0f;
+		isMuted_ = false;
 	}
 
 	{
@@ -2150,11 +2152,12 @@ void GameController::CollisionCCTVButton(GameEngineCollision* _other)
 
 void GameController::CollisionMuteCall(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1") && false == isMuted_)
 	{
 		UIController_->muteCallRenderer_->Off();
 		UIController_->muteCallCollision_->Off();
 		phoneGuyPlayer_.Stop();
+		isMuted_ = true;
 	}
 }
 
@@ -2463,7 +2466,7 @@ void GameController::CCTVScreenMove()
 
 void GameController::UpdateSubtitle()
 {
-	if (false == UIController_->muteCallRenderer_->IsUpdate())
+	if (true == isMuted_)
 	{
 		UIController_->subtitleRenderer_->Off();
 		subtitleDeltatime_ = 0.0f;

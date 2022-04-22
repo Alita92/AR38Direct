@@ -157,6 +157,9 @@ private:
 	bool isFadeIn_;
 	float firstLoadingDeltatime_;
 
+	// ÀüÈ­
+	bool isMuted_;
+
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);
 	void CollisionMuteCall(GameEngineCollision* _other);

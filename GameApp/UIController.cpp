@@ -98,14 +98,7 @@ void UIController::Start()
 
 void UIController::ImageInit()
 {
-	{
-		subtitleRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-		subtitleRenderer_->SetImage("0001.png", true);
-		subtitleRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 240.0f, 0.0f });
-		subtitleRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
-		subtitleRenderer_->Off();
 
-	}
 
 	{
 		cctvBorderRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
@@ -401,6 +394,15 @@ void UIController::ImageInit()
 		dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 		dayPassAM_->SetAlpha(0.0f);
 		dayPassAM_->Off();
+	}
+
+	{
+		subtitleRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+		subtitleRenderer_->SetImage("0001.png", true);
+		subtitleRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 240.0f, 0.0f });
+		subtitleRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+		subtitleRenderer_->Off();
+
 	}
 
 }
