@@ -152,6 +152,21 @@ void UserGame::ResourcesLoad()
 				//		GameEngineTextureManager::GetInst().Load(Day1Sub[i].GetFullPath());
 				//	}
 
+				imageDir.MoveParent("Play");
+				imageDir.MoveChild("Subtitles");
+				imageDir.MoveChild("DAY2");
+				TextureLoading(imageDir);
+
+				imageDir.MoveParent("Play");
+				imageDir.MoveChild("Subtitles");
+				imageDir.MoveChild("DAY3");
+				TextureLoading(imageDir);
+
+				imageDir.MoveParent("Play");
+				imageDir.MoveChild("Subtitles");
+				imageDir.MoveChild("DAY4");
+				TextureLoading(imageDir);
+
 
 				imageDir.MoveParent("Play");
 				imageDir.MoveChild("CCTV");

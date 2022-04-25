@@ -149,10 +149,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(10);
-		aiChica_->SetAILevel(10);
-		aiFoxy_->SetAILevel(10);
-		aiFreddy_->SetAILevel(10);
+		aiBonnie_->SetAILevel(0);
+		aiChica_->SetAILevel(0);
+		aiFoxy_->SetAILevel(0);
+		aiFreddy_->SetAILevel(0);
 	}
 	break;
 	case DAY::DAY2:
@@ -574,99 +574,103 @@ void GameController::UpdateDebugRender()
 #endif
 }
 
-void GameController::CheckOfficeInput()
+void GameController::CheckDebugInput()
 {
 
-
-	if (true == GameEngineInput::GetInst().Down("LDoor_Toggle") && true == lDoorRenderer_->IsCurAnimationEnd())
+	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
 	{
-		awakePlayer_.PlayOverLap("Door.wav");
-		if (false == isLdoorClosed_)
-		{
-			isLdoorClosed_ = true;
-			aiBonnie_->isDoorLocked_ = true;
-			aiFoxy_->isDoorLocked_ = true;
-			curPowerLevel_ += 1;
-		}
-		else
-		{
-			isLdoorClosed_ = false;
-			aiBonnie_->isDoorLocked_ = false;
-			aiFoxy_->isDoorLocked_ = false;
-			curPowerLevel_ -= 1;
-		}
+		++curTime_;
 	}
 
-	if (true == GameEngineInput::GetInst().Down("RDoor_Toggle") && true == rDoorRenderer_->IsCurAnimationEnd())
-	{
-		doorSound_.PlayOverLap("Door.wav");
-		if (false == isRdoorClosed_)
-		{
-			isRdoorClosed_ = true;
-			aiChica_->isDoorLocked_ = true;
-			aiFreddy_->isDoorLocked_ = true;
-			curPowerLevel_ += 1;
-
-		}
-		else
-		{
-			isRdoorClosed_ = false;
-			aiChica_->isDoorLocked_ = false;
-			aiFreddy_->isDoorLocked_ = false;
-			curPowerLevel_ -= 1;
-		}
-	}
-
-	if (true == GameEngineInput::GetInst().Down("LLight_Toggle"))
-	{
-		if (false == isLdoorLighted_)
-		{
-			if (true == isRdoorLighted_)
-			{
-				rlightSound_.Stop();
-				isRdoorLighted_ = false;
-				curPowerLevel_--;
-			}
-
-			llightSound_.PlayOverLap("DoorLight.wav", -1);
-			isLdoorLighted_ = true;
-
-		
-			curPowerLevel_++;
-
-		}
-		else
-		{
-			llightSound_.Stop();
-			isLdoorLighted_ = false;
-			curPowerLevel_ -= 1;
-		}
-	}
-
-	if (true == GameEngineInput::GetInst().Down("RLight_Toggle"))
-	{
-		if (false == isRdoorLighted_)
-		{
-			if (true == isLdoorLighted_)
-			{
-				llightSound_.Stop();
-				isLdoorLighted_ = false;
-				curPowerLevel_--;
-			}
-
-			rlightSound_.PlayOverLap("DoorLight.wav", -1);
-			isRdoorLighted_ = true;
-		
-			curPowerLevel_ += 1;
-
-		}
-		else
-		{
-			rlightSound_.Stop();
-			isRdoorLighted_ = false;
-			curPowerLevel_ -= 1;
-		}
-	}
+	//if (true == GameEngineInput::GetInst().Down("LDoor_Toggle") && true == lDoorRenderer_->IsCurAnimationEnd())
+	//{
+	//	awakePlayer_.PlayOverLap("Door.wav");
+	//	if (false == isLdoorClosed_)
+	//	{
+	//		isLdoorClosed_ = true;
+	//		aiBonnie_->isDoorLocked_ = true;
+	//		aiFoxy_->isDoorLocked_ = true;
+	//		curPowerLevel_ += 1;
+	//	}
+	//	else
+	//	{
+	//		isLdoorClosed_ = false;
+	//		aiBonnie_->isDoorLocked_ = false;
+	//		aiFoxy_->isDoorLocked_ = false;
+	//		curPowerLevel_ -= 1;
+	//	}
+	//}
+	//
+	//if (true == GameEngineInput::GetInst().Down("RDoor_Toggle") && true == rDoorRenderer_->IsCurAnimationEnd())
+	//{
+	//	doorSound_.PlayOverLap("Door.wav");
+	//	if (false == isRdoorClosed_)
+	//	{
+	//		isRdoorClosed_ = true;
+	//		aiChica_->isDoorLocked_ = true;
+	//		aiFreddy_->isDoorLocked_ = true;
+	//		curPowerLevel_ += 1;
+	//
+	//	}
+	//	else
+	//	{
+	//		isRdoorClosed_ = false;
+	//		aiChica_->isDoorLocked_ = false;
+	//		aiFreddy_->isDoorLocked_ = false;
+	//		curPowerLevel_ -= 1;
+	//	}
+	//}
+	//
+	//if (true == GameEngineInput::GetInst().Down("LLight_Toggle"))
+	//{
+	//	if (false == isLdoorLighted_)
+	//	{
+	//		if (true == isRdoorLighted_)
+	//		{
+	//			rlightSound_.Stop();
+	//			isRdoorLighted_ = false;
+	//			curPowerLevel_--;
+	//		}
+	//
+	//		llightSound_.PlayOverLap("DoorLight.wav", -1);
+	//		isLdoorLighted_ = true;
+	//
+	//	
+	//		curPowerLevel_++;
+	//
+	//	}
+	//	else
+	//	{
+	//		llightSound_.Stop();
+	//		isLdoorLighted_ = false;
+	//		curPowerLevel_ -= 1;
+	//	}
+	//}
+	//
+	//if (true == GameEngineInput::GetInst().Down("RLight_Toggle"))
+	//{
+	//	if (false == isRdoorLighted_)
+	//	{
+	//		if (true == isLdoorLighted_)
+	//		{
+	//			llightSound_.Stop();
+	//			isLdoorLighted_ = false;
+	//			curPowerLevel_--;
+	//		}
+	//
+	//		rlightSound_.PlayOverLap("DoorLight.wav", -1);
+	//		isRdoorLighted_ = true;
+	//	
+	//		curPowerLevel_ += 1;
+	//
+	//	}
+	//	else
+	//	{
+	//		rlightSound_.Stop();
+	//		isRdoorLighted_ = false;
+	//		curPowerLevel_ -= 1;
+	//	}
+	//}
 }
 
 
@@ -700,7 +704,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		}
 	}
 
-	CheckOfficeInput();
+	CheckDebugInput();
 
 	if (curTime_ == 6)
 	{
@@ -1784,6 +1788,7 @@ StateInfo GameController::startWin(StateInfo _state)
 	StopAllSound();
 	fadeScreen_->OnScreen();
 	//fadeScreen_->SetAlpha(0.0f);
+	isMuted_ = true;
 	UIController_->dayPassNum5_->On();
 	UIController_->dayPassAM_->On();
 	UIController_->dayPassNum6_->On();
@@ -1855,31 +1860,44 @@ StateInfo GameController::updateWin(StateInfo _state)
 		{
 		case DAY::DAY1:
 			GameStaticData::curDay_ = DAY::DAY2;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			GetLevel()->RequestLevelChange("Intermission");
 			break;
 		case DAY::DAY2:
 			GameStaticData::curDay_ = DAY::DAY3;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			GetLevel()->RequestLevelChange("Intermission");
 			break;
 		case DAY::DAY3:
 			GameStaticData::curDay_ = DAY::DAY4;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			GetLevel()->RequestLevelChange("Intermission");
 			break;
 		case DAY::DAY4:
 			GameStaticData::curDay_ = DAY::DAY5;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			GetLevel()->RequestLevelChange("Intermission");
 			break;
 		case DAY::DAY5:
-			GameStaticData::curDay_ = DAY::DAY6;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			GetLevel()->RequestLevelChange("TrialOver");
 			break;
 		case DAY::DAY6:
-		
+			StopAllSound();
+			GetLevel()->RequestLevelChange("TrialOver");
 			break;
 		case DAY::CUSTOM:
-		
+			StopAllSound();
+			GetLevel()->RequestLevelChange("TrialOver");
 			break;
 		default:
 			break;
 		}
-		GameStaticData::savedDay_ = GameStaticData::curDay_;
-		StopAllSound();
-		GetLevel()->RequestLevelChange("TrialOver");
 	}
 
 	return StateInfo();
@@ -2470,249 +2488,531 @@ void GameController::UpdateSubtitle()
 	{
 		UIController_->subtitleRenderer_->Off();
 		subtitleDeltatime_ = 0.0f;
+		subtitleIndex_ = 0;
 		return;
 	}
 
-
 	subtitleDeltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (18.0f <= subtitleDeltatime_ && 0 == subtitleIndex_)
+	switch (curDay_)
 	{
-		UIController_->subtitleRenderer_->On();
-		subtitleIndex_++;
+	case DAY::DAY1:
+		if (18.0f <= subtitleDeltatime_ && 0 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY1_0001.png", true);
+			subtitleIndex_++;
+		}
+
+		if (21.0f <= subtitleDeltatime_ && 1 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0002.png", true);
+			subtitleIndex_++;
+		}
+
+		if (30.0f <= subtitleDeltatime_ && 2 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0003.png", true);
+			subtitleIndex_++;
+		}
+
+		if (35.0f <= subtitleDeltatime_ && 3 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0004.png", true);
+			subtitleIndex_++;
+		}
+
+		if (42.0f <= subtitleDeltatime_ && 4 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0005.png", true);
+			subtitleIndex_++;
+		}
+
+		if (47.0f <= subtitleDeltatime_ && 5 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0006.png", true);
+			subtitleIndex_++;
+		}
+
+		if (53.0f <= subtitleDeltatime_ && 6 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0007.png", true);
+			subtitleIndex_++;
+		}
+
+		if (55.0f <= subtitleDeltatime_ && 7 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0008.png", true);
+			subtitleIndex_++;
+		}
+
+		if (64.0f <= subtitleDeltatime_ && 8 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0009.png", true);
+			subtitleIndex_++;
+		}
+
+		if (67.0f <= subtitleDeltatime_ && 9 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0010.png", true);
+			subtitleIndex_++;
+		}
+
+		if (69.0f <= subtitleDeltatime_ && 10 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0011.png", true);
+			subtitleIndex_++;
+		}
+
+		if (71.0f <= subtitleDeltatime_ && 11 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0012.png", true);
+			subtitleIndex_++;
+		}
+
+		if (74.0f <= subtitleDeltatime_ && 12 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0013.png", true);
+			subtitleIndex_++;
+		}
+
+		if (79.0f <= subtitleDeltatime_ && 13 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0014.png", true);
+			subtitleIndex_++;
+		}
+
+		if (81.0f <= subtitleDeltatime_ && 14 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0015.png", true);
+			subtitleIndex_++;
+		}
+
+		if (85.0f <= subtitleDeltatime_ && 15 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0016.png", true);
+			subtitleIndex_++;
+		}
+
+		if (90.0f <= subtitleDeltatime_ && 16 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0017.png", true);
+			subtitleIndex_++;
+		}
+
+		if (93.0f <= subtitleDeltatime_ && 17 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0018.png", true);
+			subtitleIndex_++;
+		}
+
+		if (97.0f <= subtitleDeltatime_ && 18 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0019.png", true);
+			subtitleIndex_++;
+		}
+
+		if (101.0f <= subtitleDeltatime_ && 19 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0020.png", true);
+			subtitleIndex_++;
+		}
+
+		if (105.0f <= subtitleDeltatime_ && 20 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0021.png", true);
+			subtitleIndex_++;
+		}
+
+		if (110.0f <= subtitleDeltatime_ && 21 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0022.png", true);
+			subtitleIndex_++;
+		}
+
+		if (114.0f <= subtitleDeltatime_ && 22 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0023.png", true);
+			subtitleIndex_++;
+		}
+
+		if (118.0f <= subtitleDeltatime_ && 23 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0024.png", true);
+			subtitleIndex_++;
+		}
+
+		if (122.0f <= subtitleDeltatime_ && 24 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0025.png", true);
+			subtitleIndex_++;
+		}
+
+		if (129.0f <= subtitleDeltatime_ && 25 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0026.png", true);
+			subtitleIndex_++;
+		}
+
+		if (133.0f <= subtitleDeltatime_ && 26 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0027.png", true);
+			subtitleIndex_++;
+		}
+
+		if (136.0f <= subtitleDeltatime_ && 27 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0028.png", true);
+			subtitleIndex_++;
+		}
+
+		if (142.0f <= subtitleDeltatime_ && 28 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0029.png", true);
+			subtitleIndex_++;
+		}
+
+		if (149.0f <= subtitleDeltatime_ && 29 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0030.png", true);
+			subtitleIndex_++;
+		}
+
+		if (154.0f <= subtitleDeltatime_ && 30 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0031.png", true);
+			subtitleIndex_++;
+		}
+
+		if (158.0f <= subtitleDeltatime_ && 31 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0032.png", true);
+			subtitleIndex_++;
+		}
+
+		if (164.0f <= subtitleDeltatime_ && 32 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0033.png", true);
+			subtitleIndex_++;
+		}
+
+		if (172.0f <= subtitleDeltatime_ && 33 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0034.png", true);
+			subtitleIndex_++;
+		}
+
+		if (179.0f <= subtitleDeltatime_ && 34 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0035.png", true);
+			subtitleIndex_++;
+		}
+
+		if (182.0f <= subtitleDeltatime_ && 35 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0036.png", true);
+			subtitleIndex_++;
+		}
+
+		if (189.0f <= subtitleDeltatime_ && 36 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0037.png", true);
+			subtitleIndex_++;
+		}
+
+		if (192.0f <= subtitleDeltatime_ && 37 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0038.png", true);
+			subtitleIndex_++;
+		}
+
+		if (194.0f <= subtitleDeltatime_ && 38 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0039.png", true);
+			subtitleIndex_++;
+		}
+
+		if (195.0f <= subtitleDeltatime_ && 39 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->SetImage("DAY1_0040.png", true);
+			subtitleIndex_++;
+		}
+
+		if (200.0f <= subtitleDeltatime_ && 40 == subtitleIndex_)
+		{
+			isMuted_ = true;
+			subtitleDeltatime_ = 0.0f;
+			subtitleIndex_ = 0;
+		}
+
+		break;
+
+	case DAY::DAY2:
+
+		if (18.0f <= subtitleDeltatime_ && 0 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0001.png", true);
+			subtitleIndex_++;
+		}
+
+		if (21.0f <= subtitleDeltatime_ && 1 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0002.png", true);
+			subtitleIndex_++;
+		}
+
+		if (25.0f <= subtitleDeltatime_ && 2 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0003.png", true);
+			subtitleIndex_++;
+		}
+
+		if (27.0f <= subtitleDeltatime_ && 3 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0004.png", true);
+			subtitleIndex_++;
+		}
+
+		if (32.0f <= subtitleDeltatime_ && 4 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0005.png", true);
+			subtitleIndex_++;
+		}
+
+		if (34.0f <= subtitleDeltatime_ && 5 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0006.png", true);
+			subtitleIndex_++;
+		}
+
+		if (40.0f <= subtitleDeltatime_ && 6 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0007.png", true);
+			subtitleIndex_++;
+		}
+
+		if (44.0f <= subtitleDeltatime_ && 7 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0008.png", true);
+			subtitleIndex_++;
+		}
+
+		if (48.0f <= subtitleDeltatime_ && 8 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0009.png", true);
+			subtitleIndex_++;
+		}
+
+		if (53.0f <= subtitleDeltatime_ && 9 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0010.png", true);
+			subtitleIndex_++;
+		}
+
+		if (57.0f <= subtitleDeltatime_ && 10 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0011.png", true);
+			subtitleIndex_++;
+		}
+
+		if (64.0f <= subtitleDeltatime_ && 11 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0012.png", true);
+			subtitleIndex_++;
+		}
+
+		if (72.0f <= subtitleDeltatime_ && 12 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0013.png", true);
+			subtitleIndex_++;
+		}
+
+		if (75.0f <= subtitleDeltatime_ && 13 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0014.png", true);
+			subtitleIndex_++;
+		}
+
+		if (81.0f <= subtitleDeltatime_ && 14 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0015.png", true);
+			subtitleIndex_++;
+		}
+
+		if (86.0f <= subtitleDeltatime_ && 15 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0016.png", true);
+			subtitleIndex_++;
+		}
+
+		if (87.8f <= subtitleDeltatime_ && 16 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0017.png", true);
+			subtitleIndex_++;
+		}
+
+		if (92.0f <= subtitleDeltatime_ && 17 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0018.png", true);
+			subtitleIndex_++;
+		}
+
+		if (95.8f <= subtitleDeltatime_ && 18 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY2_0019.png", true);
+			subtitleIndex_++;
+		}
+
+		if (102.0f <= subtitleDeltatime_ && 19 == subtitleIndex_)
+		{
+			isMuted_ = true;
+			subtitleDeltatime_ = 0.0f;
+			subtitleIndex_ = 0;
+		}
+
+		break;
+	case DAY::DAY3:
+		
+		if (18.0f <= subtitleDeltatime_ && 0 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0001.png", true);
+			subtitleIndex_++;
+		}
+
+		if (20.0f <= subtitleDeltatime_ && 1 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0002.png", true);
+			subtitleIndex_++;
+		}
+
+		if (25.0f <= subtitleDeltatime_ && 2 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0003.png", true);
+			subtitleIndex_++;
+		}
+
+		if (34.0f <= subtitleDeltatime_ && 3 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0004.png", true);
+			subtitleIndex_++;
+		}
+
+		if (39.7f <= subtitleDeltatime_ && 4 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0005.png", true);
+			subtitleIndex_++;
+		}
+
+		if (42.5f <= subtitleDeltatime_ && 5 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0006.png", true);
+			subtitleIndex_++;
+		}
+
+		if (47.5f <= subtitleDeltatime_ && 6 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0007.png", true);
+			subtitleIndex_++;
+		}
+
+		if (48.7f <= subtitleDeltatime_ && 7 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0008.png", true);
+			subtitleIndex_++;
+		}
+
+		if (50.5f <= subtitleDeltatime_ && 8 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0009.png", true);
+			subtitleIndex_++;
+		}
+
+		if (56.0f <= subtitleDeltatime_ && 9 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0010.png", true);
+			subtitleIndex_++;
+		}
+
+		if (61.0f <= subtitleDeltatime_ && 10 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0011.png", true);
+			subtitleIndex_++;
+		}
+
+		if (63.5f <= subtitleDeltatime_ && 11 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0012.png", true);
+			subtitleIndex_++;
+		}
+
+		if (69.0f <= subtitleDeltatime_ && 12 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY3_0013.png", true);
+			subtitleIndex_++;
+		}
+
+		if (73.0f <= subtitleDeltatime_ && 13 == subtitleIndex_)
+		{
+			isMuted_ = true;
+			subtitleDeltatime_ = 0.0f;
+			subtitleIndex_ = 0;
+		}
+
+		break;
+	case DAY::DAY4:
+		if (18.0f <= subtitleDeltatime_ && 0 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0001.png", true);
+			subtitleIndex_++;
+		}
+
+
+
+		break;
+	case DAY::DAY5:
+		break;
+	case DAY::DAY6:
+		break;
+	case DAY::CUSTOM:
+		break;
+	case DAY::MAX:
+		break;
+	default:
+		break;
 	}
 
-	if (21.0f <= subtitleDeltatime_ && 1 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0002.png", true);
-		subtitleIndex_++;
-	}
-
-	if (30.0f <= subtitleDeltatime_ && 2 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0003.png", true);
-		subtitleIndex_++;
-	}
-
-	if (35.0f <= subtitleDeltatime_ && 3 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0004.png", true);
-		subtitleIndex_++;
-	}
-
-	if (42.0f <= subtitleDeltatime_ && 4 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0005.png", true);
-		subtitleIndex_++;
-	}
-
-	if (47.0f <= subtitleDeltatime_ && 5 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0006.png", true);
-		subtitleIndex_++;
-	}
-
-	if (53.0f <= subtitleDeltatime_ && 6 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0007.png", true);
-		subtitleIndex_++;
-	}
-
-	if (55.0f <= subtitleDeltatime_ && 7 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0008.png", true);
-		subtitleIndex_++;
-	}
-
-	if (64.0f <= subtitleDeltatime_ && 8 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0009.png", true);
-		subtitleIndex_++;
-	}
-
-	if (67.0f <= subtitleDeltatime_ && 9 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0010.png", true);
-		subtitleIndex_++;
-	}
-
-	if (69.0f <= subtitleDeltatime_ && 10 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0011.png", true);
-		subtitleIndex_++;
-	}
-
-	if (71.0f <= subtitleDeltatime_ && 11 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0012.png", true);
-		subtitleIndex_++;
-	}
-
-	if (74.0f <= subtitleDeltatime_ && 12 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0013.png", true);
-		subtitleIndex_++;
-	}
-
-	if (79.0f <= subtitleDeltatime_ && 13 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0014.png", true);
-		subtitleIndex_++;
-	}
-
-	if (81.0f <= subtitleDeltatime_ && 14 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0015.png", true);
-		subtitleIndex_++;
-	}
-
-	if (85.0f <= subtitleDeltatime_ && 15 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0016.png", true);
-		subtitleIndex_++;
-	}
-
-	if (90.0f <= subtitleDeltatime_ && 16 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0017.png", true);
-		subtitleIndex_++;
-	}
-
-	if (93.0f <= subtitleDeltatime_ && 17 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0018.png", true);
-		subtitleIndex_++;
-	}
-
-	if (97.0f <= subtitleDeltatime_ && 18 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0019.png", true);
-		subtitleIndex_++;
-	}
-
-	if (101.0f <= subtitleDeltatime_ && 19 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0020.png", true);
-		subtitleIndex_++;
-	}
-
-	if (105.0f <= subtitleDeltatime_ && 20 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0021.png", true);
-		subtitleIndex_++;
-	}
-
-	if (110.0f <= subtitleDeltatime_ && 21 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0022.png", true);
-		subtitleIndex_++;
-	}
-
-	if (114.0f <= subtitleDeltatime_ && 22 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0023.png", true);
-		subtitleIndex_++;
-	}
-
-	if (118.0f <= subtitleDeltatime_ && 23 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0024.png", true);
-		subtitleIndex_++;
-	}
-
-	if (122.0f <= subtitleDeltatime_ && 24 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0025.png", true);
-		subtitleIndex_++;
-	}
-
-	if (129.0f <= subtitleDeltatime_ && 25 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0026.png", true);
-		subtitleIndex_++;
-	}
-
-	if (133.0f <= subtitleDeltatime_ && 26 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0027.png", true);
-		subtitleIndex_++;
-	}
-
-	if (136.0f <= subtitleDeltatime_ && 27 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0028.png", true);
-		subtitleIndex_++;
-	}
-
-	if (142.0f <= subtitleDeltatime_ && 28 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0029.png", true);
-		subtitleIndex_++;
-	}
-
-	if (149.0f <= subtitleDeltatime_ && 29 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0030.png", true);
-		subtitleIndex_++;
-	}
-
-	if (154.0f <= subtitleDeltatime_ && 30 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0031.png", true);
-		subtitleIndex_++;
-	}
-
-	if (158.0f <= subtitleDeltatime_ && 31 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0032.png", true);
-		subtitleIndex_++;
-	}
-
-	if (164.0f <= subtitleDeltatime_ && 32 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0033.png", true);
-		subtitleIndex_++;
-	}
-
-	if (172.0f <= subtitleDeltatime_ && 33 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0034.png", true);
-		subtitleIndex_++;
-	}
-
-	if (179.0f <= subtitleDeltatime_ && 34 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0035.png", true);
-		subtitleIndex_++;
-	}
-
-	if (182.0f <= subtitleDeltatime_ && 35 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0036.png", true);
-		subtitleIndex_++;
-	}
-
-	if (189.0f <= subtitleDeltatime_ && 36 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0037.png", true);
-		subtitleIndex_++;
-	}
-
-	if (192.0f <= subtitleDeltatime_ && 37 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0038.png", true);
-		subtitleIndex_++;
-	}
-
-	if (194.0f <= subtitleDeltatime_ && 38 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0039.png", true);
-		subtitleIndex_++;
-	}
-
-	if (195.0f <= subtitleDeltatime_ && 39 == subtitleIndex_)
-	{
-		UIController_->subtitleRenderer_->SetImage("0040.png", true);
-		subtitleIndex_++;
-	}
+	
 }

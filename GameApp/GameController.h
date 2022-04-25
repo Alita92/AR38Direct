@@ -57,7 +57,7 @@ private:
 	void UpdateDebugRender();
 
 private:
-	void CheckOfficeInput();
+	void CheckDebugInput();
 	void UpdateAlphaChange();
 
 private:

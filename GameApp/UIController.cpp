@@ -398,7 +398,7 @@ void UIController::ImageInit()
 
 	{
 		subtitleRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-		subtitleRenderer_->SetImage("0001.png", true);
+		subtitleRenderer_->SetImage("DAY1_0001.png", true);
 		subtitleRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 240.0f, 0.0f });
 		subtitleRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 		subtitleRenderer_->Off();

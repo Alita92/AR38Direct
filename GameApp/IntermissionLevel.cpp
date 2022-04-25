@@ -35,6 +35,7 @@ void IntermissionLevel::LevelUpdate(float _DeltaTime)
 	if (0 >= UserGame::LoadingFolder
 		&& false == CreateActorCheck)
 	{
+		Sleep(10);
 		intermissionController_ = CreateActor<IntermissionController>();
 		CreateActorCheck = true;
 	}

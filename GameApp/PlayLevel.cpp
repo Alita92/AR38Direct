@@ -36,6 +36,7 @@ void PlayLevel::LevelUpdate(float _DeltaTime)
 	if (0 >= UserGame::LoadingFolder
 		&& false == CreateActorCheck)
 	{
+		Sleep(10);
 		CreateActorLevel();
 		CreateActorCheck = true;
 	}

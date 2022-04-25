@@ -31,6 +31,7 @@ void GameOverLevel::LevelUpdate(float _DeltaTime)
 	if (0 >= UserGame::LoadingFolder
 		&& false == CreateActorCheck)
 	{
+		Sleep(10);
 		controller_ = CreateActor<GameOverController>();
 		CreateActorCheck = true;
 	}
