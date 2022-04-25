@@ -18,23 +18,26 @@ GlitchScreen::~GlitchScreen() // default destructer 디폴트 소멸자
 
 void GlitchScreen::ImageInit()
 {
-	whiteNoiseRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	whiteNoiseRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	whiteNoiseRenderer_->SetImage("WhiteNoiseStatic.png", true);
-	whiteNoiseRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::FILTER1) });
+	whiteNoiseRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,0.0f /*static_cast<int>(RenderOrder::FILTER1)*/});
+	whiteNoiseRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::REAR));
 	whiteNoiseRenderer_->CreateAnimationFolder("WhiteNoise", "WhiteNoise", 0.02f, true);
 	whiteNoiseRenderer_->SetChangeAnimation("WhiteNoise");
 	whiteNoiseRenderer_->Off();
 
-	scanLineRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	scanLineRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	scanLineRenderer_->SetImage("ScanLineStatic.png", true);
-	scanLineRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,static_cast<int>(RenderOrder::FILTER0) });
+	scanLineRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f, 0.0f /*static_cast<int>(RenderOrder::FILTER0)*/});
+	scanLineRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::REAR));
 	scanLineRenderer_->CreateAnimationFolder("ScanLine", "ScanLine", 0.04f, false);
 	scanLineRenderer_->CreateAnimationFolder("ScanLineFast", "ScanLine", 0.02f, false);
 	scanLineRenderer_->Off();
 
-	subScanLineRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	subScanLineRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	subScanLineRenderer_->SetImage("SubScanLine.png", true);
-	subScanLineRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 384.0f,static_cast<int>(RenderOrder::FILTER1) });
+	subScanLineRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 384.0f, 0.0f /*static_cast<int>(RenderOrder::FILTER1)*/});
+	subScanLineRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::REAR));
 	subScanLineRenderer_->Off();
 
 }

@@ -35,9 +35,9 @@ public:
 	void SetSubRenderer(bool _on);
 
 protected:
-	GameEngineImageRenderer* whiteNoiseRenderer_;
-	GameEngineImageRenderer* scanLineRenderer_;
-	GameEngineImageRenderer* subScanLineRenderer_;
+	GameEngineUIRenderer* whiteNoiseRenderer_;
+	GameEngineUIRenderer* scanLineRenderer_;
+	GameEngineUIRenderer* subScanLineRenderer_;
 
 private:
 	void Start() override;
