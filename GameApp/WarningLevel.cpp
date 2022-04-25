@@ -33,6 +33,7 @@ void WarningLevel::LevelUpdate(float _DeltaTime)
 	if (0 >= UserGame::LoadingFolder
 		&& false == CreateActorCheck)
 	{
+		Sleep(10);
 		controller_ = CreateActor<WarningController>();
 		CreateActorCheck = true;
 	}
