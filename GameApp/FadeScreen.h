@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
 
 // 분류 : 
 // 용도 : 
@@ -38,7 +39,7 @@ private:
 	void Update(float _Deltatime) override;
 
 private:
-	void ImageInit();
+	void InitImage();
 
 
 private:
@@ -50,7 +51,6 @@ private:
 	bool isReleaseOn_;
 
 public:
-
 	bool isFullFadeIn_;
 	bool isFullFadeOut_;
 };

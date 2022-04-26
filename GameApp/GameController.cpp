@@ -2992,6 +2992,7 @@ void GameController::UpdateSubtitle()
 
 		break;
 	case DAY::DAY4:
+
 		if (18.0f <= subtitleDeltatime_ && 0 == subtitleIndex_)
 		{
 			UIController_->subtitleRenderer_->On();
@@ -2999,8 +3000,89 @@ void GameController::UpdateSubtitle()
 			subtitleIndex_++;
 		}
 
+		if (19.5f <= subtitleDeltatime_ && 1 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0002.png", true);
+			subtitleIndex_++;
+		}
 
+		if (21.5f <= subtitleDeltatime_ && 2 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0003.png", true);
+			subtitleIndex_++;
+		}
 
+		if (26.5f <= subtitleDeltatime_ && 3 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0004.png", true);
+			subtitleIndex_++;
+		}
+
+		if (30.5f <= subtitleDeltatime_ && 4 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0005.png", true);
+			subtitleIndex_++;
+		}
+
+		if (35.5f <= subtitleDeltatime_ && 5 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0006.png", true);
+			subtitleIndex_++;
+		}
+
+		if (38.2f <= subtitleDeltatime_ && 6 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0007.png", true);
+			subtitleIndex_++;
+		}
+
+		if (42.2f <= subtitleDeltatime_ && 7 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0008.png", true);
+			subtitleIndex_++;
+		}
+
+		if (45.2f <= subtitleDeltatime_ && 8 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0009.png", true);
+			subtitleIndex_++;
+		}
+
+		if (48.5f <= subtitleDeltatime_ && 9 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0010.png", true);
+			subtitleIndex_++;
+		}
+
+		if (53.0f <= subtitleDeltatime_ && 10 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0011.png", true);
+			subtitleIndex_++;
+		}
+
+		if (55.0f <= subtitleDeltatime_ && 11 == subtitleIndex_)
+		{
+			UIController_->subtitleRenderer_->On();
+			UIController_->subtitleRenderer_->SetImage("DAY4_0012.png", true);
+			subtitleIndex_++;
+		}
+
+		if (60.0f <= subtitleDeltatime_ && 12 == subtitleIndex_)
+		{
+			isMuted_ = true;
+			subtitleDeltatime_ = 0.0f;
+			subtitleIndex_ = 0;
+		}
 		break;
 	case DAY::DAY5:
 		break;
