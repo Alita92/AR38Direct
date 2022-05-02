@@ -149,10 +149,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(0);
-		aiChica_->SetAILevel(0);
-		aiFoxy_->SetAILevel(0);
-		aiFreddy_->SetAILevel(0);
+		aiBonnie_->SetAILevel(10);
+		aiChica_->SetAILevel(10);
+		aiFoxy_->SetAILevel(10);
+		aiFreddy_->SetAILevel(10);
 	}
 	break;
 	case DAY::DAY2:
