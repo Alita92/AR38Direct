@@ -443,15 +443,18 @@ void GameController::ControllerReloading()
 
 		UIController_->dayPassHiderUpper_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 100.0f, 0.0f });
 		UIController_->dayPassHiderUpper_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		UIController_->dayPassHiderUpper_->SetAlpha(1.0f);
 
 		UIController_->dayPassHiderBottom_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, -100.0f, 0.0f });
 		UIController_->dayPassHiderBottom_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		UIController_->dayPassHiderBottom_->SetAlpha(1.0f);
 
 		UIController_->dayPassNum5_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		UIController_->dayPassNum5_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 		//UIController_->dayPassNum5_->SetAlpha(0.0f);
 		UIController_->dayPassNum6_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 100.0f, 0.0f });
 		UIController_->dayPassNum6_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		UIController_->dayPassNum6_->SetAlpha(1.0f);
 
 		UIController_->dayPassAM_->GetTransform()->SetLocalPosition({ UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		UIController_->dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
@@ -485,9 +488,7 @@ void GameController::ControllerReloading()
 
 	UIController_->dayPassNum5_->SetAlpha(0.0f);
 	UIController_->dayPassAM_->SetAlpha(0.0f);
-	UIController_->dayPassNum6_->SetAlpha(0.0f);
-	UIController_->dayPassHiderBottom_->SetAlpha(0.0f);
-	UIController_->dayPassHiderUpper_->SetAlpha(0.0f);
+
 }
 
 
@@ -1787,13 +1788,11 @@ StateInfo GameController::startWin(StateInfo _state)
 	isElecCheckOff_ = true;
 	StopAllSound();
 	fadeScreen_->OnScreen();
-	//fadeScreen_->SetAlpha(0.0f);
+
 	isMuted_ = true;
 	UIController_->dayPassNum5_->On();
 	UIController_->dayPassAM_->On();
-	UIController_->dayPassNum6_->On();
-	UIController_->dayPassHiderUpper_->On();
-	UIController_->dayPassHiderBottom_->On();
+
 	alphaChangeTime_ = 0.0f;
 	winDeltaTime_ = 0.0f;
 

@@ -367,12 +367,14 @@ void UIController::ImageInit()
 		dayPassHiderUpper_->SetImage("DayPassHider.png", true);
 		dayPassHiderUpper_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, 100.0f, 0.0f });
 		dayPassHiderUpper_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		//dayPassHiderUpper_->SetAlpha(0.0f);
 		dayPassHiderUpper_->Off();
 
 		dayPassHiderBottom_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 		dayPassHiderBottom_->SetImage("DayPassHider.png", true);
 		dayPassHiderBottom_->GetTransform()->SetLocalPosition({-1.0f * DAYPASS_X_FLOAT, -100.0f, 0.0f});
 		dayPassHiderBottom_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		//dayPassHiderBottom_->SetAlpha(0.0f);
 		dayPassHiderBottom_->Off();
 
 		dayPassNum5_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
