@@ -28,18 +28,18 @@ void TrialOverController::Update(float _Deltatime)
 	{
 		ambientPlayer_.PlayAlone("MusicBox.wav");
 
-		fadeScreen_->StartFadeIn(1.5f);
+		fadeScreen_->StartBright(1.5f);
 
 		isFadeIn_ = true;
 	}
 
-	if (true == fadeScreen_->isFullFadeIn_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	if (true == fadeScreen_->isFullBright_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
-		fadeScreen_->StartFadeOut(1.5f);
+		fadeScreen_->StartDark(1.5f);
 		isLevelChanged_ = true;
 	}
 
-	if (true == isFadeIn_ && true == fadeScreen_->isFullFadeOut_ && true == isLevelChanged_)
+	if (true == isFadeIn_ && true == fadeScreen_->isFullDark_ && true == isLevelChanged_)
 	{
 		GetLevel()->RequestLevelChange("Warning");
 	}

@@ -24,6 +24,7 @@ TitleController::TitleController() // default constructer 디폴트 생성자
 	, alphaChangeTime_(1.0f)
 	, fadeScreen_(nullptr)
 	, glitchScreen_(nullptr)
+	, isDark_(false)
 {
 
 }
@@ -64,7 +65,7 @@ void TitleController::ControllerReloading()
 {
 	state_.ChangeState("Idle");
 	fadeScreen_->SetAlpha(0.0f);
-	fadeScreen_->StartFadeIn(0.0f);
+	fadeScreen_->StartDark(0.0f);
 	fadeScreen_->Reset();
 
 	titleMouse_->On();
@@ -96,7 +97,7 @@ void TitleController::ControllerReloading()
 		glitchScreen_->subScanLineRenderer_->SetAlpha(1.0f / 5.0f);
 	}
 
-
+	isDark_ = false;
 }
 
 
@@ -228,9 +229,14 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 
 	if (3.0f <= deltaTime_)
 	{
-		fadeScreen_->StartFadeOut(2.5f);
+		if (false == isDark_)
+		{
+			fadeScreen_->StartDark(2.5f);
+			isDark_ = true;
+		}
 
-		if (true == fadeScreen_->isFullFadeOut_)
+
+		if (true == fadeScreen_->isFullDark_)
 		{
 			ambientPlayer_.Stop();
 			musicPlayer_.Stop();

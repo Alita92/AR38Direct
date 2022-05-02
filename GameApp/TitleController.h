@@ -65,6 +65,7 @@ private:
 private:
 	float deltaTime_;
 	float alphaChangeTime_;
+	bool isDark_;
 
 private:
 	GameEngineFSM<TitleController> state_;

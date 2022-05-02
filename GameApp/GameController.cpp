@@ -1815,18 +1815,18 @@ StateInfo GameController::updateWin(StateInfo _state)
 
 	glitchScreen_->SetStatic();
 
-	if (0.5f <= winDeltaTime_ && false == fadeScreen_->isFullFadeOut_)
+	if (0.5f <= winDeltaTime_ && false == fadeScreen_->isFullDark_)
 	{
 		if (false == isFadeIn_)
 		{
-			fadeScreen_->StartFadeOut(1.5f);
+			fadeScreen_->StartDark(1.5f);
 
 			isFadeIn_ = true;
 		}
 		UpdateAlphaChange();
 	}
 
-	if (true == fadeScreen_->isFullFadeOut_)
+	if (true == fadeScreen_->isFullDark_)
 	{
 		UIController_->dayPassHiderUpper_->On();
 		UIController_->dayPassHiderBottom_->On();

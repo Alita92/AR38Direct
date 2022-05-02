@@ -48,6 +48,7 @@ private:
 
 private:
 	float deltaTime_;
+	bool isDark_;
 
 private: 
 	GameEngineFSM<IntermissionController> state_;

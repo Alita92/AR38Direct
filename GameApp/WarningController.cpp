@@ -28,24 +28,23 @@ void WarningController::Update(float _Deltatime)
 
 	if (false == isFadeIn_)
 	{
-		fadeScreen_->StartFadeIn(1.5f);
+		fadeScreen_->StartBright(1.5f);
 
 		isFadeIn_ = true;
 	}
 
-	if (true == fadeScreen_->isFullFadeIn_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	if (true == fadeScreen_->isFullBright_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
 	{
-		deltaTime_ = 0.0f;
-		fadeScreen_->StartFadeOut(1.5f);
+		fadeScreen_->StartDark(1.5f);
 		isLevelChange_ = true;
 	}
-	else if (true == fadeScreen_->isFullFadeIn_ && 3.0f <= deltaTime_ && false == isLevelChange_)
+	else if (true == fadeScreen_->isFullDark_ && 3.0f <= deltaTime_ && false == isLevelChange_)
 	{
-		fadeScreen_->StartFadeOut(1.5f);
+		fadeScreen_->StartDark(1.5f);
 		isLevelChange_ = true;
 	}
 
-	if (true == isFadeIn_ && true == fadeScreen_->isFullFadeOut_ && true == isLevelChange_)
+	if (true == isFadeIn_ && true == fadeScreen_->isFullDark_ && true == isLevelChange_)
 	{
 		GetLevel()->RequestLevelChange("Title");
 	}

@@ -19,8 +19,8 @@ public:
 
 public:
 	void SetAlpha(float _alpha);
-	void StartFadeIn(float _time);
-	void StartFadeOut(float _time);
+	void StartDark(float _time);
+	void StartBright(float _time);
 	void SetLoadingRenderer();
 	void RemoveLoadingRenderer();
 	void OffScreen(float _time);
@@ -40,18 +40,18 @@ private:
 
 private:
 	void InitImage();
-
+	void InitState();
 
 private:
 	float deltaTime_;
 	float divider_;
 	float releaseTime_;
-	bool isFadeIn_;
-	bool isFadeOut_;
+	bool isDark_;
+	bool isBright_;
 	bool isReleaseOn_;
 
 public:
-	bool isFullFadeIn_;
-	bool isFullFadeOut_;
+	bool isFullDark_;
+	bool isFullBright_;
 };
 

@@ -5,10 +5,9 @@
 #include <GameEngine/GameEngineUIRenderer.h>
 
 FadeScreen::FadeScreen() // default constructer 디폴트 생성자
-	: fadeScreenRenderer_(nullptr), loadingClockRenderer_(nullptr), deltaTime_(0.0f), isFadeIn_(false)
-	, isFadeOut_(false), divider_(0.0f), isFullFadeIn_(false), isFullFadeOut_(false), isReleaseOn_(false), releaseTime_(0.0f)
+	: fadeScreenRenderer_(nullptr), loadingClockRenderer_(nullptr), deltaTime_(0.0f), isBright_(true)
+	, isDark_(false), divider_(0.0f), isFullDark_(false), isFullBright_(true), isReleaseOn_(false), releaseTime_(0.0f)
 {
-
 }
 
 FadeScreen::~FadeScreen() // default destructer 디폴트 소멸자
@@ -21,11 +20,11 @@ void FadeScreen::Reset()
 	GetTransform()->SetWorldPosition({ 0.0f,0.0f,0.0f });
 	loadingClockRenderer_->Off();
 	deltaTime_ = 0.0f;
-	isFadeIn_ = false;
-	isFadeOut_ = true;
+	isDark_ = false;
+	isBright_ = true;
 	divider_ = 0.0f;
-	isFullFadeIn_ = false;
-	isFullFadeOut_ = true;
+	isFullDark_ = false;
+	isFullBright_ = true;
 	isReleaseOn_ = false;
 	releaseTime_ = 0.0f;
 }
@@ -42,6 +41,7 @@ void FadeScreen::InitImage()
 	loadingClockRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::FADE1));
 	loadingClockRenderer_->Off();
 }
+
 
 void FadeScreen::Start()
 {
@@ -67,24 +67,24 @@ void FadeScreen::Update(float _Deltatime)
 
 	if (0.99f <= fadeScreenRenderer_->GetAlpha())
 	{
-		isFullFadeOut_ = true;
+		isFullDark_ = true;
 	}
 	else
 	{
-		isFullFadeOut_ = false;
+		isFullDark_ = false;
 	}
 
 	if (0.01f >= fadeScreenRenderer_->GetAlpha())
 	{
-		isFullFadeIn_ = true;
+		isFullBright_ = true;
 	}
 	else
 	{
-		isFullFadeIn_ = false;
+		isFullBright_ = false;
 	}
 
 
-	if (true == isFadeIn_ && false == isFadeOut_)
+	if (true == isBright_ && false == isDark_)
 	{
 		deltaTime_ -= GameEngineTime::GetInst().GetDeltaTime();
 		// 델타타임이 일정량으로 줄어드는 걸 0~1 사이로 표현해야 한다...
@@ -94,7 +94,7 @@ void FadeScreen::Update(float _Deltatime)
 			fadeScreenRenderer_->SetAlpha(deltaTime_ / divider_);
 		}
 	}
-	else if (true == isFadeOut_ && false == isFadeIn_)
+	else if (true == isDark_ && false == isBright_)
 	{
 		deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
@@ -103,6 +103,10 @@ void FadeScreen::Update(float _Deltatime)
 			fadeScreenRenderer_->SetAlpha(deltaTime_ / divider_);
 		}
 	}
+	else if (true == isDark_ && true == isBright_)
+	{
+		return;
+	}
 }
 
 void FadeScreen::SetAlpha(float _alpha)
@@ -110,19 +114,20 @@ void FadeScreen::SetAlpha(float _alpha)
 	fadeScreenRenderer_->SetAlpha(_alpha);
 }
 
-void FadeScreen::StartFadeIn(float _time)
+void FadeScreen::StartDark(float _time)
+{
+	deltaTime_ = 0.0f;
+	divider_ = _time;
+	isBright_ = false;
+	isDark_ = true;
+}
+
+void FadeScreen::StartBright(float _time)
 {
 	deltaTime_ = _time;
 	divider_ = _time;
-	isFadeOut_ = false;
-	isFadeIn_ = true;
-}
-
-void FadeScreen::StartFadeOut(float _time)
-{
-	divider_ = _time;
-	isFadeIn_ = false;
-	isFadeOut_ = true;
+	isDark_ = false;
+	isBright_ = true;
 }
 
 void FadeScreen::SetLoadingRenderer()
