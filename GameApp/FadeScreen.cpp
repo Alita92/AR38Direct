@@ -30,7 +30,7 @@ void FadeScreen::Reset()
 	releaseTime_ = 0.0f;
 }
 
-void FadeScreen::ImageInit()
+void FadeScreen::InitImage()
 {
 	fadeScreenRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 	fadeScreenRenderer_->SetImage("ClearScreen.png", true);
@@ -46,7 +46,7 @@ void FadeScreen::ImageInit()
 void FadeScreen::Start()
 {
 	GetTransform()->SetWorldPosition({ 0.0f,0.0f,0.0f });
-	ImageInit();
+	InitImage();
 }
 
 void FadeScreen::Update(float _Deltatime)
