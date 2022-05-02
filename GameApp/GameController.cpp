@@ -1133,7 +1133,7 @@ StateInfo GameController::updateCCTV(StateInfo _state)
 					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly1.png", true);
 					break;
 				case 2:
-UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
+					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly2.png", true);
 break;
 				case 3:
 					UIController_->CCTVRealRenderer_->SetImage("EastHallB_Anomaly3.png", true);
@@ -1332,6 +1332,8 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 	rSwitchRenderer_->Off();
 
 	awakePlayer_.PlayOverLap("JumpScare.wav");
+
+	GetTransform()->SetLocalPosition({0.0f, 0.0f, 0.0f});
 	return StateInfo();
 }
 
@@ -1370,6 +1372,8 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 	rSwitchRenderer_->Off();
 
 	awakePlayer_.PlayOverLap("JumpScare.wav");
+
+	GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
 	return StateInfo();
 }
 
