@@ -81,10 +81,12 @@ void CustomSettingController::CollisionFreddyLvUp(GameEngineCollision* _other)
 
 void CustomSettingController::CollisionFreddyLvDown(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 <= customSettingUI_->GetFreddyLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 < customSettingUI_->GetFreddyLevel())
 	{
+
 		customSettingUI_->AddFreddyLevel(-1);
 	}
+	
 }
 
 void CustomSettingController::CollisionBonnieLvUp(GameEngineCollision* _other)
@@ -97,7 +99,7 @@ void CustomSettingController::CollisionBonnieLvUp(GameEngineCollision* _other)
 
 void CustomSettingController::CollisionBonnieLvDown(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 <= customSettingUI_->GetBonnieLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 < customSettingUI_->GetBonnieLevel())
 	{
 		customSettingUI_->AddBonnieLevel(-1);
 	}
@@ -113,7 +115,7 @@ void CustomSettingController::CollisionChicaLvUp(GameEngineCollision* _other)
 
 void CustomSettingController::CollisionChicaLvDown(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 <= customSettingUI_->GetChicaLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 < customSettingUI_->GetChicaLevel())
 	{
 		customSettingUI_->AddChicaLevel(-1);
 	}
@@ -129,7 +131,7 @@ void CustomSettingController::CollisionFoxyLvUp(GameEngineCollision* _other)
 
 void CustomSettingController::CollisionFoxyLvDown(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 <= customSettingUI_->GetFoxyLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 0 < customSettingUI_->GetFoxyLevel())
 	{
 		customSettingUI_->AddFoxyLevel(-1);
 	}
