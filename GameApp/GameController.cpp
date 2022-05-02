@@ -1331,7 +1331,6 @@ StateInfo GameController::startBonnieDeath(StateInfo _state)
 	lSwitchRenderer_->Off();
 	rSwitchRenderer_->Off();
 
-	UIController_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
@@ -1361,7 +1360,7 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 	UIController_->CCTVRealRenderer_->Off();
 	UIController_->CCTVAnimationRenderer_->On();
 	fanRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,100.0f });
-	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose", true);
+	UIController_->CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
 	jumpScareRenderer_->On();
 	jumpScareRenderer_->SetChangeAnimation("JumpScareChica", true);
 	//mainRenderer_->SetChangeAnimation("JumpScareChica", true);
@@ -1370,7 +1369,6 @@ StateInfo GameController::startChicaDeath(StateInfo _state)
 	lSwitchRenderer_->Off();
 	rSwitchRenderer_->Off();
 
-	UIController_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
@@ -1404,11 +1402,10 @@ StateInfo GameController::startFoxyDeath(StateInfo _state)
 	
 	jumpScareRenderer_->On();
 	jumpScareRenderer_->SetChangeAnimation("JumpScareFoxy", true);
-	//mainRenderer_->SetChangeAnimation("JumpScareFoxy", true);
+
 	lDoorRenderer_->Off();
 	rDoorRenderer_->Off();
 
-	UIController_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
 	return StateInfo();
 }
@@ -1442,7 +1439,6 @@ StateInfo GameController::startFreddyDeath(StateInfo _state)
 	lSwitchRenderer_->Off();
 	rSwitchRenderer_->Off();
 	awakePlayer_.PlayOverLap("JumpScare.wav");
-	UIController_->Off();
 	return StateInfo();
 }
 
