@@ -73,7 +73,7 @@ void CustomSettingController::Update(float _DeltaTime)
 
 void CustomSettingController::CollisionFreddyLvUp(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 >= customSettingUI_->GetFreddyLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 > customSettingUI_->GetFreddyLevel())
 	{
 		customSettingUI_->AddFreddyLevel(1);
 	}
@@ -91,7 +91,7 @@ void CustomSettingController::CollisionFreddyLvDown(GameEngineCollision* _other)
 
 void CustomSettingController::CollisionBonnieLvUp(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 >= customSettingUI_->GetBonnieLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 > customSettingUI_->GetBonnieLevel())
 	{
 		customSettingUI_->AddBonnieLevel(1);
 	}
@@ -107,7 +107,7 @@ void CustomSettingController::CollisionBonnieLvDown(GameEngineCollision* _other)
 
 void CustomSettingController::CollisionChicaLvUp(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 >= customSettingUI_->GetChicaLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 > customSettingUI_->GetChicaLevel())
 	{
 		customSettingUI_->AddChicaLevel(1);
 	}
@@ -123,7 +123,7 @@ void CustomSettingController::CollisionChicaLvDown(GameEngineCollision* _other)
 
 void CustomSettingController::CollisionFoxyLvUp(GameEngineCollision* _other)
 {
-	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 >= customSettingUI_->GetFoxyLevel())
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1") && 20 > customSettingUI_->GetFoxyLevel())
 	{
 		customSettingUI_->AddFoxyLevel(1);
 	}
