@@ -20,12 +20,12 @@ TitleText::~TitleText() // default destructer 디폴트 소멸자
 void TitleText::ImageInit()
 {
 	titleName_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	titleName_->SetImage("TitleName.png", true);
+	titleName_->SetImage("TitleNameKR.png", true);
 	titleName_->GetTransform()->SetLocalPosition({ -370.0f, 200.0f, 0.0f });
 	titleName_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 
 	titleScott_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
-	titleScott_->SetImage("TitleScott.png", true);
+	titleScott_->SetImage("TitleScottKR.png", true);
 	titleScott_->GetTransform()->SetLocalPosition({ 500.0f, -330.0f,0.0f });
 	titleScott_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
 
