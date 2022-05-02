@@ -146,6 +146,9 @@ private:
 	void StateInit();
 	void DebugRenderUpdate();
 
+public:
+	void ReloadingUI();
+
 
 private:
 	GameEngineFSM<UIController> state_;

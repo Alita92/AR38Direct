@@ -98,8 +98,6 @@ void UIController::Start()
 
 void UIController::ImageInit()
 {
-
-
 	{
 		cctvBorderRenderer_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
 		cctvBorderRenderer_->SetImage("CCTVBorder.png", true);
@@ -505,6 +503,251 @@ void UIController::StateInit()
 }
 
 
+void UIController::ReloadingUI()
+{
+	deltaTime_ = 0.0f;
+
+	{
+		cctvBorderRenderer_->SetImage("CCTVBorder.png", true);
+		cctvBorderRenderer_->GetTransform()->SetLocalPosition({ 0.0f,0.0f,0.0f });
+		cctvBorderRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+		cctvBorderRenderer_->Off();
+	}
+
+	{
+		CCTVAnimationRenderer_->SetImage("ShowStage_Default.png", true);
+		CCTVAnimationRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, 0.0f });
+		CCTVAnimationRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+		CCTVAnimationRenderer_->SetChangeAnimation("CCTVClose");
+		CCTVAnimationRenderer_->Off();
+	}
+
+	{
+		CCTVRealRenderer_->SetImage("ClearScreen.png", true);
+		CCTVRealRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV0) });
+		CCTVRealRenderer_->Off();
+	}
+
+	{
+		foxyRunningRenderer_->SetImage("WestHallA_Default.png", true);
+		foxyRunningRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::CCTV1) });
+		foxyRunningRenderer_->Off();
+	}
+
+	timeTenRenderer_->SetImage("M1.png", true);
+	timeTenRenderer_->GetTransform()->SetLocalPosition({ 510.0f, 315.0f, 0.0f });
+	timeTenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	timeOneRenderer_->SetImage("M2.png", true);
+	timeOneRenderer_->GetTransform()->SetLocalPosition({ 535.0f, 315.0f, 0.0f });
+	timeOneRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	amRenderer_->SetImage("UIAM.png", true);
+	amRenderer_->GetTransform()->SetLocalPosition({ 580.0f, 315.0f, 0.0f });
+	amRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	CCTVButtonRenderer_->SetImage("UICCTVButton.png", true);
+	CCTVButtonRenderer_->GetTransform()->SetLocalPosition({ 0.0f,-310.0f,0.0f });
+	CCTVButtonRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	muteCallRenderer_->SetImage("UIMuteCall.png", true);
+	muteCallRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 320.0f, 0.0f });
+	muteCallRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	nightTypoRenderer_->SetImage("UINight.png", true);
+	nightTypoRenderer_->GetTransform()->SetLocalPosition({ 540.0f, 275.0f, 0.0f });
+	nightTypoRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	powerRateTypoRenderer_->SetImage("UIPowerLeft.png", true);
+	powerRateTypoRenderer_->GetTransform()->SetLocalPosition({ -530.0f, -280.0f, 0.0f });
+	powerRateTypoRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	powerRateHundredRenderer_->SetImage("SM1.png", true);
+	powerRateHundredRenderer_->GetTransform()->SetLocalPosition({ -445.0f, -280.0f, 0.0f });
+	powerRateHundredRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	powerRateTenRenderer_->SetImage("SM0.png", true);
+	powerRateTenRenderer_->GetTransform()->SetLocalPosition({ -425.0F, -280.0f, 0.0f });
+	powerRateTenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	powerRateOneRenderer_->SetImage("SM0.png", true);
+	powerRateOneRenderer_->GetTransform()->SetLocalPosition({ -405.0f, -280.0f, 0.0f });
+	powerRateOneRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	powerRatePercentageRenderer_->SetImage("UIPercentage.png", true);
+	powerRatePercentageRenderer_->GetTransform()->SetLocalPosition({ -385.0f, -280.0f, 0.0f });
+	powerRatePercentageRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	powerLevelTypoRenderer_->SetImage("UIUsage.png", true);
+	powerLevelTypoRenderer_->GetTransform()->SetLocalPosition({ -563.0f, -315.0f, 0.0f });
+	powerLevelTypoRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	powerLevelRenderer_->SetImage("UIPower1.png", true);
+	powerLevelRenderer_->GetTransform()->SetLocalPosition({ -465.0f, -315.0f, 0.0f });
+	powerLevelRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	cameraDisabledRenderer_->SetImage("CameraDisabled.png", true);
+	cameraDisabledRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 280.0f, 0.0f });
+	cameraDisabledRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	cameraDisabledRenderer_->Off();
+
+	recordingMarkRenderer_->SetImage("RecordingMark.png", true);
+	recordingMarkRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 290.0f, 0.0f });
+	recordingMarkRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	cameraNameRenderer_->SetImage("NameShowStage.png", true);
+	cameraNameRenderer_->GetTransform()->SetLocalPosition({ 315.0f, 60.0f, 0.0f });
+	cameraNameRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	mapRenderer_->SetImage("CCTVMap0.png", true);
+	mapRenderer_->GetTransform()->SetLocalPosition({ 420.0f, -150.0f, 0.0f });
+	mapRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI2));
+
+	cam1AScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam1AScreenRenderer_->GetTransform()->SetLocalPosition({ 360.0f, 10.0f, 0.0f });
+	cam1AScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam1AScreenRenderer_->Off();
+
+	cam1ARenderer_->SetImage("cam1A.png", true);
+	cam1ARenderer_->GetTransform()->SetLocalPosition({ 360.0f, 10.0f, 0.0f });
+	cam1ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam1AScreenRenderer_->Off();
+
+	cam1BScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam1BScreenRenderer_->GetTransform()->SetLocalPosition({ 340.0f, -45.0f, 0.0f });
+	cam1BScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam1BScreenRenderer_->Off();
+
+	cam1BRenderer_->SetImage("cam1B.png", true);
+	cam1BRenderer_->GetTransform()->SetLocalPosition({ 340.0f, -45.0f, 0.0f });
+	cam1BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	cam1CScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam1CScreenRenderer_->GetTransform()->SetLocalPosition({ 300.0f, -120.0f, 0.0f });
+	cam1CScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+
+	cam1CRenderer_->SetImage("cam1C.png", true);
+	cam1CRenderer_->GetTransform()->SetLocalPosition({ 300.0f, -120.0f, 0.0f });
+	cam1CRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	cam5ScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam5ScreenRenderer_->GetTransform()->SetLocalPosition({ 230.0f, -75.0f, 0.0f });
+	cam5ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+
+	cam5Renderer_->SetImage("cam5.png", true);
+	cam5Renderer_->GetTransform()->SetLocalPosition({ 230.0f, -75.0f, 0.0f });
+	cam5Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+
+	cam3ScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam3ScreenRenderer_->GetTransform()->SetLocalPosition({ 270.0f, -220.0f, 0.0f });
+	cam3ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+
+
+	cam3Renderer_->SetImage("cam3.png", true);
+	cam3Renderer_->GetTransform()->SetLocalPosition({ 270.0f, -220.0f, 0.0f });
+	cam3Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam3Renderer_->Off();
+
+	cam2AScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam2AScreenRenderer_->GetTransform()->SetLocalPosition({ 355.0f, -235.0f, 0.0f });
+	cam2AScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam2AScreenRenderer_->Off();
+
+	cam2ARenderer_->SetImage("cam2A.png", true);
+	cam2ARenderer_->GetTransform()->SetLocalPosition({ 355.0f, -235.0f, 0.0f });
+	cam2ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam2ARenderer_->Off();
+
+	cam2BScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam2BScreenRenderer_->GetTransform()->SetLocalPosition({ 355.0f, -278.0f, 0.0f });
+	cam2BScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam2BScreenRenderer_->Off();
+
+	cam2BRenderer_->SetImage("cam2B.png", true);
+	cam2BRenderer_->GetTransform()->SetLocalPosition({ 355.0f, -278.0f, 0.0f });
+	cam2BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam2BRenderer_->Off();
+
+	cam7ScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam7ScreenRenderer_->GetTransform()->SetLocalPosition({ 567.0f, -75.0f, 0.0f });
+	cam7ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam7ScreenRenderer_->Off();
+
+	cam7Renderer_->SetImage("cam7.png", true);
+	cam7Renderer_->GetTransform()->SetLocalPosition({ 567.0f, -75.0f, 0.0f });
+	cam7Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam7Renderer_->Off();
+
+	cam6ScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam6ScreenRenderer_->GetTransform()->SetLocalPosition({ 562.0f, -205.0f, 0.0f });
+	cam6ScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam6ScreenRenderer_->Off();
+
+	cam6Renderer_->SetImage("cam6.png", true);
+	cam6Renderer_->GetTransform()->SetLocalPosition({ 562.0f, -205.0f, 0.0f });
+	cam6Renderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam6Renderer_->Off();
+
+	cam4AScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam4AScreenRenderer_->GetTransform()->SetLocalPosition({ 463.0f, -235.0f, 0.0f });
+	cam4AScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam4AScreenRenderer_->Off();
+
+	cam4ARenderer_->SetImage("cam2A.png", true);
+	cam4ARenderer_->GetTransform()->SetLocalPosition({ 463.0f, -235.0f, 0.0f });
+	cam4ARenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam4ARenderer_->Off();
+
+	cam4BScreenRenderer_->SetImage("CamScreenOff.png", true);
+	cam4BScreenRenderer_->GetTransform()->SetLocalPosition({ 463.0f, -278.0f, 0.0f });
+	cam4BScreenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	//cam4BScreenRenderer_->Off();
+
+	cam4BRenderer_->SetImage("cam2B.png", true);
+	cam4BRenderer_->GetTransform()->SetLocalPosition({ 463.0f, -278.0f, 0.0f });
+	cam4BRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	//cam4BRenderer_->Off();
+
+	{
+		// 6시 이후 렌더러
+		dayPassHiderUpper_->SetImage("DayPassHider.png", true);
+		dayPassHiderUpper_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, 100.0f, 0.0f });
+		dayPassHiderUpper_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		//dayPassHiderUpper_->SetAlpha(0.0f);
+		dayPassHiderUpper_->Off();
+
+		dayPassHiderBottom_->SetImage("DayPassHider.png", true);
+		dayPassHiderBottom_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, -100.0f, 0.0f });
+		dayPassHiderBottom_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASSHIDER));
+		//dayPassHiderBottom_->SetAlpha(0.0f);
+		dayPassHiderBottom_->Off();
+
+		dayPassNum5_->SetImage("DayPassNum5.png", true);
+		dayPassNum5_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, 0.0f, 0.0f });
+		dayPassNum5_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		dayPassNum5_->SetAlpha(0.0f);
+		dayPassNum5_->Off();
+
+		dayPassNum6_->SetImage("DayPassNum6.png", true);
+		dayPassNum6_->GetTransform()->SetLocalPosition({ -1.0f * DAYPASS_X_FLOAT, 100.0f, 0.0f });
+		dayPassNum6_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		dayPassNum6_->Off();
+
+		dayPassAM_->SetImage("DayPassAM.png", true);
+		dayPassAM_->GetTransform()->SetLocalPosition({ DAYPASS_X_FLOAT, 0.0f, 0.0f });
+		dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
+		dayPassAM_->SetAlpha(0.0f);
+		dayPassAM_->Off();
+	}
+
+	{
+		subtitleRenderer_->SetImage("DAY1_0001.png", true);
+		subtitleRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 240.0f, 0.0f });
+		subtitleRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+		subtitleRenderer_->Off();
+	}
+
+}
 
 
 

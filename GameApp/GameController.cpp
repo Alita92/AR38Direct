@@ -419,7 +419,6 @@ void GameController::ControllerReloading()
 
 	{
 		mainRenderer_->SetImage("OfficeBasic.png", true);
-		mainRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 0.0f, static_cast<float>(RenderOrder::BACKGROUND1) });
 
 		jumpScareRenderer_->Off();
 
@@ -428,12 +427,19 @@ void GameController::ControllerReloading()
 		fanRenderer_->SetChangeAnimation("OfficeFan");
 
 		lDoorRenderer_->SetImage("LdoorStatic.png", true);
-		lDoorRenderer_->GetTransform()->SetLocalPosition({ -550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		lDoorRenderer_->GetTransform()->SetLocalPosition({ -615.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
 		lDoorRenderer_->On();
 
 		rDoorRenderer_->SetImage("RdoorStatic.png", true);
-		rDoorRenderer_->GetTransform()->SetLocalPosition({ 550.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
+		rDoorRenderer_->GetTransform()->SetLocalPosition({ 595.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
 		rDoorRenderer_->On();
+
+		rSwitchRenderer_->SetImage("SwitchR_00.png", true);
+		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 730.0f, 0.0f, static_cast<float>(RenderOrder::SWITCH) });
+
+		lSwitchRenderer_->SetImage("SwitchL_00.png", true);
+		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -760.0f, 0.0f, static_cast<float>(RenderOrder::SWITCH) });
+		
 
 		UIController_->dayPassHiderUpper_->Off();
 		UIController_->dayPassHiderBottom_->Off();
@@ -486,6 +492,7 @@ void GameController::ControllerReloading()
 		UIController_->SwitchUIState(PLAYERSTATUS::OFFICE);
 	}
 
+	UIController_->ReloadingUI();
 	UIController_->dayPassNum5_->SetAlpha(0.0f);
 	UIController_->dayPassAM_->SetAlpha(0.0f);
 
@@ -582,96 +589,6 @@ void GameController::CheckDebugInput()
 	{
 		++curTime_;
 	}
-
-	//if (true == GameEngineInput::GetInst().Down("LDoor_Toggle") && true == lDoorRenderer_->IsCurAnimationEnd())
-	//{
-	//	awakePlayer_.PlayOverLap("Door.wav");
-	//	if (false == isLdoorClosed_)
-	//	{
-	//		isLdoorClosed_ = true;
-	//		aiBonnie_->isDoorLocked_ = true;
-	//		aiFoxy_->isDoorLocked_ = true;
-	//		curPowerLevel_ += 1;
-	//	}
-	//	else
-	//	{
-	//		isLdoorClosed_ = false;
-	//		aiBonnie_->isDoorLocked_ = false;
-	//		aiFoxy_->isDoorLocked_ = false;
-	//		curPowerLevel_ -= 1;
-	//	}
-	//}
-	//
-	//if (true == GameEngineInput::GetInst().Down("RDoor_Toggle") && true == rDoorRenderer_->IsCurAnimationEnd())
-	//{
-	//	doorSound_.PlayOverLap("Door.wav");
-	//	if (false == isRdoorClosed_)
-	//	{
-	//		isRdoorClosed_ = true;
-	//		aiChica_->isDoorLocked_ = true;
-	//		aiFreddy_->isDoorLocked_ = true;
-	//		curPowerLevel_ += 1;
-	//
-	//	}
-	//	else
-	//	{
-	//		isRdoorClosed_ = false;
-	//		aiChica_->isDoorLocked_ = false;
-	//		aiFreddy_->isDoorLocked_ = false;
-	//		curPowerLevel_ -= 1;
-	//	}
-	//}
-	//
-	//if (true == GameEngineInput::GetInst().Down("LLight_Toggle"))
-	//{
-	//	if (false == isLdoorLighted_)
-	//	{
-	//		if (true == isRdoorLighted_)
-	//		{
-	//			rlightSound_.Stop();
-	//			isRdoorLighted_ = false;
-	//			curPowerLevel_--;
-	//		}
-	//
-	//		llightSound_.PlayOverLap("DoorLight.wav", -1);
-	//		isLdoorLighted_ = true;
-	//
-	//	
-	//		curPowerLevel_++;
-	//
-	//	}
-	//	else
-	//	{
-	//		llightSound_.Stop();
-	//		isLdoorLighted_ = false;
-	//		curPowerLevel_ -= 1;
-	//	}
-	//}
-	//
-	//if (true == GameEngineInput::GetInst().Down("RLight_Toggle"))
-	//{
-	//	if (false == isRdoorLighted_)
-	//	{
-	//		if (true == isLdoorLighted_)
-	//		{
-	//			llightSound_.Stop();
-	//			isLdoorLighted_ = false;
-	//			curPowerLevel_--;
-	//		}
-	//
-	//		rlightSound_.PlayOverLap("DoorLight.wav", -1);
-	//		isRdoorLighted_ = true;
-	//	
-	//		curPowerLevel_ += 1;
-	//
-	//	}
-	//	else
-	//	{
-	//		rlightSound_.Stop();
-	//		isRdoorLighted_ = false;
-	//		curPowerLevel_ -= 1;
-	//	}
-	//}
 }
 
 
