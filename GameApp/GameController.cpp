@@ -193,6 +193,12 @@ void GameController::InitEnemyAILevel()
 	}
 	break;
 	case DAY::CUSTOM:
+	{
+		aiBonnie_->SetAILevel(GameStaticData::AICustomStartLevelBonnie_);
+		aiChica_->SetAILevel(GameStaticData::AICustomStartLevelChica_);
+		aiFoxy_->SetAILevel(GameStaticData::AICustomStartLevelFoxy_);
+		aiFreddy_->SetAILevel(GameStaticData::AICustomStartLevelFreddy_);
+	}
 		break;
 	case DAY::MAX:
 		break;
