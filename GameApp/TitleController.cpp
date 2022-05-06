@@ -252,7 +252,7 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 StateInfo TitleController::startContinue(StateInfo _state)
 {
 	deltaTime_ = 0.0f;
-
+	GameStaticData::intVector_.push_back(3);
 	titleFreddy_->isGameStarted_ = true;
 
 	titleMouse_->Off();
@@ -261,13 +261,13 @@ StateInfo TitleController::startContinue(StateInfo _state)
 	titleText_->titleCustomNightCollision_->Off();
 	titleText_->title6thNightCollision_->Off();
 
-	GameStaticData::curDay_ = GameStaticData::savedDay_;
-
+	GameStaticData::LoadDay();
 	return StateInfo();
 }
 
 StateInfo TitleController::updateContinue(StateInfo _state)
 {
+	
 	GetLevel()->RequestLevelChange("Intermission");
 
 	return StateInfo();

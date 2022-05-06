@@ -74,6 +74,7 @@ void IntermissionController::Start()
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
 	fadeScreen_->SetAlpha(0.0f);
 	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
+	GameStaticData::SaveDay();
 	StateInit();
 }
 

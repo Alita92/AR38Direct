@@ -15,4 +15,11 @@ public:
 	static int AICustomStartLevelFoxy_;
 	static int AICustomStartLevelFreddy_;
 
+
+	static std::vector<int> intVector_;
+	static size_t size_;
+
+
+	static void SaveDay();
+	static void LoadDay();
 };
