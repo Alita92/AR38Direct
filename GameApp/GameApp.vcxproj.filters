@@ -113,6 +113,9 @@
     <ClCompile Include="WarningController.cpp">
       <Filter>Actor\07Warning</Filter>
     </ClCompile>
+    <ClCompile Include="SaveLoadManager.cpp">
+      <Filter>DataSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -201,6 +204,9 @@
     </Filter>
     <Filter Include="Actor\07Warning">
       <UniqueIdentifier>{39c29a15-23e0-4b52-b755-4e652c32b756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataSystem">
+      <UniqueIdentifier>{19583f45-90e4-485b-9d4d-e7c50c6e99c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="WarningController.h">
       <Filter>Actor\07Warning</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveLoadManager.h">
+      <Filter>DataSystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
