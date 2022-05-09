@@ -17,7 +17,7 @@ void GameStaticData::SaveDay()
 {
 	FILE* pFile = nullptr; // 파일 포인터 객체화
 
-	fopen_s(&pFile, "SaveData.txt", "wt"); // 파일 열어서 객체화된 파일에 가져다 놓기
+	fopen_s(&pFile, "SaveData.txt", "rb"); // 파일 열어서 객체화된 파일에 가져다 놓기
 
 	if (!pFile) // 파일 없으면... 터뜨린다.
 	{
@@ -43,7 +43,7 @@ void GameStaticData::LoadDay()
 {
 	FILE* pFile = nullptr;
 
-	fopen_s(&pFile, "SaveData.txt", "rb");
+	fopen_s(&pFile, "SaveData.txt", "rt");
 
 	if (!pFile)
 	{

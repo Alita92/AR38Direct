@@ -252,7 +252,7 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 StateInfo TitleController::startContinue(StateInfo _state)
 {
 	deltaTime_ = 0.0f;
-	GameStaticData::intVector_.push_back(3);
+	//GameStaticData::intVector_.push_back(3);
 	titleFreddy_->isGameStarted_ = true;
 
 	titleMouse_->Off();
