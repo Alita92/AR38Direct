@@ -52,6 +52,7 @@ void TitleController::ActorInit()
 void TitleController::StateInit()
 {
 	state_.CreateState("Idle", &TitleController::startIdle, &TitleController::updateIdle);
+	state_.CreateState("NewData", &TitleController::startNewData, &TitleController::updateNewData);
 	state_.CreateState("NewGame", &TitleController::startNewGame, &TitleController::updateNewGame);
 	state_.CreateState("Continue", &TitleController::startContinue, &TitleController::updateContinue);
 	state_.CreateState("CustomNight", &TitleController::startCustomNight, &TitleController::updateCustomNight);
@@ -120,7 +121,7 @@ void TitleController::CollisionNewGame(GameEngineCollision* _other)
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
 		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
-		state_.ChangeState("NewGame");
+		state_.ChangeState("NewData");
 	}
 
 }
@@ -150,6 +151,31 @@ void TitleController::CollisionCustomNight(GameEngineCollision* _other)
 }
 
 
+void TitleController::CollisionNewDataYes(GameEngineCollision* _other)
+{
+	titleText_->titleArrow_->On();
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -130.0f,  static_cast<float>(RenderOrder::OBJECT0) });
+
+	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
+	{
+		awakePlayer_.PlayOverLap("CCTVSwitch.wav");
+		state_.ChangeState("NewGame");
+	}
+}
+
+void TitleController::CollisionNewDataNo(GameEngineCollision* _other)
+{
+	titleText_->titleArrow_->On();
+	titleText_->titleArrow_->GetTransform()->SetLocalPosition({ -520.0f, -210.0f,  static_cast<float>(RenderOrder::OBJECT0) });
+
+	{
+		if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
+		{
+			state_.ChangeState("Idle");
+		}
+	}
+}
+
 void TitleController::UpdateTitleAlphaChange()
 {
 	if (0.0f <= alphaChangeTime_)
@@ -171,6 +197,20 @@ void TitleController::UpdateTitleAlphaChange()
 
 StateInfo TitleController::startIdle(StateInfo _state)
 {
+	titleText_->titleNewGame_->On();
+	titleText_->titleContinue_->On();
+	titleText_->title6thNight_->On();
+	titleText_->titleCustomNight_->On();
+	titleText_->titleNewGameCollision_->On();
+	titleText_->titleContinueCollision_->On();
+	titleText_->titleCustomNightCollision_->On();
+	titleText_->title6thNightCollision_->On();
+
+	titleText_->titleNewData_->Off();
+	titleText_->titleYes_->Off();
+	titleText_->titleNo_->Off();
+	titleText_->titleYesCollision_->Off();
+	titleText_->titleNoCollision_->Off();
 
 	glitchScreen_->PlayWhiteNoise(true);
 	glitchScreen_->SetWhiteNoiseAlpha(0.4f);
@@ -199,6 +239,39 @@ StateInfo TitleController::updateIdle(StateInfo _state)
 			CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleController::CollisionCustomNight, this, std::placeholders::_1));
 	}
 
+	return StateInfo();
+}
+
+StateInfo TitleController::startNewData(StateInfo _state)
+{
+	titleText_->titleArrow_->Off();
+	titleText_->titleNewGame_->Off();
+	titleText_->titleContinue_->Off();
+	titleText_->title6thNight_->Off();
+	titleText_->titleCustomNight_->Off();
+
+	titleText_->titleNewGameCollision_->Off();
+	titleText_->titleContinueCollision_->Off();
+	titleText_->titleCustomNightCollision_->Off();
+	titleText_->title6thNightCollision_->Off();
+
+	titleText_->titleNewData_->On();
+	titleText_->titleYes_->On();
+	titleText_->titleNo_->On();
+	titleText_->titleYesCollision_->On();
+	titleText_->titleNoCollision_->On();
+
+	return StateInfo();
+}
+
+StateInfo TitleController::updateNewData(StateInfo _state)
+{
+
+	titleText_->titleYesCollision_->Collision(
+		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleController::CollisionNewDataYes, this, std::placeholders::_1));
+
+	titleText_->titleNoCollision_->Collision(
+		CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&TitleController::CollisionNewDataNo, this, std::placeholders::_1));
 	return StateInfo();
 }
 
@@ -252,7 +325,6 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 StateInfo TitleController::startContinue(StateInfo _state)
 {
 	deltaTime_ = 0.0f;
-	//GameStaticData::intVector_.push_back(3);
 	titleFreddy_->isGameStarted_ = true;
 
 	titleMouse_->Off();

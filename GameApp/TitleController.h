@@ -53,6 +53,9 @@ private:
 	void CollisionContinue(GameEngineCollision* _other);
 	void CollisionCustomNight(GameEngineCollision* _other);
 
+	void CollisionNewDataYes(GameEngineCollision* _other);
+	void CollisionNewDataNo(GameEngineCollision* _other);
+
 private:
 	void ActorInit();
 	void StateInit();
@@ -73,6 +76,9 @@ private:
 #pragma region States
 	StateInfo startIdle(StateInfo _state);
 	StateInfo updateIdle(StateInfo _state);
+
+	StateInfo startNewData(StateInfo _state);
+	StateInfo updateNewData(StateInfo _state);
 
 	StateInfo startNewGame(StateInfo _state);
 	StateInfo updateNewGame(StateInfo _state);

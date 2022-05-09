@@ -1,6 +1,10 @@
 #include "PreCompile.h"
 #include "GameStaticData.h"
 
+// 씬 전체에 전역으로 가져 갈 기본적인 데이터들입니다.
+// GAMEAPP 폴더의 "SaveData.txt" 파일과 연동됩니다.
+
+
 DAY GameStaticData::curDay_ = DAY::DAY1;
 DAY GameStaticData::savedDay_ = DAY::MAX;
 
@@ -11,7 +15,6 @@ int GameStaticData::AICustomStartLevelFreddy_ = 0;
 
 size_t GameStaticData::size_ = 0;
 std::vector<int> GameStaticData::intVector_;
-
 
 void GameStaticData::SaveDay()
 {

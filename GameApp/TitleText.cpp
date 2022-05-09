@@ -7,7 +7,18 @@
 #include <GameEngine/GameEngineImageRenderer.h>
 
 TitleText::TitleText() // default constructer 디폴트 생성자
-	: titleName_(nullptr), titleScott_(nullptr), titleNewGame_(nullptr), titleContinue_(nullptr), titleNewGameCollision_(nullptr), titleContinueCollision_(nullptr), titleArrow_(nullptr)
+	: titleName_(nullptr)
+	, titleScott_(nullptr)
+	, titleNewGame_(nullptr)
+	, titleContinue_(nullptr)
+	, titleNewData_(nullptr)
+	, titleNewGameCollision_(nullptr)
+	, titleContinueCollision_(nullptr)
+	, titleArrow_(nullptr)
+	, titleYes_(nullptr)
+	, titleYesCollision_(nullptr)
+	, titleNo_(nullptr)
+	, titleNoCollision_(nullptr)
 {
 
 }
@@ -54,6 +65,24 @@ void TitleText::ImageInit()
 	titleCustomNight_->SetImage("TitleCustomNight.png", true);
 	titleCustomNight_->GetTransform()->SetLocalPosition({-320.0f, -280.0f,0.0f });
 	titleCustomNight_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+
+	titleNewData_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	titleNewData_->SetImage("NewData.png", true);
+	titleNewData_->GetTransform()->SetLocalPosition({ -360.0f, -60.0f,0.0f });
+	titleNewData_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	titleNewData_->Off();
+
+	titleYes_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	titleYes_->SetImage("Yes.png", true);
+	titleYes_->GetTransform()->SetLocalPosition({ -425.0f, -130.0f,  0.0f });
+	titleYes_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	titleYes_->Off();
+	
+	titleNo_ = CreateTransformComponent<GameEngineUIRenderer>(GetTransform());
+	titleNo_->SetImage("No.png", true);
+	titleNo_->GetTransform()->SetLocalPosition({ -430.0f, -210.0f, 0.0f });
+	titleNo_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI1));
+	titleNo_->Off();
 }
 
 void TitleText::CollisionInit()
@@ -86,6 +115,19 @@ void TitleText::CollisionInit()
 		titleCustomNightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
 	}
 
+	{
+		titleYesCollision_ = CreateTransformComponent<GameEngineCollision>();
+		titleYesCollision_->GetTransform()->SetLocalPosition(titleYes_->GetTransform()->GetLocalPosition());
+		titleYesCollision_->GetTransform()->SetLocalScaling(titleYes_->GetTransform()->GetLocalScaling());
+		titleYesCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+		titleYesCollision_->Off();
+
+		titleNoCollision_ = CreateTransformComponent<GameEngineCollision>();
+		titleNoCollision_->GetTransform()->SetLocalPosition(titleNo_->GetTransform()->GetLocalPosition());
+		titleNoCollision_->GetTransform()->SetLocalScaling(titleNo_->GetTransform()->GetLocalScaling());
+		titleNoCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::UI));
+		titleYesCollision_->Off();
+	}
 }
 
 void TitleText::Start()

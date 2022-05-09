@@ -28,6 +28,7 @@ protected:
 	GameEngineUIRenderer* titleName_;
 	GameEngineUIRenderer* titleScott_;
 	GameEngineUIRenderer* titleArrow_;
+	GameEngineUIRenderer* titleNewData_;
 
 	// 충돌체 있어야 함
 	GameEngineUIRenderer* titleNewGame_;
@@ -38,6 +39,13 @@ protected:
 	GameEngineCollision* title6thNightCollision_;
 	GameEngineUIRenderer* titleCustomNight_;
 	GameEngineCollision* titleCustomNightCollision_;
+
+	GameEngineUIRenderer* titleYes_;
+	GameEngineCollision* titleYesCollision_;
+
+	GameEngineUIRenderer* titleNo_;
+	GameEngineCollision* titleNoCollision_;
+	
 
 
 	void ImageInit();
