@@ -65,16 +65,11 @@ void UserGame::KeyInit()
 	if (false == GameEngineInput::GetInst().IsKey("MOUSE_1"))
 	{
 		GameEngineInput::GetInst().CreateKey("MOUSE_1", VK_LBUTTON);
-		GameEngineInput::GetInst().CreateKey("DEBUG_SKIP", 'P');
 		GameEngineInput::GetInst().CreateKey("ESC", VK_ESCAPE);
 
 		// **** FOR DEMONSTRATION AND DEBUGGING ****
-		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPHOUR", 'Q');
-		GameEngineInput::GetInst().CreateKey("DEBUG_MOVEFRONT", 'E');
-		GameEngineInput::GetInst().CreateKey("LLight_Toggle", 'A');
-		GameEngineInput::GetInst().CreateKey("RLight_Toggle", 'D');
-
-		GameEngineInput::GetInst().CreateKey("CCTV_Toggle", 'X');
+		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPHOUR", 'I');
+		GameEngineInput::GetInst().CreateKey("FreeCamera_Toggle", 'P');
 		GameEngineInput::GetInst().CreateKey("RotateRight", 'Z');
 		GameEngineInput::GetInst().CreateKey("RotateLeft", 'C');
 

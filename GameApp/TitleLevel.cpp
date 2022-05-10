@@ -13,6 +13,7 @@
 
 #include "UserGame.h"
 #include "GameStaticData.h"
+#include <GameEngine/CameraActor.h>
 
 TitleLevel::TitleLevel()
 	: titleController_(nullptr)
@@ -45,9 +46,11 @@ void TitleLevel::LevelUpdate(float _DeltaTime)
 		CreateActorCheck = true;
 	}
 
-	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
+
+	if (true == GameEngineInput::GetInst().Down("FreeCamera_Toggle"))
 	{
-		GameEngineCore::LevelChange("Play");
+		GetMainCameraActor()->FreeCameraModeSwitch();
+		GetUICameraActor()->FreeCameraModeSwitch();
 	}
 }
 void TitleLevel::LevelChangeEndEvent()
