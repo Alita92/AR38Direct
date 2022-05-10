@@ -2409,6 +2409,7 @@ void GameController::UpdateSubtitle()
 	if (true == isMuted_)
 	{
 		UIController_->subtitleRenderer_->Off();
+		UIController_->muteCallRenderer_->Off();
 		subtitleDeltatime_ = 0.0f;
 		subtitleIndex_ = 0;
 		return;

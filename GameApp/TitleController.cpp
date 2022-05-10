@@ -189,6 +189,9 @@ void TitleController::UpdateTitleAlphaChange()
 		titleText_->title6thNight_->SetAlpha(alphaChangeTime_);
 		titleText_->titleScott_->SetAlpha(alphaChangeTime_);
 		titleText_->titleArrow_->SetAlpha(alphaChangeTime_);
+		titleText_->titleNewData_->SetAlpha(alphaChangeTime_);
+		titleText_->titleYes_->SetAlpha(alphaChangeTime_);
+		titleText_->titleNo_->SetAlpha(alphaChangeTime_);
 		glitchScreen_->whiteNoiseRenderer_->SetAlpha(alphaChangeTime_/2);
 		glitchScreen_->scanLineRenderer_->SetAlpha(alphaChangeTime_ / 5);
 		glitchScreen_->subScanLineRenderer_->SetAlpha(alphaChangeTime_ / 5);

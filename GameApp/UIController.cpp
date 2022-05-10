@@ -77,6 +77,7 @@ UIController::UIController() // default constructer 디폴트 생성자
 	, CCTVRealRenderer_(nullptr)
 	, foxyRunningRenderer_(nullptr)
 	, cctvBorderRenderer_(nullptr)
+	, subtitleRenderer_(nullptr)
 {
 
 }
@@ -745,6 +746,12 @@ void UIController::ReloadingUI()
 		subtitleRenderer_->GetTransform()->SetLocalPosition({ 0.0f, 240.0f, 0.0f });
 		subtitleRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
 		subtitleRenderer_->Off();
+	}
+
+	{
+		powerRateTenFlag_ = false;
+		powerRateOneFlag_ = false;
+		deltaTime_ = 0.0f;
 	}
 
 }

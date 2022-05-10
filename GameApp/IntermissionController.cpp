@@ -74,7 +74,6 @@ void IntermissionController::Start()
 	fadeScreen_ = GetLevel()->CreateActor<FadeScreen>();
 	fadeScreen_->SetAlpha(0.0f);
 	glitchScreen_ = GetLevel()->CreateActor<GlitchScreen>();
-	GameStaticData::SaveDay();
 	StateInit();
 }
 
@@ -99,6 +98,13 @@ StateInfo IntermissionController::startProceed(StateInfo _state)
 	awakePlayer_.PlayOverLap("CCTVSwitch.wav");
 	glitchScreen_->PlayAwakeScanLine();
 	SwitchDayRenderer();
+
+	if (DAY::CUSTOM != GameStaticData::curDay_)
+	{
+		GameStaticData::savedDay_ = GameStaticData::curDay_;
+		GameStaticData::SaveDay();
+	}
+
 	return StateInfo();
 }
 
