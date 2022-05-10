@@ -60,6 +60,7 @@ private:	// member Var
 
 	std::list<GameEngineSoundPlayer*> allSoundPlayer_;
 
+
 private:
 	GameEngineSound* FindSound(const std::string& _name);
 
@@ -73,6 +74,7 @@ public:
 	void PlaySoundByName(const std::string& _name);
 	void SetVolume(unsigned int _volume);
 	void StopSound();
+	void StopAllSound();
 	GameEngineSoundPlayer* CreateSoundPlayer();
 
 public:

@@ -149,7 +149,21 @@ void GameEngineSoundManager::SetVolume(unsigned int _volume)
 
 void GameEngineSoundManager::StopSound()
 {
+
 	channel_->stop();
+}
+
+void GameEngineSoundManager::StopAllSound()
+{
+	std::list<GameEngineSoundPlayer*>::iterator StartIter = allSoundPlayer_.begin();
+	std::list<GameEngineSoundPlayer*>::iterator EndIter = allSoundPlayer_.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		GameEngineSoundPlayer* node = *StartIter;
+		node->Stop();
+	}
+
 }
 
 //member Func

@@ -314,9 +314,7 @@ StateInfo TitleController::updateNewGame(StateInfo _state)
 
 		if (true == fadeScreen_->isFullDark_)
 		{
-			ambientPlayer_.Stop();
-			musicPlayer_.Stop();
-			awakePlayer_.Stop();
+			StopAllSound();
 
 			GetLevel()->RequestLevelChange("Intermission");
 		}
@@ -342,7 +340,7 @@ StateInfo TitleController::startContinue(StateInfo _state)
 
 StateInfo TitleController::updateContinue(StateInfo _state)
 {
-	
+	StopAllSound();
 	GetLevel()->RequestLevelChange("Intermission");
 
 	return StateInfo();
@@ -355,6 +353,7 @@ StateInfo TitleController::startCustomNight(StateInfo _state)
 
 StateInfo TitleController::updateCustomNight(StateInfo _state)
 {
+	StopAllSound();
 	GetLevel()->RequestLevelChange("CustomSetting");
 	return "Idle";
 

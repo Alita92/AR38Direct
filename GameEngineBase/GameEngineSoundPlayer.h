@@ -10,7 +10,7 @@ class GameEngineSoundPlayer
 {
 	friend GameEngineSoundManager;
 
-private:	// member Var
+public:	// member Var
 	GameEngineSoundManager* playSoundFile_;
 	FMOD::Channel* playChannel_; // 
 	int PlayCount;

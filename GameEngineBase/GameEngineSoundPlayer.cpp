@@ -14,6 +14,7 @@ GameEngineSoundPlayer::GameEngineSoundPlayer()
 	, PlayCount(-1)
 	, isStop_(true)
 {
+	
 }
 
 GameEngineSoundPlayer::~GameEngineSoundPlayer()

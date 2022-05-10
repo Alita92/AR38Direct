@@ -65,6 +65,14 @@ private:
 private:
 	void UpdateTitleAlphaChange();
 
+public:
+	void StopAllSound()
+	{
+		musicPlayer_.Stop();
+		ambientPlayer_.Stop();
+		awakePlayer_.Stop();
+	}
+
 private:
 	float deltaTime_;
 	float alphaChangeTime_;

@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "CustomSettingController.h"
+
 #include "ENUM.h"
 #include "GameStaticData.h"
 #include <GameEngine/GameEngineCollision.h>
+#include <GameEngineBase/GameEngineSoundManager.h>
 
 #include "CustomSettingUI.h"
 #include "GameMouse.h"
@@ -141,6 +143,7 @@ void CustomSettingController::CollisionReady(GameEngineCollision* _other)
 {
 	if (true == GameEngineInput::GetInst().Up("MOUSE_1"))
 	{
+	
 			GameStaticData::AICustomStartLevelFreddy_ = customSettingUI_->GetFreddyLevel();
 			GameStaticData::AICustomStartLevelBonnie_ = customSettingUI_->GetBonnieLevel();
 			GameStaticData::AICustomStartLevelChica_ = customSettingUI_->GetChicaLevel();
