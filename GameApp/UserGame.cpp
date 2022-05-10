@@ -17,25 +17,19 @@
 
 #include <GameEngine\GameEngineRenderWindow.h>
 
-
 std::atomic<int> UserGame::LoadingFolder = 0;
-
-
 
 UserGame::UserGame() 
 {
-
 }
 
 UserGame::~UserGame() 
 {
-
 }
 
 UserGame::UserGame(UserGame&& _other) noexcept  
 {
 }
-
 
 void UserGame::Initialize()
 {
@@ -59,7 +53,6 @@ void UserGame::Release()
 
 }
 
-
 void UserGame::KeyInit()
 {
 	if (false == GameEngineInput::GetInst().IsKey("MOUSE_1"))
@@ -69,9 +62,13 @@ void UserGame::KeyInit()
 
 		// **** FOR DEMONSTRATION AND DEBUGGING ****
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPHOUR", 'I');
-		GameEngineInput::GetInst().CreateKey("FreeCamera_Toggle", 'P');
-		GameEngineInput::GetInst().CreateKey("RotateRight", 'Z');
-		GameEngineInput::GetInst().CreateKey("RotateLeft", 'C');
+		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPELEC", 'O');
 
+		GameEngineInput::GetInst().CreateKey("FreeCamera_Toggle", 'P');
+
+		GameEngineInput::GetInst().CreateKey("Freddy", 'V');
+		GameEngineInput::GetInst().CreateKey("Bonnie", 'B');
+		GameEngineInput::GetInst().CreateKey("Chica", 'N');
+		GameEngineInput::GetInst().CreateKey("Foxy", 'M');
 	}
 }

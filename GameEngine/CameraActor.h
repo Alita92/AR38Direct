@@ -43,8 +43,5 @@ private:
 	bool IsFreeCameraMode_;
 	ProjectionMode PrevCamMode_;
 	CameraComponent* Camera_;
-
-
-
 };
 

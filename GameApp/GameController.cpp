@@ -2224,7 +2224,7 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 
 void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 {
-	if (158.0f >= GetTransform()->GetWorldPosition().x)
+	if (152.0f >= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::RIGHT * DEFAULT_MOUSE_SCROLLSPEED);
 	}
@@ -2232,7 +2232,7 @@ void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 
 void GameController::CollisionMouseRight(GameEngineCollision* _other)
 {
-	if (-158.0f <= GetTransform()->GetWorldPosition().x)
+	if (-152.0f <= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::LEFT * DEFAULT_MOUSE_SCROLLSPEED);
 	}
