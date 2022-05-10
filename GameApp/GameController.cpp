@@ -3012,6 +3012,7 @@ void GameController::UpdateSubtitle()
 	case DAY::DAY6:
 		break;
 	case DAY::CUSTOM:
+		isMuted_ = true;
 		break;
 	case DAY::MAX:
 		break;
