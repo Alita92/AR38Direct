@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngineBase/GameEngineSoundPlayer.h>
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineFSM.h>
 
 class GameOverBackground;
 class GameOverController : public GameEngineActor
@@ -35,5 +36,18 @@ private:
 
 private:
 	void Reloading();
+
+
+private:
+	GameEngineFSM<GameOverController> state_;
+	void InitState();
+
+#pragma region States
+	StateInfo startWhiteNoise(StateInfo _state);
+	StateInfo updateWhiteNoise(StateInfo _state);
+
+	StateInfo startGameOver(StateInfo _state);
+	StateInfo updateGameOver(StateInfo _state);
+#pragma endregion States
 };
 

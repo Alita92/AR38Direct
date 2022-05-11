@@ -3,7 +3,7 @@
 #include "GameOverBackground.h"
 
 GameOverController::GameOverController() // default constructer 디폴트 생성자
-	: deltaTime_(0.0f), gameOverBackground_(nullptr), isWhiteNoiseOff_(false)
+	: deltaTime_(0.0f), gameOverBackground_(nullptr), isWhiteNoiseOff_(false), state_(this)
 {
 
 }
@@ -13,29 +13,64 @@ GameOverController::~GameOverController() // default destructer 디폴트 소멸자
 
 }
 
+void GameOverController::InitState()
+{
+	state_.CreateState("WhiteNoise", &GameOverController::startWhiteNoise, &GameOverController::updateWhiteNoise);
+	state_.CreateState("GameOver", &GameOverController::startGameOver, &GameOverController::updateGameOver);
+	state_.ChangeState("WhiteNoise");
+}
+
 void GameOverController::Start()
 {
 	gameOverBackground_ = GetLevel()->CreateActor<GameOverBackground>();
 	gameOverBackground_->SetWhiteNoise(true);
+	InitState();
 	//ambientPlayer_.PlayOverLap("StaticShort.wav");
 }
 
 void GameOverController::Update(float _Deltatime)
 {
-	if (false == isWhiteNoiseOff_)
-	{
-		ambientPlayer_.PlayAlone("StaticShort.wav", -1);
-	}
+	state_.Update();
+}
 
+void GameOverController::Reloading()
+{
+	state_.ChangeState("WhiteNoise");
+	gameOverBackground_->SetWhiteNoise(true);
+	deltaTime_ = 0.0f;
+	isWhiteNoiseOff_ = false;
+}
+
+StateInfo GameOverController::startWhiteNoise(StateInfo _state)
+{
+	ambientPlayer_.PlayAlone("StaticShort.wav", -1);
+
+	return StateInfo();
+}
+
+StateInfo GameOverController::updateWhiteNoise(StateInfo _state)
+{
 	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (WHITE_NOISE_TIME <= deltaTime_ && false == isWhiteNoiseOff_)
+	if (WHITE_NOISE_TIME <= deltaTime_)
 	{
 		ambientPlayer_.Stop();
 		gameOverBackground_->SetWhiteNoise(false);
-		isWhiteNoiseOff_ = true;
 		deltaTime_ = 0.0f;
+		return "GameOver";
 	}
+
+	return StateInfo();
+}
+
+StateInfo GameOverController::startGameOver(StateInfo _state)
+{
+	return StateInfo();
+}
+
+StateInfo GameOverController::updateGameOver(StateInfo _state)
+{
+	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
 
 	if (SCENE_CHANGE_TIME <= deltaTime_)
 	{
@@ -44,11 +79,6 @@ void GameOverController::Update(float _Deltatime)
 
 		GetLevel()->RequestLevelChange("Title");
 	}
-}
 
-void GameOverController::Reloading()
-{
-	deltaTime_ = 0.0f;
-	isWhiteNoiseOff_ = false;
-
+	return StateInfo();
 }
