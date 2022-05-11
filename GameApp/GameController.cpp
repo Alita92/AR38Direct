@@ -338,6 +338,13 @@ void GameController::InitSwitchCollision()
 		rSwitchLightCollision_->GetTransform()->SetLocalScaling({ 60.0f, 80.0f, 1.0f });
 		rSwitchLightCollision_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
 	}
+
+	{
+		freddyNoseCollison_ = CreateTransformComponent<GameEngineCollision>();
+		freddyNoseCollison_->GetTransform()->SetLocalPosition({-120.0f, 130.0f, 0.0f});
+		freddyNoseCollison_->GetTransform()->SetLocalScaling({ 10.0f, 10.0f, 1.0f });
+		freddyNoseCollison_->SetCollisionGroup(static_cast<int>(InGameCollisonType::GAMEACTOR));
+	}
 }
 
 void GameController::Start()
@@ -591,6 +598,7 @@ void GameController::UpdateDebugRender()
 		GetLevel()->PushDebugRender(lSwitchDoorCollision_->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(rSwitchLightCollision_->GetTransform(), CollisionType::Rect);
 		GetLevel()->PushDebugRender(lSwitchLightCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(freddyNoseCollison_->GetTransform(), CollisionType::Rect);
 	}
 
 #endif
@@ -791,7 +799,7 @@ StateInfo GameController::updateIdle(StateInfo _state)
 	lSwitchLightCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionSwitchLightL, this, std::placeholders::_1));
 	rSwitchDoorCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionSwitchDoorR, this, std::placeholders::_1));
 	rSwitchLightCollision_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionSwitchLightR, this, std::placeholders::_1));
-
+	freddyNoseCollison_->Collision(CollisionType::Rect, CollisionType::Rect, static_cast<int>(InGameCollisonType::MOUSEPOINTER), std::bind(&GameController::CollisionFreddyNose, this, std::placeholders::_1));
 
 
 	return StateInfo();
@@ -2080,6 +2088,14 @@ void GameController::CollisionSwitchLightR(GameEngineCollision* _other)
 	}
 }
 
+
+void GameController::CollisionFreddyNose(GameEngineCollision* _other)
+{
+	if (true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	{
+		awakePlayer_.PlayOverLap("FreddyNose.wav");
+	}
+}
 
 
 

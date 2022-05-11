@@ -180,6 +180,7 @@ protected:
 	void CollisionSwitchDoorR(GameEngineCollision* _other);
 	void CollisionSwitchLightL(GameEngineCollision* _other);
 	void CollisionSwitchLightR(GameEngineCollision* _other);
+	void CollisionFreddyNose(GameEngineCollision* _other);
 
 	void CollisionMouseLeft(GameEngineCollision* _other);
 	void CollisionMouseRight(GameEngineCollision* _other);
@@ -208,6 +209,8 @@ public:
 	GameEngineImageRenderer* rSwitchRenderer_;
 	GameEngineCollision* rSwitchDoorCollision_;
 	GameEngineCollision* rSwitchLightCollision_;
+
+	GameEngineCollision* freddyNoseCollison_;
 
 private:
 	PLAYERSTATUS CurPlayerState_;
