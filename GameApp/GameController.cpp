@@ -366,10 +366,16 @@ void GameController::Start()
 void GameController::ControllerReloading()
 {
 	state_.ChangeState("Idle");
+
 	aiBonnie_->Reloading();
 	aiChica_->Reloading();
 	aiFoxy_->Reloading();
 	aiFreddy_->Reloading();
+
+	aiBonnie_->On();
+	aiChica_->On();
+	aiFoxy_->On();
+	aiFreddy_->On();
 
 	gameMouse_->GetUIRenderer()->SetRenderGroup(static_cast<int>(UIRenderOrder::FRONT));
 
