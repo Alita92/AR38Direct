@@ -3,7 +3,7 @@
 #include "GameOverBackground.h"
 
 GameOverController::GameOverController() // default constructer 디폴트 생성자
-	: deltaTime_(0.0f), gameOverBackground_(nullptr), isWhiteNoiseOff_(false), state_(this)
+	: deltaTime_(0.0f), gameOverBackground_(nullptr), state_(this)
 {
 
 }
@@ -38,7 +38,6 @@ void GameOverController::Reloading()
 	state_.ChangeState("WhiteNoise");
 	gameOverBackground_->SetWhiteNoise(true);
 	deltaTime_ = 0.0f;
-	isWhiteNoiseOff_ = false;
 }
 
 StateInfo GameOverController::startWhiteNoise(StateInfo _state)
@@ -75,7 +74,6 @@ StateInfo GameOverController::updateGameOver(StateInfo _state)
 	if (SCENE_CHANGE_TIME <= deltaTime_)
 	{
 		deltaTime_ = 0.0f;
-		isWhiteNoiseOff_ = false;
 
 		GetLevel()->RequestLevelChange("Title");
 	}

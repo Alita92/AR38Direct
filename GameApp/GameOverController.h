@@ -28,7 +28,6 @@ private:
 	const float SCENE_CHANGE_TIME = 5.0f;
 
 	float deltaTime_;
-	bool isWhiteNoiseOff_;
 
 private:
 	void Start() override;
