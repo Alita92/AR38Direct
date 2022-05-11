@@ -452,3 +452,13 @@ StateInfo AIBonnie::updateOffice(StateInfo _state)
 
 	return StateInfo();
 }
+
+void AIBonnie::ActivateJumpscare()
+{
+	if (true == state_.IsCurStateName("Office"))
+	{
+		return;
+	}
+
+	state_.ChangeState("Office");
+}

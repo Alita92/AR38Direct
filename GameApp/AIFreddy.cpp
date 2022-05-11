@@ -295,3 +295,13 @@ void AIFreddy::PlayRandomMoveSound()
 		break;
 	}
 }
+
+void AIFreddy::ActivateJumpscare()
+{
+		if (true == state_.IsCurStateName("Office"))
+		{
+			return;
+		}
+
+		state_.ChangeState("Office");
+}

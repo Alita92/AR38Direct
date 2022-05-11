@@ -566,10 +566,12 @@ void UIController::ReloadingUI()
 	powerRateHundredRenderer_->SetImage("SM1.png", true);
 	powerRateHundredRenderer_->GetTransform()->SetLocalPosition({ -445.0f, -280.0f, 0.0f });
 	powerRateHundredRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	powerRateHundredRenderer_->On();
 
 	powerRateTenRenderer_->SetImage("SM0.png", true);
 	powerRateTenRenderer_->GetTransform()->SetLocalPosition({ -425.0F, -280.0f, 0.0f });
 	powerRateTenRenderer_->SetRenderGroup(static_cast<int>(UIRenderOrder::UI0));
+	powerRateTenRenderer_->On();
 
 	powerRateOneRenderer_->SetImage("SM0.png", true);
 	powerRateOneRenderer_->GetTransform()->SetLocalPosition({ -405.0f, -280.0f, 0.0f });

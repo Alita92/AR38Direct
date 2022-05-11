@@ -59,6 +59,8 @@ public:
 	bool isDoorLocked_;
 	bool isPlayerStares_;
 
+	void ActivateJumpscare();
+
 private:
 	GameEngineFSM<AIFreddy> state_;
 

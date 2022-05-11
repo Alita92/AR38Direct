@@ -431,6 +431,7 @@ void GameController::ControllerReloading()
 		fanRenderer_->SetImage("OfficeFanDefault.png", true);
 		fanRenderer_->GetTransform()->SetLocalPosition({ 49.0f, -41.0f, static_cast<float>(RenderOrder::OBJECT1) });
 		fanRenderer_->SetChangeAnimation("OfficeFan");
+		fanRenderer_->On();
 
 		lDoorRenderer_->SetImage("LdoorStatic.png", true);
 		lDoorRenderer_->GetTransform()->SetLocalPosition({ -615.0f, 0.0f, static_cast<float>(RenderOrder::OBJECT1) });
@@ -442,10 +443,11 @@ void GameController::ControllerReloading()
 
 		rSwitchRenderer_->SetImage("SwitchR_00.png", true);
 		rSwitchRenderer_->GetTransform()->SetLocalPosition({ 730.0f, 0.0f, static_cast<float>(RenderOrder::SWITCH) });
+		rSwitchRenderer_->On();
 
 		lSwitchRenderer_->SetImage("SwitchL_00.png", true);
 		lSwitchRenderer_->GetTransform()->SetLocalPosition({ -760.0f, 0.0f, static_cast<float>(RenderOrder::SWITCH) });
-		
+		lSwitchRenderer_->On();
 
 		UIController_->dayPassHiderUpper_->Off();
 		UIController_->dayPassHiderBottom_->Off();
@@ -463,14 +465,13 @@ void GameController::ControllerReloading()
 
 		UIController_->dayPassNum5_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		UIController_->dayPassNum5_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
-		//UIController_->dayPassNum5_->SetAlpha(0.0f);
+		
 		UIController_->dayPassNum6_->GetTransform()->SetLocalPosition({ -1.0f * UIController_->DAYPASS_X_FLOAT, 100.0f, 0.0f });
 		UIController_->dayPassNum6_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 		UIController_->dayPassNum6_->SetAlpha(1.0f);
 
 		UIController_->dayPassAM_->GetTransform()->SetLocalPosition({ UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		UIController_->dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
-	//	UIController_->dayPassAM_->SetAlpha(0.0f);
 
 		UIController_->SetNightTypo(GameStaticData::curDay_);
 		UIController_->On();
@@ -571,6 +572,7 @@ void GameController::Update(float _Deltatime)
 	AICheck();
 	UpdateDebugRender();
 	UpdateSubtitle();
+	CheckDebugInput();
 }
 
 
@@ -590,10 +592,33 @@ void GameController::UpdateDebugRender()
 
 void GameController::CheckDebugInput()
 {
-
-	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIP"))
+	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPHOUR") && curTime_ <= 5)
 	{
-		++curTime_;
+		timeUsageTimer_ = 0.0f;
+		curTime_ += 1;
+		UIController_->SetTimeRenderer(curTime_);
+	}
+	if (true == GameEngineInput::GetInst().Press("DEBUG_SKIPELEC") && curPowerRate_ >= 1)
+	{
+		elecUsageTimer_ = 0.0f;
+		curPowerRate_ -= 1.0f;
+		UIController_->SetPowerRateRenderer(curPowerRate_);
+	}
+	if (true == GameEngineInput::GetInst().Down("Foxy"))
+	{
+		aiFoxy_->ActivateJumpscare();
+	}
+	if (true == GameEngineInput::GetInst().Down("Chica"))
+	{
+		aiChica_->ActivateJumpscare();
+	}
+	if (true == GameEngineInput::GetInst().Down("Bonnie"))
+	{
+		aiBonnie_->ActivateJumpscare();
+	}
+	if (true == GameEngineInput::GetInst().Down("Freddy"))
+	{
+		aiFreddy_->ActivateJumpscare();
 	}
 }
 
@@ -628,7 +653,6 @@ StateInfo GameController::updateIdle(StateInfo _state)
 		}
 	}
 
-	CheckDebugInput();
 
 	if (curTime_ == 6)
 	{

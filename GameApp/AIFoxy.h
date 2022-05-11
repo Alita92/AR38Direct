@@ -46,6 +46,7 @@ public:
 
 public:
 	void ResetFoxyLevel();
+	void ActivateJumpscare();
 
 private:
 	GameEngineFSM<AIFoxy> state_;

@@ -42,11 +42,6 @@ void AIFoxy::Start()
 void AIFoxy::Update(float _DeltaTime)
 {
 	state_.Update();
-
-	if (false == state_.IsCurStateName("Lv4") && GameEngineInput::GetInst().Down("Foxy"))
-	{
-		state_.ChangeState("Lv4");
-	}
 }
 
 void AIFoxy::SetAILevel(int _level)
@@ -178,4 +173,14 @@ StateInfo AIFoxy::updateLv4(StateInfo _state)
 void AIFoxy::ResetFoxyLevel()
 {
 	state_.ChangeState("Lv1");
+}
+
+void AIFoxy::ActivateJumpscare()
+{
+	if (true == state_.IsCurStateName("Lv4"))
+	{
+		return;
+	}
+
+	state_.ChangeState("Lv4");
 }

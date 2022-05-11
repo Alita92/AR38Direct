@@ -58,6 +58,8 @@ public:
 	bool isDoorLocked_;
 	bool isPlayerStares_;
 
+	void ActivateJumpscare();
+
 private:
 	GameEngineFSM<AIChica> state_;
 

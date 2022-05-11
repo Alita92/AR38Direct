@@ -461,3 +461,13 @@ StateInfo AIChica::updateOffice(StateInfo _state)
 
 	return StateInfo();
 }
+
+void AIChica::ActivateJumpscare()
+{
+	if (true == state_.IsCurStateName("Office"))
+	{
+		return;
+	}
+
+	state_.ChangeState("Office");
+}
