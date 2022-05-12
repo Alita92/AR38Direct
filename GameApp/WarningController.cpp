@@ -33,12 +33,12 @@ void WarningController::Update(float _Deltatime)
 		isFadeIn_ = true;
 	}
 
-	if (true == fadeScreen_->isFullBright_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
-	{
-		fadeScreen_->StartDark(1.5f);
-		isLevelChange_ = true;
-	}
-	else if (true == fadeScreen_->isFullDark_ && 3.0f <= deltaTime_ && false == isLevelChange_)
+	//if (true == fadeScreen_->isFullBright_ && true == GameEngineInput::GetInst().Down("MOUSE_1"))
+	//{
+	//	fadeScreen_->StartDark(1.5f);
+	//	isLevelChange_ = true;
+	//}
+	else if (true == fadeScreen_->isFullBright_ && 3.0f <= deltaTime_ && false == isLevelChange_)
 	{
 		fadeScreen_->StartDark(1.5f);
 		isLevelChange_ = true;
