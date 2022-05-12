@@ -38,9 +38,5 @@ void GameMouse::Start()
 void GameMouse::Update(float _DeltaTime)
 {
 	GetTransform()->SetWorldPosition(GameEngineInput::GetInst().GetMouse3DPos());
-
-#ifdef _DEBUG
-	GetLevel()->PushDebugRender(mouseCollision_->GetTransform(), CollisionType::Rect);
-#endif
 }
 

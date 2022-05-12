@@ -762,38 +762,8 @@ void UIController::ReloadingUI()
 
 void UIController::Update(float _DeltaTime)
 {
-	DebugRenderUpdate();
-}
-
-void UIController::DebugRenderUpdate()
-{
-#ifdef _DEBUG
-	GetLevel()->PushDebugRender(CCTVButtonCollision_->GetTransform(), CollisionType::Rect);
-
-
-
-	if (true == cam1ACollision_->IsUpdate())
-	{
-		GetLevel()->PushDebugRender(cam1ACollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam1BCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam1CCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam5Collision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam3Collision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam2ACollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam2BCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam7Collision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam6Collision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam4ACollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(cam4BCollision_->GetTransform(), CollisionType::Rect);
-	}
-	else if (false == cam1ACollision_->IsUpdate())
-	{
-		GetLevel()->PushDebugRender(mouseLeftCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(mouseRightCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(muteCallCollision_->GetTransform(), CollisionType::Rect);
-	}
-
-#endif
+	// UIController 가 자체적으로 돌리는 업데이트는 없습니다.
+	// 오로지 GameController 의 명령만 하달받습니다.
 }
 
 

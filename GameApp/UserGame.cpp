@@ -61,6 +61,7 @@ void UserGame::KeyInit()
 		GameEngineInput::GetInst().CreateKey("ESC", VK_ESCAPE);
 
 		// **** FOR DEMONSTRATION AND DEBUGGING ****
+		GameEngineInput::GetInst().CreateKey("DEBUG_RECT", 'L');
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPHOUR", 'I');
 		GameEngineInput::GetInst().CreateKey("DEBUG_SKIPELEC", 'O');
 

@@ -86,6 +86,8 @@ GameController::GameController() // default constructer 디폴트 생성자
 	, isFadeIn_(false)
 	, firstLoadingDeltatime_(0.0f)
 	, isMuted_(false)
+	, freddyNoseCollison_(nullptr)
+	, isDebugOn_(false)
 {
 
 }
@@ -591,17 +593,43 @@ void GameController::Update(float _Deltatime)
 
 void GameController::UpdateDebugRender()
 {
-#ifdef _DEBUG
-	if (false == UIController_->cam1ACollision_->IsUpdate())
+	if (true == GameEngineInput::GetInst().Down("DEBUG_RECT"))  
 	{
-		GetLevel()->PushDebugRender(rSwitchDoorCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(lSwitchDoorCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(rSwitchLightCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(lSwitchLightCollision_->GetTransform(), CollisionType::Rect);
-		GetLevel()->PushDebugRender(freddyNoseCollison_->GetTransform(), CollisionType::Rect);
+		isDebugOn_ = !isDebugOn_;
 	}
 
-#endif
+	if (true == isDebugOn_)
+	{
+		GetLevel()->PushDebugRender(UIController_->CCTVButtonCollision_->GetTransform(), CollisionType::Rect);
+
+		if (false == UIController_->cam1ACollision_->IsUpdate()) // 오피스 모드일 때의 판정박스
+		{
+			GetLevel()->PushDebugRender(rSwitchDoorCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(lSwitchDoorCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(rSwitchLightCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(lSwitchLightCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(freddyNoseCollison_->GetTransform(), CollisionType::Rect);
+
+			GetLevel()->PushDebugRender(UIController_->mouseLeftCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->mouseRightCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->muteCallCollision_->GetTransform(), CollisionType::Rect);
+		}
+		else if (true == UIController_->cam1ACollision_->IsUpdate())
+		{
+			GetLevel()->PushDebugRender(UIController_->cam1ACollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam1BCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam1CCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam5Collision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam3Collision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam2ACollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam2BCollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam7Collision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam6Collision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam4ACollision_->GetTransform(), CollisionType::Rect);
+			GetLevel()->PushDebugRender(UIController_->cam4BCollision_->GetTransform(), CollisionType::Rect);
+		}
+	}
+
 }
 
 void GameController::CheckDebugInput()
@@ -666,7 +694,6 @@ StateInfo GameController::updateIdle(StateInfo _state)
 			isLoadingDone_ = true;
 		}
 	}
-
 
 	if (curTime_ == 6)
 	{

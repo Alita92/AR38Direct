@@ -141,19 +141,5 @@ void TitleText::Start()
 
 void TitleText::Update(float _Deltatime)
 {
-	DebugRenderUpdate();
+	
 }
-
-
-
-void TitleText::DebugRenderUpdate()
-{
-#ifdef _DEBUG
-	GetLevel()->PushDebugRender(titleNewGameCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(titleContinueCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(titleCustomNightCollision_->GetTransform(), CollisionType::Rect);
-	GetLevel()->PushDebugRender(title6thNightCollision_->GetTransform(), CollisionType::Rect);
-#endif
-}
-
-

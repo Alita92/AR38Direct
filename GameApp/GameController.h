@@ -159,6 +159,7 @@ private:
 
 	// ÀüÈ­
 	bool isMuted_;
+	bool isDebugOn_;
 
 protected:
 	void CollisionCCTVButton(GameEngineCollision* _other);

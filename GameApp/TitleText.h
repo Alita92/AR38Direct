@@ -54,6 +54,5 @@ protected:
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
-	void DebugRenderUpdate();
 };
 

@@ -64,6 +64,7 @@ private:
 
 private:
 	void UpdateTitleAlphaChange();
+	void DebugRenderUpdate();
 
 public:
 	void StopAllSound()
@@ -77,6 +78,7 @@ private:
 	float deltaTime_;
 	float alphaChangeTime_;
 	bool isDark_;
+	bool isDebugOn_;
 
 private:
 	GameEngineFSM<TitleController> state_;

@@ -25,6 +25,7 @@ TitleController::TitleController() // default constructer 디폴트 생성자
 	, fadeScreen_(nullptr)
 	, glitchScreen_(nullptr)
 	, isDark_(false)
+	, isDebugOn_(false)
 {
 
 }
@@ -111,6 +112,7 @@ void TitleController::Start()
 void TitleController::Update(float _Deltatime)
 {
 	state_.Update();
+	DebugRenderUpdate();
 }
 
 void TitleController::CollisionNewGame(GameEngineCollision* _other)
@@ -367,4 +369,21 @@ StateInfo TitleController::start6thNight(StateInfo _state)
 StateInfo TitleController::update6thNight(StateInfo _state)
 {
 	return StateInfo();
+}
+
+void TitleController::DebugRenderUpdate()
+{
+	if (true == GameEngineInput::GetInst().Down("DEBUG_RECT"))
+	{
+		isDebugOn_ = !isDebugOn_;
+	}
+
+	if (true == isDebugOn_)
+	{
+		GetLevel()->PushDebugRender(titleText_->titleNewGameCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(titleText_->titleContinueCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(titleText_->titleCustomNightCollision_->GetTransform(), CollisionType::Rect);
+		GetLevel()->PushDebugRender(titleText_->title6thNightCollision_->GetTransform(), CollisionType::Rect);
+	}
+
 }

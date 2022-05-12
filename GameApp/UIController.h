@@ -144,7 +144,6 @@ private:
 	void ImageInit();
 	void CollisionInit();
 	void StateInit();
-	void DebugRenderUpdate();
 
 public:
 	void ReloadingUI();
