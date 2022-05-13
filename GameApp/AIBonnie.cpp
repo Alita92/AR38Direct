@@ -462,3 +462,8 @@ void AIBonnie::ActivateJumpscare()
 
 	state_.ChangeState("Office");
 }
+
+void AIBonnie::ActivateAction()
+{
+	deltatime_ = ACTION_FREQUENCY;
+}

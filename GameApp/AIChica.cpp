@@ -471,3 +471,8 @@ void AIChica::ActivateJumpscare()
 
 	state_.ChangeState("Office");
 }
+
+void AIChica::ActivateAction()
+{
+	deltatime_ = ACTION_FREQUENCY;
+}

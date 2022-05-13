@@ -305,3 +305,8 @@ void AIFreddy::ActivateJumpscare()
 
 		state_.ChangeState("Office");
 }
+
+void AIFreddy::ActivateAction()
+{
+	deltatime_ = ACTION_FREQUENCY;
+}

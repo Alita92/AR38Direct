@@ -184,3 +184,8 @@ void AIFoxy::ActivateJumpscare()
 
 	state_.ChangeState("Lv4");
 }
+
+void AIFoxy::ActivateAction()
+{
+	deltatime_ = ACTION_FREQUENCY;
+}

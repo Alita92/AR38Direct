@@ -60,6 +60,7 @@ public:
 	bool isPlayerStares_;
 
 	void ActivateJumpscare();
+	void ActivateAction();
 
 private:
 	GameEngineFSM<AIFreddy> state_;

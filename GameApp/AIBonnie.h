@@ -58,6 +58,7 @@ public:
 	bool isPlayerStares_;
 
 	void ActivateJumpscare();
+	void ActivateAction();
 
 private:
 	GameEngineFSM<AIBonnie> state_;

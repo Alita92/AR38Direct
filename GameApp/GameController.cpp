@@ -151,10 +151,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(10);
-		aiChica_->SetAILevel(10);
-		aiFoxy_->SetAILevel(10);
-		aiFreddy_->SetAILevel(10);
+		aiBonnie_->SetAILevel(1);
+		aiChica_->SetAILevel(1);
+		aiFoxy_->SetAILevel(1);
+		aiFreddy_->SetAILevel(0);
 	}
 	break;
 	case DAY::DAY2:
@@ -648,19 +648,23 @@ void GameController::CheckDebugInput()
 	}
 	if (true == GameEngineInput::GetInst().Down("Foxy"))
 	{
-		aiFoxy_->ActivateJumpscare();
+		//aiFoxy_->ActivateJumpscare();
+		aiFoxy_->ActivateAction();
 	}
 	if (true == GameEngineInput::GetInst().Down("Chica"))
 	{
-		aiChica_->ActivateJumpscare();
+		//aiChica_->ActivateJumpscare();
+		aiChica_->ActivateAction();
 	}
 	if (true == GameEngineInput::GetInst().Down("Bonnie"))
 	{
-		aiBonnie_->ActivateJumpscare();
+		//aiBonnie_->ActivateJumpscare();
+		aiBonnie_->ActivateAction();
 	}
 	if (true == GameEngineInput::GetInst().Down("Freddy"))
 	{
-		aiFreddy_->ActivateJumpscare();
+		//aiFreddy_->ActivateJumpscare();
+		aiFreddy_->ActivateAction();
 	}
 }
 

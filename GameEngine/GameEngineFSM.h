@@ -226,6 +226,11 @@ public:
 		return false;
 	}
 
+	std::string GetCurStateName()
+	{
+		return curState_->GetName();
+	}
+
 private:
 	State* FindState(const std::string& _name)
 	{

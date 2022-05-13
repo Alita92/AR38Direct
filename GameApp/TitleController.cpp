@@ -358,7 +358,6 @@ StateInfo TitleController::updateCustomNight(StateInfo _state)
 	StopAllSound();
 	GetLevel()->RequestLevelChange("CustomSetting");
 	return "Idle";
-
 }
 
 StateInfo TitleController::start6thNight(StateInfo _state)

@@ -59,6 +59,7 @@ public:
 	bool isPlayerStares_;
 
 	void ActivateJumpscare();
+	void ActivateAction();
 
 private:
 	GameEngineFSM<AIChica> state_;

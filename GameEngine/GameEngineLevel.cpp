@@ -136,7 +136,6 @@ void GameEngineLevel::Render(float _DeltaTime)
 	MainCameraActor_->GetCamera()->ClearCameraTarget();
 	UICameraActor_->GetCamera()->ClearCameraTarget();
 	MainCameraActor_->GetCamera()->Render();
-//	MainCameraActor_->GetCamera()->DebugRender();
 
 	UICameraActor_->GetCamera()->Render();
 	UICameraActor_->GetCamera()->DebugRender();
