@@ -175,10 +175,10 @@ void GameController::InitEnemyAILevel()
 	break;
 	case DAY::DAY4:
 	{
-		aiBonnie_->SetAILevel(2);
-		aiChica_->SetAILevel(4);
-		aiFoxy_->SetAILevel(6);
-		aiFreddy_->SetAILevel(2);
+		aiBonnie_->SetAILevel(0);
+		aiChica_->SetAILevel(0);
+		aiFoxy_->SetAILevel(0);
+		aiFreddy_->SetAILevel(3);
 	}
 	break;
 	case DAY::DAY5:
@@ -649,22 +649,29 @@ void GameController::CheckDebugInput()
 	if (true == GameEngineInput::GetInst().Down("Foxy"))
 	{
 		//aiFoxy_->ActivateJumpscare();
-		aiFoxy_->ActivateAction();
+		//aiFoxy_->ActivateAction();
 	}
 	if (true == GameEngineInput::GetInst().Down("Chica"))
 	{
 		//aiChica_->ActivateJumpscare();
-		aiChica_->ActivateAction();
+		//aiChica_->ActivateAction();
+		aiChica_->ActivateDoor();
 	}
 	if (true == GameEngineInput::GetInst().Down("Bonnie"))
 	{
 		//aiBonnie_->ActivateJumpscare();
-		aiBonnie_->ActivateAction();
+		//aiBonnie_->ActivateAction();
+		aiBonnie_->ActivateDoor();
 	}
 	if (true == GameEngineInput::GetInst().Down("Freddy"))
 	{
 		//aiFreddy_->ActivateJumpscare();
-		aiFreddy_->ActivateAction();
+		{
+			aiFreddy_->isBonnieChica0ut_ = true;
+			aiFreddy_->ActivateAction();
+		}
+	
+
 	}
 }
 
@@ -2301,7 +2308,7 @@ void GameController::CollisionCam4B(GameEngineCollision* _other)
 
 void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 {
-	if (152.0f >= GetTransform()->GetWorldPosition().x)
+	if (150.0f >= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::RIGHT * DEFAULT_MOUSE_SCROLLSPEED);
 	}
@@ -2309,7 +2316,7 @@ void GameController::CollisionMouseLeft(GameEngineCollision* _other)
 
 void GameController::CollisionMouseRight(GameEngineCollision* _other)
 {
-	if (-152.0f <= GetTransform()->GetWorldPosition().x)
+	if (-150.0f <= GetTransform()->GetWorldPosition().x)
 	{
 		GetTransform()->SetWorldDeltaTimeMove(float4::LEFT * DEFAULT_MOUSE_SCROLLSPEED);
 	}

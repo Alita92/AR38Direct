@@ -467,3 +467,8 @@ void AIBonnie::ActivateAction()
 {
 	deltatime_ = ACTION_FREQUENCY;
 }
+
+void AIBonnie::ActivateDoor()
+{
+	state_.ChangeState("OfficeDoor");
+}

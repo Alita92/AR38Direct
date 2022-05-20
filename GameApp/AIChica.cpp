@@ -476,3 +476,8 @@ void AIChica::ActivateAction()
 {
 	deltatime_ = ACTION_FREQUENCY;
 }
+
+void AIChica::ActivateDoor()
+{
+	state_.ChangeState("OfficeDoor");
+}

@@ -60,6 +60,7 @@ public:
 
 	void ActivateJumpscare();
 	void ActivateAction();
+	void ActivateDoor();
 
 private:
 	GameEngineFSM<AIChica> state_;

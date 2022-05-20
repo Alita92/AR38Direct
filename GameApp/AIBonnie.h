@@ -59,6 +59,7 @@ public:
 
 	void ActivateJumpscare();
 	void ActivateAction();
+	void ActivateDoor();
 
 private:
 	GameEngineFSM<AIBonnie> state_;
