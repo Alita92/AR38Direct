@@ -65,7 +65,7 @@ void FadeScreen::Update(float _Deltatime)
 		}
 	}
 
-	if (0.99f <= fadeScreenRenderer_->GetAlpha())
+	if (0.9f <= fadeScreenRenderer_->GetAlpha())
 	{
 		isFullDark_ = true;
 	}
@@ -74,7 +74,7 @@ void FadeScreen::Update(float _Deltatime)
 		isFullDark_ = false;
 	}
 
-	if (0.01f >= fadeScreenRenderer_->GetAlpha())
+	if (0.1f >= fadeScreenRenderer_->GetAlpha())
 	{
 		isFullBright_ = true;
 	}

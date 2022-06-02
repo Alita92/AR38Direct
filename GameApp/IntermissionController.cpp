@@ -89,7 +89,6 @@ StateInfo IntermissionController::startStandby(StateInfo _state)
 
 StateInfo IntermissionController::updateStandby(StateInfo _state)
 {
-
 	return "Proceed";
 }
 
@@ -118,7 +117,7 @@ StateInfo IntermissionController::updateProceed(StateInfo _state)
 		isDark_ = true;
 	}
 
-	if (true == fadeScreen_->isFullDark_)
+	if (3.0f <= deltaTime_ && true == fadeScreen_->isFullDark_)
 	{
 		return "FadeOut";
 	}
