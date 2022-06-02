@@ -4,7 +4,7 @@
 #include "ENUM.h"
 
 AIFoxy::AIFoxy() // default constructer 디폴트 생성자
-	:AILevel_(0), deltatime_(0.0f), state_(this), isDoorLocked_(false), isPlayerStares_(false), level_(FOXYLEVEL::MAX)
+	:AILevel_(0), deltatime_(0.0f), state_(this), isDoorLocked_(false), isPlayerStares_(false), level_(FOXYLEVEL::MAX), isMandatoryMoved_(false)
 {
 
 }
@@ -31,6 +31,7 @@ void AIFoxy::Reloading()
 	level_ = FOXYLEVEL::MAX;
 	isDoorLocked_ = false;
 	isPlayerStares_ = false;
+	isMandatoryMoved_ = false;
 	state_.ChangeState("Lv1");
 }
 
@@ -59,6 +60,7 @@ void AIFoxy::AddAILevel(int _level)
 StateInfo AIFoxy::startLv1(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryMoved_ = false;
 	level_ = FOXYLEVEL::LV1;
 	return StateInfo();
 }
@@ -69,6 +71,11 @@ StateInfo AIFoxy::updateLv1(StateInfo _state)
 
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
 	{
+		if (true == isMandatoryMoved_)
+		{
+			return "Lv2";
+		}
+
 		if (true == isPlayerStares_)
 		{
 			// 나갈려고 하는데 플레이어가 CCTV를 보고 있다?
@@ -92,6 +99,7 @@ StateInfo AIFoxy::startLv2(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	level_ = FOXYLEVEL::LV2;
+	isMandatoryMoved_ = false;
 	return StateInfo();
 }
 
@@ -101,6 +109,11 @@ StateInfo AIFoxy::updateLv2(StateInfo _state)
 
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
 	{
+		if (true == isMandatoryMoved_)
+		{
+			return "Lv3";
+		}
+
 		if (true == isPlayerStares_)
 		{
 			// 나갈려고 하는데 플레이어가 CCTV를 보고 있다?
@@ -124,7 +137,7 @@ StateInfo AIFoxy::startLv3(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	level_ = FOXYLEVEL::LV3;
-
+	isMandatoryMoved_ = false;
 	return StateInfo();
 }
 
@@ -134,6 +147,12 @@ StateInfo AIFoxy::updateLv3(StateInfo _state)
 
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
 	{
+
+		if (true == isMandatoryMoved_)
+		{
+			return "Lv4";
+		}
+
 		if (true == isPlayerStares_)
 		{
 			// 나갈려고 하는데 플레이어가 CCTV를 보고 있다?
@@ -157,7 +176,7 @@ StateInfo AIFoxy::startLv4(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	level_ = FOXYLEVEL::LV4;
-
+	isMandatoryMoved_ = false;
 	return StateInfo();
 }
 
@@ -188,4 +207,5 @@ void AIFoxy::ActivateJumpscare()
 void AIFoxy::ActivateAction()
 {
 	deltatime_ = ACTION_FREQUENCY;
+	isMandatoryMoved_ = true;
 }

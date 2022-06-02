@@ -25,7 +25,7 @@ private:
 	const float ACTION_FREQUENCY = 5.01f;
 	int AILevel_;
 	float deltatime_;
-
+	bool isMandatoryMoved_;
 	GameEngineRandom randomGenerator_;
 
 	FOXYLEVEL level_;

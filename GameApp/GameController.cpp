@@ -652,12 +652,12 @@ void GameController::CheckDebugInput()
 	if (true == GameEngineInput::GetInst().Down("Foxy"))
 	{
 		//aiFoxy_->ActivateJumpscare();
-		//aiFoxy_->ActivateAction();
+		aiFoxy_->ActivateAction();
 	}
 	if (true == GameEngineInput::GetInst().Down("Chica"))
 	{
 		//aiChica_->ActivateJumpscare();
-		//aiChica_->ActivateAction();
+		aiChica_->ActivateAction();
 		//aiChica_->ActivateDoor();
 	}
 	if (true == GameEngineInput::GetInst().Down("Bonnie"))

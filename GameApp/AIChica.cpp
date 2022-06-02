@@ -11,6 +11,7 @@ AIChica::AIChica() // default constructer 디폴트 생성자
 	, isDoorLocked_(false)
 	, isPlayerStares_(true)
 	, isRecentlyMoved_(false)
+	, isMandatoryMoved_(false)
 	, soundDice_(0)
 {
 
@@ -44,6 +45,7 @@ void AIChica::Reloading()
 	isDoorLocked_ = false;
 	isPlayerStares_ = true;
 	isRecentlyMoved_ = false;
+	isMandatoryMoved_ = false;
 	soundDice_ = 0;
 	state_.ChangeState("ShowStage");
 }
@@ -87,7 +89,7 @@ StateInfo AIChica::updateShowStage(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			// 주사위를 굴려 "이동" 이 나온 상태입니다.
 			// 다만 쇼 스테이지에서 이동 가능한 구간은 DiningArea 밖에 없는 관계로...
@@ -103,6 +105,7 @@ StateInfo AIChica::updateShowStage(StateInfo _state)
 
 StateInfo AIChica::startDiningArea(StateInfo _state)
 {
+	isMandatoryMoved_ = false;
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::DININGAREA;
 
@@ -117,7 +120,7 @@ StateInfo AIChica::updateDiningArea(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 1))
 			{
@@ -147,6 +150,7 @@ StateInfo AIChica::updateDiningArea(StateInfo _state)
 StateInfo AIChica::startRestRooms(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryMoved_ = false;
 	curLocation_ = LOCATION::RESTROOMS;
 
 	return StateInfo();
@@ -160,7 +164,7 @@ StateInfo AIChica::updateRestRooms(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 2))
 			{
@@ -196,6 +200,7 @@ StateInfo AIChica::updateRestRooms(StateInfo _state)
 StateInfo AIChica::startKitchen(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryMoved_ = false;
 	curLocation_ = LOCATION::KITCHEN;
 	soundDice_ = randomGenerator_.RandomInt(0, 3);
 	return StateInfo();
@@ -233,7 +238,7 @@ StateInfo AIChica::updateKitchen(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			moveSound_.Stop();
 			switch (randomGenerator_.RandomInt(0, 2))
@@ -270,6 +275,7 @@ StateInfo AIChica::updateKitchen(StateInfo _state)
 StateInfo AIChica::startEastHallA(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryMoved_ = false;
 	curLocation_ = LOCATION::EASTHALLA;
 
 	return StateInfo();
@@ -283,7 +289,7 @@ StateInfo AIChica::updateEastHallA(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 4))
 			{
@@ -329,7 +335,7 @@ StateInfo AIChica::startEastHallB(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::EASTHALLB;
-
+	isMandatoryMoved_ = false;
 	return StateInfo();
 }
 
@@ -341,7 +347,7 @@ StateInfo AIChica::updateEastHallB(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 3))
 			{
@@ -381,7 +387,7 @@ StateInfo AIChica::startROfficeDoor(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::ROFFICEDOOR;
-
+	isMandatoryMoved_ = false;
 	return StateInfo();
 }
 
@@ -400,7 +406,7 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			if (false == isDoorLocked_ && false == isPlayerStares_)
 			{
@@ -452,7 +458,7 @@ StateInfo AIChica::updateROfficeDoor(StateInfo _state)
 StateInfo AIChica::startOffice(StateInfo _state)
 {
 	curLocation_ = LOCATION::OFFICE;
-
+	isMandatoryMoved_ = false;
 	return StateInfo();
 }
 
@@ -475,6 +481,7 @@ void AIChica::ActivateJumpscare()
 void AIChica::ActivateAction()
 {
 	deltatime_ = ACTION_FREQUENCY;
+	isMandatoryMoved_ = true;
 }
 
 void AIChica::ActivateDoor()

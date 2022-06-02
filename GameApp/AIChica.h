@@ -32,6 +32,7 @@ private:
 	bool isRecentlyMoved_;
 	LOCATION curLocation_;
 	LOCATION prevLocation_;
+	bool isMandatoryMoved_;
 
 	GameEngineRandom randomGenerator_;
 
