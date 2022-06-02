@@ -166,7 +166,7 @@ StateInfo AIChica::updateRestRooms(StateInfo _state)
 
 		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
-			switch (randomGenerator_.RandomInt(0, 2))
+			switch (randomGenerator_.RandomInt(0, 1))
 			{
 			case 0:
 			{
@@ -182,12 +182,6 @@ StateInfo AIChica::updateRestRooms(StateInfo _state)
 				return "EastHallA";
 			}
 			break;
-			case 2:
-			{
-				prevLocation_ = curLocation_;
-				isRecentlyMoved_ = true;
-				return "DiningArea";
-			}
 			default:
 				break;
 			}
@@ -216,16 +210,16 @@ StateInfo AIChica::updateKitchen(StateInfo _state)
 	switch (soundDice_)
 	{
 	case 0:
-		moveSound_.PlayAlone("ChicaKitchen0.wav", -1);
+		moveSound_.PlayAlone("ChicaKitchen0.wav");
 		break;
 	case 1:
-		moveSound_.PlayAlone("ChicaKitchen1.wav", -1);
+		moveSound_.PlayAlone("ChicaKitchen1.wav");
 		break;
 	case 2:
-		moveSound_.PlayAlone("ChicaKitchen2.wav", -1);
+		moveSound_.PlayAlone("ChicaKitchen2.wav");
 		break;
 	case 3:
-		moveSound_.PlayAlone("ChicaKitchen3.wav", -1);
+		moveSound_.PlayAlone("ChicaKitchen3.wav");
 		break;
 	default:
 		break;

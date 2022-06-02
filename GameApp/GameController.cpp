@@ -488,8 +488,8 @@ void GameController::ControllerReloading()
 		UIController_->dayPassAM_->GetTransform()->SetLocalPosition({ UIController_->DAYPASS_X_FLOAT, 0.0f, 0.0f });
 		UIController_->dayPassAM_->SetRenderGroup(static_cast<int>(UIRenderOrder::DAYPASS));
 
-		UIController_->SetNightTypo(GameStaticData::curDay_);
 		UIController_->On();
+		UIController_->SetNightTypo(GameStaticData::curDay_);
 	}
 
 	{
@@ -1395,6 +1395,7 @@ StateInfo GameController::updateCCTVClose(StateInfo _state)
 
 StateInfo GameController::startBonnieDeath(StateInfo _state)
 {
+	aiChica_->moveSound_.Stop();
 	glitchScreen_->PlayWhiteNoise(false);
 	UIController_->CCTVRealRenderer_->Off();
 	UIController_->CCTVAnimationRenderer_->On();
@@ -1476,6 +1477,7 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 
 StateInfo GameController::startFoxyDeath(StateInfo _state)
 {
+	aiChica_->moveSound_.Stop();
 	isFoxyRunning_ = false;
 	isElecCheckOff_ = true;
 	glitchScreen_->PlayWhiteNoise(false);
@@ -1508,6 +1510,7 @@ StateInfo GameController::updateFoxyDeath(StateInfo _state)
 
 StateInfo GameController::startFreddyDeath(StateInfo _state)
 {
+	aiChica_->moveSound_.Stop();
 	glitchScreen_->PlayWhiteNoise(false);
 	isElecCheckOff_ = true;
 	UIController_->CCTVRealRenderer_->Off();
@@ -1552,8 +1555,15 @@ StateInfo GameController::startNoElec(StateInfo _state)
 	chicaSound_.Stop();
 	freddySound_.Stop();
 	foxySound_.Stop();
+	aiChica_->moveSound_.Stop();
 	ambientPlayer_.PlayAlone("PowerDown.wav");
-
+	{
+		aiBonnie_->Off();
+		aiChica_->Off();
+		aiChica_->moveSound_.Stop();
+		aiFoxy_->Off();
+		aiFreddy_->Off();
+	}
 	UIController_->Off();
 
 	if (CurPlayerState_ != PLAYERSTATUS::OFFICE)
@@ -1795,6 +1805,7 @@ StateInfo GameController::startWin(StateInfo _state)
 	{
 		aiBonnie_->Off();
 		aiChica_->Off();
+		aiChica_->moveSound_.Stop();
 		aiFoxy_->Off();
 		aiFreddy_->Off();
 	}
@@ -3102,4 +3113,9 @@ void GameController::UpdateSubtitle()
 	}
 
 	
+}
+
+void GameController::CheckDayNum()
+{
+	UIController_->SetNightTypo(GameStaticData::curDay_);
 }

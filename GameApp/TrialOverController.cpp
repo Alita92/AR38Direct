@@ -41,6 +41,7 @@ void TrialOverController::Update(float _Deltatime)
 
 	if (true == isFadeIn_ && true == fadeScreen_->isFullDark_ && true == isLevelChanged_)
 	{
+		ambientPlayer_.Stop();
 		GetLevel()->RequestLevelChange("Warning");
 	}
 

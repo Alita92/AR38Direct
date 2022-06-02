@@ -54,7 +54,10 @@ void PlayLevel::LevelChangeEndEvent()
 }
 void PlayLevel::LevelChangeStartEvent()
 {
-
+	if (nullptr != gameController_)
+	{
+		gameController_->CheckDayNum();
+	}
 }
 
 

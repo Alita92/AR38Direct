@@ -62,6 +62,7 @@ private:
 
 private:
 	void ControllerReloading();
+	void CheckDayNum();
 	void AICheck();
 	bool flag1_;
 	bool flag2_;
