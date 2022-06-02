@@ -34,5 +34,4 @@ void CurvedEffect::Initialize()
 	SetEffect("Curved");
 	Res_.SettingTexture("Tex", Target_->GetTexture(0));
 	Res_.SettingTexture("TexUV", "CurvedUV.png");
-	//Data
 }

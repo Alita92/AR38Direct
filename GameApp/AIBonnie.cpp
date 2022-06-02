@@ -11,6 +11,7 @@ AIBonnie::AIBonnie() // default constructer 디폴트 생성자
 	, isDoorLocked_(false)
 	, isPlayerStares_(true)
 	, isRecentlyMoved_(false)
+	, isMandatoryMoved_(false)
 
 {
 
@@ -47,6 +48,7 @@ void AIBonnie::Reloading()
 	isDoorLocked_ = false;
 	isPlayerStares_ = true;
 	isRecentlyMoved_ = false;
+	isMandatoryMoved_ = false;
 	state_.ChangeState("ShowStage");
 }
 
@@ -59,8 +61,6 @@ void AIBonnie::Start()
 void AIBonnie::Update(float _DeltaTime)
 {
 	state_.Update();
-
-
 }
 
 void AIBonnie::SetAILevel(int _level)
@@ -90,7 +90,7 @@ StateInfo AIBonnie::updateShowStage(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_/20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_/20.0f) || true == isMandatoryMoved_)
 		{
 			// 주사위를 굴려 "이동" 이 나온 상태입니다.
 			// 다만 쇼 스테이지에서 이동 가능한 구간은 DiningArea 밖에 없는 관계로...
@@ -106,7 +106,7 @@ StateInfo AIBonnie::updateShowStage(StateInfo _state)
 
 StateInfo AIBonnie::startBackStage(StateInfo _state)
 {
-
+	isMandatoryMoved_ = false;
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::BACKSTAGE;
 
@@ -117,11 +117,11 @@ StateInfo AIBonnie::updateBackStage(StateInfo _state)
 {
 	deltatime_ += GameEngineTime::GetInst().GetDeltaTime();
 
-	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
+	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY )
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 1))
 			{
@@ -152,6 +152,7 @@ StateInfo AIBonnie::startDiningArea(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::DININGAREA;
+	isMandatoryMoved_ = false;
 
 	return StateInfo();
 }
@@ -164,7 +165,7 @@ StateInfo AIBonnie::updateDiningArea(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 2))
 			{
@@ -200,6 +201,7 @@ StateInfo AIBonnie::updateDiningArea(StateInfo _state)
 
 StateInfo AIBonnie::startWestHallA(StateInfo _state)
 {
+	isMandatoryMoved_ = false;
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::WESTHALLA;
 
@@ -214,7 +216,7 @@ StateInfo AIBonnie::updateWestHallA(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 2))
 			{
@@ -251,6 +253,7 @@ StateInfo AIBonnie::updateWestHallA(StateInfo _state)
 
 StateInfo AIBonnie::startWestHallB(StateInfo _state)
 {
+	isMandatoryMoved_ = false;
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::WESTHALLB;
 
@@ -265,7 +268,7 @@ StateInfo AIBonnie::updateWestHallB(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 6))
 			{
@@ -313,6 +316,7 @@ StateInfo AIBonnie::updateWestHallB(StateInfo _state)
 StateInfo AIBonnie::startSupplyCloset(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryMoved_ = false;
 	curLocation_ = LOCATION::SUPPLYCLOSET;
 
 	return StateInfo();
@@ -325,7 +329,7 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 			switch (randomGenerator_.RandomInt(0, 4))
 			{
@@ -364,6 +368,7 @@ StateInfo AIBonnie::updateSupplyCloset(StateInfo _state)
 StateInfo AIBonnie::startLOfficeDoor(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryMoved_ = false;
 	curLocation_ = LOCATION::LOFFICEDOOR;
 
 	return StateInfo();
@@ -385,7 +390,7 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 		deltatime_ = 0.0f;
 
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryMoved_)
 		{
 				if (false == isDoorLocked_ && false == isPlayerStares_)
 				{
@@ -443,7 +448,7 @@ StateInfo AIBonnie::updateLOfficeDoor(StateInfo _state)
 StateInfo AIBonnie::startOffice(StateInfo _state)
 {
 	curLocation_ = LOCATION::OFFICE;
-
+	isMandatoryMoved_ = false;
 	return StateInfo();
 }
 StateInfo AIBonnie::updateOffice(StateInfo _state)
@@ -466,6 +471,7 @@ void AIBonnie::ActivateJumpscare()
 void AIBonnie::ActivateAction()
 {
 	deltatime_ = ACTION_FREQUENCY;
+	isMandatoryMoved_ = true;
 }
 
 void AIBonnie::ActivateDoor()

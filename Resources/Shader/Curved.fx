@@ -36,12 +36,7 @@ SamplerState Smp : register(s0);
 float4 Curved_PS(VertexOut _in) : SV_Target0
 {
     float4 UVMulty = TexUV.Sample(Smp, _in.Texcoord.xy);
-    
-    // 0      2
-    // -1      1
-    // -0.5   1.5f
-    // -1.0f   1.0f
-    
+ 
     float2 CalUv = _in.Texcoord.xy;
     
     if (UVMulty.x > 0.5f)

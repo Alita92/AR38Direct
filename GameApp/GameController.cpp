@@ -151,10 +151,10 @@ void GameController::InitEnemyAILevel()
 	{
 	case DAY::DAY1:
 	{
-		aiBonnie_->SetAILevel(5);
-		aiChica_->SetAILevel(5);
-		aiFoxy_->SetAILevel(5);
-		aiFreddy_->SetAILevel(3);
+		aiBonnie_->SetAILevel(1);
+		aiChica_->SetAILevel(1);
+		aiFoxy_->SetAILevel(1);
+		aiFreddy_->SetAILevel(0);
 	}
 	break;
 	case DAY::DAY2:
@@ -634,6 +634,9 @@ void GameController::UpdateDebugRender()
 
 void GameController::CheckDebugInput()
 {
+	// 시연회에서 사용할 디버그 인풋입니다.
+
+
 	if (true == GameEngineInput::GetInst().Down("DEBUG_SKIPHOUR") && curTime_ <= 5)
 	{
 		timeUsageTimer_ = 0.0f;
@@ -655,13 +658,13 @@ void GameController::CheckDebugInput()
 	{
 		//aiChica_->ActivateJumpscare();
 		//aiChica_->ActivateAction();
-		aiChica_->ActivateDoor();
+		//aiChica_->ActivateDoor();
 	}
 	if (true == GameEngineInput::GetInst().Down("Bonnie"))
 	{
 		//aiBonnie_->ActivateJumpscare();
-		//aiBonnie_->ActivateAction();
-		aiBonnie_->ActivateDoor();
+		aiBonnie_->ActivateAction();
+		//aiBonnie_->ActivateDoor();
 	}
 	if (true == GameEngineInput::GetInst().Down("Freddy"))
 	{

@@ -43,7 +43,7 @@ private:
 		void FrameUpdate();
 		void ReverseFrameUpdate();
 	};
-
+	
 public:
 	// constrcuter destructer
 	GameEngineImageRenderer();
