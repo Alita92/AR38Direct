@@ -52,6 +52,7 @@ void TitleController::ActorInit()
 
 void TitleController::StateInit()
 {
+	state_.CreateState("SceneReady", &TitleController::startSceneReady, &TitleController::updateSceneReady);
 	state_.CreateState("Idle", &TitleController::startIdle, &TitleController::updateIdle);
 	state_.CreateState("NewData", &TitleController::startNewData, &TitleController::updateNewData);
 	state_.CreateState("NewGame", &TitleController::startNewGame, &TitleController::updateNewGame);
@@ -59,13 +60,13 @@ void TitleController::StateInit()
 	state_.CreateState("CustomNight", &TitleController::startCustomNight, &TitleController::updateCustomNight);
 	state_.CreateState("6thNight", &TitleController::start6thNight, &TitleController::update6thNight);
 
-	state_.ChangeState("Idle");
+	state_.ChangeState("SceneReady");
 }
 
 
 void TitleController::ControllerReloading()
 {
-	state_.ChangeState("Idle");
+	state_.ChangeState("SceneReady");
 	fadeScreen_->SetAlpha(0.0f);
 	fadeScreen_->StartDark(0.0f);
 	fadeScreen_->Reset();
@@ -100,6 +101,8 @@ void TitleController::ControllerReloading()
 	}
 
 	isDark_ = false;
+	ambientPlayer_.Stop();
+	musicPlayer_.Stop();
 }
 
 
@@ -200,6 +203,16 @@ void TitleController::UpdateTitleAlphaChange()
 	}
 }
 
+StateInfo TitleController::startSceneReady(StateInfo _state)
+{
+	return StateInfo();
+}
+
+StateInfo TitleController::updateSceneReady(StateInfo _state)
+{
+	return "Idle";
+}
+
 StateInfo TitleController::startIdle(StateInfo _state)
 {
 	titleText_->titleNewGame_->On();
@@ -220,13 +233,14 @@ StateInfo TitleController::startIdle(StateInfo _state)
 	glitchScreen_->PlayWhiteNoise(true);
 	glitchScreen_->SetWhiteNoiseAlpha(0.4f);
 	glitchScreen_->SetSubRenderer(true);
+
+	ambientPlayer_.PlayAlone("StaticLong.wav");
+	musicPlayer_.PlayAlone("TitleMusic.wav");
 	return StateInfo();
 }
 
 StateInfo TitleController::updateIdle(StateInfo _state)
 {
-	ambientPlayer_.PlayAlone("StaticLong.wav");
-	musicPlayer_.PlayAlone("TitleMusic.wav");
 
 	glitchScreen_->ScanLineRandomChange();
 

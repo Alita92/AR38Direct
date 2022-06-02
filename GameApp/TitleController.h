@@ -44,6 +44,7 @@ private:
 	GameEngineSoundPlayer musicPlayer_;
 	GameEngineSoundPlayer ambientPlayer_;
 	GameEngineSoundPlayer awakePlayer_;
+
 private:
 	void Start() override;
 	void Update(float _Deltatime) override;
@@ -65,7 +66,6 @@ private:
 private:
 	void UpdateTitleAlphaChange();
 	void DebugRenderUpdate();
-
 public:
 	void StopAllSound()
 	{
@@ -79,11 +79,13 @@ private:
 	float alphaChangeTime_;
 	bool isDark_;
 	bool isDebugOn_;
-
 private:
 	GameEngineFSM<TitleController> state_;
 
 #pragma region States
+	StateInfo startSceneReady(StateInfo _state);
+	StateInfo updateSceneReady(StateInfo _state);
+
 	StateInfo startIdle(StateInfo _state);
 	StateInfo updateIdle(StateInfo _state);
 

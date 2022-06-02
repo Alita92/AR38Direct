@@ -42,7 +42,7 @@ void GameOverController::Reloading()
 
 StateInfo GameOverController::startWhiteNoise(StateInfo _state)
 {
-	ambientPlayer_.PlayAlone("StaticShort.wav", -1);
+
 
 	return StateInfo();
 }
@@ -50,7 +50,7 @@ StateInfo GameOverController::startWhiteNoise(StateInfo _state)
 StateInfo GameOverController::updateWhiteNoise(StateInfo _state)
 {
 	deltaTime_ += GameEngineTime::GetInst().GetDeltaTime();
-
+	ambientPlayer_.PlayAlone("StaticShort.wav");
 	if (WHITE_NOISE_TIME <= deltaTime_)
 	{
 		ambientPlayer_.Stop();
