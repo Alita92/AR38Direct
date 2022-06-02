@@ -668,13 +668,7 @@ void GameController::CheckDebugInput()
 	}
 	if (true == GameEngineInput::GetInst().Down("Freddy"))
 	{
-		//aiFreddy_->ActivateJumpscare();
-		{
-			aiFreddy_->isBonnieChica0ut_ = true;
-			aiFreddy_->ActivateAction();
-		}
-	
-
+		aiFreddy_->ActivateAction();
 	}
 }
 

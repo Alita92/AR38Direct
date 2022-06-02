@@ -33,6 +33,7 @@ private:
 	LOCATION curLocation_;
 	LOCATION prevLocation_;
 	bool isBonnieChica0ut_;
+	bool isMandatoryChanged_;
 
 	GameEngineRandom randomGenerator_;
 

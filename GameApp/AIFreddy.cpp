@@ -15,6 +15,7 @@ AIFreddy::AIFreddy() // default constructer 디폴트 생성자
 	, isPlayerStares_(true)
 	, isBonnieChica0ut_(false)
 	, isRecentlyMoved_(false)
+	, isMandatoryChanged_(false)
 	, soundDice_(0)
 {
 
@@ -47,6 +48,7 @@ void AIFreddy::Reloading()
 	isPlayerStares_ = true;
 	isRecentlyMoved_ = false;
 	isBonnieChica0ut_ = false;
+	isMandatoryChanged_ = false;
 
 	state_.ChangeState("ShowStage");
 	soundDice_ = 0;
@@ -82,7 +84,7 @@ StateInfo AIFreddy::startShowStage(StateInfo _state)
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::SHOWSTAGE;
 	isBonnieChica0ut_ = false;
-	
+	isMandatoryChanged_ = false;
 	return StateInfo();
 }
 
@@ -100,7 +102,7 @@ StateInfo AIFreddy::updateShowStage(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryChanged_)
 		{
 			// 주사위를 굴려 "이동" 이 나온 상태입니다.
 			// 다만 쇼 스테이지에서 이동 가능한 구간은 DiningArea 밖에 없는 관계로...
@@ -118,6 +120,7 @@ StateInfo AIFreddy::updateShowStage(StateInfo _state)
 StateInfo AIFreddy::startDiningArea(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryChanged_ = false;
 	curLocation_ = LOCATION::DININGAREA;
 
 	return StateInfo();
@@ -131,7 +134,7 @@ StateInfo AIFreddy::updateDiningArea(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryChanged_)
 		{
 				prevLocation_ = curLocation_;
 				isRecentlyMoved_ = true;
@@ -147,6 +150,7 @@ StateInfo AIFreddy::startRestRooms(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::RESTROOMS;
+	isMandatoryChanged_ = false;
 
 	return StateInfo();
 }
@@ -158,11 +162,13 @@ StateInfo AIFreddy::updateRestRooms(StateInfo _state)
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
 	{
 		deltatime_ = 0.0f;
-
-		prevLocation_ = curLocation_;
-		isRecentlyMoved_ = true;
-		PlayRandomMoveSound();
-		return "Kitchen";
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryChanged_)
+		{
+			prevLocation_ = curLocation_;
+			isRecentlyMoved_ = true;
+			PlayRandomMoveSound();
+			return "Kitchen";
+		}
 	}
 
 	return StateInfo();
@@ -173,7 +179,7 @@ StateInfo AIFreddy::startKitchen(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::KITCHEN;
-
+	isMandatoryChanged_ = false;
 	return StateInfo();
 }
 
@@ -184,7 +190,7 @@ StateInfo AIFreddy::updateKitchen(StateInfo _state)
 	if (AILevel_ != 0 && deltatime_ >= ACTION_FREQUENCY)
 	{
 		deltatime_ = 0.0f;
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryChanged_)
 		{
 			prevLocation_ = curLocation_;
 			isRecentlyMoved_ = true;
@@ -199,6 +205,7 @@ StateInfo AIFreddy::updateKitchen(StateInfo _state)
 StateInfo AIFreddy::startEastHallA(StateInfo _state)
 {
 	deltatime_ = 0.0f;
+	isMandatoryChanged_ = false;
 	curLocation_ = LOCATION::EASTHALLA;
 
 	return StateInfo();
@@ -212,7 +219,7 @@ StateInfo AIFreddy::updateEastHallA(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryChanged_)
 		{
 			prevLocation_ = curLocation_;
 			isRecentlyMoved_ = true;
@@ -228,7 +235,7 @@ StateInfo AIFreddy::startEastHallB(StateInfo _state)
 {
 	deltatime_ = 0.0f;
 	curLocation_ = LOCATION::EASTHALLB;
-
+	isMandatoryChanged_ = false;
 	return StateInfo();
 }
 
@@ -240,7 +247,7 @@ StateInfo AIFreddy::updateEastHallB(StateInfo _state)
 	{
 		deltatime_ = 0.0f;
 
-		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f))
+		if (true == randomGenerator_.RandomBool(AILevel_ / 20.0f) || true == isMandatoryChanged_)
 		{
 			if (false == isDoorLocked_)
 			{
@@ -266,7 +273,7 @@ StateInfo AIFreddy::updateEastHallB(StateInfo _state)
 StateInfo AIFreddy::startOffice(StateInfo _state)
 {
 	curLocation_ = LOCATION::OFFICE;
-
+	isMandatoryChanged_ = false;
 	return StateInfo();
 }
 
@@ -309,4 +316,5 @@ void AIFreddy::ActivateJumpscare()
 void AIFreddy::ActivateAction()
 {
 	deltatime_ = ACTION_FREQUENCY;
+	isMandatoryChanged_ = true;
 }
