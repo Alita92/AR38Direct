@@ -175,10 +175,10 @@ void GameController::InitEnemyAILevel()
 	break;
 	case DAY::DAY4:
 	{
-		aiBonnie_->SetAILevel(0);
-		aiChica_->SetAILevel(0);
-		aiFoxy_->SetAILevel(0);
-		aiFreddy_->SetAILevel(3);
+		aiBonnie_->SetAILevel(2);
+		aiChica_->SetAILevel(4);
+		aiFoxy_->SetAILevel(6);
+		aiFreddy_->SetAILevel(1);
 	}
 	break;
 	case DAY::DAY5:
@@ -435,6 +435,7 @@ void GameController::ControllerReloading()
 		subtitleDeltatime_ = 0.0f;
 		isFadeIn_ = false;
 		firstLoadingDeltatime_ = 0.0f;
+		subtitleIndex_ = 0;
 		isMuted_ = false;
 	}
 
@@ -876,7 +877,8 @@ StateInfo GameController::startCCTV(StateInfo _state)
 	chicaDice_ = randomGenerator_.RandomInt(0, 1);
 	isAnomalyOn_ = randomGenerator_.RandomBool(25.0f / 100.0f);
 	anomalyDice_ = randomGenerator_.RandomInt(0, 3);
-
+	lSwitchRenderer_->Off();
+	rSwitchRenderer_->Off();
 
 	{
 		// 보니, 치카 AI 에게 이제 공격해도 된다는 신호를 줍니다.
@@ -1364,6 +1366,8 @@ StateInfo GameController::startCCTVClose(StateInfo _state)
 	UIController_->CCTVRealRenderer_->Off();
 	UIController_->foxyRunningRenderer_->Off();
 	UIController_->CCTVAnimationRenderer_->On();
+	lSwitchRenderer_->On();
+	rSwitchRenderer_->On();
 	if (curPowerRate_ != 0.0f)
 	{
 		fanRenderer_->On();
@@ -1428,6 +1432,34 @@ StateInfo GameController::updateBonnieDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		switch (GameStaticData::curDay_)
+		{
+		case DAY::DAY1:
+			GameStaticData::curDay_ = DAY::DAY2;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY2:
+			GameStaticData::curDay_ = DAY::DAY3;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY3:
+			GameStaticData::curDay_ = DAY::DAY4;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY4:
+			GameStaticData::curDay_ = DAY::DAY5;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY5:
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY6:
+			break;
+		case DAY::CUSTOM:
+			break;
+		default:
+			break;
+		}
 		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
@@ -1468,6 +1500,34 @@ StateInfo GameController::updateChicaDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		switch (GameStaticData::curDay_)
+		{
+		case DAY::DAY1:
+			GameStaticData::curDay_ = DAY::DAY2;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY2:
+			GameStaticData::curDay_ = DAY::DAY3;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY3:
+			GameStaticData::curDay_ = DAY::DAY4;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY4:
+			GameStaticData::curDay_ = DAY::DAY5;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY5:
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY6:
+			break;
+		case DAY::CUSTOM:
+			break;
+		default:
+			break;
+		}
 		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
@@ -1501,6 +1561,34 @@ StateInfo GameController::updateFoxyDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		switch (GameStaticData::curDay_)
+		{
+		case DAY::DAY1:
+			GameStaticData::curDay_ = DAY::DAY2;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY2:
+			GameStaticData::curDay_ = DAY::DAY3;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY3:
+			GameStaticData::curDay_ = DAY::DAY4;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY4:
+			GameStaticData::curDay_ = DAY::DAY5;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY5:
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY6:
+			break;
+		case DAY::CUSTOM:
+			break;
+		default:
+			break;
+		}
 		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
@@ -1534,6 +1622,34 @@ StateInfo GameController::updateFreddyDeath(StateInfo _state)
 
 	if (0.88f <= deathSceneTimer_)
 	{
+		switch (GameStaticData::curDay_)
+		{
+		case DAY::DAY1:
+			GameStaticData::curDay_ = DAY::DAY2;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY2:
+			GameStaticData::curDay_ = DAY::DAY3;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY3:
+			GameStaticData::curDay_ = DAY::DAY4;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY4:
+			GameStaticData::curDay_ = DAY::DAY5;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY5:
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			break;
+		case DAY::DAY6:
+			break;
+		case DAY::CUSTOM:
+			break;
+		default:
+			break;
+		}
 		StopAllSound();
 		GetLevel()->RequestLevelChange("GameOver");
 	}
@@ -1782,6 +1898,43 @@ StateInfo GameController::updateNoElecDeath(StateInfo _state)
 	if (true == jumpScareRenderer_->IsCurAnimationEnd())
 	{
 		awakePlayer_.Stop();
+
+		switch (GameStaticData::curDay_)
+		{
+		case DAY::DAY1:
+			GameStaticData::curDay_ = DAY::DAY2;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			break;
+		case DAY::DAY2:
+			GameStaticData::curDay_ = DAY::DAY3;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			break;
+		case DAY::DAY3:
+			GameStaticData::curDay_ = DAY::DAY4;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			break;
+		case DAY::DAY4:
+			GameStaticData::curDay_ = DAY::DAY5;
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			break;
+		case DAY::DAY5:
+			GameStaticData::savedDay_ = GameStaticData::curDay_;
+			StopAllSound();
+			break;
+		case DAY::DAY6:
+			StopAllSound();
+			break;
+		case DAY::CUSTOM:
+			StopAllSound();
+			break;
+		default:
+			break;
+		}
+
 		GetLevel()->RequestLevelChange("GameOver");
 	}
 
