@@ -4,6 +4,7 @@
 #include "GameEngineLevel.h"
 #include <GameEngineBase\GameEngineTime.h>
 #include "GameEngineActor.h"
+#include "GameApp/GameStaticData.h"
 
 GameEngineLevelControlWindow::GameEngineLevelControlWindow()
 {
@@ -32,6 +33,27 @@ void GameEngineLevelControlWindow::OnGUI()
 	{
 		if (true == ImGui::Button(Level.first.c_str()))
 		{
+			if (static_cast<std::string>("Intermission") == Level.first.c_str())
+			{
+				switch (GameStaticData::curDay_)
+				{
+				case DAY::DAY1:
+					GameStaticData::curDay_ = DAY::DAY2;
+					break;
+				case DAY::DAY2:
+					GameStaticData::curDay_ = DAY::DAY3;
+					break;
+				case DAY::DAY3:
+					GameStaticData::curDay_ = DAY::DAY4;
+					break;
+				case DAY::DAY4:
+					GameStaticData::curDay_ = DAY::DAY5;
+					break;
+				default:
+					break;
+				}
+			}
+
 			GameEngineCore::LevelChange(Level.first);
 		}
 

@@ -75,8 +75,6 @@ void PlayLevel::CreateActorLevel()
 		curved_ = AddPostProcessCameraMergePrev<CurvedEffect>(GetMainCamera()->GetCameraRenderTarget());
 	}
 
-
-
 	GameEngineRenderWindow* Window = GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineRenderWindow>("RenderWindow");
 	float4 Size = { 128, 72 };
 	Window->PushRenderTarget("메인 카메라 타겟", curved_->GetOriginalTarget(), Size * 3);

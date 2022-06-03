@@ -23,9 +23,6 @@ void IntermissionLevel::LevelStart()
 
 	GetMainCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 	GetMainCamera()->GetTransform()->SetLocalPosition(float4(0.0f, 0.0f, -100.0f));
-
-
-	
 }
 
 void IntermissionLevel::LevelUpdate(float _DeltaTime)
