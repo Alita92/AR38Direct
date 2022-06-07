@@ -105,7 +105,7 @@ void GameEngineDevice::Initialize()
 	
 }
 
-void GameEngineDevice::CreateSwapChain()
+void GameEngineDevice::CreateSwapChain() // 스왑체인을 "만드는" 행위는 공간 할당의 영역이니 디바이스가 담당!
 {
 	if (0 >= GameEngineWindow::GetInst().GetSize().x &&
 		0 >= GameEngineWindow::GetInst().GetSize().y)
@@ -115,40 +115,34 @@ void GameEngineDevice::CreateSwapChain()
 
 	float4 ScreenSize = GameEngineWindow::GetInst().GetSize();
 
-	DXGI_SWAP_CHAIN_DESC ScInfo = { 0, };
+	DXGI_SWAP_CHAIN_DESC ScInfo = { 0, }; // 1. 공백의 스왑 체인 설정값을 객체화한다.
 
-	// 그래픽카드에 버퍼는 들어있어야 겠죠.
 	ScInfo.BufferDesc.Width = ScreenSize.uix();
-	ScInfo.BufferDesc.Height = ScreenSize.uiy();
+	ScInfo.BufferDesc.Height = ScreenSize.uiy(); // 2. 화면 해상도와 일치하는 넓이(X) 높이(Y) 값을 설정.
 
-	// 모니터에 간섭해서 
-	// 1초에
-	ScInfo.BufferDesc.RefreshRate.Denominator = 1;
-	// 60프레임 백버퍼를 스왑해라.
-	ScInfo.BufferDesc.RefreshRate.Numerator = 60;
+	ScInfo.BufferDesc.RefreshRate.Denominator = 1; // 3. 기준초.
+	ScInfo.BufferDesc.RefreshRate.Numerator = 60; // 4. 기준초 내 몇 번 백버퍼를 그릴 건지?
+	// 현재로선 1초에 60번을 그리게 된다.
 
-	ScInfo.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	ScInfo.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	ScInfo.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 5. 이미지 색상은 한 색상 당 8바이트 내에서 그려주게 설정.
+	ScInfo.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // 6. 스케일링 방향. 그렇게 크게 상관 없을듯...
 	ScInfo.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-	// 화면에 띄우기 위해서는 그런 용도로 만든다는걸 알려줘야 하는데
-	ScInfo.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
+	ScInfo.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT; // 7. 셰이더를 적용할건지, 적용할지 않을지...
 
 	ScInfo.SampleDesc.Quality = 0;
-	ScInfo.SampleDesc.Count = 1;
+	ScInfo.SampleDesc.Count = 1; // 8. 샘플링의 사용유무... true 면 사용, false 면 미사용
 
-	ScInfo.OutputWindow = GameEngineWindow::GetInst().GetWindowHWND();
+	ScInfo.OutputWindow = GameEngineWindow::GetInst().GetWindowHWND(); // 9 . 적용할 윈도우 창의 핸들값 가져오기.
 
-	ScInfo.BufferCount = 2;
+	ScInfo.BufferCount = 2; // 10. 그려주는 버퍼의 수
 
-	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD; // 11. 디스플레이 화면의 픽셀을 처리하기 위한 옵션...
+	// 백 버퍼 그려진 후의 버퍼를 DISCARD 한다?
 
+	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH; 	// 전체화면 모드 가능여부 설정
 
-	// 전체화면 모드 가능
-	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-
-	// 전체화면 안함.
-	ScInfo.Windowed = true;
+	ScInfo.Windowed = true; 	// 전체화면 안함.
 
 	// 그래픽카드의 화면출력에 관련된 리소스에 관여할수 있는 
 	// 기능들의 포인터를 얻어오고
