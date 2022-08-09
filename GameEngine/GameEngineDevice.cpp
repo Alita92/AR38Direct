@@ -105,6 +105,7 @@ void GameEngineDevice::Initialize()
 	
 }
 
+// 스왑체인 : DX환경에서의 화면 출력 방식을 관리해줌. 렌더 타겟을 잡아내는 역할?
 void GameEngineDevice::CreateSwapChain() // 스왑체인을 "만드는" 행위는 공간 할당의 영역이니 디바이스가 담당!
 {
 	if (0 >= GameEngineWindow::GetInst().GetSize().x &&
@@ -115,7 +116,7 @@ void GameEngineDevice::CreateSwapChain() // 스왑체인을 "만드는" 행위는 공간 할당
 
 	float4 ScreenSize = GameEngineWindow::GetInst().GetSize();
 
-	DXGI_SWAP_CHAIN_DESC ScInfo = { 0, }; // 1. 공백의 스왑 체인 설정값을 객체화한다.
+	DXGI_SWAP_CHAIN_DESC ScInfo = { 0, }; // 1. 공백의 스왑 체인 설정값을 객체화 및 이니셜라이징
 
 	ScInfo.BufferDesc.Width = ScreenSize.uix();
 	ScInfo.BufferDesc.Height = ScreenSize.uiy(); // 2. 화면 해상도와 일치하는 넓이(X) 높이(Y) 값을 설정.

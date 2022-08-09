@@ -62,7 +62,7 @@ bool GameEngineVertexShader::Load(
 }
 
 bool GameEngineVertexShader::FileCompile(const std::string& _Path) {
-
+	// 가져 온 버텍스 셰이더를 컴파일해준다.
 	unsigned int Flag = 0;
 
 #ifdef _DEBUG
@@ -70,7 +70,6 @@ bool GameEngineVertexShader::FileCompile(const std::string& _Path) {
 #endif
 
 	// 00000000 00000000 00000000 00000101
-
 	// 행렬이 전치가 되서 들어가는것을 막아준다.
 	// 전치가 기본이고 전치된걸 다시 
 	Flag |= D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;

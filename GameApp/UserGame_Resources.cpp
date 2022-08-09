@@ -11,9 +11,10 @@ void TextureLoading(GameEngineDirectory Dir)
 	for (size_t i = 0; i < AllFile.size(); i++)
 	{
 		GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		// Sleep(10);
+		
 	}
 
+	// 한 폴더의 리소스를 모두 로딩했으면 Atomic 값을 -1 한다.
 	--UserGame::LoadingFolder;
 }
 
@@ -34,20 +35,6 @@ void UserGame::ResourcesLoad()
 		}
 	}
 
-	//GameEngineDirectory TextureDir;
-	//TextureDir.MoveParent("AR38Direct");
-	//TextureDir.MoveChild("Resources");
-	//TextureDir.MoveChild("Image");
-	//
-	//std::vector<GameEngineDirectory> AllDir = TextureDir.GetAllDirectoryRecursive();
-	//LoadingFolder = static_cast<int>(AllDir.size());
-	//
-	//for (size_t i = 0; i < AllDir.size(); i++)
-	//{
-	//	GameEngineCore::ThreadQueue.JobPost(std::bind(TextureLoading, AllDir[i]));
-	//}
-
-
 	GameEngineCore::ThreadQueue.JobPost(
 		[]()
 		{
@@ -63,12 +50,6 @@ void UserGame::ResourcesLoad()
 				
 				GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("WhiteNoise"));
 				GameEngineFolderTextureManager::GetInst().Load(imageDir.PathToPlusFileName("ScanLine"));
-					//std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-					//
-					//for (size_t i = 0; i < allFile.size(); i++)
-					//{
-					//	GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-					//}
 				}
 
 				{
@@ -78,15 +59,6 @@ void UserGame::ResourcesLoad()
 					imageDir.MoveChild("Image");
 					imageDir.MoveChild("Title");
 					TextureLoading(imageDir);
-
-
-
-					//	std::vector<GameEngineFile> allFile = imageDir.GetAllFile("png");
-					//
-					//	for (size_t i = 0; i < allFile.size(); i++)
-					//	{
-					//		GameEngineTextureManager::GetInst().Load(allFile[i].GetFullPath());
-					//	}
 				}
 			}
 
@@ -113,7 +85,7 @@ void UserGame::ResourcesLoad()
 				jumpScareBonnieTexture->Cut(1, 11);
 
 				GameEngineTexture* LdoorTexture = GameEngineTextureManager::GetInst().Find("LdoorAnimation.png");
-				LdoorTexture->Cut(15, 1);
+				LdoorTexture->Cut(15, 1); 
 
 				GameEngineTexture* RdoorTexture = GameEngineTextureManager::GetInst().Find("RdoorAnimation.png");
 				RdoorTexture->Cut(15, 1);

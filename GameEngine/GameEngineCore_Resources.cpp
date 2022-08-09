@@ -27,7 +27,7 @@ void GameEngineCore::EngineResourcesLoad()
 		}
 	}
 
-	{
+	{ 
 		GameEngineDirectory Dir;
 		Dir.MoveParent("AR38Direct");
 		Dir.MoveChild("EngineResources");
@@ -41,7 +41,8 @@ void GameEngineCore::EngineResourcesLoad()
 
 			std::string FileName = ShaderFile.GetFileNameWithOutExtension();
 			std::string AllCode = ShaderFile.GetString();
-
+				
+			// 이 곳에서 HLSL 코드 중, 접미사가 _VS(버텍스 셰이더 입출력), _PS(픽셀 셰이더 입출력) 부분만 따서 
 			if (std::string::npos != AllCode.find(FileName + "_VS"))
 			{
 				GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Load(FileName + "_VS", ShaderFile.GetFullPath(), FileName + "_VS");

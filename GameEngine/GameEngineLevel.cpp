@@ -84,8 +84,6 @@ void GameEngineLevel::Init()
 
 void GameEngineLevel::ActorUpdate(float _DeltaTime)
 {
-
-
 	for (std::pair<int, std::list<GameEngineActor*>> Pair : ActorList_)
 	{
 		std::list<GameEngineActor*>& Actors = Pair.second;
@@ -135,10 +133,11 @@ void GameEngineLevel::Render(float _DeltaTime)
 
 	MainCameraActor_->GetCamera()->ClearCameraTarget();
 	UICameraActor_->GetCamera()->ClearCameraTarget();
-	MainCameraActor_->GetCamera()->Render();
 
+	MainCameraActor_->GetCamera()->Render();
 	UICameraActor_->GetCamera()->Render();
 	UICameraActor_->GetCamera()->DebugRender();
+	// 각기 카메라마다 렌더링해야할 액터들을 렌더링한다
 
 	{
 		std::vector<GameEnginePostProcessRender*>& PostCameraMergePrev = PostRender["CameraMergePrev"];
@@ -148,8 +147,10 @@ void GameEngineLevel::Render(float _DeltaTime)
 		}
 	}
 
+	// 렌더링이 끝났다면 각 카메라의 렌더 타겟들을 가지고...
 	GameEngineDevice::GetBackBufferTarget()->Merge(MainCameraActor_->GetCamera()->GetCameraRenderTarget());
 	GameEngineDevice::GetBackBufferTarget()->Merge(UICameraActor_->GetCamera()->GetCameraRenderTarget());
+	// 메인과 UI 두 카메라의 렌더 타겟을 실제 출력될 백버퍼 타겟에 머지해준다.
 
 	GameEngineGUI::GetInst()->GUIRenderStart();
 	GameEngineGUI::GetInst()->GUIRenderEnd();

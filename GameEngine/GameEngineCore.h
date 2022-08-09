@@ -1,10 +1,11 @@
 #pragma once
 #include "GameEngineLevel.h"
 #include <GameEngineBase\GameEngineThreadQueue.h>
-// 분류 : 게임 코어 및 레벨관리자
-// 용도 : 
-// 설명 : 게임 구동에 필요한 기본구조를 제공하며, 해당 클래스를 상속받는 객체가 반드시 초기화/리소스로드/게임루프/릴리즈기능을 구현하도록 제공
-//            GameEngineLevel을 관리자의 역할도 수행
+
+
+// 게임의 핵심 구동부로 모든 씬(레벨)을 관리합니다.
+// "MainCore" 하나만이 싱글톤으로 생성되며, Start() 로 구동을 시작합니다.
+
 class GameEngineCore : public GameEngineObjectBase
 {
 	friend class GameEngineLevelControlWindow;
@@ -57,34 +58,49 @@ public:
 	template<typename UserGameType>
 	static void Start()
 	{
+
+		// 릭을 체크합니다. 디버깅이 중지될 시 남은 릭을 출력합니다.
 		GameEngineDebug::LeakCheckOn();
 
 #ifdef _DEBUG
-		new int();
+		new int(); // 디버깅 중에는 무조건 릭이 4바이트 남게 처리했습니다.
 #endif
-
+		// 실제 게임 객체를 생성합니다. 템플릿으로 만들었으나 현재 프레임워크에선 "Usergame" 클래스가 자리잡습니다.
 		UserGameType NewUserGame;
 
-		// 윈도우 생성
+		// 윈도우창을 생성합니다. 
 		WindowCreate(NewUserGame);
 
-		// 엔진 초기화 및 리소스 로드
+
 		NewUserGame.EngineInitialize();
+		// 엔진 초기화 단계
+		// 1. 다이렉트X11 디바이스를 생성합니다.
+		// 2. 디바이스에서 스왑체인 구조를 생성합니다.
+		// 3. 게임이 아닌 "엔진" 단계의 최소한의 리소스들을 로드합니다.
+		// 4. IMGUI 로딩합니다.
+		// 5. FMOD SDK 를 로딩합니다.
+		// 6. "콜리젼 개념" 이 도입됩니다.
+
+
 		NewUserGame.ResourcesLoad();
+		// 본 게임 등급의 리소스들을 모두 로드해줍니다.
+		// 시험적으로 스레드를 도입했으나 아직 미완성...
+
+
+		// 씬 및 키 인풋 생성
 		NewUserGame.Initialize();
 
-		// 메인게임 코어 셋팅
+		// 메인코어 == 유저게임 세팅!
 		MainCore_ = &NewUserGame;
 
-		// Game Loop
+		// 게임의 메인 루프입니다.
 		Loop();
 
+		// 루프가 끝났다 == 게임 프로그램이 종료되었다
 		// 엔진 메모리 소멸
 		NewUserGame.Release();
 		NewUserGame.EngineDestroy();
 	}
-
-private:	// member Var
 
 protected:
 	GameEngineCore(); // default constructer 디폴트 생성자

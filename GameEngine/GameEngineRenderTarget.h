@@ -5,18 +5,28 @@
 class GameEngineTexture;
 class GameEngineRenderTarget : public GameEngineObjectNameBase
 {
-private:	// member Var
+private:
+	// 그려지는 한 화폭의 단위?
+	// 그려져야 할 멤버 텍스처, 렌더타겟 뷰, 셰이더 리소스 뷰를 기본적으로 가진다.
+	// 고유의 파이프라인 하나와, 셰이더 리소스 헬퍼도 하나를 가진다.
+	// 
 
 	std::vector<GameEngineTexture*> ReleaseTextures_;
 
 	// 텍스처에게서 빌려오는 겁니다.
 	std::vector<GameEngineTexture*> Textures_;
 	// std::vector<D3D11_VIEWPORT> ViewPort_;
+
+	// 가지고 있는 렌더타겟뷰의 목록
 	std::vector<ID3D11RenderTargetView*> RenderTargetViews_;
+
+	// 가지고 있는 셰이더리소스뷰의 목록
 	std::vector<ID3D11ShaderResourceView*> ShaderResourcesViews_;
 
+	// 해당 렌더타겟의 기본 색깔
 	std::vector<float4> ClearColor_;
 
+	// 
 	GameEngineDepthBuffer* DepthBuffer_;
 
 

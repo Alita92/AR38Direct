@@ -13,7 +13,8 @@ private:
 	};
 
 public:
-	// constrcuter destructer
+	// 스레드 큐 생성자
+	// 생성되자마자 Iocp 를 이니셜라이즈 후 관리합니다.
 	GameEngineThreadQueue(const std::string& _ThreadName, int _ThreadCount = 0)
 	{
 
@@ -89,8 +90,6 @@ private:
 	int ThreadCount_;
 	std::vector<GameEngineThread*> Threads_;
 
-
-
 	static void JobWorkThread(GameEngineThread* Thread, GameEngineIocp* _Iocp)
 	{
 		DWORD lpNumberOfBytesTransferred = 0;
@@ -98,10 +97,6 @@ private:
 		LPOVERLAPPED Ptr = nullptr;
 		while (true)
 		{
-
-			// 윈도우가 
-			//                    0                         
-
 			_Iocp->WaitforWork(lpNumberOfBytesTransferred, lpCompletionKey, Ptr);
 
 			switch (lpNumberOfBytesTransferred)

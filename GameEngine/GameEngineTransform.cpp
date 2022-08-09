@@ -12,22 +12,10 @@ GameEngineTransform::~GameEngineTransform()
 
 void GameEngineTransform::TransformUpdate()
 {
-
 	TransformData_.LocalCalculation();
+	// 로컬 크기, 회전, 이동 계산
 
-	// TransData_.LocalWorld_;
-	// [][][][]
-	// [][][][]
-	// [][][][]
-	// [][][][]
-
-	// TransData_.WorldWorld_;
-	// [][][][]
-	// [][][][]
-	// [][][][]
-	// [][][][]
-
-
+	// 현재 트랜스폼이 부모 트랜스폼인지, 자식인지를 판별
 	if (nullptr != Parent_)
 	{
 		TransformData_.ParentSetting(Parent_->TransformData_.WorldWorld_);
@@ -36,6 +24,7 @@ void GameEngineTransform::TransformUpdate()
 		TransformData_.RootCalculation();
 	}
 
+	// 
 	ColData_.OBB.Extents = TransformData_.vWorldScaling_.halffloat4().DxXmfloat3;
 	ColData_.OBB.Orientation = TransformData_.vWorldRotation_.ToDegreeQuaternion().DxXmfloat4;
 	ColData_.OBB.Center = TransformData_.vWorldPosition_.DxXmfloat3;

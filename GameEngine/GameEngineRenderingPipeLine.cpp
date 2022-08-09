@@ -12,9 +12,9 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() // default constructe
 	, IndexBuffer_(nullptr)
 	, Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
-	// 기본 값 설정입니다.
+	// 나에게 메모 : 기본 값을 일괄적으로 미리 설정해논 부분임.
 	// 이 외의 블렌드, 레스터라이저, 깊이 버퍼 스텐실과 토폴로지 설정시
-	// 리소스 코드에서 직접 바꿔줘야 합니다.
+	// 리소스 코드에서 직접 바꿔줘야 함...
 
 	SetOutputMergerBlend("AlphaBlend");
 	SetRasterizer("EngineBaseRasterizer");
@@ -188,6 +188,8 @@ void GameEngineRenderingPipeLine::Rendering()
 	RenderingPipeLineSetting();
 
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
+	// drawindexed : 인덱싱된 버퍼들을 그리는 함수.
+	// 해당 렌더링 파이프라인의 버텍스 -> 인덱스 형식에 맞춰 렌더링을 실행한다.
 }
 
 

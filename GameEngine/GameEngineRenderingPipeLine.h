@@ -31,6 +31,9 @@ private:	// member Var
 	// IA2
 	D3D11_PRIMITIVE_TOPOLOGY Topology_;
 	// RS
+	// 메시의 영역
+
+	// 머터리얼?? 의 영역?	
 	GameEngineRasterizer* Rasterizer_;
 	// PS
 	GameEnginePixelShader* PixelShader_;

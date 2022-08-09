@@ -119,7 +119,6 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 {
 	if (nullptr != RenderTargetView_)
 	{
-		// GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
 		return RenderTargetView_;
 	}
 

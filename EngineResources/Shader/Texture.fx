@@ -2,12 +2,14 @@
 
 struct VertexIn
 {
+    // 버텍스 셰이더에 입력으로 들어가는 시멘틱 두 개, 구조체로 묶었다.
     float4 Position : POSITION;
     float4 Texcoord : TEXTURECOORD;
 };
 
 struct VertexOut
 {
+    // 버텍스 셰이더의 출력으로 나오는 시멘틱 두 개.
     float4 Position : SV_POSITION;
     float4 Texcoord : TEXTURECOORD;
 };
@@ -22,6 +24,7 @@ cbuffer TextureCutData : register(b1)
 };
 
 
+// '텍스처' 에 사용될 버텍스 셰이더
 VertexOut Texture_VS(VertexIn _in)
 {
     VertexOut Out;
@@ -31,7 +34,8 @@ VertexOut Texture_VS(VertexIn _in)
   
     Out.Position.w = 1.0f;
     Out.Position = mul(Out.Position, WVP);
-
+    // 받아들인 POSITION 에 월드X뷰X투영 행렬을 입히는 작업
+    
     // 0 0 
     // 1, 0
     // 1, 1
@@ -51,14 +55,20 @@ cbuffer ResultColor : register(b0)
 
 Texture2D Tex : register(t0);
 SamplerState Smp : register(s0);
+// 리소스 선언에 register() 는, GPU가 엑세스할 수 있는 통로이다.
+// 최대 15개가 만들어질 수 있으며, 각 버퍼는 총 4096개의 상수 변수를 보유할 수 있다.
+// b : 상수 버퍼
+// t : 텍스처
+// s : 샘플러
+// 뒤에 붙는 숫자는 순번
 
+// '텍스처' 에 사용될 픽셀 셰이더
 float4 Texture_PS(VertexOut _in) : SV_Target0
 {
     float4 Color = Tex.Sample(Smp, _in.Texcoord.xy) * vColor;
 
     if (0.0f == Color.a)
     {
-        // 출력안하고 정지
         clip(-1);
     }
         

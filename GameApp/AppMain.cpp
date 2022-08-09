@@ -13,8 +13,7 @@ int WinMain(
 	int       nShowCmd
 )
 {
-
-
-
+	// 프로그램의 진입점입니다.
+	// GameEngineCore 에서 게임 자체를 구동시킵니다.
 	GameEngineCore::Start<UserGame>();
 }

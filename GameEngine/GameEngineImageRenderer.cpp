@@ -21,6 +21,8 @@ void GameEngineImageRenderer::Animation2D::CallEnd()
 }
 void GameEngineImageRenderer::Animation2D::CallFrame()
 {
+	// 특정 프레임에 실행시켜 줄 함수가 있다면...
+
 	for (auto& CallBack : FrameCallBack_)
 	{
 		if (CallBack.first != CurFrame_) // 콜백의 키값(프레임) 이 현 프레임이 아니면...
@@ -107,30 +109,36 @@ void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
 
 void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 {
-	CurTime_ -= _DeltaTime;
+	// 렌더러 역시 트랜스폼 컴포넌트이기 때문에 액터가 업데이트 되면서 같이 업데이트됩니다.
 
-	if (StartFrame_ < EndFrame_)
+	CurTime_ -= _DeltaTime;
+	// 델타타임 차감
+
+	if (StartFrame_ < EndFrame_) // 시작 프레임보다 끝 프레임이 작다면... 프레임을 델타타임에 맞게 업데이트
 	{
 		FrameUpdate();
 	}
 	else
 	{
+		// 끝 프레임이 시작보다 작다면, 반대로 프레임을 업데이트
 		ReverseFrameUpdate();
 	}
 
-	CallFrame();
-	if (nullptr == FolderTextures_)
-	{
+	CallFrame(); // 특정 프레임에 실행시켜 줄 함수가 있다면...
+
+	if (nullptr == FolderTextures_) // 폴더텍스처가 아니라면...
+	{	// Texture2D 버퍼인 Tex 에 해당 텍스처 바로 세팅
 		Renderer->ShaderHelper.SettingTexture("Tex", AnimationTexture_);
 		Renderer->CurTexture = AnimationTexture_;
 		Renderer->SetIndex(CurFrame_);
+		// 인덱스를 프레임에 맞게 바꿔서 잘린 텍스처 중 순서에 맞는 걸 게시한다
 	}
 	else
 	{
 		Renderer->CutData = float4(0, 0, 1, 1);
 		Renderer->ShaderHelper.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
 	}
-
+	
 }
 
 /// ///////////////////////////////////////////////////////////////////
@@ -161,16 +169,20 @@ void GameEngineImageRenderer::Start()
 	GameEngineRenderer::Start();
 
 	SetRenderingPipeLine("Texture");
+	// 외부 텍스처를 사용할 것이니... 파이프라인은 Texture 파이프라인을 사용한다.
 
 	ImageRendererStart();
+	// 기본 상수 버퍼들의 세팅
 }
 
 void GameEngineImageRenderer::ImageRendererStart()
 {
 	ShaderHelper.SettingConstantBufferLink("TextureCutData", CutData);
+	// 상수 버퍼 세팅 1 : 잘린 스프라이트의 경우
 
 	ResultColor = float4::ONE;
 	ShaderHelper.SettingConstantBufferLink("ResultColor", ResultColor);
+	// 상수 버퍼 세팅 2 : 도출되는 색깔
 }
 
 void GameEngineImageRenderer::SetIndex(const int Index)
@@ -192,9 +204,9 @@ void GameEngineImageRenderer::SetIndex(const int Index)
 
 void GameEngineImageRenderer::SetImage(const std::string& _ImageName, bool _originalScale)
 {
-	//isAnimationImageSwapped_ = true;
+	// 애니메이션이 아닌 정적인 이미지를 세팅하는 함수
 	CurTexture = GameEngineTextureManager::GetInst().Find(_ImageName);
-
+	// 가져온 리소스 중에 해당 이름의 텍스처가 있는지 확인한다.
 	if (nullptr == CurTexture)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 텍스처를 세팅하려고 했습니다");
@@ -203,8 +215,7 @@ void GameEngineImageRenderer::SetImage(const std::string& _ImageName, bool _orig
 
 	if (true == _originalScale)
 	{
-		ShaderHelper.SettingTexture("Tex", _ImageName); // 사실상의 텍스처가 세팅되는 순간
-
+		ShaderHelper.SettingTexture("Tex", _ImageName); // Texture 렌파의 셰이더 텍스처 리소스에 해당 파일 삽입
 		GameEngineTexture* FindTexture = GameEngineTextureManager::GetInst().Find(_ImageName);
 		GetTransform()->SetLocalScaling({FindTexture->GetTextureSize().x, FindTexture->GetTextureSize().y, 1.0f });
 	}
@@ -214,6 +225,8 @@ void GameEngineImageRenderer::SetImage(const std::string& _ImageName, bool _orig
 
 void GameEngineImageRenderer::CreateAnimation(const std::string& _TextureName, const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop /*= true*/)
 {
+	// 애니메이션을 만들고 컨테이너에 저장하는 함수
+
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 
 	if (AllAnimations_.end() != FindIter)

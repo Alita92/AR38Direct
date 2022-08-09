@@ -12,7 +12,11 @@ private:	// member Var
 	ID3D11RasterizerState* OldState_;
 	D3D11_RASTERIZER_DESC Desc_;
 	D3D11_RASTERIZER_DESC WireDesc_;
+	
+	// 뷰 포트
 	D3D11_VIEWPORT ViewPort_;
+	// 렌더링할 화면 영역을 나타내는 구조체이다.
+
 	D3D11_RECT rects;
 
 	std::vector<D3D11_RECT> ScissorRects_;
@@ -22,6 +26,7 @@ private:	// member Var
 public:
 	void SetViewPort(float _Width, float _Height, float _TopLeftX, float _TopLeftY, float _MinDepth, float _MaxDepth)
 	{
+		// D3D11_VIEWPORT ViewPort_
 		ViewPort_.Height = _Height;
 		ViewPort_.Width = _Width;
 		ViewPort_.TopLeftX = _TopLeftX;

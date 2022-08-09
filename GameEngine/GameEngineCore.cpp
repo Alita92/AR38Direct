@@ -38,6 +38,7 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
+	// 
 	GameEngineDevice::GetInst().Initialize();
 	EngineResourcesLoad();
 	EngineResourcesCreate();
@@ -45,7 +46,7 @@ void GameEngineCore::EngineInitialize()
 
 	GameEngineGUI::GetInst()->Initialize();
 
-	GameEngineCollision::Init(); // 엔진이 이니셜라이즈 될 때, 콜리젼 개념도 넣어주자.
+	GameEngineCollision::Init(); 
 
 	GameEngineSoundManager::GetInst().Initialize();
 }
@@ -118,12 +119,6 @@ void GameEngineCore::MainLoop()
 	CurrentLevel_->ActorUpdate(Time);
 	CurrentLevel_->Render(Time);
 	CurrentLevel_->Release(Time);
-
-
-
-	// 오브젝트 루프
-
-	//MainCore_->GameLoop();
 }
 
 void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
@@ -136,7 +131,10 @@ void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
 
 void GameEngineCore::Loop()
 {
+	// 델타타임을 업데이트해줍니다.
 	GameEngineTime::GetInst().TimeCheckReset();
+	
+	// 게임 루프입니다.
 	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
 }
 

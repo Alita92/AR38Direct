@@ -40,7 +40,7 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
-	CameraActor* GetMainCameraActor();
+	CameraActor* GetMainCameraActor(); 
 	CameraComponent* GetMainCamera();
 
 	CameraActor* GetUICameraActor();

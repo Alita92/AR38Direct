@@ -87,10 +87,8 @@ void CameraComponent::Render()
 
 			Renderer->GetTransform()->GetTransformData().Projection_ = Projection;
 			Renderer->GetTransform()->GetTransformData().View_ = View;
-
 			// 렌더링 전에 최종행렬을 계산
 			Renderer->GetTransform()->GetTransformData().WVPCalculation();
-
 			Renderer->Render();
 		}
 	}
@@ -237,10 +235,14 @@ void CameraComponent::ChangeRendererGroup(int _Group, GameEngineRenderer* _Rende
 
 void CameraComponent::Start()
 {
+	// 카메라 액터가 생성되면
+	// 디버그 렌더링용 버퍼와 렌파, 상수버퍼의 초기화를 먼저 해 논다.
 	DebugVector_.resize(1000);
 	DebugRenderCount_ = 0;
 
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("DebugRect");
+	// 렌더링 파이프라인은 쌩 버텍스가 보이게 하는 사각형의 DebugRect 를 사용할 것.
+
 	for (size_t i = 0; i < DebugVector_.size(); i++)
 	{
 		DebugVector_[i].ShaderHelper_.ShaderResourcesCheck(Pipe->GetVertexShader());
@@ -250,6 +252,8 @@ void CameraComponent::Start()
 		DebugVector_[i].ShaderHelper_.SettingConstantBufferLink("TransformData", DebugVector_[i].Data_);
 	}
 
+	// 버퍼타겟은 하나만 있어도 괜찮을 것 같다...
+	// 메인 + UI 머지시킬 것
 	CameraBufferTarget_ = new GameEngineRenderTarget();
 	CameraBufferTarget_->Create(GameEngineWindow::GetInst().GetSize(), float4::NONE);
 	CameraBufferTarget_->CreateDepthBuffer(GameEngineWindow::GetInst().GetSize());

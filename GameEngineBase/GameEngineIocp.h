@@ -10,21 +10,9 @@ public:
 	GameEngineIocp()
 		: IocpHandle(nullptr)
 	{
-		// CreateIoCompletionPort는 2가지 용도로 사용된다.
-		// 파일입출력에만 사용할수 있는것도 아닙니다.
-		// 쓰레드를 핸들링
+		// IOCP 로 쓰레드를 핸들링할수 있다.
 		// 내가 자유자제로 쓰레드를 제어하고 싶을때
-		// 파일입출력과 소켓용으로 사용하지 않고
-		// 파일입출력 == 서버통신이기 때문에
-		// 나는 그쪽을 볼생각 없다.
-		// 다들 서버로 배웠기 때문에
-		// 서버이야기를 할거야.
-		// ?????? 그렇게만 쓸수 있는게 아니다.
-		// 나는 서버에는 관심이 없어서 그쪽은 잘 모르겠고.
-		// 쓰레드를 사용하다가.
-		// iocp라는걸 알게됐고 쓰레드를 제어하는데도 사용할수 있다는걸 알게되었다.
-
-		// 무조건 쓰레드를 코어 개수만큼 만들겁니다.
+		// 무조건 쓰레드를 코어 개수만큼 만드는 게 나을려나?
 		// IocpHandle = CreateIoCompletionPort(IocpHandle, NULL, NULL, ThreadCount);
 	}
 
@@ -57,8 +45,9 @@ public:
 		//PULONG_PTR lpCompletionKey, // 일을 넘길때 8바이트 정수를 넘길수 있다.
 
 		//LPOVERLAPPED* lpOverlapped, // 소켓통신을 할때 현재까지 읽은 비동기 입출력 정보.
-									  // 이녀석은 진짜 리얼 안쓸겁니다.
-
+									  //  필요없을듯??
+									  // 
+									 
 		//DWORD dwMilliseconds      // 이건 얼마나 기다릴거냐.
 		//                          INFINITY를 넣으면 진짜 일이 있을때까지 영원히 기다림.
 
@@ -70,9 +59,11 @@ public:
 
 	// WorkParameter 아무거나 집어넣으면 전달해준다.
 	// -1은 예약.
+
 	BOOL Makework(DWORD _WorkParameter, void* _Ptr)
 	{
-		return PostQueuedCompletionStatus(IocpHandle, _WorkParameter, reinterpret_cast<ULONG_PTR>(_Ptr), nullptr);
+		return PostQueuedCompletionStatus(IocpHandle
+			, _WorkParameter, reinterpret_cast<ULONG_PTR>(_Ptr), nullptr);
 	}
 
 

@@ -40,10 +40,10 @@ void GameEngineShader::SetEntryPoint(const std::string& _EntryPoint)
 	EntryPoint_ = _EntryPoint;
 }
 
+// 셰이더 리소스의 유무를 확인하고 있다면 등록시킨다
+// 상수 버퍼, 샘플러, 텍스처...
 void GameEngineShader::ResCheck()
 {
-	// 상수버퍼를 세팅해주는 함수?
-
 	if (nullptr == CodeBlob_)
 	{
 		return;
@@ -54,6 +54,7 @@ void GameEngineShader::ResCheck()
 	// 이 사람 쉐이더에서 행렬1개사용함
 	ID3D11ShaderReflection* CompilInfo;
 
+	// 셰이더 컴파일 정보 가져오기
 	if (S_OK != D3DReflect
 	(
 		CodeBlob_->GetBufferPointer(),
@@ -86,6 +87,8 @@ void GameEngineShader::ResCheck()
 		//D3D_SRV_DIMENSION           Dimension;      // Dimension (if texture) // 3차원 텍스처
 		//UINT                        NumSamples;     // Number of samples (0 if not MS texture)
 
+
+
 		std::string Name = ResInfo.Name;
 		unsigned int BindPoint = ResInfo.BindPoint;
 		D3D_SHADER_INPUT_TYPE Type = ResInfo.Type;
@@ -111,7 +114,7 @@ void GameEngineShader::ResCheck()
 			break;
 		}
 		case D3D_SIT_SAMPLER: // 샘플러가 인식될 경우
-		{
+		{	// 샘플러 설정은 그냥 여기서 한 번에 다 처리해주자... 
 			D3D11_SAMPLER_DESC Smp_Decs = {};
 
 			memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
